@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['spi_5fcheckinvalidinit',['SPI_CheckInvalidInit',['../group__spi__funcs.html#gaea97b1c1f0eb01125cd3fbd7b4c3c17e',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fbitorder',['SPI_Config_BitOrder',['../group__spi__funcs.html#ga799f263fe9df0f9042e82e7aa07efe5b',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fbusspeed',['SPI_Config_BusSpeed',['../group__spi__funcs.html#ga058587832c4ffc3afb60203d5b1d4a72',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fcommonparams',['SPI_Config_CommonParams',['../group__spi__funcs.html#gaa483804e6aad12f9f78021fdfb171e38',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fdatabits',['SPI_Config_DataBits',['../group__spi__funcs.html#ga89e584382590e47a988d45601cde0618',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fpolarityphase',['SPI_Config_PolarityPhase',['../group__spi__funcs.html#gadcb4b87071f9a0a36f4ecf2e50bf6c55',1,'DV_SPI.c']]],
+  ['spi_5fconfig_5fssmode',['SPI_Config_SSMode',['../group__spi__funcs.html#gac86e68ee47bb5fd0a07473fac97c575f',1,'DV_SPI.c']]],
+  ['spi_5fdrvevent',['SPI_DrvEvent',['../_d_v___s_p_i_8c.html#a073b367e9462899c0883d2f1422f2f23',1,'DV_SPI.c']]],
+  ['spi_5fgetcapabilities',['SPI_GetCapabilities',['../group__spi__funcs.html#ga73d306b64a92cb27421a5142042c823c',1,'DV_SPI.c']]],
+  ['spi_5finitialization',['SPI_Initialization',['../group__spi__funcs.html#gae4a0ac618ed63a8f50edf0bd8695d32f',1,'DV_SPI.c']]],
+  ['spi_5floopback_5fcheckbusspeed',['SPI_Loopback_CheckBusSpeed',['../group__spi__funcs.html#ga20fdfd0f18a99ed6657b11bf41027e8f',1,'DV_SPI.c']]],
+  ['spi_5floopback_5ftransfer',['SPI_Loopback_Transfer',['../group__spi__funcs.html#gaa5e25bf35251cd57c795d8b7b32c965e',1,'DV_SPI.c']]],
+  ['spi_5fpowercontrol',['SPI_PowerControl',['../group__spi__funcs.html#gaf9277686b4b32b538df354e2b2c5a6b6',1,'DV_SPI.c']]],
+  ['spi_5freceive',['SPI_Receive',['../group__spi__funcs.html#gab46280a4600b1bdcdb0dcdda89fc255f',1,'DV_SPI.c']]],
+  ['spi_5frunreceive',['SPI_RunReceive',['../_d_v___s_p_i_8c.html#afb2b6ab93e6e07bdc89319e69be7d93e',1,'DV_SPI.c']]],
+  ['spi_5frunreceivenocallback',['SPI_RunReceiveNoCallback',['../_d_v___s_p_i_8c.html#aa50b4a31380b00c1f9f020863109da0c',1,'DV_SPI.c']]],
+  ['spi_5frunsend',['SPI_RunSend',['../_d_v___s_p_i_8c.html#aa6092a03174ab47a21b32aa9087a95e2',1,'DV_SPI.c']]],
+  ['spi_5frunsend_5fnocallback',['SPI_RunSend_NoCallback',['../_d_v___s_p_i_8c.html#a6f1ca5a4dc09710e197e2ce96646ff09',1,'DV_SPI.c']]],
+  ['spi_5fruntransfer',['SPI_RunTransfer',['../_d_v___s_p_i_8c.html#a609bec4fde4ca996644121423ecda8f2',1,'DV_SPI.c']]],
+  ['spi_5fsend',['SPI_Send',['../group__spi__funcs.html#gaa17002cf53acef9aff6085a33900414b',1,'DV_SPI.c']]],
+  ['statcount',['StatCount',['../_d_v___report_8c.html#aa6914194346e0c1668511bb91e271022',1,'DV_Report.c']]]
+];

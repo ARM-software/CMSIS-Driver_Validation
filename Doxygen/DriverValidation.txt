@@ -1,0 +1,494 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\mainpage Introduction
+
+This manual explains the scope and the usage of the Software Pack for \b CMSIS-Driver \b Validation.
+<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> are standard peripheral
+API interfaces that connect microcontroller peripherals with middleware or the user application. 
+
+The Software Pack for CMSIS-Driver validation provides:
+  - Configurable validation tests for several CMSIS-Driver interfaces
+  - Example projects that show the usage of the CMSIS-Driver validation
+
+The CMSIS-Driver validation tests and verifies:
+  - \b API \b interface \b interaction using the driver capabilities as well as valid and invalid parameters.
+  - \b Data \b communication with various transfer sizes and communication parameters (i.e. baudrate).
+  - \b Loopback \b communication (for some interfaces) for testing the underlying hardware.
+  - \b Transfer \b speed of the data communication with time measurement of data transfers (for interfaces with loopback
+    functionality).
+
+The CMSIS-Driver Validation requires
+<a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> functionality and can be
+used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate
+implementation of a CMSIS-Driver interface.
+
+The diagram below is an overview of the configuration for CMSIS-Driver validation.
+
+\image html DVSuite.png
+
+This manual contains the following chapters:
+  - \ref test_setup - Describes the general setup of the CMSIS-Driver validation test and how to generate test output.
+  - \ref test_results - Explains how to interpret the test results from loopback tests.
+  - \ref examples - Contains information of several example projects including the required hardware setup.
+  - \ref resource_requirements - Lists memory and CMSIS-RTOS requirements.
+  - <a class="el" href="./modules.html">Reference</a> - explains the individual tests for the various CMSIS-Driver
+    interfaces.
+
+The Software Pack for CMSIS-Driver validation current tests the following interfaces:
+  - \ref eth_funcs - Interface to Ethernet MAC and PHY peripheral.
+  - \ref i2c_funcs - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.
+  - \ref mci_funcs - Memory card interface for SD/MMC memory.
+  - \ref spi_funcs - Serial Peripheral Interface (SPI) driver.
+  - \ref usart_funcs - Universal Synchronous and Asynchronous Receiver/Transmitter
+    (USART) interface driver.
+  - \ref usbd_funcs - Universal Serial Bus (USB) interface driver (USB Device communication only).
+
+This manual assumes that you are familiar with MDK. Refer to
+<a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
+
+<hr>
+
+Revision History
+----------------
+
+Version  | Description
+:--------|:------------------------------------------
+V1.1     | Added USB Host, CAN and Ethernet Precision Time Protocol tests
+V1.0     | Initial release for CMSIS-Driver API V2.0
+*/
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page test_setup Test Setup
+
+\section step1 Step 1: Create an MDK project with your target microcontroller device
+
+
+\section step2 Step 2: Add required software components
+
+For proper operation, add the following software components in the <b>Manage Run-Time Environment</b> window:
+- <b>CMSIS:RTOS (API):Keil RTX</b>
+- <b>Compiler:I/O:STDOUT</b>, variant \b ITM or \b User if your hardware does not support ITM.
+- <b>CMSIS:CMSIS Driver Validation:Framework</b>
+- Any other component from <b>CMSIS:CMSIS Driver Validation</b>
+- Resolve any validation messages
+
+
+\section step3 Step 3: Add main.c
+
+Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>. Select <b>User Code Template</b> and choose the
+\b main file from <b>Device:Startup</b> or <b>CMSIS-RTOS:RTOS:Keil RTX</b>.
+
+Add this include:
+\code
+include "cmsis_dv.h"
+\endcode
+
+In the main function, after initialization, call
+\code
+cmsis_dv();
+\endcode
+to run all tests that you have chosen in the next step.
+
+
+\section step4 Step 4: Configure DV_Config.h
+
+Open \c DV_Config.h under the <b>CMSIS Driver Validation</b> group in the Project window.
+
+\image html dv_config_h.png "Configuration File DV_Config.h"
+
+<b>Common Test Settings</b>
+
+The common test settings help you to choose the output format of the test and the buffer sizes and buffer content that should
+be used for the send, receive, and transfer tests:
+- The \b Print \b Output \b Format lets you select if you wish to create the output as plain text or as styled XML.
+- The <b>Buffer size for assertions results</b> determines the size of the buffer that can be observed in the \b Watch
+  window.
+- \b Buffer \b sizes lets you select the buffer sizes that are used for data transfer. This setting has a direct impact on
+  required \ref step6 "heap".
+- You can specify also the <b>Buffer size for baudrate test</b>. For USART you can set the <b>Percentual tolerance for baudrate 
+  test</b> and for SPI the <b>Percentual trigger for bus speed test</b>. Depending on the device \ref step7 "configuration", for 
+  example when DMA is not used, the transfers may have larger overhead which is more significant for higher bus speeds. The 
+  transfer overhead is reduced for larger transfer buffer sizes.
+- Select your preferred <b>Buffer pattern</b>
+
+<b>Driver-specific Settings</b>
+
+Every interface has specific settings that can be changed in the according section:
+- You need to specify the driver instance number (<b>Driver_<i>interface</i>#</b>) is used for the test. This is especially
+  important for microcontroller devices that have multiple peripherals of the same kind.
+- Some drivers can have additional baudrate or timing settings.
+- Select all driver tests that you wish to use. Note that all tests can run independently from each other. You do not need to
+  specify a certain order.
+
+\note For more information on additional settings and the different driver test cases, check the
+<a class="el" href="./modules.html">Reference</a> section.
+
+
+\section step5 Step 5: Configure Keil RTX
+
+Open \b RTX_Conf_CM.c and edit set:
+- <b>Default Thread stack size [bytes]</b> to \a 2048
+- <b>Main Thread stack size [bytes]</b> to \a 2048
+- <b>RTOS Kernel Timer input clock frequency [Hz]</b> to the correct frequency of your device.
+
+
+\section step6 Step 6: Configure Heap
+
+Depending on the buffer sizes that you have chosen in \ref step4 "step 4", you need to add more heap. Open your
+startup_<i>device</i>.s file from the \b Device group in the \b Project window. Click on \b Configuration \b Wizard. Increase
+the heap size:
+- For the validation framework add 1024 bytes.
+- double the largest buffer size you have set in the configuration file and add this as well.
+
+Refer to the \ref resource_requirements section for a calculation example.
+
+
+\section step7 Step 7: Configure the Device
+
+Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device
+using the \c RTE_Device.h file from the \b Device group. Enable all interfaces you wish to use in the tests and make all
+necessary pin-out changes required by your actual board layout (consult the board schematics). The pre-built
+\ref examples "examples" are already configured for the underlying hardware.
+
+For a robust test with good coverage, implement various targets with different settings:
+- \b Enable/disable the \b DMA controller of your device
+- Set different \b buffer \b sizes in \ref step4 "DV_Config.h"
+- Select different compiler \b optimization \b levels in the
+  <a href="http://www.keil.com/support/man/docs/uv4/uv4_dg_adscc.htm" target="_blank">C/C++ tab</a> of the
+  <b>Options for Target</b> dialog.
+
+
+\section step8 Step 8: Make Hardware Connections for Loopback Tests
+
+These interfaces support loopback testing: \ref eth_funcs "Ethernet", \ref spi_funcs "SPI", and \ref usart_funcs "USART".
+Connect the following pins on your target hardware together (refer to the hardware schematics):
+
+- Ethernet: RX+ and TX+, RX- and TX-
+- SPI: MISO and MOSI
+- USART: RX and TX
+
+
+\section step9 Step 9: Download and Run the Project
+
+In the <b>Options for Target</b> dialog, under debug settings, ensure that \b Trace and ITM port \token{0} are enabled and
+that the correct clock frequency is set:
+
+\image html target_dialog.png "ITM Channel setting"
+
+Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window:
+
+\verbatim
+CMSIS-Driver Test Suite   Oct  8 2015   17:12:21 
+
+TEST 01: ETH_MAC_GetCapabilities          PASSED
+TEST 02: ETH_MAC_Initialization           PASSED
+TEST 03: ETH_MAC_PowerControl             
+  DV_ETH.c (163) [WARNING] Low power is not supported
+TEST 04: ETH_MAC_SetBusSpeed              
+  DV_ETH.c (197) [WARNING] Link speed 1G is not supported
+TEST 05: ETH_MAC_Config_Mode              PASSED
+TEST 06: ETH_MAC_Config_CommonParams      PASSED
+TEST 07: ETH_PHY_Initialization           PASSED
+TEST 08: ETH_PHY_PowerControl             
+  DV_ETH.c (300) [WARNING] Low power is not supported
+TEST 09: ETH_PHY_Config                   PASSED
+TEST 10: ETH_Loopback_Transfer            PASSED
+TEST 11: ETH_PHY_CheckInvalidInit         NOT EXECUTED
+TEST 12: ETH_MAC_CheckInvalidInit         NOT EXECUTED
+
+Test Summary: 12 Tests, 10 Executed, 7 Passed, 0 Failed, 3 Warnings.
+Test Result: WARNING
+\endverbatim
+
+If you see warnings during loopback transfer tests, please read the section \ref test_results which gives you more
+information on how to interpret the results.
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page test_results Reading Test Results
+
+The tests \ref SPI_Loopback_CheckBusSpeed and \ref USART_Loopback_CheckBaudrate may issue warnings when using the default
+settings (especially loopback communication tests for SPI and USART):
+\verbatim
+CMSIS-Driver Test Suite   Nov 18 2015   09:26:38 
+
+TEST 01: SPI_GetCapabilities              PASSED
+TEST 02: SPI_Initialization               PASSED
+TEST 03: SPI_PowerControl                 
+  DV_SPI.c (244) [WARNING] Low power is not supported
+TEST 04: SPI_Config_PolarityPhase         PASSED
+TEST 05: SPI_Config_DataBits              PASSED
+TEST 06: SPI_Config_BitOrder              
+  DV_SPI.c (315) [WARNING] Bit order LSB_MSB is not supported
+TEST 07: SPI_Config_SSMode                
+  DV_SPI.c (343) [WARNING] Slave select MASTER_HW_INPUT is not supported
+TEST 08: SPI_Config_BusSpeed              PASSED
+TEST 09: SPI_Config_CommonParams          PASSED
+TEST 10: SPI_Send                         PASSED
+TEST 11: SPI_Receive                      PASSED
+TEST 12: SPI_Loopback_CheckBusSpeed       
+  DV_SPI.c (525) [WARNING] At 25000kHz: measured time is 2.437125 x expected time
+TEST 13: SPI_Loopback_Transfer            PASSED
+TEST 14: SPI_CheckInvalidInit             NOT EXECUTED
+\endverbatim
+
+The measured time is depending mainly on two factors: \b DMA and \b software \b overhead.
+
+If you are not using \b DMA for data transfer, an interrupt is generated, in worst case, for every transferred byte. The
+interrupt handling overhead for each byte can produce 10 times slower transfer than DMA. DMA will transfer the data
+without overhead. Thus, only bus speed/baudrate tests with DMA enabled should be considered for
+optimization. In case DMA cannot be used (because no DMA channel is left to be used for example), the user needs to be aware
+that the data rates will decrease significantly.
+
+The \b software \b overhead is introduced by the way the measurement is done. When the measurement is started a system tick 
+value is stored and then the transfer is set up and started. The software then needs to determine when the transfer 
+has ended and calculate required time difference by using previously stored system ticks and current system ticks.
+Usually, the software overhead is a constant number of CPU cycles. The total amount of time required for the software overhead 
+depends on the actual CPU that is used and on the optimization level used during build. \n
+Increasing the <b>Buffer size for baudrate test</b> reduces the software overhead effect. The following calculation example
+explains why.
+
+\b Calculation \b Example
+
+SPI bus speed = 25 Mbps
+
+- Buffer size for baudrate tests = 512 byte (default value, equals 512 * 8 bit)
+- Actual bus speed = 18 Mbps (read from driver)
+- Expected time to transfer data = 227 µs (512 * 8 bit/18 Mbps)
+- Measured time = 245 µs = 227 µs + 18 µs (coming from a software overhead)
+- This results in a measured/expected time ratio of 1.08 which will lead to a warning
+
+Using a buffer size of 8192 bytes in the example above will reduce the software overhead to less than 1% (which will issue no
+warning anymore).
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples Examples
+
+This Software Pack contains a set or pre-built examples that show how to use the validation suite together with real
+hardware. The following example projects are available. Use
+<a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine:
+
+- \subpage examples_samv71XU
+- \subpage examples_xmc4500_relax
+- \subpage examples_mcbstm32f200
+- \subpage examples_mcbstm32f400
+- \subpage examples_stm32f746g
+
+\anchor example_targets
+Targets
+-------
+
+All projects contain two targets:
+- \b Create \b XML or \b Create \b Report: Test results and statistics are printed to the file \c TestReport\TestReport.xml. 
+  Open the file in a web browser of your choice.
+- \b Debug: Results and statistics are printed to the Debug (printf) Viewer window through the ITM output. You can also
+  examine the results in the \b test_report buffer structure which is accessible through the \b Watch window.
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_samv71XU Atmel SAMV71 Xplained Ultra
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (SAMV71-XULTRA)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware.
+
+\note To communicate with the development board, a debug adapter from the
+<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
+
+Hardware Setup
+--------------
+
+The loopback settings for SPI and USART are done in SW. The SAMV71 device offers an internal loopback mode. The setting is
+done in the file \c DV_Config.h (please use the \b Text \b Editor mode to see the appropriate \c \#defines). For Ethernet,
+use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_xmc4500_relax Infineon XMC4500 Relax Kit
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware using the on-board JLink-Lite debug adapter.
+
+Hardware Setup
+--------------
+
+The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
+ - UART2: \b P0.4 (UART2_RX)  and \b P0.5 (UART2_TX)  (Header X2)
+ - SPI0:  \b P5.0 (SPI0_MOSI) and \b P5.1 (SPI0_MISO) (Header X2)
+ - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+
+\image html xmc4500.png  "Connections for Loop Back Communication Tests on Infineon XMC4500 Relax Kit"
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_mcbstm32f200 Keil MCBSTM32F200
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware.
+
+\note To communicate with the development board, a debug adapter from the
+<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
+
+
+Hardware Setup
+--------------
+
+The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
+ - SPI2: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI)
+ - USART1: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
+ - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+
+\image html mcbstm32f400.png  "Connections for Loop Back Communication Tests on Keil MCBSTM32F200"
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_mcbstm32f400 Keil MCBSTM32F400
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (MCBSTM32F400)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware.
+
+\note To communicate with the development board, a debug adapter from the
+<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
+
+
+Hardware Setup
+--------------
+
+The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
+ - SPI2: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI)
+ - USART1: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
+ - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+
+\image html mcbstm32f400.png  "Connections for Loop Back Communication Tests on Keil MCBSTM32F400"
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_stm32f746g STMicroelectronics STM32F746G-Discovery
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (STM32F746G-Discovery)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware using the on-board ST-Link/V2.
+
+
+Hardware Setup
+--------------
+
+The following picture shows the necessary external loopback connections for the STM32F746G-Discovery evaluation board:
+ - SPI2: \b D12 (SPI2_MISO) and \b D11 (SPI2_MOSI)
+ - USART6: \b D1 (USART6_TX) and \b D0 (USART6_RX)
+ - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+
+\image html stm32f746G-disco.png  "Connections for Loop Back Communication Tests on STM32F746G-Discovery"
+*/
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page resource_requirements Resource Requirements
+
+\section heap_req Heap Requirements
+Heap is used by memory allocation functions. It is configured in the
+<a class="el" href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" target="_blank">startup_device.s</a>
+file located under the \b Device component class.
+
+Additional memory is allocated for the validation framework and for the buffers that are used in the driver tests. 
+
+For the validation framework add 1024 bytes of heap. Then, double the amount of the largest buffer size specified in the
+\ref step4 "DV_Config.h" file and add this as well.
+
+| Option (under section Heap Configuration)                         | Increase Value by
+| :---------------------------------------------------------------- | :----------------------
+| Heap Size (in Bytes)                                              | + (1024 + 2 x maximum buffer size)
+
+\b Calculation \b Example
+
+Let's assume that the default heap size in your device's startup file is \c 0x400 (which is 1024 bytes). Add 1024 for the
+framework and for example another 2048 bytes if you are using the default \b Buffer \b Size of 512 bytes but you have set the
+<b>Buffer size for baudrate tests</b> to 1024 bytes. This computes to a total heap of 3584 bytes which is equivalent to
+\c 0xE00. Set this number in the startup file.
+
+
+\section rtos_req CMSIS-RTOS Requirements
+
+Although the CMSIS-Driver Validation requires a CMSIS-RTOS to be present, it is not creating any additional threads. For
+proper operation, you need to add a certain amount of thread stack size to the \c main thread. 
+
+The thread requirements need to be reflected in the CMSIS-RTOS configuration. Refer to the
+<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS/html/index.html" target="_blank">CMSIS-RTOS Reference</a> for further details.
+
+For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS/html/rtxImplementation.html" target="_blank">CMSIS-RTOS RTX</a>, thread
+requirements are configured in the
+<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS/html/configure.html" target="_blank">RTX_Conf_CM.c</a> file located
+under the \b CMSIS component class:
+
+<table class="doxtable" summary="CMSIS-RTOS Configuration">
+    <tr>
+      <th align="left">Option (under section Thread Configuration)</th>
+      <th>Set Value to</th>
+    </tr>
+    <tr>
+      <td>Default Thread stack size [bytes]</td>
+      <td>2048</td>
+    </tr>
+    <tr>
+      <td>Main Thread stack size [bytes]</td>
+      <td>2048</td>
+    </tr>
+</table>
+
+\note Do not forget to set the correct <b>RTOS Kernel Timer input clock frequency [Hz]</b> otherwise the tests will not run
+properly on the device.
+*/

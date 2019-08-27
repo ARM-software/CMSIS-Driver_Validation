@@ -9,16 +9,16 @@
   <license>LICENSE.txt</license>
   
   <releases>
-    <release version="1.2.0-dev0">
-      migrating repository to github.com/arm-software/CMSIS-Driver_Validation repository.
+    <release version="1.2.1">
+      - Updated component condition to accept both RTOS and RTOS2.
+      - Updated documentation.
+    </release>
+    <release version="1.2.0" date="2019-02-21">
+      migrated repository to github.com/arm-software/CMSIS-Driver_Validation repository.
       - Added CMSIS-RTOS2 and Arm Compiler 6 compatibility.
-    </release>
-    <release version="1.1.2">
       - Updated CAN test (corrected test for SetBitrate function, added bitrate set for Loopback tests)
-    </release>
-    <release version="1.1.1">
       - Minor update to documentation
-      - Updated closeDebug function in DV_Framework.c, specified as noinline so higher optimization will keep it also
+      - Updated closeDebug function in DV_Framework.c, specified as noinline so higher optimization will keep it also.
     </release>
     <release version="1.1.0" date="2016-04-25">
       - Added USB Host test cases
@@ -126,7 +126,8 @@
       <description>CMSIS Core with RTOS for Cortex-M processor</description>
       <accept condition="Cortex-M Device"/>
       <require Cclass="CMSIS" Cgroup="CORE"/>
-      <require Cclass="CMSIS" Cgroup="RTOS2"/>
+      <accept Cclass="CMSIS" Cgroup="RTOS"/>
+      <accept Cclass="CMSIS" Cgroup="RTOS2"/>
       <require Cclass="Compiler" Cgroup="I/O" Csub="STDOUT"/>
     </condition>
 

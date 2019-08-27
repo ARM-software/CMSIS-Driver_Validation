@@ -18,7 +18,8 @@ The CMSIS-Driver validation tests and verifies:
     functionality).
 
 The CMSIS-Driver Validation requires
-<a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> functionality and can be
+<a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> or
+<a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
 used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate
 implementation of a CMSIS-Driver interface.
 
@@ -67,7 +68,7 @@ V1.0     | Initial release for CMSIS-Driver API V2.0
 \section step2 Step 2: Add required software components
 
 For proper operation, add the following software components in the <b>Manage Run-Time Environment</b> window:
-- <b>CMSIS:RTOS (API):Keil RTX</b>
+- <b>CMSIS:RTOS2 (API):Keil RTX5</b>
 - <b>Compiler:I/O:STDOUT</b>, variant \b ITM or \b User if your hardware does not support ITM.
 - <b>CMSIS:CMSIS Driver Validation:Framework</b>
 - Any other component from <b>CMSIS:CMSIS Driver Validation</b>
@@ -77,16 +78,16 @@ For proper operation, add the following software components in the <b>Manage Run
 \section step3 Step 3: Add main.c
 
 Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>. Select <b>User Code Template</b> and choose the
-\b main file from <b>Device:Startup</b> or <b>CMSIS-RTOS:RTOS:Keil RTX</b>.
+\b main file from <b>Device:Startup</b> or <b>CMSIS-RTOS2:Keil RTX5</b>.
 
 Add this include:
 \code
 include "cmsis_dv.h"
 \endcode
 
-In the main function, after initialization, call
+In the main function, after kernel initialization, create the \c cmsis_dv thread:
 \code
-cmsis_dv();
+osThreadNew(cmsis_dv, NULL, NULL);
 \endcode
 to run all tests that you have chosen in the next step.
 
@@ -125,12 +126,10 @@ Every interface has specific settings that can be changed in the according secti
 <a class="el" href="./modules.html">Reference</a> section.
 
 
-\section step5 Step 5: Configure Keil RTX
+\section step5 Step 5: Configure Keil RTX5
 
-Open \b RTX_Conf_CM.c and edit set:
+Open \b RTX_Config.h and edit set:
 - <b>Default Thread stack size [bytes]</b> to \a 2048
-- <b>Main Thread stack size [bytes]</b> to \a 2048
-- <b>RTOS Kernel Timer input clock frequency [Hz]</b> to the correct frequency of your device.
 
 
 \section step6 Step 6: Configure Heap
@@ -461,10 +460,32 @@ framework and for example another 2048 bytes if you are using the default \b Buf
 \c 0xE00. Set this number in the startup file.
 
 
+\section rtos2_req CMSIS-RTOS2 Requirements
+
+The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the
+<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
+
+For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
+requirements are configured in the
+<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
+under the \b CMSIS component class:
+
+<table class="doxtable" summary="CMSIS-RTOS2 Configuration">
+    <tr>
+      <th align="left">Option (under section Thread Configuration)</th>
+      <th>Set Value to</th>
+    </tr>
+    <tr>
+      <td>Default Thread stack size [bytes]</td>
+      <td>2048</td>
+    </tr>
+</table>
+
+
 \section rtos_req CMSIS-RTOS Requirements
 
-Although the CMSIS-Driver Validation requires a CMSIS-RTOS to be present, it is not creating any additional threads. For
-proper operation, you need to add a certain amount of thread stack size to the \c main thread. 
+Instead of CMSIS-RTOS2 you can use CMSIS-RTOS. In this case the \c main thread is implicitly created.
+For proper operation, you need to add a certain amount of thread stack size to the \c main thread.
 
 The thread requirements need to be reflected in the CMSIS-RTOS configuration. Refer to the
 <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS/html/index.html" target="_blank">CMSIS-RTOS Reference</a> for further details.

@@ -9,7 +9,7 @@
   <license>LICENSE.txt</license>
   
   <releases>
-    <release version="1.2.1">
+    <release version="1.2.1-dev0">
       - Updated component condition to accept both RTOS and RTOS2.
       - Updated documentation.
     </release>

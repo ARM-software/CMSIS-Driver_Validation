@@ -36,13 +36,16 @@ This manual contains the following chapters:
     interfaces.
 
 The Software Pack for CMSIS-Driver validation current tests the following interfaces:
+  - \ref can_funcs - Controller Area Network (CAN) peripheral.
   - \ref eth_funcs - Interface to Ethernet MAC and PHY peripheral.
   - \ref i2c_funcs - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.
   - \ref mci_funcs - Memory card interface for SD/MMC memory.
   - \ref spi_funcs - Serial Peripheral Interface (SPI) driver.
   - \ref usart_funcs - Universal Synchronous and Asynchronous Receiver/Transmitter
     (USART) interface driver.
-  - \ref usbd_funcs - Universal Serial Bus (USB) interface driver (USB Device communication only).
+  - \ref usbd_funcs - Universal Serial Bus (USB) Device interface driver.
+  - \ref usbh_funcs - Universal Serial Bus (USB) Host interface driver.
+  - \ref wifi_funcs - WiFi (Wireless Fidelity Interface) module driver.
 
 This manual assumes that you are familiar with MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
@@ -52,10 +55,12 @@ This manual assumes that you are familiar with MDK. Refer to
 Revision History
 ----------------
 
-Version  | Description
-:--------|:------------------------------------------
-V1.1     | Added USB Host, CAN and Ethernet Precision Time Protocol tests
-V1.0     | Initial release for CMSIS-Driver API V2.0
+Version     | Description
+:-----------|:------------------------------------------
+V1.3.0-dev0 | Added WiFi tests
+V1.2        | Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
+V1.1        | Added USB Host, CAN and Ethernet Precision Time Protocol tests
+V1.0        | Initial release for CMSIS-Driver API V2.0
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -512,4 +517,7 @@ under the \b CMSIS component class:
 
 \note Do not forget to set the correct <b>RTOS Kernel Timer input clock frequency [Hz]</b> otherwise the tests will not run
 properly on the device.
+
+\note Only WiFi tests create one additional thread for socket testing and usually WiFi drivers have a thread 
+for processing messages.
 */

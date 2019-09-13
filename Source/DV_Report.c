@@ -295,12 +295,27 @@ BOOL StatCount (TC_RES res) {
   return (__TRUE);
 }
 
+/*-----------------------------------------------------------------------------
+ * No path
+ *----------------------------------------------------------------------------*/
+static const char *no_path (const char *fn) {
+  const char *cp;
+#if defined(__CC_ARM)
+  cp = strrchr(fn, '\\');
+#else
+  cp = strrchr(fn, '/');
+#endif
+  if (cp) return (cp + 1);
+  return (fn);
+}
 
 /*-----------------------------------------------------------------------------
  * Set result
  *----------------------------------------------------------------------------*/
 uint32_t __set_result (const char *fn, uint32_t ln, TC_RES res, char* desc) {
-  
+
+  fn = no_path (fn);
+
   // save assertion result
   switch (res) {
     case PASSED:     

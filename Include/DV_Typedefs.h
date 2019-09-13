@@ -38,10 +38,8 @@ typedef unsigned int    BOOL;
 
 #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
   
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-  
 /* Assertions and test results */
-#define SET_RESULT(res, desc) __set_result(__FILENAME__, __LINE__, res, desc);
-#define ASSERT_TRUE(cond) __assert_true (__FILENAME__, __LINE__, cond);
+#define SET_RESULT(res, desc) __set_result (__FILE__, __LINE__, res, desc)
+#define ASSERT_TRUE(cond)     __assert_true (__FILE__, __LINE__, cond)
 
 #endif /* __TYPEDEFS_H__ */

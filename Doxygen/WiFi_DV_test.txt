@@ -1,0 +1,106 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_sock_setup WiFi SockServer 
+\ingroup wifi_funcs
+
+The \b SockServer is an application providing a set of services that the WiFi Driver Validation uses to test the Socket 
+interface of the WiFi driver and is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
+The SockServer runs several standard network services.
+
+The following services are available by SockServer:
+- \b Echo service on port \token{7}, TCP and UDP
+  \n (two instances of TCP service, one instance of UDP service)
+- \b Discard service on port \token{9}, TCP and UDP
+  \n (one instance of TCP service, one instance of UDP service)
+- \b Chargen service on port \token{19}, TCP and UDP
+  \n (two instances of TCP service, one instance of UDP service)
+- \b Assistant service on port \token{5000}
+  \n (helper service used to test WiFi sockets in server mode (socket accept functionality))
+- \b Telnet service on port \token{23}
+  \n (SockServer status monitoring service)
+
+The \b SockServer also supports a telnet connection, which gives you information about received and sent data.
+This can help resolve driver problems when Wifi socket sending and receiving does not work well. For example, when
+the transfer test fails, you don't know if the \b SocketSend or \b SocketRecv functions have failed or both.
+
+For the telnet connection, at the command prompt, type the following command or use another telnet client application.
+\code
+c:\>telnet sockserver
+\endcode
+
+The initial page opens:
+  \image html SockServer.png "Initial telnet connection"
+
+You can view the remote IP address, port number, receiving and transmitting counters with the \b stat command:
+  \image html SockMonitor.png "Status monitoring"
+
+Status monitor constantly updates the SockServer status on the screen. To stop the screen update, press any
+telnet client key.
+
+WiFi drivers need to be tested in the wireless local area network. The testing environment contains the following equipment:
+ - WiFi router or Access Point with access to the Internet
+ - board running \b SockServer application and connected to the same network with Ethernet cable
+ - evaluation board with the WiFi module used for testing
+
+Porting SockServer
+------------------
+
+Currently, the \b SockServer application is available for the \b MCB4300 and \b MCBSTM32F400 evaluation boards. 
+To create SockServer application for a different microcontroller, you need to do the following:
+-# Create new network project in uVision
+-# Select and configure the RTE Components:
+ - \b Network:Core and configure the host name and pool size in \b Net_Config.c
+\code
+#define NET_HOST_NAME               "SockServer"
+#define NET_MEM_POOL_SIZE           16384
+\endcode
+ - \b Network:Interface:Ethernet and configure the MAC address in \b Net_Config_ETH0.h to avoid collisions
+\code
+#define ETH0_MAC_ADDR               "1E-30-6C-A2-45-5A"
+\endcode
+ - \b Network:Socket:BSD and configure number of sockets in \b Net_Config_BSD.h
+\code
+#define BSD_NUM_SOCKS               8
+#define BSD_SERVER_SOCKS            4
+\endcode
+ - \b Network:Socket:TCP and configure number of sockets in \b Net_Config_TCP.h
+\code
+#define TCP_NUM_SOCKS               9
+\endcode
+ - \b Network:Socket:UDP and configure number of sockets in \b Net_Config_UDP.h
+\code
+#define UDP_NUM_SOCKS               10
+\endcode
+ - \b Network:Service:Telnet server and disable authentication in \b Net_Config_Telnet_Server.h
+\code
+#define TELNET_SERVER_AUTH_ENABLE   0
+\endcode
+ - \b CMSIS \b Driver:Ethernet/MAC/PHY(API) depending on your hardware
+-# Configure device specific hardware:
+ - Configure the CMSIS Ethernet driver and other device specific components (clock system, I/O, ...)
+   as required. Please consult your device's/board's documentation for more information.
+-# Copy \b SockServer.c and \b SockServer.h files and add the first to the project
+-# Copy \b Telnet_Server_UIF.c and add it to the project
+-# Add the code to start the services in \b main.c
+\code
+// Application main thread
+static void app_main (void *argument) {
+ 
+  netInitialize ();
+  osDelay (500);
+ 
+  osThreadNew(DgramServer,   NULL, NULL);
+  osThreadNew(StreamServer,  NULL, NULL);
+  osThreadNew(TestAssistant, NULL, NULL);
+}
+\endcode
+-# Increase default RTX stack size to 400 bytes in \b RTX_Config.h
+\code
+#define OS_STACK_SIZE           400
+\endcode
+-# Set default global stack to 1024 bytes and heap to 6144 bytes in \b startup \b file
+\code
+Stack_Size      EQU     0x00000400
+Heap_Size       EQU     0x00001800
+\endcode
+*/

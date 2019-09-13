@@ -22,7 +22,7 @@ SET PACK_VENDOR=ARM
 SET PACK_NAME=CMSIS-Driver_Validation
 
 :: Folder for Pack
-SET PACK_FOLDER_LIST=Boards Documentation Include Source
+SET PACK_FOLDER_LIST=Boards Documentation Include Source Tools
 
 :: Files in base folder for Pack
 SET PACK_FILE_LIST=%PACK_VENDOR%.%PACK_NAME%.pdsc README.md LICENSE.txt

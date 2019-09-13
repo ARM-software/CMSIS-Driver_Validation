@@ -116,5 +116,51 @@ extern void CAN_Loopback_CheckBitrate (void);
 extern void CAN_Loopback_CheckBitrateFD (void);
 extern void CAN_Loopback_Transfer (void);
 extern void CAN_Loopback_TransferFD (void);
+
+extern void WIFI_DV_Initialize (void);
+extern void WIFI_DV_Uninitialize (void);
+
+extern void WIFI_GetVersion (void);
+extern void WIFI_GetCapabilities (void);
+extern void WIFI_Initialize_Uninitialize (void);
+extern void WIFI_PowerControl (void);
+extern void WIFI_GetModuleInfo (void);
+
+extern void WIFI_SetOption_GetOption (void);
+extern void WIFI_Scan (void);
+extern void WIFI_Configure (void);
+extern void WIFI_Activate_Deactivate (void);
+extern void WIFI_IsConnected (void);
+extern void WIFI_GetNetInfo (void);
+
+extern void WIFI_Activate_AP (void);
+extern void WIFI_Activate_Station_WPS_PBC (void);
+extern void WIFI_Activate_Station_WPS_PIN (void);
+extern void WIFI_Activate_AP_WPS_PBC (void);
+extern void WIFI_Activate_AP_WPS_PIN (void);
+
+extern void WIFI_SocketCreate (void);
+extern void WIFI_SocketBind (void);
+extern void WIFI_SocketListen (void);
+extern void WIFI_SocketAccept (void);
+extern void WIFI_SocketConnect (void);
+extern void WIFI_SocketRecv (void);
+extern void WIFI_SocketRecvFrom (void);
+extern void WIFI_SocketSend (void);
+extern void WIFI_SocketSendTo (void);
+extern void WIFI_SocketGetSockName (void);
+extern void WIFI_SocketGetPeerName (void);
+extern void WIFI_SocketGetOpt (void);
+extern void WIFI_SocketSetOpt (void);
+extern void WIFI_SocketClose (void);
+extern void WIFI_SocketGetHostByName (void);
+extern void WIFI_Ping (void);
+
+extern void WIFI_Transfer_Fixed (void);
+extern void WIFI_Transfer_Incremental (void);
+extern void WIFI_Send_Fragmented (void);
+extern void WIFI_Recv_Fragmented (void);
+extern void WIFI_Test_Speed (void);
+extern void WIFI_Concurrent_Socket (void);
   
 #endif /* __CMSIS_DV_H */

@@ -22,7 +22,7 @@ typedef struct __TestCase {
   void (*TestFunc)(void);             /* Test function                        */
   const char *TFName;                 /* Test function name string            */
   BOOL en;                            /* Test function enabled                */
-} TEST_CASE;
+} const TEST_CASE;
 
 /* Test suite description structure                                           */
 typedef struct __TestSuite {
@@ -36,7 +36,7 @@ typedef struct __TestSuite {
   TEST_CASE *TC;                      /* Array of test cases                  */
   uint32_t NumOfTC;                   /* Number of test cases (sz of TC array)*/
 
-} TEST_SUITE;
+} const TEST_SUITE;
 
 /* Defined in user test module                                                */
 extern TEST_SUITE ts;

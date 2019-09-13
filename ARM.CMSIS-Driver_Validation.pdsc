@@ -9,7 +9,8 @@
   <license>LICENSE.txt</license>
   
   <releases>
-    <release version="1.2.1-dev0">
+    <release version="1.3.0-dev0">
+      - Added WiFi Driver testing
       - Updated component condition to accept both RTOS and RTOS2.
       - Updated documentation.
     </release>
@@ -187,12 +188,19 @@
       <require Cclass="CMSIS Driver" Cgroup="CAN"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
+
+    <condition id="CMSIS Driver Validation WiFi">
+      <description>CMSIS Driver WiFi</description>
+      <require condition="CMSIS Core with RTOS and STDOUT"/>
+      <require Cclass="CMSIS Driver" Cgroup="WiFi"/>
+      <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+    </condition>
   
   </conditions>  
 
   <components>  
      
-    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.0.0">  
+    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.3.0-dev0">  
       <description>Run API test for enabled drivers</description>
       <doc>Documentation/html/index.html</doc>
       <component Cgroup="Framework" condition="CMSIS Core with RTOS and STDOUT">
@@ -293,6 +301,17 @@
       <files>
         <file category="doc" name="Documentation/html/group__can__funcs.html" />
         <file category="source" name="Source/DV_CAN.c"/>
+      </files>
+    </component>
+
+    <component Cgroup="WiFi" condition="CMSIS Driver Validation WiFi">
+      <description>WiFi driver test</description>
+      <RTE_Components_h>
+        #define RTE_DV_WIFI                         /* Driver Validation WiFi enabled */
+      </RTE_Components_h>
+      <files>
+        <file category="doc" name="Documentation/html/group__wifi__funcs.html" />
+        <file category="source" name="Source/DV_WIFI.c"/>
       </files>
     </component>
     

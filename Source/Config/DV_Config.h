@@ -386,11 +386,13 @@
 // <s.8> WPS PIN
 #define WIFI_AP_WPS_PIN                 "12345678"
 // </h>
-// <h> Socket Server
-// <i> Settings relevant for test relying on Socket Server
-// <s.15>IP
-// <i>Static IPv4 Address of Socket Server (used for testing socket operation) in text representation
+// <h> Socket
+// <s.15>SockServer IP
+// <i>Static IPv4 Address of SockServer (used for testing socket operation) in text representation
 #define WIFI_SOCKET_SERVER_IP           "192.168.1.10"
+// <o0.0>API Test Mode <0=>non-strict <1=>BSD strict
+// <i>Test mode for Socket API tests
+#define WIFI_SOCKET_TEST_MODE           1
 // </h>
 // </h>
 // <h> Test Cases
@@ -492,7 +494,7 @@
 #define WIFI_ACT_AP_WPS_PIN             1
 // </e>
 // </e>
-// <e> Socket (requires SockServer)
+// <e> Socket API (requires SockServer)
 #define WIFI_SOCKET_EN                  1
 // <i> Enable/disable test cases
 #define WIFI_SOCKET_MAX_NUM             4

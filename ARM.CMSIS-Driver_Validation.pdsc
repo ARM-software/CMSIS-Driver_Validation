@@ -316,32 +316,5 @@
     </component>
     
   </bundle>
-
-<!-- Future Work
-  <bundle Cbundle="Board Master" Cclass="CMSIS Driver Validation" Cversion="1.0.0">  
-    <description>Configure master board for extended driver validation (TBI)</description>
-    <doc></doc>
-
-    <component Cgroup="Framework">  
-      <description></description>
-      <files>
-        <file category="source" name="Source/Config/Dummy.c" attr="config" version="0.0.1"/>
-      </files>
-    </component>
-  </bundle>
-  
-  <bundle Cbundle="Board Slave" Cclass="CMSIS Driver Validation" Cversion="1.0.0">  
-    <description>Configure slave board for extended driver validation (TBI)</description>
-    <doc></doc>
-
-    <component Cgroup="Framework">  
-      <description></description>
-      <files>
-        <file category="source" name="Source/Config/Dummy.c" attr="config" version="0.0.1"/>
-      </files>
-      </component>
-    </bundle>
--->
-    
   </components> <!-- end of components sections -->
 </package>

@@ -37,6 +37,7 @@
 #define DISCARD_PORT        9               // Discard port number
 #define CHARGEN_PORT        19              // Chargen port number
 #define ASSISTANT_PORT      5000            // Test Assistant port number
+#define NON_EXISTENT_PORT   5001            // Non-existent server port number
 
 /* Helper function identifiers */
 #define F_CREATE            0x00000001
@@ -63,6 +64,8 @@
 #define F_SEND_FRAG         0x00080000
 #define F_RECV_FRAG         0x00100000
 #define F_ALL               0x001FFFFF
+
+#define SK_TERMINATE        0x00000001
 
 /* Helper function return values */
 #define TH_OK               0x01
@@ -2872,7 +2875,6 @@ static void station_uninit (void) {
 /* Helper function for execution of socket test function in the worker thread */
 static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout, uint32_t line) {
   osThreadFlagsSet (id, sig);
-  osThreadFlagsClear (TH_ALL);
   if (osThreadFlagsWait (TH_OK | TH_TOUT, osFlagsWaitAny, tout) == TH_OK) {
     /* Success, completed in time */
     return (1);
@@ -2938,6 +2940,7 @@ __NO_RETURN static void Th_Create (IO_CREATE *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -2969,7 +2972,7 @@ void WIFI_SocketCreate (void) {
     return;
   }
 
-  if (station_init (0) == 0) {
+  if (station_init (1) == 0) {
     SET_RESULT (FAILED, "Station initialization and connect failed");
     return;
   }
@@ -3146,6 +3149,7 @@ __NO_RETURN static void Th_Bind (IO_BIND *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -3192,7 +3196,7 @@ void WIFI_SocketBind (void) {
     return;
   }
 
-  if (station_init (0) == 0) {
+  if (station_init (1) == 0) {
     SET_RESULT (FAILED, "Station initialization and connect failed");
     return;
   }
@@ -3301,10 +3305,10 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -3405,10 +3409,10 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -3476,6 +3480,7 @@ __NO_RETURN static void Th_Listen (IO_LISTEN *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -3521,7 +3526,7 @@ void WIFI_SocketListen (void) {
     return;
   }
 
-  if (station_init (0) == 0) {
+  if (station_init (1) == 0) {
     SET_RESULT (FAILED, "Station initialization and connect failed");
     return;
   }
@@ -3561,26 +3566,6 @@ void WIFI_SocketListen (void) {
     ARG_LISTEN (INT32_MAX, 1);
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
-
-    /* Check parameter (backlog = 0) */
-    ARG_LISTEN (sock, 0);
-    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
-
-    /* Check parameter (backlog = -1) */
-    ARG_LISTEN (sock, -1);
-    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
-
-    /* Check parameter (backlog = INT32_MIN) */
-    ARG_LISTEN (sock, INT32_MIN);
-    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
-
-    /* Check parameter (backlog = INT32_MAX) */
-    ARG_LISTEN (sock, INT32_MAX);
-    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 
     /* Start listening */
     ARG_LISTEN (sock, 1);
@@ -3634,10 +3619,10 @@ void WIFI_SocketListen (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -3758,8 +3743,11 @@ __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
       case F_RECV:
         /* Recv on socket (stream, datagram) */
         memset(buffer, 0xCC, 16);
-        drv->SocketRecv (io->sock, buffer, 16);
-        io->rc = memcmp (buffer, "SockServer", 10);
+        io->rc = drv->SocketRecv (io->sock, buffer, 16);
+        if ((io->rc > 0) && (memcmp (buffer, "SockServer", 10) != 0)) {
+          /* Failed if rc <= 0 */
+          io->rc = 0;
+        }
         break;
 
       case F_CLOSE:
@@ -3778,6 +3766,7 @@ __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -3802,6 +3791,7 @@ Stream socket test:
  - Close accepted socket
  - Accept connection again, return IP address and port
  - Receive ServerId on accepted socket
+ - Receive again, server closed connection
  - Close accepted socket
  - Close listening socket
  - Accept again, closed socket
@@ -3891,7 +3881,7 @@ void WIFI_SocketAccept (void) {
     /* Receive SockServer id string */
     io.sock = io.rc;
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT (io.rc == 0);
+    TH_ASSERT (io.rc > 0);
 
     /* Close accepted socket */
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -3922,7 +3912,19 @@ void WIFI_SocketAccept (void) {
     /* Receive SockServer id string */
     io.sock = io.rc;
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT (io.rc == 0);
+    TH_ASSERT (io.rc > 0);
+
+    /* SockServer disconnects after 500ms */
+
+    /* Receive again, no data */
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
+#ifdef BSD_STRICT
+    /* Should return error (connection reset) */
+    TH_ASSERT (io.rc == ARM_SOCKET_ECONNRESET);
+#else
+    /* Valid return values: ECONNRESET, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ECONNRESET) || (io.rc == ARM_SOCKET_ERROR));
+#endif
 
     /* Close accepted socket */
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -3939,10 +3941,10 @@ void WIFI_SocketAccept (void) {
     TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -3996,7 +3998,7 @@ void WIFI_SocketAccept (void) {
 
     /* Receive SockServer id string */
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT  (io.rc == 0);
+    TH_ASSERT  (io.rc > 0);
 
     /* Close socket */
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4078,6 +4080,7 @@ __NO_RETURN static void Th_Connect (IO_CONNECT *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -4092,7 +4095,7 @@ The test case \b WIFI_SocketConnect verifies the WiFi Driver \b SocketConnect fu
 int32_t (*SocketConnect) (int32_t socket, const uint8_t *ip, uint32_t  ip_len, uint16_t  port);
 \endcode
 
-Stream socket test:
+Stream socket test 1:
  - Create stream socket
  - Check function parameters
  - Connect to server, blocking mode
@@ -4101,6 +4104,12 @@ Stream socket test:
  - Close socket
  - Connect on closed socket
 
+Stream socket test 2:
+ - Create stream socket
+ - Connect to server, non-existent port
+ - Close socket
+
+Stream socket test 3:
  - Create stream socket
  - Bind socket
  - Start listening
@@ -4225,11 +4234,37 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    SET_RESULT (FAILED, "Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Connect to stream server (non-existent port) */
+    ARG_CONNECT(sock, ip_socket_server, 4, NON_EXISTENT_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
+#ifdef BSD_STRICT
+    /* Should return error (connection rejected by the peer) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ECONNREFUSED);
+#else
+    /* Valid return values: ECONNREFUSED, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ECONNREFUSED) || (io.rc == ARM_SOCKET_ERROR));
+#endif
+
+    /* Close socket */
+    io.sock = sock;
+    TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
 
     osDelay (10);
   }
@@ -4352,10 +4387,10 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -4438,6 +4473,7 @@ __NO_RETURN static void Th_Recv (IO_RECV *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -4556,10 +4592,10 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -4646,7 +4682,7 @@ void WIFI_SocketRecv (void) {
     /* Receive until timeout, no data */
     ARG_RECV   (sock, buffer, sizeof(buffer));
     ticks = GET_SYSTICK();
-    TH_EXECUTE (F_RECV, 1500);
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     tout = GET_SYSTICK() - ticks;
     /* Should return EAGAIN (operation timed out) */
     TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
@@ -4739,6 +4775,7 @@ __NO_RETURN static void Th_RecvFrom (IO_RECVFROM *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -4859,7 +4896,7 @@ void WIFI_SocketRecvFrom (void) {
     /* Receive until timeout, no data */
     ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
     ticks = GET_SYSTICK();
-    TH_EXECUTE (F_RECVFROM, 1500);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
     tout = GET_SYSTICK() - ticks;
     /* Should return EAGAIN (operation timed out) */
     TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
@@ -4876,10 +4913,10 @@ void WIFI_SocketRecvFrom (void) {
     TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -4955,6 +4992,7 @@ __NO_RETURN static void Th_Send (IO_SEND *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -4978,6 +5016,13 @@ Stream socket test 1:
  - Send again, closed socket
 
 Stream socket test 2:
+ - Create stream socket
+ - Connect to server, blocking mode
+ - Send ESC data, server disconnects
+ - Send again, disconnected socket
+ - Close socket
+
+Stream socket test 3:
  - Create stream socket
  - Send data, created socket
  - Bind socket
@@ -5064,11 +5109,50 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    SET_RESULT (FAILED, "Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Connect to stream server */
+    io.sock = sock;
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Send ESC command, server disconnects */
+    ARG_SEND   (sock, (uint8_t *)"\x1B", 1);
+    TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc == 1);
+
+    /* Wait for the server to disconnect */
+    osDelay (200);
+
+    /* Send again, disconnected socket */
+    ARG_SEND   (sock, test_msg, sizeof(test_msg));
+    TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
+#ifdef BSD_STRICT
+    /* Should return error (connection reset by the peer) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ECONNRESET);
+#else
+    /* Valid return values: ECONNRESET, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ECONNRESET) || (io.rc == ARM_SOCKET_ERROR));
+#endif
+
+    /* Close socket */
+    io.sock = sock;
+    TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
 
     osDelay (10);
   }
@@ -5133,10 +5217,10 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -5209,6 +5293,7 @@ __NO_RETURN static void Th_SendTo (IO_SENDTO *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -5309,10 +5394,10 @@ void WIFI_SocketSendTo (void) {
     TH_EXECUTE (F_SENDTO, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -5390,6 +5475,7 @@ __NO_RETURN static void Th_GetSockName (IO_GETSOCKNAME *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -5528,10 +5614,10 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -5648,10 +5734,10 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -5669,7 +5755,7 @@ void WIFI_SocketGetSockName (void) {
     ARG_GETSOCKNAME (sock, local_ip, &ip_len, &local_port);
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
-    /* Should return error (socket not created) */
+    /* Should return error (socket not bound) */
     TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 #else
     /* Valid return values: EINVAL, ERROR */
@@ -5780,6 +5866,7 @@ __NO_RETURN static void Th_GetPeerName (IO_GETPEERNAME *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -5911,11 +5998,11 @@ void WIFI_SocketGetPeerName (void) {
     ARG_GETPEERNAME (sock, peer_ip, &ip_len, &peer_port);
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
-    /* Should return error (socket not connected) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_ENOTCONN);
+    /* Should return error (socket not created) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: ENOTCONN, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_ENOTCONN) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6043,11 +6130,11 @@ void WIFI_SocketGetPeerName (void) {
     ARG_GETPEERNAME (sock, peer_ip, &ip_len, &peer_port);
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
-    /* Should return error (socket not connected) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_ENOTCONN);
+    /* Should return error (socket not created) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: ENOTCONN, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_ENOTCONN) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6115,6 +6202,7 @@ __NO_RETURN static void Th_GetOpt (IO_GETOPT *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -6282,10 +6370,10 @@ void WIFI_SocketGetOpt (void) {
     TH_EXECUTE (F_GETOPT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6318,10 +6406,10 @@ void WIFI_SocketGetOpt (void) {
     TH_EXECUTE (F_GETOPT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6388,6 +6476,7 @@ __NO_RETURN static void Th_SetOpt (IO_SETOPT *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -6536,10 +6625,10 @@ void WIFI_SocketSetOpt (void) {
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6568,10 +6657,10 @@ void WIFI_SocketSetOpt (void) {
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
 #ifdef BSD_STRICT
     /* Should return error (socket not created) */
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
 #else
-    /* Valid return values: EINVAL, ERROR */
-    TH_ASSERT ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR));
+    /* Valid return values: ESOCK, ERROR */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == ARM_SOCKET_ERROR));
 #endif
 
     osDelay (10);
@@ -6643,6 +6732,7 @@ __NO_RETURN static void Th_Close (IO_CLOSE *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -6739,7 +6829,13 @@ void WIFI_SocketClose (void) {
     /* Close again, closed socket */
     ARG_CLOSE  (sock);
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == 0);
+#ifdef BSD_STRICT
+    /* Should return error (socket not created) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+#else
+    /* Valid return values: ESOCK, OK */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == 0));
+#endif
 
     osDelay (10);
   }
@@ -6769,7 +6865,13 @@ void WIFI_SocketClose (void) {
     /* Close again, closed socket */
     ARG_CLOSE (sock);
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == 0);
+#ifdef BSD_STRICT
+    /* Should return error (socket not created) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+#else
+    /* Valid return values: ESOCK, OK */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == 0));
+#endif
 
     osDelay (10);
   }
@@ -6809,7 +6911,13 @@ void WIFI_SocketClose (void) {
     /* Close again, closed socket */
     ARG_CLOSE  (sock);
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == 0);
+#ifdef BSD_STRICT
+    /* Should return error (socket not created) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+#else
+    /* Valid return values: ESOCK, OK */
+    TH_ASSERT ((io.rc == ARM_SOCKET_ESOCK) || (io.rc == 0));
+#endif
 
     osDelay (10);
   }
@@ -6860,6 +6968,7 @@ __NO_RETURN static void Th_GetHostByName (IO_GETHOST *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -6877,7 +6986,7 @@ int32_t (*SocketGetHostByName) (const char *name, int32_t af, uint8_t *ip, uint3
 Function test:
  - Check function parameters
  - Resolve host
- - Resolve not existing host
+ - Resolve non-existent host
 
 \note
 This test requires internet connectivity to DNS server.
@@ -6960,9 +7069,9 @@ void WIFI_SocketGetHostByName (void) {
   /* IP address should be valid */
   TH_ASSERT  ((memcmp(host_ip, ip_unspec, 4) != 0) && (ip_len == 4));
 
-  /* Resolve not existing host */
+  /* Resolve non-existent host */
   ip_len = sizeof(host_ip);
-  ARG_GETHOST("not.existing.host", ARM_SOCKET_AF_INET, host_ip, &ip_len);
+  ARG_GETHOST("non.existent.host", ARM_SOCKET_AF_INET, host_ip, &ip_len);
   TH_EXECUTE (F_GETHOSTBYNAME, WIFI_SOCKET_TIMEOUT_LONG);
 #ifdef BSD_STRICT
   /* Should return error (host not found) */
@@ -7014,6 +7123,7 @@ __NO_RETURN static void Th_Ping (IO_PING *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -7229,6 +7339,7 @@ __NO_RETURN static void Th_Transfer (IO_TRANSFER *io) {
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
+    osDelay(1);
     osThreadFlagsSet (io->owner, flags);
     osThreadFlagsClear (F_ALL);
   }
@@ -7337,27 +7448,27 @@ void WIFI_Transfer_Fixed (void) {
 
     /* Transfer 16-byte block(s) */
     ARG_TRANSFER (sock, 2048, 16);
-    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 2048);
 
     /* Transfer 64-byte block(s) */
     ARG_TRANSFER (sock, 2048, 64);
-    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 2048);
 
     /* Transfer 256-byte block(s) */
     ARG_TRANSFER (sock, 2048, 256);
-    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 2048);
 
     /* Transfer 1024-byte block(s) */
     ARG_TRANSFER (sock, 2048, 1024);
-    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 2048);
 
     /* Transfer 1460-byte block */
     ARG_TRANSFER (sock, 1460, 1460);
-    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+    TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 1460);
 
     /* Close datagram socket */
@@ -7752,7 +7863,7 @@ void WIFI_Test_Speed (void) {
     n_bytes = 0;
     do {
       ARG_TRANSFER (sock, 1440, 1440);
-      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);
@@ -7834,6 +7945,9 @@ __NO_RETURN static void Th_Sidekick (IO_SIDEKICK *io2) {
   int32_t rc;
 
   for (;;) {
+    if (osThreadFlagsWait (SK_TERMINATE, osFlagsWaitAny, 100) == SK_TERMINATE) {
+      break;
+    }
     memset (buff, 0xCC, sizeof(buff));
     rc = drv->SocketSend (io2->sock, test_msg, sizeof(test_msg));
     if (rc <= 0) break;
@@ -7842,7 +7956,6 @@ __NO_RETURN static void Th_Sidekick (IO_SIDEKICK *io2) {
     if (memcmp (buff, test_msg, sizeof(test_msg)) == 0) {
       io2->count += sizeof(test_msg);
     }
-    osDelay (100);
   }
   /* Owner deletes this thread */
   while (1) osDelay (osWaitForever);
@@ -7932,7 +8045,7 @@ void WIFI_Concurrent_Socket (void) {
     n_bytes = 0;
     do {
       ARG_TRANSFER (sock, 1440, 1440);
-      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);
@@ -7949,6 +8062,8 @@ void WIFI_Concurrent_Socket (void) {
     TH_ASSERT (io2.count > 1000);
 
     /* Terminate spawned thread */
+    osThreadFlagsSet (spawn, SK_TERMINATE);
+    osDelay(100);
     osThreadTerminate (spawn);
 
     /* Close stream sockets */
@@ -8004,7 +8119,7 @@ void WIFI_Concurrent_Socket (void) {
     n_bytes = 0;
     do {
       ARG_TRANSFER (sock, 1460, 1460);
-      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);
@@ -8021,6 +8136,8 @@ void WIFI_Concurrent_Socket (void) {
     TH_ASSERT (io2.count > 1000);
 
     /* Terminate spawned thread */
+    osThreadFlagsSet (spawn, SK_TERMINATE);
+    osDelay(100);
     osThreadTerminate (spawn);
 
     /* Close sockets */

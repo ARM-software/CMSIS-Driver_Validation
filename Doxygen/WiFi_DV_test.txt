@@ -131,7 +131,7 @@ WiFi socket API changes
    return code \token{EADDRINUSE}, added return code: generic \token{ERROR}
 
  - bind on closed socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
 -# \b SocketListen
  - listen socket again,
@@ -141,79 +141,88 @@ WiFi socket API changes
    return code \token{EINVAL}, added return code: generic \token{ERROR}
 
  - listen on closed socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - listen on datagram socket,
    return code \token{ENOTSUP}, added return code: generic \token{ERROR}
 
 -# \b SocketAccept
  - accept on closed socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - accept on datagram socket,
    return code \token{ENOTSUP}, added return code: generic \token{ERROR}
 
 -# \b SocketConnect
  - connect socket same address again,
-   return value \token{EISCONN}, added return code: OK, generic \token{ERROR}
+   return code \token{EISCONN}, added return code: OK, generic \token{ERROR}
 
  - bind on connected socket,
-   return value \token{EISCONN}, added return code: generic \token{ERROR}
+   return code \token{EISCONN}, added return code: generic \token{ERROR}
 
  - connect on listening socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{EINVAL}, added return code: generic \token{ERROR}
 
  - connect on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
+
+ - connect to non-existent port,
+   return code \token{ECONNREFUSED}, added return code: generic \token{ERROR}
 
  - connect datagram socket to unspecified address (0.0.0.0),
-   return value \token{OK},  added return code: \token{EINVAL}, generic \token{ERROR} \n
+   return code \token{OK},  added return code: \token{EINVAL}, generic \token{ERROR} \n
    (special case that deletes the socket destination & filtering address)
 
 -# \b SocketRecv
  - recv on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - recv on created socket
-   return value \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
 
  - recv on bound socket,
-   return value \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
 
  - recv on listening socket,
-   return value \token{ENOTCONN},  added return code: generic \token{ERROR}
+   return code \token{ENOTCONN},  added return code: generic \token{ERROR}
+
+ - recv on disconnected socket,
+   return code \token{ECONNRESET}, added return code: generic \token{ERROR}
 
 -# \b SocketRecvFrom
  - recvfrom on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
 -# \b SocketSend
  - send on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - send on created socket,
-   return value \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
 
  - send on bound socket,
-   return value \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
 
  - send on listening socket,
-   return value \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+
+ - send on disconnected socket,
+   return code \token{ECONNRESET}, added return code: generic \token{ERROR}
 
 -# \b SocketSendTo
  - sendto on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
 -# \b SocketGetSockName
  - getsockname on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - getsockname on unbound socket,
    return code \token{EINVAL}, added return code: generic \token{ERROR}
 
 -# \b SocketGetPeerName
  - getpeername on closed socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
  - getpeername on created socket,
    return code \token{ENOTCONN}, added return code: generic \token{ERROR}
@@ -226,18 +235,19 @@ WiFi socket API changes
 
 -# \b SocketGetOpt
  - getsockopt on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
 -# \b SocketSetOpt
  - setsockopt on closed socket,
-   return value \token{EINVAL}, added return code: generic \token{ERROR}
+   return code \token{ESOCK}, added return code: generic \token{ERROR}
 
 -# \b SocketClose
- - no change
+ - close on closed socket,
+   return code \token{ESOCK}, added return code: generic \token{OK}
 
 -# \b SocketGetHostByName
  - gethostbyname for non-existing host,
-   return value \token{EHOSTNOTFOUND}, added return code: generic \token{ERROR}
+   return code \token{EHOSTNOTFOUND}, added return code: generic \token{ERROR}
 
 -# \b Ping
  - no change

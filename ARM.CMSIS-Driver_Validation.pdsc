@@ -9,7 +9,7 @@
   <license>LICENSE.txt</license>
   
   <releases>
-    <release version="1.3.0-dev0">
+    <release version="1.3.0" date="2019-10-04">
       - Added WiFi Driver testing
       - Updated component condition to accept both RTOS and RTOS2.
       - Updated documentation.
@@ -200,7 +200,7 @@
 
   <components>  
      
-    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.3.0-dev0">  
+    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.3.0">  
       <description>Run API test for enabled drivers</description>
       <doc>Documentation/html/index.html</doc>
       <component Cgroup="Framework" condition="CMSIS Core with RTOS and STDOUT">

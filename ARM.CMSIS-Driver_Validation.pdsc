@@ -117,10 +117,19 @@
   <conditions>
   
     <condition id="Cortex-M Device">
-      <description>Cortex-M processor based device: one of CM3, CM4, CM7 </description>
+      <description>Cortex-M processor based device: Cortex-M0, Cortex-M0+, Cortex-M1, Cortex-M3, Cortex-M4, Cortex-M7, Cortex-M23, Cortex-M33, SC000 or SC3000</description>
+      <accept Dcore="Cortex-M0"/>
+      <accept Dcore="Cortex-M0+"/>
+      <accept Dcore="Cortex-M1"/>
       <accept Dcore="Cortex-M3"/>
       <accept Dcore="Cortex-M4"/>
       <accept Dcore="Cortex-M7"/>
+      <accept Dcore="Cortex-M23"/>
+      <accept Dcore="Cortex-M33"/>
+      <accept Dcore="ARMV8MBL"/>
+      <accept Dcore="ARMV8MML"/>
+      <accept Dcore="SC000"/>
+      <accept Dcore="SC300"/>
     </condition>
   
     <condition id="CMSIS Core with RTOS and STDOUT">

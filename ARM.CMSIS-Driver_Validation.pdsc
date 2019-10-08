@@ -9,6 +9,9 @@
   <license>LICENSE.txt</license>
   
   <releases>
+    <release version="1.3.1-dev0">
+      - Updated conditions to support all Cortex-M devices.
+    </release>
     <release version="1.3.0" date="2019-10-04">
       - Added WiFi Driver testing
       - Updated component condition to accept both RTOS and RTOS2.

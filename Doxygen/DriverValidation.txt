@@ -55,12 +55,14 @@ This manual assumes that you are familiar with MDK. Refer to
 Revision History
 ----------------
 
-Version  | Description
-:--------|:------------------------------------------
-V1.3.0   | Added WiFi tests
-V1.2.0   | Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
-V1.1.0   | Added USB Host, CAN and Ethernet Precision Time Protocol tests
-V1.0.0   | Initial release for CMSIS-Driver API V2.0
+Version     | Description
+:-----------|:------------------------------------------
+V1.3.1-dev1 | Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
+V1.3.1-dev0 | Updated conditions to support all Cortex-M devices 
+V1.3.0      | Added WiFi tests
+V1.2.0      | Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
+V1.1.0      | Added USB Host, CAN and Ethernet Precision Time Protocol tests
+V1.0.0      | Initial release for CMSIS-Driver API V2.0
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/

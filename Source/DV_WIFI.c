@@ -7903,7 +7903,7 @@ void WIFI_Test_Speed (void) {
     n_bytes = 0;
     do {
       ARG_TRANSFER (sock, 1460, 1460);
-      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT);
+      TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);

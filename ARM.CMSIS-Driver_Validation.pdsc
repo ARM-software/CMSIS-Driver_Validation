@@ -9,11 +9,14 @@
   <license>LICENSE.txt</license>
   
   <releases>
+    <release version="1.3.1-dev1">
+      - Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board.
+    </release>
     <release version="1.3.1-dev0">
       - Updated conditions to support all Cortex-M devices.
     </release>
     <release version="1.3.0" date="2019-10-04">
-      - Added WiFi Driver testing
+      - Added WiFi Driver testing.
       - Updated component condition to accept both RTOS and RTOS2.
       - Updated documentation.
     </release>
@@ -69,6 +72,21 @@
         <component Cclass="Device" Cgroup="Startup"/>
         <component Cclass="CMSIS" Cgroup="RTOS"/>
         <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+      </attributes>
+    </example>
+
+    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/ST/B-L475E-IOT01A1/CMSIS_DV_API">
+      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362</description>
+      <board name="B-L475E-IOT01A1" vendor="STMicroelectronics"/>
+      <project>
+        <environment name="uv" load="CMSIS_DV_API.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS" Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="CMSIS" Cgroup="RTOS"/>
+        <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362"/>
       </attributes>
     </example>
 

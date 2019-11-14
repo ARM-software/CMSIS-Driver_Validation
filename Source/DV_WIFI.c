@@ -356,7 +356,11 @@ void WIFI_Initialize_Uninitialize (void) {
   TEST_ASSERT(drv->Initialize   (NULL)           == ARM_DRIVER_OK);
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   ret =       drv->PowerControl (ARM_POWER_OFF);
-  TEST_ASSERT((ret == ARM_DRIVER_OK) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+  if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported"
+  } else {
+    TEST_ASSERT(ret == ARM_DRIVER_OK);
+  }
   TEST_ASSERT(drv->Uninitialize ()               == ARM_DRIVER_OK);
 }
 
@@ -385,7 +389,11 @@ void WIFI_PowerControl (void) {
   TEST_ASSERT(ret == ARM_DRIVER_ERROR);
   TEST_ASSERT(drv->Initialize   (event_func)     == ARM_DRIVER_OK);
   ret =       drv->PowerControl (ARM_POWER_OFF);
-  TEST_ASSERT((ret == ARM_DRIVER_OK) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+  if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported"
+  } else {
+    TEST_ASSERT(ret == ARM_DRIVER_OK);
+  }
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Scan         (scan_info, WIFI_SCAN_MAX_NUM) >= 0);
 
@@ -427,9 +435,17 @@ void WIFI_GetModuleInfo (void) {
   }
 
   ret = drv->GetModuleInfo(NULL, sizeof(data_buf));
-  TEST_ASSERT((ret == ARM_DRIVER_ERROR_PARAMETER) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+  if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported"
+  } else {
+    TEST_ASSERT(ret == ARM_DRIVER_ERROR_PARAMETER);
+  }
   ret = drv->GetModuleInfo(data_buf, 0U);
-  TEST_ASSERT((ret == ARM_DRIVER_ERROR_PARAMETER) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+  if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported"
+  } else {
+    TEST_ASSERT(ret == ARM_DRIVER_ERROR_PARAMETER);
+  }
 
   memset((void *)data_buf, 0xCC, sizeof(data_buf));
   ret = drv->GetModuleInfo(data_buf, sizeof(data_buf));
@@ -2424,38 +2440,61 @@ void WIFI_Activate_Deactivate (void) {
 
   /* Test Station configuration setup */
   if ((cap.station != 0) || (cap.station_ap != 0)) {
-    memset((void *)&config, 0, sizeof(config));
-    config.ssid = WIFI_STA_SSID;
-    config.pass = WIFI_STA_PASS;
 
     TEST_ASSERT(drv->Deactivate (0U) == ARM_DRIVER_OK);
 
     /* Test function with invalid parameters */
-    config.security = WIFI_STA_SECURITY;
-    config.ch       = WIFI_STA_CH;
-    TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
-
     TEST_ASSERT(drv->Activate(0U, NULL)    == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = NULL;
+    config.pass     = NULL;
+    config.security = 0U;
+    config.ch       = 0U;
+    TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = NULL;
+    config.security = 0U;
+    config.ch       = 0U;
+    TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = WIFI_STA_PASS;
     config.security = ARM_WIFI_SECURITY_UNKNOWN;
     config.ch       = WIFI_STA_CH;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = WIFI_STA_PASS;
     config.security = WIFI_STA_SECURITY;
     config.ch       = 255U;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = WIFI_STA_PASS;
+    config.security = WIFI_STA_SECURITY;
+    config.ch       = WIFI_STA_CH;
+    TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
     /* Test function with autodetect channel, can return unsupported or succeed */
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = WIFI_STA_PASS;
     config.security = WIFI_STA_SECURITY;
     config.ch       = 0U;
-    ret =          drv->Activate(0U, &config);
-    TEST_ASSERT((ret == ARM_DRIVER_OK) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+    ret = drv->Activate(0U, &config);
+    if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+      TEST_MESSAGE("[WARNING] Activate (0, ...) with autodetect channel not supported"
+    } else {
+      TEST_ASSERT(ret == ARM_DRIVER_OK);
+    }
 
     if (ret == ARM_DRIVER_OK) {
       TEST_ASSERT(drv->Deactivate (0U) == ARM_DRIVER_OK);
     }
 
     /* Test function with valid parameters -> must succeed */
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = WIFI_STA_PASS;
     config.security = WIFI_STA_SECURITY;
     config.ch       = WIFI_STA_CH;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_OK);
@@ -2466,49 +2505,81 @@ void WIFI_Activate_Deactivate (void) {
 
     if (cap.wps_station != 0U) {
       /* Test function with invalid WPS configurations */
+      config.ssid       = WIFI_STA_SSID;
+      config.pass       = WIFI_STA_PASS;
+      config.security   = WIFI_STA_SECURITY;
+      config.ch         = WIFI_STA_CH;
       config.wps_method = 255U;
       config.wps_pin    = NULL;
       TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+      config.ssid       = WIFI_STA_SSID;
+      config.pass       = WIFI_STA_PASS;
+      config.security   = WIFI_STA_SECURITY;
+      config.ch         = WIFI_STA_CH;
       config.wps_method = ARM_WIFI_WPS_METHOD_PIN;
+      config.wps_pin    = NULL;
       TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
     }
   }
 
   /* Test Access Point configuration setup */
   if ((cap.ap != 0) || (cap.station_ap != 0)) {
-    memset((void *)&config, 0, sizeof(config));
-    config.ssid = WIFI_AP_SSID;
-    config.pass = WIFI_AP_PASS;
 
     TEST_ASSERT(drv->Deactivate (1U) == ARM_DRIVER_OK);
 
     /* Test function with invalid parameters */
-    config.security = WIFI_AP_SECURITY;
-    config.ch       = WIFI_AP_CH;
-    TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
-
     TEST_ASSERT(drv->Activate(1U, NULL)    == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = NULL;
+    config.pass     = NULL;
+    config.security = 0U;
+    config.ch       = 0U;
+    TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
+    config.ssid     = WIFI_STA_SSID;
+    config.pass     = NULL;
+    config.security = 0U;
+    config.ch       = 0U;
+    TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
+    config.ssid     = WIFI_AP_SSID;
+    config.pass     = WIFI_AP_PASS;
     config.security = ARM_WIFI_SECURITY_UNKNOWN;
     config.ch       = WIFI_AP_CH;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = WIFI_AP_SSID;
+    config.pass     = WIFI_AP_PASS;
     config.security = WIFI_AP_SECURITY;
     config.ch       = 255U;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+    config.ssid     = WIFI_AP_SSID;
+    config.pass     = WIFI_AP_PASS;
+    config.security = WIFI_AP_SECURITY;
+    config.ch       = WIFI_AP_CH;
+    TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
+
     /* Test function with autodetect channel, can return unsupported or succeed */
+    config.ssid     = WIFI_AP_SSID;
+    config.pass     = WIFI_AP_PASS;
     config.security = WIFI_AP_SECURITY;
     config.ch       = 0U;
     ret = drv->Activate(1U, &config);
-    TEST_ASSERT((ret == ARM_DRIVER_OK) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+    if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
+      TEST_MESSAGE("[WARNING] Activate (1, ...) with autodetect channel not supported"
+    } else {
+      TEST_ASSERT(ret == ARM_DRIVER_OK);
+    }
 
     if (ret == ARM_DRIVER_OK) {
       TEST_ASSERT(drv->Deactivate (1U) == ARM_DRIVER_OK);
     }
 
     /* Test function with valid parameters -> must succeed */
+    config.ssid     = WIFI_AP_SSID;
+    config.pass     = WIFI_AP_PASS;
     config.security = WIFI_AP_SECURITY;
     config.ch       = WIFI_AP_CH;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_OK);
@@ -2519,11 +2590,20 @@ void WIFI_Activate_Deactivate (void) {
 
     if (cap.wps_ap != 0U) {
       /* Test function with invalid WPS configurations */
+      config.ssid       = WIFI_AP_SSID;
+      config.pass       = WIFI_AP_PASS;
+      config.security   = WIFI_AP_SECURITY;
+      config.ch         = WIFI_AP_CH;
       config.wps_method = 255U;
       config.wps_pin    = NULL;
       TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
+      config.ssid       = WIFI_AP_SSID;
+      config.pass       = WIFI_AP_PASS;
+      config.security   = WIFI_AP_SECURITY;
+      config.ch         = WIFI_AP_CH;
       config.wps_method = ARM_WIFI_WPS_METHOD_PIN;
+      config.wps_pin    = NULL;
       TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
     }
   }
@@ -2910,22 +2990,15 @@ static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout, uint32
                              } while (0)
 
 #define TH_ASSERT(cond)      do {                                                \
-                               if (rval) { TEST_ASSERT(cond); }                 \
+                               if (rval) { TEST_ASSERT(cond); }                  \
                              } while (0)
 
-#define TH_ASSERT2(c1,c2)    do {                                                \
+#define TH_ASSERT2(c1,c2,s1,r1,r2) do {                                          \
                                if (rval) {                                       \
-                                 if (!c2) { TEST_ASSERT(c1); }                  \
-                                 else TEST_MESSAGE("[WARNING] Non BSD-strict"); \
-                               }                                                 \
-                             } while (0)
-
-#define TH_ASSERT3(c1,c2,s1,r1,r2) do {                                             \
-                               if (rval) {                                       \
-                                 if (!c2) { TEST_ASSERT(c1); }                  \
+                                 if (!c2) { TEST_ASSERT(c1); }                   \
                                  else {                                          \
                                    snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Non BSD-strict, %s (result %s, expected %s)", s1, str_sock_ret[-r1], str_sock_ret[-r2]); \
-                                   TEST_MESSAGE(msg_buf);                       \
+                                   TEST_MESSAGE(msg_buf);                        \
                                  }                                               \
                                }                                                 \
                              } while (0)
@@ -3298,7 +3371,7 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket already bound) */
     /* Strict: EINVAL, valid non-strict: OK, ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "bind socket to same address again", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "bind socket to same address again", io.rc, ARM_SOCKET_EINVAL);
 
     /* Create 2nd stream socket */
     TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
@@ -3312,7 +3385,7 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (address already used) */
     /* Strict: EADDRINUSE, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EADDRINUSE), (io.rc == ARM_SOCKET_ERROR), "bind another socket to used address", io.rc, ARM_SOCKET_EADDRINUSE);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EADDRINUSE), (io.rc == ARM_SOCKET_ERROR), "bind another socket to used address", io.rc, ARM_SOCKET_EADDRINUSE);
 
     /* Bind 2nd socket, unused port */
     ARG_BIND (sock2, ip_unspec, 4, ECHO_PORT);
@@ -3334,7 +3407,7 @@ void WIFI_SocketBind (void) {
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
     /* Return code strict: ESOCK, non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "bind on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "bind on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -3391,7 +3464,7 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket already bound) */
     /* Strict: EINVAL, valid non-strict: OK, ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "bind socket to same address again", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "bind socket to same address again", io.rc, ARM_SOCKET_EINVAL);
 
     /* Create 2nd datagram socket */
     TH_EXECUTE (F_CREATE_UDP, WIFI_SOCKET_TIMEOUT);
@@ -3405,7 +3478,7 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (address already used) */
     /* Strict: EADDRINUSE, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EADDRINUSE), (io.rc == ARM_SOCKET_ERROR), "bind another socket to used address", io.rc, ARM_SOCKET_EADDRINUSE);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EADDRINUSE), (io.rc == ARM_SOCKET_ERROR), "bind another socket to used address", io.rc, ARM_SOCKET_EADDRINUSE);
 
     /* Bind 2nd socket, unused port */
     ARG_BIND (sock2, ip_unspec, 4, ECHO_PORT);
@@ -3426,7 +3499,7 @@ void WIFI_SocketBind (void) {
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "bind on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "bind on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -3590,7 +3663,7 @@ void WIFI_SocketListen (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket already listening) */
     /* Strict: EINVAL, valid non-strict: OK, ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "listen on already listening socket", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "listen on already listening socket", io.rc, ARM_SOCKET_EINVAL);
 
     /* Close socket */
     io.sock = sock;
@@ -3612,7 +3685,7 @@ void WIFI_SocketListen (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not bound) */
     /* Strict: EINVAL, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "listen on unbound socket", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "listen on unbound socket", io.rc, ARM_SOCKET_EINVAL);
 
     /* Close socket */
     io.sock = sock;
@@ -3624,7 +3697,7 @@ void WIFI_SocketListen (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "listen on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "listen on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -3646,7 +3719,7 @@ void WIFI_SocketListen (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     /* Should return error (operation not supported) */
     /* Strict: ENOTSUP, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "listen on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "listen on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
 
     /* Close socket */
     io.sock = sock;
@@ -3917,7 +3990,7 @@ void WIFI_SocketAccept (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
     /* Should return error (connection reset) */
     /* Strict: ECONNRESET, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
 
     /* Close accepted socket */
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -3934,7 +4007,7 @@ void WIFI_SocketAccept (void) {
     TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "accept on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "accept on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -3956,7 +4029,7 @@ void WIFI_SocketAccept (void) {
     TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
     /* Listen on datagram socket should fail */
     /* Strict: ENOTSUP, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "listen on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "listen on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
 
     /* Initialize buffers for return values */
     port   = 0;
@@ -3968,7 +4041,7 @@ void WIFI_SocketAccept (void) {
     TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
     /* Accept on datagram socket should fail */
     /* Strict: ENOTSUP, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "accept on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTSUP), (io.rc == ARM_SOCKET_ERROR), "accept on datagram socket", io.rc, ARM_SOCKET_ENOTSUP);
 
     osDelay (500);
 
@@ -4193,14 +4266,14 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket already connected) */
     /* Strict: EISCONN, valid non-strict: OK, ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EISCONN), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "connect socket to same address again", io.rc, ARM_SOCKET_EISCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EISCONN), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "connect socket to same address again", io.rc, ARM_SOCKET_EISCONN);
 
     /* Bind connected socket */
     io.sock = sock;
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket already connected) */
     /* Strict: EISCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EISCONN), (io.rc == ARM_SOCKET_ERROR), "bind on connected socket", io.rc, ARM_SOCKET_EISCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EISCONN), (io.rc == ARM_SOCKET_ERROR), "bind on connected socket", io.rc, ARM_SOCKET_EISCONN);
 
     /* Close socket */
     io.sock = sock;
@@ -4212,7 +4285,7 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "connect on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "connect on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -4229,7 +4302,7 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     /* Should return error (connection rejected by the peer) */
     /* Strict: ECONNREFUSED, valid non-strict: ETIMEDOUT, ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ECONNREFUSED), ((io.rc == ARM_SOCKET_ETIMEDOUT) || (io.rc == ARM_SOCKET_ERROR)), "connect to non-existent port", io.rc, ARM_SOCKET_ECONNREFUSED);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNREFUSED), ((io.rc == ARM_SOCKET_ETIMEDOUT) || (io.rc == ARM_SOCKET_ERROR)), "connect to non-existent port", io.rc, ARM_SOCKET_ECONNREFUSED);
 
     /* Close socket */
     io.sock = sock;
@@ -4251,7 +4324,7 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     /* Should return error (connection timeout) */
     /* Strict: ETIMEDOUT, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ETIMEDOUT), (io.rc == ARM_SOCKET_ERROR), "connect to non-existent stream server", io.rc, ARM_SOCKET_ETIMEDOUT);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ETIMEDOUT), (io.rc == ARM_SOCKET_ERROR), "connect to non-existent stream server", io.rc, ARM_SOCKET_ETIMEDOUT);
 
     /* Close socket */
     io.sock = sock;
@@ -4283,7 +4356,7 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     /* Connect on listening socket should fail */
     /* Strict: EINVAL, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "connect on listening socket", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "connect on listening socket", io.rc, ARM_SOCKET_EINVAL);
 
     /* Close socket */
     io.sock = sock;
@@ -4326,7 +4399,7 @@ void WIFI_SocketConnect (void) {
     /* Datagram sockets may dissolve the association */
     /* by connecting to unspecified address.         */
     /* Strict: OK, valid non-strict: EINVAL, ERROR */
-    TH_ASSERT3 ((io.rc == 0), ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR)), "connect datagram socket to unspecified address (0.0.0.0)", io.rc, 0);
+    TH_ASSERT2 ((io.rc == 0), ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR)), "connect datagram socket to unspecified address (0.0.0.0)", io.rc, 0);
 
     /* Check parameter (ip_len = 0) */
     ARG_CONNECT(sock, ip_socket_server, 0, DISCARD_PORT);
@@ -4355,7 +4428,7 @@ void WIFI_SocketConnect (void) {
     /* by connecting to unspecified address.         */
     /* Should return ok (socket address deleted) */
     /* Strict: OK, valid non-strict: EINVAL, ERROR */
-    TH_ASSERT3 ((io.rc == 0), ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR)), "connect datagram socket to unspecified address (0.0.0.0)", io.rc, 0);
+    TH_ASSERT2 ((io.rc == 0), ((io.rc == ARM_SOCKET_EINVAL) || (io.rc == ARM_SOCKET_ERROR)), "connect datagram socket to unspecified address (0.0.0.0)", io.rc, 0);
 
     /* Close socket */
     io.sock = sock;
@@ -4367,7 +4440,7 @@ void WIFI_SocketConnect (void) {
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "connect on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "connect on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -4570,7 +4643,7 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recv on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recv on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -4588,7 +4661,7 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on created socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on created socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Bind socket */
     io.sock = sock;
@@ -4600,7 +4673,7 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Start listening */
     io.sock = sock;
@@ -4612,7 +4685,7 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Close socket */
     io.sock = sock;
@@ -4877,7 +4950,7 @@ void WIFI_SocketRecvFrom (void) {
     TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recvfrom on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recvfrom on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5069,7 +5142,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "send on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "send on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5099,7 +5172,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (connection reset by the peer) */
     /* Strict: ECONNRESET, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "send on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "send on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
 
     /* Close socket */
     io.sock = sock;
@@ -5121,7 +5194,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on created socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on created socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Bind socket */
     io.sock = sock;
@@ -5133,7 +5206,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Start listening */
     io.sock = sock;
@@ -5145,7 +5218,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "send on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Close socket */
     io.sock = sock;
@@ -5157,7 +5230,7 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "send on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "send on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5330,7 +5403,7 @@ void WIFI_SocketSendTo (void) {
     TH_EXECUTE (F_SENDTO, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "sendto on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "sendto on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5546,7 +5619,7 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockname on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockname on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5564,7 +5637,7 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not bound) */
     /* Strict: EINVAL, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "getsockname on unbound socket", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "getsockname on unbound socket", io.rc, ARM_SOCKET_EINVAL);
 
     /* Initialize buffers for return values */
     local_port = 0;
@@ -5658,7 +5731,7 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockname on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockname on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5676,7 +5749,7 @@ void WIFI_SocketGetSockName (void) {
     TH_EXECUTE (F_GETSOCKNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not bound) */
     /* Strict: EINVAL, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "getsockname on unbound socket", io.rc, ARM_SOCKET_EINVAL);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "getsockname on unbound socket", io.rc, ARM_SOCKET_EINVAL);
 
     /* Initialize buffers for return values */
     local_port = 0;
@@ -5915,7 +5988,7 @@ void WIFI_SocketGetPeerName (void) {
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getpeername on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getpeername on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -5932,7 +6005,7 @@ void WIFI_SocketGetPeerName (void) {
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on created socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on created socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Bind socket */
     io.sock = sock;
@@ -5944,7 +6017,7 @@ void WIFI_SocketGetPeerName (void) {
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Start listening */
     io.sock = sock;
@@ -5956,7 +6029,7 @@ void WIFI_SocketGetPeerName (void) {
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not connected) */
     /* Strict: ENOTCONN, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "getpeername on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
 
     /* Close socket */
     io.sock = sock;
@@ -6031,7 +6104,7 @@ void WIFI_SocketGetPeerName (void) {
     TH_EXECUTE (F_GETPEERNAME, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getpeername on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getpeername on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6266,7 +6339,7 @@ void WIFI_SocketGetOpt (void) {
     TH_EXECUTE (F_GETOPT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6298,7 +6371,7 @@ void WIFI_SocketGetOpt (void) {
     TH_EXECUTE (F_GETOPT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "getsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6513,7 +6586,7 @@ void WIFI_SocketSetOpt (void) {
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "setsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "setsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6541,7 +6614,7 @@ void WIFI_SocketSetOpt (void) {
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: ERROR */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "setsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "setsockopt on closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6711,7 +6784,7 @@ void WIFI_SocketClose (void) {
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: OK */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6743,7 +6816,7 @@ void WIFI_SocketClose (void) {
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: OK */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6785,7 +6858,7 @@ void WIFI_SocketClose (void) {
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
     /* Should return error (socket not created) */
     /* Strict: ESOCK, valid non-strict: OK */
-    TH_ASSERT3 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == 0), "close already closed socket", io.rc, ARM_SOCKET_ESOCK);
 
     osDelay (10);
   }
@@ -6943,7 +7016,7 @@ void WIFI_SocketGetHostByName (void) {
   TH_EXECUTE (F_GETHOSTBYNAME, WIFI_SOCKET_TIMEOUT_LONG);
   /* Should return error (host not found) */
   /* Strict: EHOSTNOTFOUND, valid non-strict: ERROR */
-  TH_ASSERT3 ((io.rc == ARM_SOCKET_EHOSTNOTFOUND), (io.rc == ARM_SOCKET_ERROR), "gethostbyname for non-existing host", io.rc, ARM_SOCKET_EHOSTNOTFOUND);
+  TH_ASSERT2 ((io.rc == ARM_SOCKET_EHOSTNOTFOUND), (io.rc == ARM_SOCKET_ERROR), "gethostbyname for non-existing host", io.rc, ARM_SOCKET_EHOSTNOTFOUND);
 
   if (rval == 0) {
     station_uninit ();

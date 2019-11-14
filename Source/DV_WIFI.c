@@ -356,11 +356,7 @@ void WIFI_Initialize_Uninitialize (void) {
   TEST_ASSERT(drv->Initialize   (NULL)           == ARM_DRIVER_OK);
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   ret =       drv->PowerControl (ARM_POWER_OFF);
-  if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported");
-  } else {
-    TEST_ASSERT(ret == ARM_DRIVER_OK);
-  }
+  TEST_ASSERT((ret == ARM_DRIVER_OK) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
   TEST_ASSERT(drv->Uninitialize ()               == ARM_DRIVER_OK);
 }
 

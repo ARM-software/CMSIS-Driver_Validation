@@ -1,0 +1,38 @@
+CMSIS-Driver Validation Example Project for Infineon 'XMC4500' microcontroller
+using Infineon 'XMC4500 Relax Kit' Evaluation Board.
+
+Features:
+This uVision project can be used to test the CMSIS-Drivers for the XMC4500
+against the driver specification. Configure the tests as follows:
+
+  - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
+    are executed
+  - Test configuration options can be set with the Configuration Wizard in
+    DV_Config.h:
+    - Test result output format (plain text/XML)
+    - Buffer sizes and patterns
+    - Driver numbers
+    - Specific peripheral parameters
+    - Enable/disable test cases
+  
+--------------------------------------------------------------------------------
+The following targets are available:
+
+  - Create Report:
+    Results and statistics are printed to the file TestReport\TestReport.xml
+    through the ITM output (to examine the results, open the XML document with
+    the browser of your choice).
+ 
+  - Debug:
+    Results and statistics are printed to the Debug (printf) Viewer window
+    through the ITM output. Results are also available in the test_report
+    buffer structure (always accessible in the watch window).
+
+-------------------------------------------------------------------------------
+For driver loopback testing, please ensure that the following hardware
+connections are made:
+
+  - UART2: P0.4 (UART_RX)  and P0.5 (UART_TX)  (Header X2)
+  - SPI0:  P5.0 (SPI_MOSI) and P5.1 (SPI_MISO) (Header X2)
+  - Ethernet: Pin 1 (TX+) and Pin 3 (RX+), Pin 2 (TX-) and Pin 6 (RX-). Prepare
+    an Ethernet cable accordingly or use an "Ethernet Loopback Plug".

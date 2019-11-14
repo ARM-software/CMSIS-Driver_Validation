@@ -1,6 +1,7 @@
 /*-----------------------------------------------------------------------------
- *      Name:         DV_Config.h 
+ *      Name:         DV_Config.h
  *      Purpose:      DV Config header
+ *      Version:      1.2.1
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
@@ -16,11 +17,11 @@
 // <o> Print Output Format <0=> Plain Text <1=> XML
 // <i> Set the test results output format to plain text or XML
 #ifndef PRINT_XML_REPORT
-#define PRINT_XML_REPORT                0 
+#define PRINT_XML_REPORT                0
 #endif
 // <o> Buffer size for assertions results
 // <i> Set the buffer size for assertions results buffer
-#define BUFFER_ASSERTIONS               128  
+#define BUFFER_ASSERTIONS               128
 // <h> Buffer sizes
 // <i> Enable/disable buffer sizes (bytes)
 // <q> 1 - 32
@@ -47,10 +48,10 @@
 
 // <h> SPI
 // <o> Driver_SPI# <0-255>
-// <i> Choose the Driver_SPI# instance to be tested 
+// <i> Choose the Driver_SPI# instance to be tested
 #define DRV_SPI                         0
 // <h> SPI bus speed
-// <i> Set the SPI bus speed (kHz) 
+// <i> Set the SPI bus speed (kHz)
 // <i> Value zero is ignored
 // <o> SPI bus speed 1
 #define SPI_BR_1                        400
@@ -71,7 +72,7 @@
 // <o> SPI data bits
 // <i> Set the SPI data bits
 #define SPI_DATA_BITS                   8
-// <o> Transfer timeout 
+// <o> Transfer timeout
 // <i> Set the transfer timeout (us)
 #define SPI_TRANSFER_TIMEOUT            1000000
 // <h> Test Cases
@@ -80,29 +81,29 @@
 #define SPI_GETCAPABILITIES_EN          1
 // <q> SPI_Initialization
 #define SPI_INITIALIZATION_EN           1
-// <q> SPI_PowerControl 
+// <q> SPI_PowerControl
 #define SPI_POWERCONTROL_EN             1
-// <q> SPI_Config_PolarityPhase 
+// <q> SPI_Config_PolarityPhase
 #define SPI_CONFIG_POLARITYPHASE_EN     1
-// <q> SPI_Config_DataBits 
+// <q> SPI_Config_DataBits
 #define SPI_CONFIG_DATABITS_EN          1
-// <q> SPI_Config_BitOrder 
+// <q> SPI_Config_BitOrder
 #define SPI_CONFIG_BITORDER_EN          1
-// <q> SPI_Config_SSMode 
+// <q> SPI_Config_SSMode
 #define SPI_CONFIG_SSMODE_EN            1
-// <q> SPI_Config_BusSpeed 
+// <q> SPI_Config_BusSpeed
 #define SPI_CONFIG_BUSSPEED_EN          1
-// <q> SPI_Config_CommonParams 
+// <q> SPI_Config_CommonParams
 #define SPI_CONFIG_COMMONPARAMS_EN      1
-// <q> SPI_Send 
+// <q> SPI_Send
 #define SPI_SEND_EN                     1
-// <q> SPI_Receive 
+// <q> SPI_Receive
 #define SPI_RECEIVE_EN                  1
-// <q> SPI_Loopback_CheckBusSpeed 
+// <q> SPI_Loopback_CheckBusSpeed
 #define SPI_LOOPBACK_CHECKBUSSPEED_EN   1
-// <q> SPI_Loopback_Transfer 
+// <q> SPI_Loopback_Transfer
 #define SPI_LOOPBACK_TRANSFER_EN        1
-// <q> SPI_CheckInvalidInit 
+// <q> SPI_CheckInvalidInit
 #define SPI_CHECKINVALIDINIT_EN         1
 // </h>
 // </h>
@@ -112,7 +113,7 @@
 // <i> Choose the Driver_USART# instance to be tested
 #define DRV_USART                       0
 // <h> USART baudrates
-// <i> Set the USART baudrates (bps) 
+// <i> Set the USART baudrates (bps)
 // <i> Value zero is ignored
 // <o> USART baudrate 1
 #define USART_BR_1                      9600
@@ -133,7 +134,7 @@
 // <o> USART data bits
 // <i> Set the USART data bits
 #define USART_DATA_BITS                 8
-// <o> Transfer timeout 
+// <o> Transfer timeout
 // <i> Set the transfer timeout (us)
 #define USART_TRANSFER_TIMEOUT          1000000
 // <h> Test Cases
@@ -169,23 +170,23 @@
 
 // <h> Ethernet
 // <o> Driver_ETH_MAC# <0-255>
-// <i> Choose the Driver_ETH_MAC# instance to be tested 
+// <i> Choose the Driver_ETH_MAC# instance to be tested
 #define DRV_ETH                         0
-// <o> Link timeout 
+// <o> Link timeout
 // <i> Set the Ethernet link timeout (us)
 #define ETH_LINK_TIMEOUT                3000000
-// <o> Transfer timeout 
+// <o> Transfer timeout
 // <i> Set the transfer timeout (us)
 #define ETH_TRANSFER_TIMEOUT 1000000
 // <o> Time duration for PTP Control Time
 // <i> Set time duration for Control Time tests (ms)
 #define ETH_PTP_TIME_REF                1000
-// <o> Tolerance for PTP Control Time 
+// <o> Tolerance for PTP Control Time
 // <i> Set tolerance for Control Time tests (ns)
 #define ETH_PTP_TOLERANCE               0
 // <h> Test Cases
 // <i> Enable/disable test cases
-// <q> ETH_MAC_GetCapabilities 
+// <q> ETH_MAC_GetCapabilities
 #define ETH_MAC_GETCAPABILITIES_EN      1
 // <q> ETH_MAC_Initialization
 #define ETH_MAC_INITIALIZATION_EN       1
@@ -204,7 +205,7 @@
 // <q> ETH_PHY_PowerControl
 #define ETH_PHY_POWERCONTROL_EN         1
 // <q> ETH_PHY_Config
-#define ETH_PHY_CONFIG_EN               1  
+#define ETH_PHY_CONFIG_EN               1
 // <q> ETH_Loopback_Transfer
 #define ETH_LOOPBACK_TRANSFER_EN        1
 // <q> ETH_Loopback_PTP
@@ -218,7 +219,7 @@
 
 // <h> I2C
 // <o> Driver_I2C# <0-255>
-// <i> Choose the Driver_I2C# instance to be tested 
+// <i> Choose the Driver_I2C# instance to be tested
 #define DRV_I2C                         1
 // <h> Test Cases
 // <i> Enable/disable test cases
@@ -230,14 +231,14 @@
 #define I2C_POWERCONTROL_EN             1
 // <q> I2C_SetBusSpeed
 #define I2C_SETBUSSPEED_EN              1
-// <q> I2C_SetOwnAddress 
+// <q> I2C_SetOwnAddress
 #define I2C_SETOWNADDRESS_EN            1
 // <q> I2C_BusClear
 #define I2C_BUSCLEAR_EN                 1
 // <q> I2C_AbortTransfer
 #define I2C_ABORTTRANSFER_EN            1
 // <q> I2C_CheckInvalidInit
-#define I2C_CHECKINVALIDINIT_EN         1  
+#define I2C_CHECKINVALIDINIT_EN         1
 // </h>
 // </h>
 
@@ -249,12 +250,12 @@
 // <i> Enable/disable test cases
 // <q> MCI_GetCapabilities
 #define MCI_GETCAPABILITIES_EN          1
-// <q> MCI_Initialization             
+// <q> MCI_Initialization
 #define MCI_INITIALIZATION_EN           1
 // <q> MCI_PowerControl
 #define MCI_POWERCONTROL_EN             1
 // <q> MCI_SetBusSpeedMode
-#define MCI_SETBUSSPEEDMODE_EN          1 
+#define MCI_SETBUSSPEEDMODE_EN          1
 // <q> MCI_Config_DataWidth
 #define MCI_CONFIG_DATAWIDTH_EN         1
 // <q> MCI_Config_CmdLineMode
@@ -262,7 +263,7 @@
 // <q> MCI_Config_DriverStrength
 #define MCI_CONFIG_DRIVERSTRENGTH_EN    1
 // <q> MCI_CheckInvalidInit
-#define MCI_CHECKINVALIDINIT_EN         1 
+#define MCI_CHECKINVALIDINIT_EN         1
 // </h>
 // </h>
 
@@ -305,10 +306,10 @@
 // <i> Choose the Driver_USBD# instance to be tested
 #define DRV_CAN                         0
 // <h> CAN bitrates
-// <i> Set the CAN bitrates (kbit/s) 
+// <i> Set the CAN bitrates (kbit/s)
 // <i> Value zero is ignored
 // <o> CAN bitrate 1
-#define CAN_BR_1                        125 
+#define CAN_BR_1                        125
 // <o> CAN bitrate 2
 #define CAN_BR_2                        250
 // <o> CAN bitrate 3
@@ -326,7 +327,7 @@
 // <o> Percentual trigger for bitrate test
 // <i> Set the minimum margin between measured and expected birates (%)
 #define MIN_BITRATE                     10
-// <o> Transfer timeout 
+// <o> Transfer timeout
 // <i> Set the transfer timeout (us)
 #define CAN_TRANSFER_TIMEOUT            1000000
 // <h> Test Cases
@@ -352,8 +353,8 @@
 
 // <h> WiFi
 // <o> Driver_WiFi# <0-255>
-// <i> Choose the Driver_WiFi# instance to be tested 
-#define DRV_WIFI                        0
+// <i> Choose the Driver_WiFi# instance to be tested
+#define DRV_WIFI                        1
 // <h> Configuration
 // <i> Configuration of valid settings for driver functionality testing
 // <h> Station
@@ -390,9 +391,6 @@
 // <s.15>SockServer IP
 // <i>Static IPv4 Address of SockServer (used for testing socket operation) in text representation
 #define WIFI_SOCKET_SERVER_IP           "192.168.1.10"
-// <o0.0>API Test Mode <0=>non-strict <1=>BSD strict
-// <i>Test mode for Socket API tests
-#define WIFI_SOCKET_TEST_MODE           1
 // </h>
 // </h>
 // <h> Test Cases
@@ -401,7 +399,7 @@
 #define WIFI_CONTROL_EN                 1
 // <q> WIFI_GetVersion
 #define WIFI_GETVERSION_EN              1
-// <q> WIFI_GetCapabilities 
+// <q> WIFI_GetCapabilities
 #define WIFI_GETCAPABILITIES_EN         1
 // <q> WIFI_Initialization/Uninitilization
 #define WIFI_INIT_UNINIT_EN             1
@@ -552,6 +550,12 @@
 // <q> WIFI_Concurrent_Socket
 // <i> Transmits data in two sockets simultaneously
 #define WIFI_CONCURRENT_SOCKET_EN       1
+// <q> WIFI_Downstream_Rate
+// <i> Measures the downstream bandwidth
+#define WIFI_DOWNSTREAM_RATE_EN         1
+// <q> WIFI_Upstream_Rate
+// <i> Measures the upstream bandwidth
+#define WIFI_UPSTREAM_RATE_EN           1
 // </e>
 // </h>
 // </h>
@@ -602,7 +606,7 @@
 //------------------------------------------------------------------------------
 
 // Device specific local loopback settings
-#define SPI_LOCAL_LOOPBACK()  
+#define SPI_LOCAL_LOOPBACK()
 #define USART_LOCAL_LOOPBACK()
-  
+
 #endif /* __DV_CONFIG_H */

@@ -47,7 +47,7 @@ The test case \b I2C_GetCapabilities verifies the function \b GetCapabilities.
 void I2C_GetCapabilities (void) {                    
   /* Get SPI capabilities */
   capab = drv->GetCapabilities();
-  ASSERT_TRUE(&capab != NULL); 
+  TEST_ASSERT(&capab != NULL); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -63,16 +63,16 @@ The test case \b I2C_Initialization verifies the I2C functions with the sequence
 void I2C_Initialization (void) { 
   
   /* Initialize without callback */
-  ASSERT_TRUE(drv->Initialize(NULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(NULL) == ARM_DRIVER_OK); 
     
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -90,22 +90,22 @@ The test case \b I2C_CheckInvalidInit verifies the driver behaviour when receivi
 void I2C_CheckInvalidInit (void) { 
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Try to power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
   
   /* Try to set configuration */
-  ASSERT_TRUE(drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_FAST) != ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_FAST) != ARM_DRIVER_OK);
 
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -123,21 +123,21 @@ void I2C_PowerControl (void) {
   int32_t val;
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
   
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
   
   /* Power low */
   val = drv->PowerControl (ARM_POWER_LOW);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Low power is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Low power is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
    
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -158,30 +158,30 @@ void I2C_SetBusSpeed (void) {
 int32_t val;  
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Set bus speed standard */
-  ASSERT_TRUE(drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_STANDARD) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_STANDARD) == ARM_DRIVER_OK);
   
   /* Set bus speed fast */
   val = drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_FAST);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Fast speed is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Fast speed is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   /* Set bus speed fast plus */
   val = drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_FAST_PLUS);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Fast plus speed is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Fast plus speed is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   /* Set bus speed high */
   val = drv->Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_HIGH);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "High speed is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] High speed is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -201,24 +201,24 @@ The test case \b I2C_SetOwnAddress verifies the \b Control function with the seq
 void I2C_SetOwnAddress (void) { 
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Set slave own address */
-  ASSERT_TRUE(drv->Control(ARM_I2C_OWN_ADDRESS, 0x0000) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_OWN_ADDRESS, 0x0000) == ARM_DRIVER_OK);
   
   /* Set slave own address */
-  ASSERT_TRUE(drv->Control(ARM_I2C_OWN_ADDRESS, 0x0001) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_OWN_ADDRESS, 0x0001) == ARM_DRIVER_OK);
   
   /* Set slave own address */
-  ASSERT_TRUE(drv->Control(ARM_I2C_OWN_ADDRESS, 0x00FF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_OWN_ADDRESS, 0x00FF) == ARM_DRIVER_OK);
   
   /* Set slave own address */
-  ASSERT_TRUE(drv->Control(ARM_I2C_OWN_ADDRESS, 0x03FF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_OWN_ADDRESS, 0x03FF) == ARM_DRIVER_OK);
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);   
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);   
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -235,15 +235,15 @@ The test case \b I2C_BusClear verifies the \b Control function with the sequence
 void I2C_BusClear (void) { 
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   
   /* Clear Bus */
-  ASSERT_TRUE(drv->Control(ARM_I2C_BUS_CLEAR, 0x0000) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_BUS_CLEAR, 0x0000) == ARM_DRIVER_OK);
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
   
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -260,15 +260,15 @@ The test case \b I2C_AbortTransfer verifies the \b Control function with the seq
 void I2C_AbortTransfer (void) { 
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(I2C_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   
   /* Abort transfer */
-  ASSERT_TRUE(drv->Control(ARM_I2C_ABORT_TRANSFER, 0x0000) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_I2C_ABORT_TRANSFER, 0x0000) == ARM_DRIVER_OK);
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /**

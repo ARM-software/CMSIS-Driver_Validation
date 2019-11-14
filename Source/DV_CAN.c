@@ -63,6 +63,8 @@ static ARM_DRIVER_CAN *drv = &CREATE_SYMBOL(Driver_CAN, DRV_CAN);
 static ARM_CAN_CAPABILITIES capab;
 static ARM_CAN_OBJ_CAPABILITIES obj_capab;
 
+static char str[128];
+
 // Event flags
 static uint32_t volatile Event;
 
@@ -133,10 +135,10 @@ The test case \b CAN_GetCapabilities verifies the function \b GetCapabilities.
 void CAN_GetCapabilities (void) {
   /* Get CAN capabilities */
   capab = drv->GetCapabilities();
-  ASSERT_TRUE(&capab != NULL);
+  TEST_ASSERT(&capab != NULL);
   /* Check number of available objects */
   if (capab.num_objects < 2U) {
-    SET_RESULT(FAILED, "Driver has less than 2 objects available");
+    TEST_FAIL_MESSAGE("[FAILED] Driver has less than 2 objects available");
   }
 }
 
@@ -153,16 +155,16 @@ The test case \b CAN_Initialization verifies the CAN functions with the sequence
 void CAN_Initialization (void) {
 
   /* Initialize without callback */
-  ASSERT_TRUE(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK);
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -180,22 +182,22 @@ The test case \b CAN_CheckInvalidInit verifies the driver behaviour when receivi
 void CAN_CheckInvalidInit (void) {
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
 
   /* Try to power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK);
 
   /* Try to set mode */
-  ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) != ARM_DRIVER_OK);
+  TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) != ARM_DRIVER_OK);
 
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -213,21 +215,21 @@ void CAN_PowerControl (void) {
   int32_t val;
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
 
   /* Power low */
   val = drv->PowerControl (ARM_POWER_LOW);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Low power is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Low power is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -246,7 +248,6 @@ The test case \b CAN_Loopback_CheckBitrate verifies different bitrates with the 
 void CAN_Loopback_CheckBitrate (void) {
   int32_t val, i;
   uint32_t bitrate, clock;
-  char str[64];
 
   ARM_CAN_MSG_INFO tx_data_msg_info;
   ARM_CAN_MSG_INFO rx_data_msg_info;
@@ -258,22 +259,22 @@ void CAN_Loopback_CheckBitrate (void) {
   double rate;
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
 
   /* Check if loopback is available */
   capab = drv->GetCapabilities();
   if ((capab.external_loopback == 0U) && (capab.internal_loopback == 0U)) {
-    SET_RESULT(FAILED, "Driver does not support loopback mode");
+    TEST_FAIL_MESSAGE("[FAILED] Driver does not support loopback mode");
   } else {
 
     /* Allocate buffer */
     buffer_out = (uint8_t*) malloc(CAN_MSG_SIZE*sizeof(uint8_t));
-    ASSERT_TRUE(buffer_out != NULL);
+    TEST_ASSERT(buffer_out != NULL);
     buffer_in = (uint8_t*) malloc(CAN_MSG_SIZE*sizeof(uint8_t));
-    ASSERT_TRUE(buffer_in != NULL);
+    TEST_ASSERT(buffer_in != NULL);
 
     /* Find first available object for receive and transmit */
     for (i = 0U; i < capab.num_objects; i++) {
@@ -291,7 +292,7 @@ void CAN_Loopback_CheckBitrate (void) {
     for (bitrate=0; bitrate<CAN_BR_NUM; bitrate++) {
 
       /* Activate initialization mode */
-      ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
+      TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
 
       val = ARM_DRIVER_ERROR;
       if ((clock % (5U*(CAN_BR[bitrate]*1000U))) == 0U) {               // If CAN base clock is divisible by 5 * nominal bitrate without remainder
@@ -333,26 +334,26 @@ void CAN_Loopback_CheckBitrate (void) {
         }
       }
       if (val != ARM_DRIVER_OK) {
-        sprintf(str,"Invalid bitrate: %dkbit/s, clock %dMHz", CAN_BR[bitrate], clock/1000000U);
-        SET_RESULT(WARNING, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[WARNING] Invalid bitrate: %dkbit/s, clock %dMHz", CAN_BR[bitrate], clock/1000000U);
+        TEST_MESSAGE(str);
+      } else TEST_PASS();
 
       if (val == ARM_DRIVER_OK) {
 
         if (capab.external_loopback == 1U) {
           // Activate loopback external mode
-          ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
         } else if (capab.internal_loopback == 1U) {
           // Activate loopback internal mode
-          ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
         }
 
         /* ObjectSetFilter add extended exact ID 0x15555555 */
-        ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
 
         /* ObjectConfigure for tx and rx objects */
-        ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-        ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
         /* Clear input buffer */
         memset(buffer_in,0,CAN_MSG_SIZE);
@@ -369,18 +370,18 @@ void CAN_Loopback_CheckBitrate (void) {
         rate = (double)ticks_measured/ticks_expected;
 
         if ((rate>(1.0+(double)MIN_BITRATE/100))||(rate<(1.0-(double)MIN_BITRATE/100))) {
-          sprintf(str,"At %dkbit/s: measured time is %f x expected time", CAN_BR[bitrate], rate);
-          SET_RESULT(WARNING, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[WARNING] At %dkbit/s: measured time is %f x expected time", CAN_BR[bitrate], rate);
+          TEST_MESSAGE(str);
+        } else TEST_PASS();
 
         /* Check received data against sent data*/
         if (memcmp(buffer_in, buffer_out, CAN_MSG_SIZE)!=0) {
-          sprintf(str,"At %dkbit/s: fail to check block of %d bytes", CAN_BR[bitrate], CAN_MSG_SIZE);
-          SET_RESULT(FAILED, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[FAILED] At %dkbit/s: fail to check block of %d bytes", CAN_BR[bitrate], CAN_MSG_SIZE);
+          TEST_FAIL_MESSAGE(str);
+        } else TEST_PASS();
 
         /* ObjectSetFilter remove extended exact ID 0x15555555 */
-        ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
       }
     }
 
@@ -390,8 +391,8 @@ void CAN_Loopback_CheckBitrate (void) {
   }
 
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -410,7 +411,6 @@ The test case \b CAN_Loopback_CheckBitrateFD verifies different bitrates with th
 void CAN_Loopback_CheckBitrateFD (void) {
   int32_t val, i;
   uint32_t bitrate, clock;
-  char str[64];
 
   ARM_CAN_MSG_INFO tx_data_msg_info;
   ARM_CAN_MSG_INFO rx_data_msg_info;
@@ -422,27 +422,27 @@ void CAN_Loopback_CheckBitrateFD (void) {
   double rate;
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
 
   /* Test FD mode */
   capab = drv->GetCapabilities();
   if (capab.fd_mode == 0U) {
-    SET_RESULT(FAILED, "Driver does not support FD mode");
+    TEST_FAIL_MESSAGE("[FAILED] Driver does not support FD mode");
   } else {
 
     /* Check if loopback is available */
     if ((capab.external_loopback == 0U) && (capab.internal_loopback == 0U)) {
-      SET_RESULT(FAILED, "Driver does not support loopback mode");
+      TEST_FAIL_MESSAGE("[FAILED] Driver does not support loopback mode");
     } else {
 
       /* Allocate buffer */
       buffer_out = (uint8_t*) malloc(CAN_MSG_SIZE_FD*sizeof(uint8_t));
-      ASSERT_TRUE(buffer_out != NULL);
+      TEST_ASSERT(buffer_out != NULL);
       buffer_in = (uint8_t*) malloc(CAN_MSG_SIZE_FD*sizeof(uint8_t));
-      ASSERT_TRUE(buffer_in != NULL);
+      TEST_ASSERT(buffer_in != NULL);
 
       /* Find first available object for receive and transmit */
       for (i = 0U; i < capab.num_objects; i++) {
@@ -460,7 +460,7 @@ void CAN_Loopback_CheckBitrateFD (void) {
       for (bitrate=0; bitrate<CAN_BR_NUM; bitrate++) {
 
         /* Activate initialization mode */
-        ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
+        TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
 
         val = ARM_DRIVER_ERROR;
         if ((clock % (5U*(CAN_BR[bitrate]*1000U*CAN_DATA_ARB_RATIO))) == 0U) {          // If CAN base clock is divisible by 5 * nominal bitrate without remainder
@@ -526,29 +526,29 @@ void CAN_Loopback_CheckBitrateFD (void) {
           }
         }
         if (val != ARM_DRIVER_OK) {
-          sprintf(str,"Invalid FD bitrate: %dkbit/s, clock %dMHz", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, clock/1000000U);
-          SET_RESULT(WARNING, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[WARNING] Invalid FD bitrate: %dkbit/s, clock %dMHz", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, clock/1000000U);
+          TEST_MESSAGE(str);
+        } else TEST_PASS();
 
         if (val == ARM_DRIVER_OK) {
 
           if (capab.external_loopback == 1U) {
             // Activate loopback external mode
-            ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
+            TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
           } else if (capab.internal_loopback == 1U) {
             // Activate loopback internal mode
-            ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
+            TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
           }
 
           /* Set FD mode */
-          ASSERT_TRUE(drv->Control (ARM_CAN_SET_FD_MODE, 1) == ARM_DRIVER_OK);
+          TEST_ASSERT(drv->Control (ARM_CAN_SET_FD_MODE, 1) == ARM_DRIVER_OK);
 
           /* ObjectSetFilter add extended exact ID 0x15555555 */
-          ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
 
           /* ObjectConfigure for tx and rx objects */
-          ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-          ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
           /* Clear input buffer */
           memset(buffer_in,0,CAN_MSG_SIZE_FD);
@@ -566,18 +566,18 @@ void CAN_Loopback_CheckBitrateFD (void) {
           rate = (double)ticks_measured/ticks_expected;
 
           if ((rate>(1.0+(double)MIN_BITRATE/100))||(rate<(1.0-(double)MIN_BITRATE/100))) {
-            sprintf(str,"At FD bitrate %dkbit/s: measured time is %f x expected time", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, rate);
-            SET_RESULT(WARNING, str);
-          } else SET_RESULT(PASSED, NULL);
+            snprintf(str,sizeof(str),"[WARNING] At FD bitrate %dkbit/s: measured time is %f x expected time", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, rate);
+            TEST_MESSAGE(str);
+          } else TEST_PASS();
 
           /* Check received data against sent data*/
           if (memcmp(buffer_in, buffer_out, CAN_MSG_SIZE_FD)!=0) {
-            sprintf(str,"At FD bitrate %dkbit/s: fail to check block of %d bytes", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, CAN_MSG_SIZE_FD);
-            SET_RESULT(FAILED, str);
-          } else SET_RESULT(PASSED, NULL);
+            snprintf(str,sizeof(str),"[FAILED] At FD bitrate %dkbit/s: fail to check block of %d bytes", CAN_BR[bitrate]*CAN_DATA_ARB_RATIO, CAN_MSG_SIZE_FD);
+            TEST_FAIL_MESSAGE(str);
+          } else TEST_PASS();
 
           /* ObjectSetFilter remove extended exact ID 0x15555555 */
-          ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
+          TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x15555555U), 0U) == ARM_DRIVER_OK );
         }
       }
 
@@ -588,8 +588,8 @@ void CAN_Loopback_CheckBitrateFD (void) {
   }
 
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -611,7 +611,6 @@ The test case \b CAN_Loopback_Transfer verifies the data transfers with the sequ
 void CAN_Loopback_Transfer (void) {
   int32_t val;
   uint32_t i, cnt, clock;
-  char str[64];
 
   ARM_CAN_MSG_INFO tx_data_msg_info;
   ARM_CAN_MSG_INFO rx_data_msg_info;
@@ -619,22 +618,22 @@ void CAN_Loopback_Transfer (void) {
   uint32_t rx_obj_idx = 0xFFFFFFFFU;
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
 
   /* Check if loopback is available */
   capab = drv->GetCapabilities();
   if ((capab.external_loopback == 0U) && (capab.internal_loopback == 0U)) {
-    SET_RESULT(FAILED, "Driver does not support loopback mode");
+    TEST_FAIL_MESSAGE("[FAILED] Driver does not support loopback mode");
   } else {
 
     /* Allocate buffer */
     buffer_out = (uint8_t*) malloc(CAN_MSG_SIZE*sizeof(uint8_t));
-    ASSERT_TRUE(buffer_out != NULL);
+    TEST_ASSERT(buffer_out != NULL);
     buffer_in = (uint8_t*) malloc(CAN_MSG_SIZE*sizeof(uint8_t));
-    ASSERT_TRUE(buffer_in != NULL);
+    TEST_ASSERT(buffer_in != NULL);
 
     /* Find first available object for receive and transmit */
     for (i = 0U; i < capab.num_objects; i++) {
@@ -650,14 +649,14 @@ void CAN_Loopback_Transfer (void) {
     }
 
     /* Activate initialization mode */
-    ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
+    TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
 
     if (capab.external_loopback != 0U) {
       // Activate loopback external mode
-      ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
     } else if (capab.internal_loopback == 1U) {
       // Activate loopback internal mode
-      ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
     }
 
     /* Get clock */
@@ -703,16 +702,16 @@ void CAN_Loopback_Transfer (void) {
       }
     }
     if (val != ARM_DRIVER_OK) {
-      sprintf(str,"Invalid bitrate: %dkbit/s, clock %dMHz", CAN_BR[0], clock/1000000U);
-      SET_RESULT(WARNING, str);
-    } else SET_RESULT(PASSED, NULL);
+      snprintf(str,sizeof(str),"[WARNING] Invalid bitrate: %dkbit/s, clock %dMHz", CAN_BR[0], clock/1000000U);
+      TEST_MESSAGE(str);
+    } else TEST_PASS();
 
     /* ObjectSetFilter add standard exact ID 0x7FF */
-    ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
 
     /* ObjectConfigure for tx and rx objects */
-    ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-    ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
     memset(&tx_data_msg_info, 0U, sizeof(ARM_CAN_MSG_INFO));
     tx_data_msg_info.id = ARM_CAN_STANDARD_ID(0x7FFU);
@@ -722,32 +721,32 @@ void CAN_Loopback_Transfer (void) {
       /* Clear input buffer */
       memset(buffer_in,0,CAN_MSG_SIZE);
       if (CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, cnt) != ARM_DRIVER_OK) {
-        sprintf(str,"Fail to transfer block of %d bytes",cnt);
-        SET_RESULT(FAILED, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",cnt);
+        TEST_FAIL_MESSAGE(str);
+      } else TEST_PASS();
       if (memcmp(buffer_in, buffer_out, cnt)!=0) {
-        sprintf(str,"Fail to check block of %d bytes",cnt);
-        SET_RESULT(FAILED, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",cnt);
+        TEST_FAIL_MESSAGE(str);
+      } else TEST_PASS();
     }
 
     /* Check if a different random ID is filtered */
     tx_data_msg_info.id = ARM_CAN_STANDARD_ID(rand()%0x7FFU);
     memset(buffer_in,0,CAN_MSG_SIZE);
-    ASSERT_TRUE(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
+    TEST_ASSERT(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
                                  rx_obj_idx, &rx_data_msg_info, buffer_in,
                                  CAN_MSG_SIZE) != ARM_DRIVER_OK);
 
     /* ObjectSetFilter remove standard exact ID 0x7FF */
-    ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
 
 
     /* ObjectSetFilter add extended exact ID 0x1FFFFFFF */
-    ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
 
     /* ObjectConfigure for tx and rx objects */
-    ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-    ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
     memset(&tx_data_msg_info, 0U, sizeof(ARM_CAN_MSG_INFO));
     tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(0x1FFFFFFFU);
@@ -757,24 +756,24 @@ void CAN_Loopback_Transfer (void) {
       /* Clear input buffer */
       memset(buffer_in,0,CAN_MSG_SIZE);
       if (CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, cnt) != ARM_DRIVER_OK) {
-        sprintf(str,"Fail to transfer block of %d bytes",cnt);
-        SET_RESULT(FAILED, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",cnt);
+        TEST_FAIL_MESSAGE(str);
+      } else TEST_PASS();
       if (memcmp(buffer_in, buffer_out, cnt)!=0) {
-        sprintf(str,"Fail to check block of %d bytes",cnt);
-        SET_RESULT(FAILED, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",cnt);
+        TEST_FAIL_MESSAGE(str);
+      } else TEST_PASS();
     }
 
     /* Check if a different random ID is filtered */
     tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(rand()%0x1FFFFFFFU);
     memset(buffer_in,0,CAN_MSG_SIZE);
-    ASSERT_TRUE(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
+    TEST_ASSERT(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
                                  rx_obj_idx, &rx_data_msg_info, buffer_in,
                                  CAN_MSG_SIZE) != ARM_DRIVER_OK);
 
     /* ObjectSetFilter remove extended exact ID 0x1FFFFFFF */
-    ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
+    TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
 
     /* Free buffer */
     free(buffer_out);
@@ -782,8 +781,8 @@ void CAN_Loopback_Transfer (void) {
   }
 
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -805,7 +804,6 @@ The test case \b CAN_Loopback_TransferFD verifies the data transfers with the se
 void CAN_Loopback_TransferFD (void) {
   int32_t val;
   uint32_t i, cnt, clock;
-  char str[64];
 
   ARM_CAN_MSG_INFO tx_data_msg_info;
   ARM_CAN_MSG_INFO rx_data_msg_info;
@@ -813,27 +811,27 @@ void CAN_Loopback_TransferFD (void) {
   uint32_t rx_obj_idx = 0xFFFFFFFFU;
 
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Initialize(CAN_SignalUnitEvent, CAN_SignalObjectEvent) == ARM_DRIVER_OK);
 
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
 
   /* Test FD mode */
   capab = drv->GetCapabilities();
   if (capab.fd_mode == 0U) {
-    SET_RESULT(FAILED, "Driver does not support FD mode");
+    TEST_FAIL_MESSAGE("[FAILED] Driver does not support FD mode");
   } else {
 
     /* Check if loopback is available */
     if ((capab.external_loopback == 0U) && (capab.internal_loopback == 0U)) {
-      SET_RESULT(FAILED, "Driver does not support loopback mode");
+      TEST_FAIL_MESSAGE("[FAILED] Driver does not support loopback mode");
     } else {
 
       /* Allocate buffer */
       buffer_out = (uint8_t*) malloc(CAN_MSG_SIZE_FD*sizeof(uint8_t));
-      ASSERT_TRUE(buffer_out != NULL);
+      TEST_ASSERT(buffer_out != NULL);
       buffer_in = (uint8_t*) malloc(CAN_MSG_SIZE_FD*sizeof(uint8_t));
-      ASSERT_TRUE(buffer_in != NULL);
+      TEST_ASSERT(buffer_in != NULL);
 
       /* Find first available object for receive and transmit */
       for (i = 0U; i < capab.num_objects; i++) {
@@ -849,14 +847,14 @@ void CAN_Loopback_TransferFD (void) {
       }
 
       /* Activate initialization mode */
-      ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
+      TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_INITIALIZATION) == ARM_DRIVER_OK);
 
       if (capab.external_loopback != 0U) {
         // Activate loopback external mode
-        ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_EXTERNAL) == ARM_DRIVER_OK );
       } else if (capab.internal_loopback == 1U) {
         // Activate loopback internal mode
-        ASSERT_TRUE(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
+        TEST_ASSERT(drv->SetMode (ARM_CAN_MODE_LOOPBACK_INTERNAL) == ARM_DRIVER_OK );
       }
 
       /* Get clock */
@@ -926,19 +924,19 @@ void CAN_Loopback_TransferFD (void) {
         }
       }
       if (val != ARM_DRIVER_OK) {
-        sprintf(str,"Invalid FD bitrate: %dkbit/s, clock %dMHz", CAN_BR[0]*CAN_DATA_ARB_RATIO, clock/1000000U);
-        SET_RESULT(WARNING, str);
-      } else SET_RESULT(PASSED, NULL);
+        snprintf(str,sizeof(str),"[WARNING] Invalid FD bitrate: %dkbit/s, clock %dMHz", CAN_BR[0]*CAN_DATA_ARB_RATIO, clock/1000000U);
+        TEST_MESSAGE(str);
+      } else TEST_PASS();
 
       /* Set FD mode */
-      ASSERT_TRUE(drv->Control (ARM_CAN_SET_FD_MODE, 1) == ARM_DRIVER_OK);
+      TEST_ASSERT(drv->Control (ARM_CAN_SET_FD_MODE, 1) == ARM_DRIVER_OK);
 
       /* ObjectSetFilter add standard exact ID 0x7FF */
-      ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
 
       /* ObjectConfigure for tx and rx objects */
-      ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-      ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
       memset(&tx_data_msg_info, 0U, sizeof(ARM_CAN_MSG_INFO));
       tx_data_msg_info.id = ARM_CAN_STANDARD_ID(0x7FFU);
@@ -948,32 +946,32 @@ void CAN_Loopback_TransferFD (void) {
         /* Clear input buffer */
         memset(buffer_in,0,CAN_MSG_SIZE_FD);
         if (CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, cnt) != ARM_DRIVER_OK) {
-          sprintf(str,"Fail to transfer block of %d bytes",cnt);
-          SET_RESULT(FAILED, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",cnt);
+          TEST_FAIL_MESSAGE(str);
+        } else TEST_PASS();
         if (memcmp(buffer_in, buffer_out, cnt)!=0) {
-          sprintf(str,"Fail to check block of %d bytes",cnt);
-          SET_RESULT(FAILED, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",cnt);
+          TEST_FAIL_MESSAGE(str);
+        } else TEST_PASS();
       }
 
       /* Check if a different random ID is filtered */
       tx_data_msg_info.id = ARM_CAN_STANDARD_ID(rand()%0x7FFU);
       memset(buffer_in,0,CAN_MSG_SIZE_FD);
-      ASSERT_TRUE(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
+      TEST_ASSERT(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
                                    rx_obj_idx, &rx_data_msg_info, buffer_in,
                                    CAN_MSG_SIZE_FD) != ARM_DRIVER_OK);
 
       /* ObjectSetFilter remove standard exact ID 0x7FF */
-      ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_STANDARD_ID(0x7FFU), 0U) == ARM_DRIVER_OK );
 
 
       /* ObjectSetFilter add extended exact ID 0x1FFFFFFF */
-      ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
 
       /* ObjectConfigure for tx and rx objects */
-      ASSERT_TRUE(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
-      ASSERT_TRUE(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectConfigure(tx_obj_idx, ARM_CAN_OBJ_TX) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectConfigure(rx_obj_idx, ARM_CAN_OBJ_RX) == ARM_DRIVER_OK );
 
       memset(&tx_data_msg_info, 0U, sizeof(ARM_CAN_MSG_INFO));
       tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(0x1FFFFFFFU);
@@ -983,24 +981,24 @@ void CAN_Loopback_TransferFD (void) {
         /* Clear input buffer */
         memset(buffer_in,0,CAN_MSG_SIZE_FD);
         if (CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, cnt) != ARM_DRIVER_OK) {
-          sprintf(str,"Fail to transfer block of %d bytes",cnt);
-          SET_RESULT(FAILED, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",cnt);
+          TEST_FAIL_MESSAGE(str);
+        } else TEST_PASS();
         if (memcmp(buffer_in, buffer_out, cnt)!=0) {
-          sprintf(str,"Fail to check block of %d bytes",cnt);
-          SET_RESULT(FAILED, str);
-        } else SET_RESULT(PASSED, NULL);
+          snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",cnt);
+          TEST_FAIL_MESSAGE(str);
+        } else TEST_PASS();
       }
 
       /* Check if a different random ID is filtered */
       tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(rand()%0x1FFFFFFFU);
       memset(buffer_in,0,CAN_MSG_SIZE_FD);
-      ASSERT_TRUE(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
+      TEST_ASSERT(CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out,
                                    rx_obj_idx, &rx_data_msg_info, buffer_in,
                                    CAN_MSG_SIZE_FD) != ARM_DRIVER_OK);
 
       /* ObjectSetFilter remove extended exact ID 0x1FFFFFFF */
-      ASSERT_TRUE(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
+      TEST_ASSERT(drv->ObjectSetFilter(rx_obj_idx, ARM_CAN_FILTER_ID_EXACT_REMOVE, ARM_CAN_EXTENDED_ID(0x1FFFFFFFU), 0U) == ARM_DRIVER_OK );
 
       /* Free buffer */
       free(buffer_out);
@@ -1009,8 +1007,8 @@ void CAN_Loopback_TransferFD (void) {
   }
 
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /**

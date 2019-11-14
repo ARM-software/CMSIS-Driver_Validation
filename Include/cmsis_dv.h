@@ -162,5 +162,7 @@ extern void WIFI_Send_Fragmented (void);
 extern void WIFI_Recv_Fragmented (void);
 extern void WIFI_Test_Speed (void);
 extern void WIFI_Concurrent_Socket (void);
-  
+extern void WIFI_Downstream_Rate (void);
+extern void WIFI_Upstream_Rate (void);
+
 #endif /* __CMSIS_DV_H */

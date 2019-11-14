@@ -1,0 +1,38 @@
+CMSIS-Driver Validation Example Project for ST 'STM32F407' microcontroller
+using Keil 'MCBSTM32F400' Evaluation Board.
+
+Features:
+This uVision project can be used to test the CMSIS-Drivers for the STM32F407
+against the driver specification. Configure the tests as follows:
+
+  - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
+    are executed
+  - Test configuration options can be set with the Configuration Wizard in
+    DV_Config.h:
+    - Test result output format (plain text/XML)
+    - Buffer sizes and patterns
+    - Driver numbers
+    - Specific peripheral parameters
+    - Enable/disable test cases
+  
+--------------------------------------------------------------------------------
+The following targets are available:
+
+  - Create Report:
+    Results and statistics are printed to the file TestReport\TestReport.xml
+    through the ITM output (to examine the results, open the XML document with
+    the browser of your choice).
+ 
+  - Debug:
+    Results and statistics are printed to the Debug (printf) Viewer window
+    through the ITM output. Results are also available in the test_report
+    buffer structure (always accessible in the watch window).
+
+-------------------------------------------------------------------------------
+For driver loopback testing, please ensure that the following hardware
+connections are made:
+
+  - USART: PB6  (USART1_TX) and PB7  (USART1_RX)
+  - SPI:   PB14 (SPI2_MISO) and PB15 (SPI2_MOSI)
+  - Ethernet: Pin 1 (TX+) and Pin 3 (RX+), Pin 2 (TX-) and Pin 6 (RX-). Prepare
+    an Ethernet cable accordingly or use an "Ethernet Loopback Plug".

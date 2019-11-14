@@ -3,9 +3,16 @@
 \defgroup wifi_sock_setup WiFi SockServer 
 \ingroup wifi_funcs
 
-The \b SockServer is an application providing a set of services that the WiFi Driver Validation uses to test the Socket 
+The \b SockServer is an application providing a set of services that the WiFi CMSIS-Driver Validation uses to test the Socket 
 interface of the WiFi driver and is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
-The SockServer runs several standard network services.
+The SockServer is available for different target systems and runs several standard network services.
+
+The SockServer is available for following target systems:
+ - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win\\Exe</b>)
+ - Embedded <b>Keil MCB4300</b> evaluation board (uVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCB4300</b>)
+ - Embedded <b>Keil MCBSTM32F400</b> evaluation board (uVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCBSTM32F400</b>)
+
+\note SockServer for embedded system requires Arm MDK and Arm MDK Middleware Network component
 
 The following services are available by SockServer:
 - \b Echo service on port \token{7}, TCP and UDP
@@ -19,11 +26,59 @@ The following services are available by SockServer:
 - \b Telnet service on port \token{23}
   \n (SockServer status monitoring service)
 
-The \b SockServer also supports a telnet connection, which gives you information about received and sent data.
-This can help resolve driver problems when Wifi socket sending and receiving does not work well. For example, when
-the transfer test fails, you don't know if the \b SocketSend or \b SocketRecv functions have failed or both.
+\note Telnet service is only available on SockServer for embedded system
 
-For the telnet connection, at the command prompt, type the following command or use another telnet client application.
+\section sockserver_pc SockServer for PC running Microsoft Windows
+
+\b Requirements:
+ - Personal Computer running Microsoft Windows
+ - PC connection to local network
+
+\subsection sockserver_pc_win_build Building SockServer application for PC on Microsoft Windows host
+
+SockServer build process requires Minimalist GNU for Windows (MinGW).
+
+To build SockServer executable for PC with Microsoft Windows follow the steps below:
+ -# Download and install MinGW from official web page https://osdn.net/projects/mingw/releases/
+ -# Set environment path in Microsoft Windows as explained under Environment Settings heading on http://www.mingw.org/wiki/Getting_Started
+ -# Run Microsoft Windows batch script <b>Build_exe.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win\\Build</b>
+ -# Built executable is located in <b>.\\Tools\\SockServer\\PC\\Win\\Exe</b>
+
+
+\subsection sockserver_pc_win_troubleshooting SockServer on Microsoft Windows troubleshooting
+
+Problems and solutions:
+ 1. SockServer not responding to ping
+    - Open Windows firewall -> Advanced security
+      - select inbound rules, enable rule
+        File and Printer sharing (Echo request - ICMPv4-In)
+      
+    - If rule does not exist, create new custom rule (New Rule...)
+      - Rule type:     Custom
+      - Program:       All programs
+      - Protocol type: ICMPv4
+      - ICMP Settings: Customize - Specific ICMP types: Echo Request
+      - Scope:         Any IP address
+      - Action:        Allow the connection
+      - Profile:       Domain, Private (Public not advised)
+      - Name:          Ping Echo  
+ 2. SockServer on multiple embedded systems on the same local network
+    - Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project
+
+
+\section sockserver_embedded SockServer for embedded microcontrollers
+
+\b Requirements:
+ - Keil MCB4300 or Keil MCBSTM32F400 evaluation board
+ - wired Ethernet connection to local network
+
+\subsection sockserver_embedded_telnet Using telnet service
+
+Telnet service provides information about received and sent data. This can help resolve driver problems when Wifi 
+socket sending and receiving does not work well. For example, when the transfer test fails, you don't know if the 
+\b SocketSend or \b SocketRecv functions have failed or both.
+
+For the telnet connection from PC, at the command prompt, type the following command or use another telnet client application.
 \code
 c:\>telnet sockserver
 \endcode
@@ -37,16 +92,11 @@ You can view the remote IP address, port number, receiving and transmitting coun
 Status monitor constantly updates the SockServer status on the screen. To stop the screen update, press any
 telnet client key.
 
-WiFi drivers need to be tested in the wireless local area network. The testing environment contains the following equipment:
- - WiFi router or Access Point with access to the Internet
- - board running \b SockServer application and connected to the same network with Ethernet cable
- - evaluation board with the WiFi module used for testing
 
-Porting SockServer
-------------------
+\subsection sockserver_embedded_porting Porting SockServer to different microcontroller
 
 Currently, the \b SockServer application is available for the \b MCB4300 and \b MCBSTM32F400 evaluation boards. 
-To create SockServer application for a different microcontroller, you need to do the following:
+To create SockServer application for a different microcontroller, follow the steps below:
 -# Create new network project in uVision
 -# Select and configure the RTE Components:
  - \b Network:Core and configure the host name and pool size in \b Net_Config.c
@@ -103,152 +153,155 @@ static void app_main (void *argument) {
 Stack_Size      EQU     0x00000400
 Heap_Size       EQU     0x00001800
 \endcode
+
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_sock_relaxed WiFi Socket Relaxed API 
+\defgroup wifi_sock_testing WiFi Socket testing
 \ingroup wifi_funcs
 
-The relaxed WiFi Socket API simplifies the return values of socket functions. This mode is active if the \b non-strict
-mode is selected in the \b DV_Config.h configuration of the test suite.
+Due to limitations of WiFi modules and their Software Development Kits (SDK) and software stacks often it is not possible 
+to comply with CMSIS-Driver BSD rules regarding function behavior or function return codes, because of that WiFi Driver 
+tests accept alternative error codes and report them as Warnings and considers certain error codes as acceptable for certain 
+functions.
+Exceptions to BSD-strict error codes and functionality are written below: 
 
-When implementing all the features of WiFi sockets yourself, we recommend choosing a \b BSD-strict mode. However, the 
-\b non-strict mode is useful especially when you use the SDK functions of the module to perform the driver functions and
-you only add parameter conversion at the input and conversion of exit codes at the output.
-
-WiFi socket API changes
-=======================
-
--# \b SocketCreate
- - no change
+WiFi socket deviations to BSD-strict functionality
+==================================================
 
 -# \b SocketBind
- - bind socket same address again, 
-   return code \token{EINVAL}, added return code: \token{OK}, generic \token{ERROR}
+ - bind socket to same address again<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
 
- - bind 2nd socket on used address,
-   return code \token{EADDRINUSE}, added return code: generic \token{ERROR}
+ - bind another socket to used address<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EADDRINUSE<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - bind on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - bind on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketListen
- - listen socket again,
-   return code \token{EINVAL}, added return code: \token{OK}, generic \token{ERROR}
+ - listen on already listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
 
- - listen on unbound socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+ - listen on unbound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - listen on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - listen on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - listen on datagram socket,
-   return code \token{ENOTSUP}, added return code: generic \token{ERROR}
+ - listen on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketAccept
- - accept on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - receive on disconnected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - accept on datagram socket,
-   return code \token{ENOTSUP}, added return code: generic \token{ERROR}
+ - accept on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - listen on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - accept on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketConnect
- - connect socket same address again,
-   return code \token{EISCONN}, added return code: OK, generic \token{ERROR}
+ - connect socket to same address again<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EISCONN<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
 
- - bind on connected socket,
-   return code \token{EISCONN}, added return code: generic \token{ERROR}
+ - bind on connected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EISCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - connect on listening socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+ - connect on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - connect on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - connect to non-existent port<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNREFUSED<br>non BSD-strict accepted return codes: \token{ARM_SOCKET_ETIMEDOUT} or \token{ARM_SOCKET_ERROR}
 
- - connect to non-existent port,
-   return code \token{ECONNREFUSED}, added return code: generic \token{ERROR}
+ - connect to non-existent stream server<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ETIMEDOUT<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - connect datagram socket to unspecified address (0.0.0.0),
-   return code \token{OK},  added return code: \token{EINVAL}, generic \token{ERROR} \n
+ - connect on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - connect datagram socket to unspecified address (0.0.0.0)<br>
+   <b>BSD-strict</b> expected return code \b 0<br>non BSD-strict accepted return codes: \token{ARM_SOCKET_EINVAL} or \token{ARM_SOCKET_ERROR}
    (special case that deletes the socket destination & filtering address)
 
 -# \b SocketRecv
- - recv on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - recv on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - recv on created socket
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - recv on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - recv on bound socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - recv on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - recv on listening socket,
-   return code \token{ENOTCONN},  added return code: generic \token{ERROR}
-
- - recv on disconnected socket,
-   return code \token{ECONNRESET}, added return code: generic \token{ERROR}
+ - recv on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketRecvFrom
- - recvfrom on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - recvfrom on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketSend
- - send on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - send on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - send on created socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - send on disconnected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - send on bound socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - send on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - send on listening socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - send on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - send on disconnected socket,
-   return code \token{ECONNRESET}, added return code: generic \token{ERROR}
+ - send on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketSendTo
- - sendto on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - sendto on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketGetSockName
- - getsockname on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - getsockname on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - getsockname on unbound socket,
-   return code \token{EINVAL}, added return code: generic \token{ERROR}
+ - getsockname on unbound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketGetPeerName
- - getpeername on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - getpeername on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - getpeername on created socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - getpeername on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - getpeername on bound socket,
-   return code \token{ENOTCONN}, added return code: generic \token{ERROR}
+ - getpeername on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
- - getpeername on listening socket,
-   return code \token{ENOTCONN},  added return code: generic \token{ERROR}
+ - getpeername on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketGetOpt
- - getsockopt on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - getsockopt on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketSetOpt
- - setsockopt on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{ERROR}
+ - setsockopt on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketClose
- - close on closed socket,
-   return code \token{ESOCK}, added return code: generic \token{OK}
+ - close already closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{0}
 
 -# \b SocketGetHostByName
- - gethostbyname for non-existing host,
-   return code \token{EHOSTNOTFOUND}, added return code: generic \token{ERROR}
-
--# \b Ping
- - no change
+ - gethostbyname for non-existing host<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EHOSTNOTFOUND<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 */

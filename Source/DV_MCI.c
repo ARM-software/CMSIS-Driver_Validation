@@ -47,7 +47,7 @@ The test case \b MCI_GetCapabilities verifies the function \b GetCapabilities.
 void MCI_GetCapabilities (void) {                    
   /* Get USBD capabilities */
   capab = drv->GetCapabilities();
-  ASSERT_TRUE(&capab != NULL); 
+  TEST_ASSERT(&capab != NULL); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -63,16 +63,16 @@ The test case \b MCI_Initialization verifies the MCI functions with the sequence
 void MCI_Initialization (void) { 
     
   /* Initialize without callback */
-  ASSERT_TRUE(drv->Initialize(NULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(NULL) == ARM_DRIVER_OK); 
     
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -89,19 +89,19 @@ The test case \b MCI_CheckInvalidInit verifies the driver behaviour when receivi
 void MCI_CheckInvalidInit (void) { 
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Try to power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -119,21 +119,21 @@ void MCI_PowerControl (void) {
   int32_t val;
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
   
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
   
   /* Power low */
   val = drv->PowerControl (ARM_POWER_LOW);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Low power is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Low power is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
    
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -157,45 +157,45 @@ void MCI_SetBusSpeedMode (void) {
   int32_t val;
   
   /* Initialize with callback and power on*/
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
   
   /* Default speed */
-  ASSERT_TRUE(drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_DEFAULT_SPEED ) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_DEFAULT_SPEED ) == ARM_DRIVER_OK);
   
   /* High speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_DEFAULT_SPEED );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "High speed is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] High speed is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* SDR12 speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_UHS_SDR12 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "SDR12 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] SDR12 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* SDR25 speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_UHS_SDR25 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "SDR25 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] SDR25 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
   /* SDR50 speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_UHS_SDR50 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "SDR50 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] SDR50 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
   /* SDR104 speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_UHS_SDR104 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "SDR104 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] SDR104 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
   /* DDR50 speed */
   val = drv->Control (ARM_MCI_BUS_SPEED_MODE, ARM_MCI_BUS_UHS_DDR50 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "DDR50 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] DDR50 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -217,35 +217,35 @@ void MCI_Config_DataWidth (void) {
   int32_t val;
   
   /* Initialize with callback and power on*/
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Default data width 1 */
-  ASSERT_TRUE(drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_1 ) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_1 ) == ARM_DRIVER_OK);
   
   /* Data width 4 */
   val = drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_4 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Data width 4 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Data width 4 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Data width 8 */
   val = drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_8 );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Data width 8 is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Data width 8 is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Data width 4 DDR */
   val = drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_4_DDR );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Data width 4 DDR is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Data width 4 DDR is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
   /* Data width 8 DDR */
   val = drv->Control (ARM_MCI_BUS_DATA_WIDTH, ARM_MCI_BUS_DATA_WIDTH_8_DDR );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Data width 8 DDR is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Data width 8 DDR is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -264,20 +264,20 @@ void MCI_Config_CmdLineMode (void) {
   int32_t val;
   
   /* Initialize with callback and power on*/
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Default push-pull */
-  ASSERT_TRUE(drv->Control (ARM_MCI_BUS_CMD_MODE, ARM_MCI_BUS_CMD_PUSH_PULL  ) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control (ARM_MCI_BUS_CMD_MODE, ARM_MCI_BUS_CMD_PUSH_PULL  ) == ARM_DRIVER_OK);
   
   /* Open Drain */
   val = drv->Control (ARM_MCI_BUS_CMD_MODE, ARM_MCI_BUS_CMD_OPEN_DRAIN );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Open Drain Cmd is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Open Drain Cmd is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -298,32 +298,32 @@ void MCI_Config_DriverStrength (void) {
   int32_t val;
   
   /* Initialize with callback and power on*/
-  ASSERT_TRUE(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(MCI_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Type A */
   val = drv->Control ( ARM_MCI_DRIVER_STRENGTH, ARM_MCI_DRIVER_TYPE_A );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Type A is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Type A is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Type B */
   val = drv->Control ( ARM_MCI_DRIVER_STRENGTH, ARM_MCI_DRIVER_TYPE_B );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Type B is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Type B is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Type C */
   val = drv->Control ( ARM_MCI_DRIVER_STRENGTH, ARM_MCI_DRIVER_TYPE_C );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Type C is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Type C is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Type D */
   val = drv->Control ( ARM_MCI_DRIVER_STRENGTH, ARM_MCI_DRIVER_TYPE_D );
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Type D is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Type D is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
   /* Power off and uninitialize*/
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /**

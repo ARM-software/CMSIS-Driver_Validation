@@ -64,6 +64,8 @@ extern ARM_DRIVER_USART CREATE_SYMBOL(Driver_USART, DRV_USART);
 static ARM_DRIVER_USART *drv = &CREATE_SYMBOL(Driver_USART, DRV_USART);
 static ARM_USART_CAPABILITIES capab;   
 
+static char str[128];
+
 // Event flags
 static uint8_t volatile Event;  
 
@@ -209,7 +211,7 @@ The test case \b USART_GetCapabilities verifies the function \b GetCapabilities.
 void USART_GetCapabilities (void) {
   /* Get USART capabilities */
   capab = drv->GetCapabilities();
-  ASSERT_TRUE(&capab != NULL); 
+  TEST_ASSERT(&capab != NULL); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -225,16 +227,16 @@ The test case \b USART_Initialization verifies the USART functions with the sequ
 void  USART_Initialization (void) {
   
   /* Initialize without callback */
-  ASSERT_TRUE(drv->Initialize(NULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(NULL) == ARM_DRIVER_OK); 
     
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -252,23 +254,23 @@ The test case \b USART_CheckInvalidInit verifies the driver behaviour when recei
 void  USART_CheckInvalidInit (void) {
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Try to power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
   
   /* Try to set configuration */
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) != ARM_DRIVER_OK);
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
  
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -286,21 +288,21 @@ void  USART_PowerControl (void) {
   int32_t val;
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
   
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
     
   /* Power low */
   val = drv->PowerControl (ARM_POWER_LOW);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Low power is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Low power is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
    
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }  
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -320,24 +322,24 @@ The test case \b USART_Config_PolarityPhase verifies the \b Control function wit
 void USART_Config_PolarityPhase (void) { 
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
   
   /* Set basic SPI bus configuration*/
-  ASSERT_TRUE(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL0 | ARM_USART_CPHA0, USART_BR[0]) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL0 | ARM_USART_CPHA0, USART_BR[0]) == ARM_DRIVER_OK);
   
   /* Change polarity */
-  ASSERT_TRUE(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL1 | ARM_USART_CPHA0, USART_BR[0]) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL1 | ARM_USART_CPHA0, USART_BR[0]) == ARM_DRIVER_OK);
   
   /* Change phase */
-  ASSERT_TRUE(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL0 | ARM_USART_CPHA1, USART_BR[0]) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL0 | ARM_USART_CPHA1, USART_BR[0]) == ARM_DRIVER_OK);
   
   /* Change polarity and phase */
-  ASSERT_TRUE(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL1 | ARM_USART_CPHA1, USART_BR[0]) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_CPOL1 | ARM_USART_CPHA1, USART_BR[0]) == ARM_DRIVER_OK);  
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
   
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -359,32 +361,32 @@ void USART_Config_DataBits (void) {
   int32_t val;  
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_DATA_BITS_5, USART_BR[0]);
-  if (val == ARM_USART_ERROR_DATA_BITS) { SET_RESULT(WARNING, "Data Bits = 5 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 5 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_DATA_BITS_6, USART_BR[0]);
-  if (val == ARM_USART_ERROR_DATA_BITS) { SET_RESULT(WARNING, "Data Bits = 6 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 6 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_DATA_BITS_7, USART_BR[0]);
-  if (val == ARM_USART_ERROR_DATA_BITS) { SET_RESULT(WARNING, "Data Bits = 7 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 7 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_DATA_BITS_8, USART_BR[0]);
-  if (val == ARM_USART_ERROR_DATA_BITS) { SET_RESULT(WARNING, "Data Bits = 8 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 8 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_DATA_BITS_9, USART_BR[0]);
-  if (val == ARM_USART_ERROR_DATA_BITS) { SET_RESULT(WARNING, "Data Bits = 9 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }  
+  if (val == ARM_USART_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 9 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }  
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -405,28 +407,28 @@ void USART_Config_StopBits (void) {
   int32_t val;  
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_STOP_BITS_1, USART_BR[0]);
-  if (val == ARM_USART_ERROR_STOP_BITS) { SET_RESULT(WARNING, "Stop Bits = 1 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_STOP_BITS) { TEST_MESSAGE("[WARNING] Stop Bits = 1 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_STOP_BITS_2, USART_BR[0]);
-  if (val == ARM_USART_ERROR_STOP_BITS) { SET_RESULT(WARNING, "Stop Bits = 2 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_STOP_BITS) { TEST_MESSAGE("[WARNING] Stop Bits = 2 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_STOP_BITS_1_5, USART_BR[0]);
-  if (val == ARM_USART_ERROR_STOP_BITS) { SET_RESULT(WARNING, "Stop Bits = 1.5 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_STOP_BITS) { TEST_MESSAGE("[WARNING] Stop Bits = 1.5 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_STOP_BITS_0_5, USART_BR[0]);
-  if (val == ARM_USART_ERROR_STOP_BITS) { SET_RESULT(WARNING, "Stop Bits = 0.5 are not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }   
+  if (val == ARM_USART_ERROR_STOP_BITS) { TEST_MESSAGE("[WARNING] Stop Bits = 0.5 are not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }   
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -446,24 +448,24 @@ void USART_Config_Parity (void) {
   int32_t val;  
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_PARITY_EVEN, USART_BR[0]);
-  if (val == ARM_USART_ERROR_PARITY) { SET_RESULT(WARNING, "Even parity is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_PARITY) { TEST_MESSAGE("[WARNING] Even parity is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_PARITY_NONE, USART_BR[0]);
-  if (val == ARM_USART_ERROR_PARITY) { SET_RESULT(WARNING, "No parity is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_PARITY) { TEST_MESSAGE("[WARNING] No parity is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   val = drv->Control(ARM_USART_MODE_ASYNCHRONOUS | ARM_USART_PARITY_ODD, USART_BR[0]);
-  if (val == ARM_USART_ERROR_PARITY) { SET_RESULT(WARNING, "Odd parity not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); } 
+  if (val == ARM_USART_ERROR_PARITY) { TEST_MESSAGE("[WARNING] Odd parity not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -485,19 +487,19 @@ void USART_Config_Baudrate (void) {
   uint32_t speed;  
 
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);   
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);   
   
   /* Change baud rate*/
   for (speed=0; speed<USART_BR_NUM; speed++) {
     
-    ASSERT_TRUE (drv->Control(ARM_USART_MODE_ASYNCHRONOUS, USART_BR[speed]) 
+    TEST_ASSERT (drv->Control(ARM_USART_MODE_ASYNCHRONOUS, USART_BR[speed]) 
        == ARM_DRIVER_OK);   
   }
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -521,19 +523,18 @@ void USART_Loopback_CheckBaudrate (void) {
   uint32_t speed;          
   uint32_t ticks_measured;
   uint32_t ticks_expected;  
-  char str[64];
   double rate;
   
   /* Allocate buffer */
   buffer_out = malloc(BUFFER_SIZE_BR*sizeof(buf_t));
-  ASSERT_TRUE(buffer_out != NULL);
+  TEST_ASSERT(buffer_out != NULL);
   buffer_in = malloc(BUFFER_SIZE_BR*sizeof(buf_t));
-  ASSERT_TRUE(buffer_in != NULL);
+  TEST_ASSERT(buffer_in != NULL);
   
   /* Initialize with callback, power on and configure USART bus */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) == ARM_DRIVER_OK); 
   
   /* Test baudrates */
@@ -546,12 +547,12 @@ void USART_Loopback_CheckBaudrate (void) {
     }  
     
     /* Change baud rate*/
-    ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,0) == ARM_DRIVER_OK);
-    ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,0) == ARM_DRIVER_OK);
-    ASSERT_TRUE(drv->Control(ARM_USART_MODE_ASYNCHRONOUS, USART_BR[speed]) 
+    TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,0) == ARM_DRIVER_OK);
+    TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,0) == ARM_DRIVER_OK);
+    TEST_ASSERT(drv->Control(ARM_USART_MODE_ASYNCHRONOUS, USART_BR[speed]) 
        == ARM_DRIVER_OK);       
-    ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK);
-    ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK);
+    TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK);
+    TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK);
         
     /* Set Local Loopback */
     USART_LOCAL_LOOPBACK(); 
@@ -566,20 +567,20 @@ void USART_Loopback_CheckBaudrate (void) {
     rate = (double)ticks_measured/ticks_expected;
        
     if ((rate>(1.0+(double)TOLERANCE_BR/100))||(rate<(1.0-(double)TOLERANCE_BR/100))) {
-      sprintf(str,"At %dbps: measured time is %f x expected time", USART_BR[speed], rate);
-      SET_RESULT(WARNING, str);
-    } else SET_RESULT(PASSED, NULL);     
+      snprintf(str,sizeof(str),"[WARNING] At %dbps: measured time is %f x expected time", USART_BR[speed], rate);
+      TEST_MESSAGE(str);
+    } else TEST_PASS();     
     
     /* Check received data against sent data */
     if (memcmp(buffer_in, buffer_out, BUFFER_SIZE_BR)!=0) {
-      sprintf(str,"At %dbps: fail to check block of %d bytes", USART_BR[speed], BUFFER_SIZE_BR);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);  
+      snprintf(str,sizeof(str),"[FAILED] At %dbps: fail to check block of %d bytes", USART_BR[speed], BUFFER_SIZE_BR);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();  
   }
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
   
   /* Free buffer */
   free(buffer_out);   
@@ -602,18 +603,18 @@ The test case \b USART_Config_CommonParams verifies the \b Control function with
 void  USART_Config_CommonParams (void) {
   
   /* Initialize with callback and power on */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
   /* Configure USART bus*/
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -630,39 +631,38 @@ The test case \b USART_Send verifies the \b Send function with the sequence:
 */
 void USART_Send (void) { 
   uint16_t cnt;
-  char str[64];
   
   /* Allocate buffer */
   buffer_out = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
-  ASSERT_TRUE(buffer_out != NULL);
+  TEST_ASSERT(buffer_out != NULL);
   
   /* Initialize with callback, power on and configure USART bus */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
   
   /* Send data chunks */
   for (cnt = 0; cnt<BUFFER_NUM; cnt++) { 
     
     /* Send using callback */
     if (USART_RunSend(buffer_out, BUFFER[cnt]) != ARM_DRIVER_OK) {
-      sprintf(str,"Fail to send %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);   
+      snprintf(str,sizeof(str),"[FAILED] Fail to send %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();   
     
     /* Send without callback */
     if (USART_RunSend_NoCallback(buffer_out, BUFFER[cnt]) != ARM_DRIVER_OK) {   
-      sprintf(str,"Fail to send without callback %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);    
+      snprintf(str,sizeof(str),"[FAILED] Fail to send without callback %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();    
   } 
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
   
   /* Free buffer */
   free(buffer_out);    
@@ -682,39 +682,38 @@ The test case \b USART_AsynchronousReceive verifies the \b Receive function with
 */
 void USART_AsynchronousReceive (void) { 
   uint16_t cnt;
-  char str[64];
   
   /* Allocate buffer */
   buffer_in = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
-  ASSERT_TRUE(buffer_out != NULL);
+  TEST_ASSERT(buffer_out != NULL);
   
   /* Initialize with callback, power on and configure USART bus */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
   
   /* Send data chunks */
   for (cnt = 0; cnt<BUFFER_NUM; cnt++) { 
     
     /* Send using callback */
     if (USART_RunReceive(buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {
-      sprintf(str,"Fail to receive %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);   
+      snprintf(str,sizeof(str),"[FAILED] Fail to receive %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();   
     
     /* Send without callback */
     if (USART_RunReceive_NoCallback(buffer_out, BUFFER[cnt]) != ARM_DRIVER_OK) {   
-      sprintf(str,"Fail to send without callback %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);    
+      snprintf(str,sizeof(str),"[FAILED] Fail to send without callback %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();    
   } 
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
   
   /* Free buffer */
   free(buffer_in);    
@@ -736,21 +735,20 @@ The test case \b USART_Loopback_Transfer verifies the \b Transfer function with 
 void USART_Loopback_Transfer (void) { 
   uint16_t cnt, i;
   uint8_t pattern[] = BUFFER_PATTERN;
-  char str[64];
   
   /* Allocate buffer */
   buffer_out = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
-  ASSERT_TRUE(buffer_out != NULL);
+  TEST_ASSERT(buffer_out != NULL);
   buffer_in = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
-  ASSERT_TRUE(buffer_in != NULL);
+  TEST_ASSERT(buffer_in != NULL);
   
   /* Initialize with callback, power on and configure USART bus */
-  ASSERT_TRUE(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
+  TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_MODE_ASYNCHRONOUS | USART_DATA_BITS_CTRL_CODE | ARM_USART_PARITY_NONE | 
     ARM_USART_STOP_BITS_1 | ARM_USART_FLOW_CONTROL_NONE, USART_BR[0]) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
-  ASSERT_TRUE(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
   
   /* Set Local Loopback */
   USART_LOCAL_LOOPBACK();  
@@ -769,13 +767,13 @@ void USART_Loopback_Transfer (void) {
     /* Clear input buffer*/
     memset(buffer_in,0,BUFFER[cnt]);    
     if (USART_RunTransfer(buffer_out, buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {
-      sprintf(str,"Fail to transfer block of %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);     
+      snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();     
     if (memcmp(buffer_in, buffer_out, BUFFER[cnt])!=0) {
-      sprintf(str,"Fail to check block of %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);     
+      snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();     
   } 
   
   /* Set output buffer with random data*/
@@ -789,18 +787,18 @@ void USART_Loopback_Transfer (void) {
     /* Clear input buffer*/
     memset(buffer_in,0,BUFFER[cnt]);    
     if (USART_RunTransfer(buffer_out, buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {
-      sprintf(str,"Fail to transfer block of %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);     
+      snprintf(str,sizeof(str),"[FAILED] Fail to transfer block of %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();     
     if (memcmp(buffer_in, buffer_out, BUFFER[cnt])!=0) {
-      sprintf(str,"Fail to check block of %d bytes",BUFFER[cnt]);
-      SET_RESULT(FAILED, str);
-    } else SET_RESULT(PASSED, NULL);     
+      snprintf(str,sizeof(str),"[FAILED] Fail to check block of %d bytes",BUFFER[cnt]);
+      TEST_FAIL_MESSAGE(str);
+    } else TEST_PASS();     
   } 
   
   /* Power off and uninitialize */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK);
   
   /* Free buffer */
   free(buffer_out);   

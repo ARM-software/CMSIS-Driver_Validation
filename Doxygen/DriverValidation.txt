@@ -57,7 +57,8 @@ Revision History
 
 Version     | Description
 :-----------|:------------------------------------------
-V1.3.1-dev1 | Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
+V1.3.1-dev2 | WiFi testing: Added upstream and downstream bandwidth testing, added Sockserver for PC with Microsoft Windows
+V1.3.1-dev1 | WiFi testing: Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
 V1.3.1-dev0 | Updated conditions to support all Cortex-M devices 
 V1.3.0      | Added WiFi tests
 V1.2.0      | Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
@@ -280,10 +281,10 @@ This Software Pack contains a set or pre-built examples that show how to use the
 hardware. The following example projects are available. Use
 <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine:
 
-- \subpage examples_samv71XU
 - \subpage examples_xmc4500_relax
 - \subpage examples_mcbstm32f200
 - \subpage examples_mcbstm32f400
+- \subpage examples_b_l475e_iot01a1
 - \subpage examples_stm32f746g
 
 \anchor example_targets
@@ -291,37 +292,14 @@ Targets
 -------
 
 All projects contain two targets:
-- \b Create \b XML or \b Create \b Report: Test results and statistics are printed to the file \c TestReport\TestReport.xml. 
+- <b>Create Report</b>: Test results and statistics are printed to the file \c TestReport\TestReport.xml. 
   Open the file in a web browser of your choice.
+  \note <span style="font-weight:bold; color:Green">Passed</span> Status means that test case has passed sucessfully.
+  \note <span style="font-weight:bold; color:DarkOrange">Passed</span> Status means that tests case has passed but there were some warnings (More details can be used to see the details).
+  \note <span style="font-weight:bold; color:Blue">Not executed</span> Status means test case did not check any assertions.
+  \note <span style="font-weight:bold; color:Red">Failed</span> Status means test case has failed (More details can be used to see the details).
 - \b Debug: Results and statistics are printed to the Debug (printf) Viewer window through the ITM output. You can also
   examine the results in the \b test_report buffer structure which is accessible through the \b Watch window.
-*/
-
-
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_samv71XU Atmel SAMV71 Xplained Ultra
-
-Software Setup
---------------
-
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
-<b>CMSIS-Driver Validation (SAMV71-XULTRA)</b> to your machine.
-
--# Choose one of the available \ref example_targets and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
--# Run the test on the target hardware.
-
-\note To communicate with the development board, a debug adapter from the
-<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
-
-Hardware Setup
---------------
-
-The loopback settings for SPI and USART are done in SW. The SAMV71 device offers an internal loopback mode. The setting is
-done in the file \c DV_Config.h (please use the \b Text \b Editor mode to see the appropriate \c \#defines). For Ethernet,
-use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 */
 
 
@@ -411,6 +389,30 @@ The following picture shows the necessary external loopback connections for the 
  - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 
 \image html mcbstm32f400.png  "Connections for Loop Back Communication Tests on Keil MCBSTM32F400"
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_b_l475e_iot01a1 STMicroelectronics B-L475E-IOT01A1
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver Validation (B-L475E-IOT01A1)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware using the on-board ST-Link/V2.
+
+This example is prepared for testing WiFi Driver and for that it requires:
+ - SockServer in local network
+ - Access Point in local network
+
+For details on WiFi Driver tests please refer to \ref wifi_funcs.
+
 */
 
 

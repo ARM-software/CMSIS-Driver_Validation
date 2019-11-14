@@ -354,7 +354,7 @@
 // <h> WiFi
 // <o> Driver_WiFi# <0-255>
 // <i> Choose the Driver_WiFi# instance to be tested
-#define DRV_WIFI                        1
+#define DRV_WIFI                        0
 // <h> Configuration
 // <i> Configuration of valid settings for driver functionality testing
 // <h> Station

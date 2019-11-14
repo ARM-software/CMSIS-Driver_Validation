@@ -357,7 +357,7 @@ void WIFI_Initialize_Uninitialize (void) {
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   ret =       drv->PowerControl (ARM_POWER_OFF);
   if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported"
+    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported");
   } else {
     TEST_ASSERT(ret == ARM_DRIVER_OK);
   }
@@ -390,7 +390,7 @@ void WIFI_PowerControl (void) {
   TEST_ASSERT(drv->Initialize   (event_func)     == ARM_DRIVER_OK);
   ret =       drv->PowerControl (ARM_POWER_OFF);
   if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported"
+    TEST_MESSAGE("[WARNING] PowerControl (ARM_POWER_OFF) not supported");
   } else {
     TEST_ASSERT(ret == ARM_DRIVER_OK);
   }
@@ -436,13 +436,13 @@ void WIFI_GetModuleInfo (void) {
 
   ret = drv->GetModuleInfo(NULL, sizeof(data_buf));
   if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported"
+    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported");
   } else {
     TEST_ASSERT(ret == ARM_DRIVER_ERROR_PARAMETER);
   }
   ret = drv->GetModuleInfo(data_buf, 0U);
   if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported"
+    TEST_MESSAGE("[WARNING] GetModuleInfo (...) not supported");
   } else {
     TEST_ASSERT(ret == ARM_DRIVER_ERROR_PARAMETER);
   }
@@ -2446,44 +2446,56 @@ void WIFI_Activate_Deactivate (void) {
     /* Test function with invalid parameters */
     TEST_ASSERT(drv->Activate(0U, NULL)    == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = NULL;
-    config.pass     = NULL;
-    config.security = 0U;
-    config.ch       = 0U;
+    config.ssid       = NULL;
+    config.pass       = NULL;
+    config.security   = 0U;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = NULL;
-    config.security = 0U;
-    config.ch       = 0U;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = NULL;
+    config.security   = WIFI_STA_SECURITY;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = WIFI_STA_PASS;
-    config.security = ARM_WIFI_SECURITY_UNKNOWN;
-    config.ch       = WIFI_STA_CH;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = WIFI_STA_PASS;
+    config.security   = ARM_WIFI_SECURITY_UNKNOWN;
+    config.ch         = WIFI_STA_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = WIFI_STA_PASS;
-    config.security = WIFI_STA_SECURITY;
-    config.ch       = 255U;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = WIFI_STA_PASS;
+    config.security   = WIFI_STA_SECURITY;
+    config.ch         = 255U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = WIFI_STA_PASS;
-    config.security = WIFI_STA_SECURITY;
-    config.ch       = WIFI_STA_CH;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = WIFI_STA_PASS;
+    config.security   = WIFI_STA_SECURITY;
+    config.ch         = WIFI_STA_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
     /* Test function with autodetect channel, can return unsupported or succeed */
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = WIFI_STA_PASS;
-    config.security = WIFI_STA_SECURITY;
-    config.ch       = 0U;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = WIFI_STA_PASS;
+    config.security   = WIFI_STA_SECURITY;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     ret = drv->Activate(0U, &config);
     if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-      TEST_MESSAGE("[WARNING] Activate (0, ...) with autodetect channel not supported"
+      TEST_MESSAGE("[WARNING] Activate (0, ...) with autodetect channel not supported");
     } else {
       TEST_ASSERT(ret == ARM_DRIVER_OK);
     }
@@ -2493,10 +2505,12 @@ void WIFI_Activate_Deactivate (void) {
     }
 
     /* Test function with valid parameters -> must succeed */
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = WIFI_STA_PASS;
-    config.security = WIFI_STA_SECURITY;
-    config.ch       = WIFI_STA_CH;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = WIFI_STA_PASS;
+    config.security   = WIFI_STA_SECURITY;
+    config.ch         = WIFI_STA_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(0U, &config) == ARM_DRIVER_OK);
 
     if (ret == ARM_DRIVER_OK) {
@@ -2531,44 +2545,56 @@ void WIFI_Activate_Deactivate (void) {
     /* Test function with invalid parameters */
     TEST_ASSERT(drv->Activate(1U, NULL)    == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = NULL;
-    config.pass     = NULL;
-    config.security = 0U;
-    config.ch       = 0U;
+    config.ssid       = NULL;
+    config.pass       = NULL;
+    config.security   = 0U;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_STA_SSID;
-    config.pass     = NULL;
-    config.security = 0U;
-    config.ch       = 0U;
+    config.ssid       = WIFI_STA_SSID;
+    config.pass       = NULL;
+    config.security   = WIFI_AP_SECURITY;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_AP_SSID;
-    config.pass     = WIFI_AP_PASS;
-    config.security = ARM_WIFI_SECURITY_UNKNOWN;
-    config.ch       = WIFI_AP_CH;
+    config.ssid       = WIFI_AP_SSID;
+    config.pass       = WIFI_AP_PASS;
+    config.security   = ARM_WIFI_SECURITY_UNKNOWN;
+    config.ch         = WIFI_AP_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_AP_SSID;
-    config.pass     = WIFI_AP_PASS;
-    config.security = WIFI_AP_SECURITY;
-    config.ch       = 255U;
+    config.ssid       = WIFI_AP_SSID;
+    config.pass       = WIFI_AP_PASS;
+    config.security   = WIFI_AP_SECURITY;
+    config.ch         = 255U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
-    config.ssid     = WIFI_AP_SSID;
-    config.pass     = WIFI_AP_PASS;
-    config.security = WIFI_AP_SECURITY;
-    config.ch       = WIFI_AP_CH;
+    config.ssid       = WIFI_AP_SSID;
+    config.pass       = WIFI_AP_PASS;
+    config.security   = WIFI_AP_SECURITY;
+    config.ch         = WIFI_AP_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(3U, &config) == ARM_DRIVER_ERROR_PARAMETER);
 
     /* Test function with autodetect channel, can return unsupported or succeed */
-    config.ssid     = WIFI_AP_SSID;
-    config.pass     = WIFI_AP_PASS;
-    config.security = WIFI_AP_SECURITY;
-    config.ch       = 0U;
+    config.ssid       = WIFI_AP_SSID;
+    config.pass       = WIFI_AP_PASS;
+    config.security   = WIFI_AP_SECURITY;
+    config.ch         = 0U;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     ret = drv->Activate(1U, &config);
     if (ret == ARM_DRIVER_ERROR_UNSUPPORTED) {
-      TEST_MESSAGE("[WARNING] Activate (1, ...) with autodetect channel not supported"
+      TEST_MESSAGE("[WARNING] Activate (1, ...) with autodetect channel not supported");
     } else {
       TEST_ASSERT(ret == ARM_DRIVER_OK);
     }
@@ -2578,10 +2604,12 @@ void WIFI_Activate_Deactivate (void) {
     }
 
     /* Test function with valid parameters -> must succeed */
-    config.ssid     = WIFI_AP_SSID;
-    config.pass     = WIFI_AP_PASS;
-    config.security = WIFI_AP_SECURITY;
-    config.ch       = WIFI_AP_CH;
+    config.ssid       = WIFI_AP_SSID;
+    config.pass       = WIFI_AP_PASS;
+    config.security   = WIFI_AP_SECURITY;
+    config.ch         = WIFI_AP_CH;
+    config.wps_method = 0U;
+    config.wps_pin    = NULL;
     TEST_ASSERT(drv->Activate(1U, &config) == ARM_DRIVER_OK);
 
     if (ret == ARM_DRIVER_OK) {

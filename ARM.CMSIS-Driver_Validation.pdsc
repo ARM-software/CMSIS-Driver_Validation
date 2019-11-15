@@ -11,7 +11,6 @@
   <releases>
     <release version="1.4.0-dev0">
       - Introduced test groups (each driver is organized in a group)
-      - Added SockServer for PC with MS Windows
       - Improved XSL for XML display
       - Updated examples
       - Removed example for Atmel board

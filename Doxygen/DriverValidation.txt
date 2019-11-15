@@ -55,16 +55,49 @@ This manual assumes that you are familiar with MDK. Refer to
 Revision History
 ----------------
 
-Version     | Description
-:-----------|:------------------------------------------
-V1.4.0-dev0 | WiFi testing: Introduced test groups (each driver is organized in a group), updated examples
-V1.3.1-dev2 | WiFi testing: Added upstream and downstream bandwidth testing, added Sockserver for PC with Microsoft Windows
-V1.3.1-dev1 | WiFi testing: Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
-V1.3.1-dev0 | Updated conditions to support all Cortex-M devices 
-V1.3.0      | Added WiFi tests
-V1.2.0      | Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
-V1.1.0      | Added USB Host, CAN and Ethernet Precision Time Protocol tests
-V1.0.0      | Initial release for CMSIS-Driver API V2.0
+<table class="cmtable" summary="Revision History">
+    <tr>
+      <th>Version</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>V1.4.0</td>
+      <td>
+        - Updated conditions to support all Cortex-M devices
+        - Introduced test groups (each driver is organized in a group)
+        - Improved XSL for XML display
+        - Updated all examples
+        - Removed example for Atmel board
+        - WiFi Driver Testing: Added SockServer application for PC running Microsoft Windows
+        - WiFi Driver Testing: Added upstream and downstream bandwidth testing
+        - WiFi Driver Testing: Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
+      </td>
+    </tr>
+    <tr>
+      <td>V1.3.0</td>
+      <td>
+        - Added WiFi tests
+      </td>
+    </tr>
+    <tr>
+      <td>V1.2.0</td>
+      <td>
+        - Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
+      </td>
+    </tr>
+    <tr>
+      <td>V1.1.0</td>
+      <td>
+        - Added USB Host, CAN and Ethernet Precision Time Protocol tests
+      </td>
+    </tr>
+    <tr>
+      <td>V1.0.0</td>
+      <td>
+        - Initial release for CMSIS-Driver API V2.0
+      </td>
+    </tr>
+ </table>
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/

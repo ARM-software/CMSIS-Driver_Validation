@@ -1201,7 +1201,7 @@ static void WIFI_SetOption_GetOption_MAC (void) {
   if (((cap.station_ap != 0) || (cap.station != 0)) && (memcmp((const void *)mac_sta_def, (const void *)"\0\0\0\0\0\0", 6) != 0)) {
     drv->SetOption (0U, ARM_WIFI_MAC, mac_sta_def, 6U);
   }
-  if ((cap.station_ap != 0)  || (cap.ap != 0)       && (memcmp((const void *)mac_ap_def,  (const void *)"\0\0\0\0\0\0", 6) != 0)) {
+  if (((cap.station_ap != 0) || (cap.ap != 0))      && (memcmp((const void *)mac_ap_def,  (const void *)"\0\0\0\0\0\0", 6) != 0)) {
     drv->SetOption (1U, ARM_WIFI_MAC, mac_ap_def,  6U);
   }
 #endif
@@ -2996,7 +2996,7 @@ static void station_uninit (void) {
 }
 
 /* Helper function for execution of socket test function in the worker thread */
-static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout, uint32_t line) {
+static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout) {
   osThreadFlagsSet (id, sig);
   if (osThreadFlagsWait (TH_OK | TH_TOUT, osFlagsWaitAny, tout) == TH_OK) {
     /* Success, completed in time */
@@ -3004,13 +3004,13 @@ static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout, uint32
   }
   /* Function timeout expired */
   snprintf(msg_buf, sizeof(msg_buf), "Execution timeout (%d ms)", tout);
-  TEST_ASSERT_MESSAGE(0,msg_buf)
+  TEST_ASSERT_MESSAGE(0,msg_buf);
   return (0);
 }
 
 #define TH_EXECUTE(sig,tout) do {                                                \
                                io.xid++;                                         \
-                               rval = th_execute (worker, sig, tout, __LINE__);  \
+                               rval = th_execute (worker, sig, tout);            \
                              } while (0)
 
 #define TH_ASSERT(cond)      do {                                                \
@@ -8167,7 +8167,7 @@ __NO_RETURN static void Th_StreamRate (IO_STREAMRATE *io) {
           if (rc > 0) n += rc;
         } while (GET_SYSTICK() - ticks < tout);
         rc = snprintf ((char *)buffer, sizeof(buffer), "STOP %d bytes.", n);
-        drv->SocketSend (io->sock, buffer, rc);
+        drv->SocketSend (io->sock, buffer, (uint32_t)rc);
         /* Receive report from server */
         drv->SocketRecv (io->sock, buffer, TEST_BSIZE);
         if (strncmp ((char *)buffer, "STAT", 4) == 0) {

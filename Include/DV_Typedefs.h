@@ -41,13 +41,13 @@ typedef unsigned int    BOOL;
 
 /* Test macros */
 #define TEST_FAIL()                             TEST_FAIL_MESSAGE("[FAILED]")
-#define TEST_FAIL_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, FAILED);
+#define TEST_FAIL_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, FAILED)
 #define TEST_PASS()                             TEST_PASS_MESSAGE(NULL)
-#define TEST_PASS_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, PASSED);
+#define TEST_PASS_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, PASSED)
 
 #define TEST_ASSERT(condition)                  TEST_ASSERT_MESSAGE(condition,"[FAILED]")
-#define TEST_ASSERT_MESSAGE(condition,message)  if (condition) { __set_result (__FILE__, __LINE__, NULL, PASSED); } else { __set_result (__FILE__, __LINE__, message, FAILED); }
+#define TEST_ASSERT_MESSAGE(condition,message)  if (condition) { __set_result (__FILE__, __LINE__, NULL, PASSED); } else __set_result (__FILE__, __LINE__, message, FAILED)
 
-#define TEST_MESSAGE(message)                   __set_message(__FILE__, __LINE__, message);
+#define TEST_MESSAGE(message)                   __set_message(__FILE__, __LINE__, message)
 
 #endif /* __CMSIS_DV_TYPEDEFS_H__ */

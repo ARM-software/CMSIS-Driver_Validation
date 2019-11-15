@@ -15,6 +15,7 @@ Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-
 | DoxyGen          | Source of the documentation                               |
 | Include          | header files for driver validation components             |
 | Source           | source files for driver validation components             |
+| Tools            | SockServer source and executable files                    |
 | Utilities        | Utility programs                                          |
 
 ## Generate CMSIS Pack for Release

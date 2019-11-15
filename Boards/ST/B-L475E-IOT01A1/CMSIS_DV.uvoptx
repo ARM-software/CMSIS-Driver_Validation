@@ -170,8 +170,8 @@
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.4.2-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.4.2-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.4.2-dev4\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.4.2-dev4</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -375,8 +375,8 @@
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.4.2-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.4.2-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.4.2-dev4\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.4.2-dev4</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>

@@ -34,16 +34,18 @@ The following services are available by SockServer:
  - Personal Computer running Microsoft Windows
  - PC connection to local network
 
-\subsection sockserver_pc_win_build Building SockServer application for PC on Microsoft Windows host
+SockServer is already built and can be executed by running the SockServer.exe file in <b>.\\Tools\\SockServer\\PC\\Win</b>
 
-SockServer build process requires Minimalist GNU for Windows (MinGW).
+If there is an need to change anything of the functionality of the SockServer the source files are available 
+in <b>.\\Tools\\SockServer\\PC\\Win</b> together with batch script used for building the excutable.
 
-To build SockServer executable for PC with Microsoft Windows follow the steps below:
- -# Download and install MinGW from official web page https://osdn.net/projects/mingw/releases/
- -# Set environment path in Microsoft Windows as explained under Environment Settings heading on http://www.mingw.org/wiki/Getting_Started
- -# Run Microsoft Windows batch script <b>Build_exe.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win\\Build</b>
- -# Built executable is located in <b>.\\Tools\\SockServer\\PC\\Win\\Exe</b>
+\note SockServer build process requires Minimalist GNU for Windows (MinGW).
 
+\note To build SockServer executable for PC with Microsoft Windows follow the steps below:
+\note - Download and install MinGW from official web page https://osdn.net/projects/mingw/releases/
+\note - Set environment path in Microsoft Windows as explained under Environment Settings heading on http://www.mingw.org/wiki/Getting_Started
+\note - Run Microsoft Windows batch script <b>Build.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win</b>
+\note - Built executable is located in <b>.\\Tools\\SockServer\\PC\\Win</b>
 
 \subsection sockserver_pc_win_troubleshooting SockServer on Microsoft Windows troubleshooting
 

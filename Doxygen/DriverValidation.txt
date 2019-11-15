@@ -220,26 +220,29 @@ that the correct clock frequency is set:
 Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window:
 
 \verbatim
-CMSIS-Driver Test Suite   Oct  8 2015   17:12:21 
+CMSIS-Driver ETH Test Report   Nov 15 2019   15:25:59 
 
 TEST 01: ETH_MAC_GetCapabilities          PASSED
 TEST 02: ETH_MAC_Initialization           PASSED
 TEST 03: ETH_MAC_PowerControl             
-  DV_ETH.c (163) [WARNING] Low power is not supported
+  DV_ETH.c (163): [WARNING] Low power is not supported
+                                          PASSED
 TEST 04: ETH_MAC_SetBusSpeed              
-  DV_ETH.c (197) [WARNING] Link speed 1G is not supported
+  DV_ETH.c (197): [WARNING] Link speed 1G is not supported
+                                          PASSED
 TEST 05: ETH_MAC_Config_Mode              PASSED
 TEST 06: ETH_MAC_Config_CommonParams      PASSED
 TEST 07: ETH_PHY_Initialization           PASSED
 TEST 08: ETH_PHY_PowerControl             
-  DV_ETH.c (300) [WARNING] Low power is not supported
+  DV_ETH.c (300): [WARNING] Low power is not supported
+                                          PASSED
 TEST 09: ETH_PHY_Config                   PASSED
 TEST 10: ETH_Loopback_Transfer            PASSED
 TEST 11: ETH_PHY_CheckInvalidInit         NOT EXECUTED
 TEST 12: ETH_MAC_CheckInvalidInit         NOT EXECUTED
 
-Test Summary: 12 Tests, 10 Executed, 7 Passed, 0 Failed, 3 Warnings.
-Test Result: WARNING
+Test Summary: 12 Tests, 10 Passed, 0 Failed.
+Test Result: PASSED
 \endverbatim
 
 If you see warnings during loopback transfer tests, please read the section \ref test_results which gives you more
@@ -254,24 +257,28 @@ information on how to interpret the results.
 The tests \ref SPI_Loopback_CheckBusSpeed and \ref USART_Loopback_CheckBaudrate may issue warnings when using the default
 settings (especially loopback communication tests for SPI and USART):
 \verbatim
-CMSIS-Driver Test Suite   Nov 18 2015   09:26:38 
+CMSIS-Driver SPI Test Report   Nov 15 2019   15:35:11 
 
 TEST 01: SPI_GetCapabilities              PASSED
 TEST 02: SPI_Initialization               PASSED
 TEST 03: SPI_PowerControl                 
-  DV_SPI.c (244) [WARNING] Low power is not supported
+  DV_SPI.c (244): [WARNING] Low power is not supported
+                                          PASSED
 TEST 04: SPI_Config_PolarityPhase         PASSED
 TEST 05: SPI_Config_DataBits              PASSED
 TEST 06: SPI_Config_BitOrder              
-  DV_SPI.c (315) [WARNING] Bit order LSB_MSB is not supported
+  DV_SPI.c (315): [WARNING] Bit order LSB_MSB is not supported
+                                          PASSED
 TEST 07: SPI_Config_SSMode                
-  DV_SPI.c (343) [WARNING] Slave select MASTER_HW_INPUT is not supported
+  DV_SPI.c (343): [WARNING] Slave select MASTER_HW_INPUT is not supported
+                                          PASSED
 TEST 08: SPI_Config_BusSpeed              PASSED
 TEST 09: SPI_Config_CommonParams          PASSED
 TEST 10: SPI_Send                         PASSED
 TEST 11: SPI_Receive                      PASSED
 TEST 12: SPI_Loopback_CheckBusSpeed       
-  DV_SPI.c (525) [WARNING] At 25000kHz: measured time is 2.437125 x expected time
+  DV_SPI.c (525): [WARNING] At 25000kHz: measured time is 2.437125 x expected time
+                                          PASSED
 TEST 13: SPI_Loopback_Transfer            PASSED
 TEST 14: SPI_CheckInvalidInit             NOT EXECUTED
 \endverbatim

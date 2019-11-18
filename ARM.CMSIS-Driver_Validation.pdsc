@@ -228,7 +228,7 @@
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
         <file category="include" name="Include/"/>
-        <file category="header"  name="Source/Config/DV_Config.h" attr="config" version = "1.2.1"/>
+        <file category="header"  name="Source/Config/DV_Config.h" attr="config" version = "1.2.2"/>
         <file category="source"  name="Source/cmsis_dv.c"/>
         <file category="header"  name="Include/cmsis_dv.h"/>
         <file category="source"  name="Source/DV_Framework.c"/>

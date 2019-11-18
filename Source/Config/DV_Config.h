@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
  *      Name:         DV_Config.h
  *      Purpose:      DV Config header
- *      Version:      1.2.1
+ *      Version:      1.2.2
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
@@ -19,9 +19,6 @@
 #ifndef PRINT_XML_REPORT
 #define PRINT_XML_REPORT                0
 #endif
-// <o> Buffer size for assertions results
-// <i> Set the buffer size for assertions results buffer
-#define BUFFER_ASSERTIONS               128
 // <h> Buffer sizes
 // <i> Enable/disable buffer sizes (bytes)
 // <q> 1 - 32

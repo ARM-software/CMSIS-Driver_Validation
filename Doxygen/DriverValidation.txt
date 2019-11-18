@@ -10,12 +10,11 @@ The Software Pack for CMSIS-Driver validation provides:
   - Configurable validation tests for several CMSIS-Driver interfaces
   - Example projects that show the usage of the CMSIS-Driver validation
 
-The CMSIS-Driver validation tests and verifies:
+The CMSIS-Driver Validation tests and verifies:
   - \b API \b interface \b interaction using the driver capabilities as well as valid and invalid parameters.
   - \b Data \b communication with various transfer sizes and communication parameters (i.e. baudrate).
   - \b Loopback \b communication (for some interfaces) for testing the underlying hardware.
-  - \b Transfer \b speed of the data communication with time measurement of data transfers (for interfaces with loopback
-    functionality).
+  - \b Transfer \b speed of the data communication with time measurement of data transfers.
 
 The CMSIS-Driver Validation requires
 <a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> or
@@ -145,8 +144,6 @@ Open \c DV_Config.h under the <b>CMSIS Driver Validation</b> group in the Projec
 The common test settings help you to choose the output format of the test and the buffer sizes and buffer content that should
 be used for the send, receive, and transfer tests:
 - The \b Print \b Output \b Format lets you select if you wish to create the output as plain text or as styled XML.
-- The <b>Buffer size for assertions results</b> determines the size of the buffer that can be observed in the \b Watch
-  window.
 - \b Buffer \b sizes lets you select the buffer sizes that are used for data transfer. This setting has a direct impact on
   required \ref step6 "heap".
 - You can specify also the <b>Buffer size for baudrate test</b>. For USART you can set the <b>Percentual tolerance for baudrate 
@@ -158,7 +155,7 @@ be used for the send, receive, and transfer tests:
 <b>Driver-specific Settings</b>
 
 Every interface has specific settings that can be changed in the according section:
-- You need to specify the driver instance number (<b>Driver_<i>interface</i>#</b>) is used for the test. This is especially
+- You need to specify the driver instance number (<b>Driver_<i>interface</i>#</b>) used for the test. This is especially
   important for microcontroller devices that have multiple peripherals of the same kind.
 - Some drivers can have additional baudrate or timing settings.
 - Select all driver tests that you wish to use. Note that all tests can run independently from each other. You do not need to
@@ -176,7 +173,7 @@ Open \b RTX_Config.h and edit set:
 
 \section step6 Step 6: Configure Heap
 
-Depending on the buffer sizes that you have chosen in \ref step4 "step 4", you need to add more heap. Open your
+Depending on the buffer sizes that you have chosen in \ref step4 "Step 4", you need to add more heap. Open your
 startup_<i>device</i>.s file from the \b Device group in the \b Project window. Click on \b Configuration \b Wizard. Increase
 the heap size:
 - For the validation framework add 1024 bytes.
@@ -209,8 +206,13 @@ Connect the following pins on your target hardware together (refer to the hardwa
 - SPI: MISO and MOSI
 - USART: RX and TX
 
+\section step9 Step 9: Add additional test Hardware and Software for WiFi Tests (relevant for WiFi tests only)
 
-\section step9 Step 9: Download and Run the Project
+For testing functionality of WiFi driver it is necessary that there is a SockServer application 
+running in the same network. Check \ref wifi_sock_setup "WiFi SockServer" documentation on how 
+to setup the SockServer application for WiFi testing.
+
+\section step10 Step 10: Download and Run the Project
 
 In the <b>Options for Target</b> dialog, under debug settings, ensure that \b Trace and ITM port \token{0} are enabled and
 that the correct clock frequency is set:
@@ -362,7 +364,7 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 Hardware Setup
 --------------
 
-The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
+The following picture shows the necessary external loopback connections for the Infineon XMC4500 Relax Kit evaluation board:
  - UART2: \b P0.4 (UART2_RX)  and \b P0.5 (UART2_TX)  (Header X2)
  - SPI0:  \b P5.0 (SPI0_MOSI) and \b P5.1 (SPI0_MISO) (Header X2)
  - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
@@ -529,8 +531,13 @@ under the \b CMSIS component class:
       <td>Default Thread stack size [bytes]</td>
       <td>2048</td>
     </tr>
+    <tr>
+      <td>Global Dynamic Memory size [bytes] (Note 1)</td>
+      <td>8192</td>
+    </tr>
 </table>
 
+\note Note 1: This setting is only relevant for WiFi driver testing for other default version of 4096 is sufficient.
 
 \section rtos_req CMSIS-RTOS Requirements
 

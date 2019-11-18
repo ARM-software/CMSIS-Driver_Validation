@@ -22,7 +22,7 @@ SET PACK_VENDOR=ARM
 SET PACK_NAME=CMSIS-Driver_Validation
 
 :: Folder for Pack
-SET PACK_FOLDER_LIST=Boards Documentation Include Source Tools ..\Documentation
+SET PACK_FOLDER_LIST=Boards Documentation Include Source Tools
 
 :: Files in base folder for Pack
 SET PACK_FILE_LIST=%PACK_VENDOR%.%PACK_NAME%.pdsc README.md LICENSE.txt
@@ -91,6 +91,9 @@ FOR %%A IN (%PACK_FILE_LIST%) DO (
 FOR %%A IN (%PACK_FOLDER_LIST%) DO (
   RMDIR /Q /S  %RELEASE_PATH%\%%A
 )
+
+:: remove intermediate Documentation directory from root
+RMDIR /Q /S ..\Documentation
 
 DEL ..\zip.log
 

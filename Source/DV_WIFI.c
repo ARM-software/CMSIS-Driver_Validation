@@ -3002,15 +3002,17 @@ static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout) {
     /* Success, completed in time */
     return (1);
   }
-  /* Function timeout expired */
-  snprintf(msg_buf, sizeof(msg_buf), "Execution timeout (%d ms)", tout);
-  TEST_ASSERT_MESSAGE(0,msg_buf);
   return (0);
 }
 
 #define TH_EXECUTE(sig,tout) do {                                                \
                                io.xid++;                                         \
                                rval = th_execute (worker, sig, tout);            \
+                               if (rval == 0) {                                  \
+                                 /* Function timeout expired */                                           \
+                                 snprintf(msg_buf, sizeof(msg_buf), "Execution timeout (%d ms)", tout);   \
+                                 TEST_ASSERT_MESSAGE(0,msg_buf);                 \
+                               }                                                 \
                              } while (0)
 
 #define TH_ASSERT(cond)      do {                                                \

@@ -8,7 +8,7 @@ interface of the WiFi driver and is located in the <b>.\\Tools\\SockServer</b> s
 The SockServer is available for different target systems and runs several standard network services.
 
 The SockServer is available for following target systems:
- - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win\\Exe</b>)
+ - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win</b>)
  - Embedded <b>Keil MCB4300</b> evaluation board (uVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCB4300</b>)
  - Embedded <b>Keil MCBSTM32F400</b> evaluation board (uVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCBSTM32F400</b>)
 
@@ -37,7 +37,7 @@ The following services are available by SockServer:
 SockServer is already built and can be executed by running the SockServer.exe file in <b>.\\Tools\\SockServer\\PC\\Win</b>
 
 If there is an need to change anything of the functionality of the SockServer the source files are available 
-in <b>.\\Tools\\SockServer\\PC\\Win</b> together with batch script used for building the excutable.
+in <b>.\\Tools\\SockServer\\PC\\Win</b> together with batch script used for building the executable.
 
 \note SockServer build process requires Minimalist GNU for Windows (MinGW).
 

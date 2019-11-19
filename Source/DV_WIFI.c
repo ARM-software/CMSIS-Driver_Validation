@@ -3002,36 +3002,42 @@ static int32_t th_execute (osThreadId_t *id, uint32_t sig, uint32_t tout) {
     /* Success, completed in time */
     return (1);
   }
+  /* If function timeout expired prepare output message */
+  snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Execution timeout (%d ms)", tout);
   return (0);
 }
 
-#define TH_EXECUTE(sig,tout) do {                                                \
-                               io.xid++;                                         \
-                               rval = th_execute (worker, sig, tout);            \
-                               if (rval == 0) {                                  \
-                                 /* Function timeout expired */                                           \
-                                 snprintf(msg_buf, sizeof(msg_buf), "Execution timeout (%d ms)", tout);   \
-                                 TEST_ASSERT_MESSAGE(0,msg_buf);                 \
-                               }                                                 \
+/* Helper function for preparing output message for TH_ASSERT2 macro */
+static void th_assert2_msg (const char *s1, int32_t r1, int32_t r2) {
+  snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Non BSD-strict, %s (result %s, expected %s)", s1, str_sock_ret[-r1], str_sock_ret[-r2]);
+}
+
+#define TH_EXECUTE(sig,tout) do {                                               \
+                               io.xid++;                                        \
+                               rval = th_execute (worker, sig, tout);           \
+                               if (rval == 0) {                                 \
+                                 /* Msg was prepared in th_execute function */  \
+                                 TEST_ASSERT_MESSAGE(0,msg_buf);                \
+                               }                                                \
                              } while (0)
 
-#define TH_ASSERT(cond)      do {                                                \
-                               if (rval) { TEST_ASSERT(cond); }                  \
+#define TH_ASSERT(cond)      do {                                               \
+                               if (rval) { TEST_ASSERT(cond); }                 \
                              } while (0)
 
-#define TH_ASSERT2(c1,c2,s1,r1,r2) do {                                          \
-                               if (rval) {                                       \
-                                 if (!c2) { TEST_ASSERT(c1); }                   \
-                                 else {                                          \
-                                   snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Non BSD-strict, %s (result %s, expected %s)", s1, str_sock_ret[-r1], str_sock_ret[-r2]); \
-                                   TEST_MESSAGE(msg_buf);                        \
-                                 }                                               \
-                               }                                                 \
+#define TH_ASSERT2(c1,c2,s1,r1,r2) do {                                         \
+                               if (rval) {                                      \
+                                 if (!c2) { TEST_ASSERT(c1); }                  \
+                                 else {                                         \
+                                   th_assert2_msg(s1, r1, r2); /* Prep msg */   \
+                                   TEST_MESSAGE(msg_buf);                       \
+                                 }                                              \
+                               }                                                \
                              } while (0)
 
-#define ARG_INIT()           do {                                                \
-                               io.owner = osThreadGetId ();                      \
-                               io.xid   = 0;                                     \
+#define ARG_INIT()           do {                                               \
+                               io.owner = osThreadGetId ();                     \
+                               io.xid   = 0;                                    \
                              } while (0)
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/

@@ -7190,6 +7190,7 @@ typedef struct {
   /* Control */
   osThreadId_t owner;
   uint32_t     xid;
+  int32_t      tcp;
 } IO_TRANSFER;
 
 /* Assign arguments */
@@ -7201,7 +7202,7 @@ typedef struct {
 
 /* Transfer worker thread */
 __NO_RETURN static void Th_Transfer (IO_TRANSFER *io) {
-  uint32_t flags,xid,i;
+  uint32_t flags,xid,i,j;
   int32_t  rc = 0;
 
   for (;;) {
@@ -7239,7 +7240,11 @@ __NO_RETURN static void Th_Transfer (IO_TRANSFER *io) {
         for (i = 0; i < io->len; i += io->size) {
           rc = drv->SocketSend (io->sock, &test_buf[i], io->size);
           if (rc <= 0) break;
-          rc = drv->SocketRecv (io->sock, &buffer[i], io->size);
+          for (j = 0; j < io->size; j += (uint32_t)rc) {
+            /* Returns any data available, up to requested amount */
+            rc = drv->SocketRecv (io->sock, &buffer[i+j], io->size-j);
+            if ((rc <= 0) || !io->tcp) break;
+          }
           if (rc <= 0) break;
         }
         if (memcmp ((const void *)buffer, (const void *)test_buf, io->len) == 0) {
@@ -7297,7 +7302,12 @@ __NO_RETURN static void Th_Transfer (IO_TRANSFER *io) {
           osDelay (100);
           /* Receive in small blocks */
           for (i = 0; i < io->len; i += io->size) {
-            rc = drv->SocketRecv (io->sock, &buffer[i], io->size);
+            for (j = 0; j < io->size; j += (uint32_t)rc) {
+              /* Returns any data available, up to requested amount */
+              rc = drv->SocketRecv (io->sock, &buffer[i+j], io->size-j);
+              if (rc <= 0) break;
+            }
+            if (rc <= 0) break;
           }
           if (memcmp ((const void *)buffer, (const void *)test_buf, io->len) == 0) {
             rc = (int32_t)i;
@@ -7326,7 +7336,7 @@ Stream socket test:
  - Transfer  32 blocks of   64 bytes
  - Transfer   8 blocks of  256 bytes
  - Transfer   2 blocks of 1024 bytes
- - Transfer   1 block  of 1440 bytes
+ - Transfer   1 block  of 2048 bytes
  - Close socket
 
 Datagram socket test:
@@ -7366,6 +7376,7 @@ void WIFI_Transfer_Fixed (void) {
     sock = io.rc;
 
     /* Connect to stream server */
+    io.tcp  = 1;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 0);
@@ -7390,10 +7401,10 @@ void WIFI_Transfer_Fixed (void) {
     TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 2048);
 
-    /* Transfer 1440-byte block */
-    ARG_TRANSFER (sock, 1440, 1440);
+    /* Transfer 2048-byte block */
+    ARG_TRANSFER (sock, 2048, 2048);
     TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT  (io.rc == 1440);
+    TH_ASSERT  (io.rc == 2048);
 
     /* Close stream socket */
     io.sock = sock;
@@ -7411,6 +7422,7 @@ void WIFI_Transfer_Fixed (void) {
     sock = io.rc;
 
     /* Connect to datagram server */
+    io.tcp  = 0;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
@@ -7619,10 +7631,10 @@ The test case \b WIFI_Send_Fragmented verifies data transfer in chunks.
 
 Stream socket test:
  - Create stream socket
- - Send 16 blocks of  16 bytes, receive 1 block of  256 bytes
- - Send 16 blocks of  64 bytes, receive 1 block of 1024 bytes
- - Send  5 blocks of 256 bytes, receive 1 block of 1280 bytes
- - Send  2 blocks of 720 bytes, receive 1 block of 1440 bytes
+ - Send 16 blocks of   16 bytes, receive 1 block of  256 bytes
+ - Send 16 blocks of   64 bytes, receive 1 block of 1024 bytes
+ - Send  5 blocks of  256 bytes, receive 1 block of 1280 bytes
+ - Send  2 blocks of 1024 bytes, receive 1 block of 2048 bytes
  - Close socket
 */
 void WIFI_Send_Fragmented (void) {
@@ -7673,9 +7685,9 @@ void WIFI_Send_Fragmented (void) {
     TH_ASSERT  (io.rc == 1280);
 
     /* Transfer 1024-byte block(s) */
-    ARG_TRANSFER (sock, 1440, 720);
+    ARG_TRANSFER (sock, 2048, 1024);
     TH_EXECUTE (F_SEND_FRAG, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT  (io.rc == 1440);
+    TH_ASSERT  (io.rc == 2048);
 
     /* Close stream socket */
     io.sock = sock;
@@ -7701,10 +7713,10 @@ The test case \b WIFI_Recv_Fragmented verifies data transfer in chunks.
 
 Stream socket test:
  - Create stream socket
- - Send block of  256 bytes, receive 16 blocks of  16 bytes
- - Send block of 1024 bytes, receive 16 blocks of  64 bytes
- - Send block of 1280 bytes, receive  5 blocks of 256 bytes
- - Send block of 1440 bytes, receive  2 blocks of 720 bytes
+ - Send block of  256 bytes, receive 16 blocks of   16 bytes
+ - Send block of 1024 bytes, receive 16 blocks of   64 bytes
+ - Send block of 1280 bytes, receive  5 blocks of  256 bytes
+ - Send block of 2048 bytes, receive  2 blocks of 1024 bytes
  - Close socket
 */
 void WIFI_Recv_Fragmented (void) {
@@ -7754,10 +7766,10 @@ void WIFI_Recv_Fragmented (void) {
     TH_EXECUTE (F_RECV_FRAG, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 1280);
 
-    /* Transfer 720-byte block(s) */
-    ARG_TRANSFER (sock, 1440, 720);
+    /* Transfer 1024-byte block(s) */
+    ARG_TRANSFER (sock, 2048, 1024);
     TH_EXECUTE (F_RECV_FRAG, WIFI_SOCKET_TIMEOUT_LONG);
-    TH_ASSERT  (io.rc == 1440);
+    TH_ASSERT  (io.rc == 2048);
 
     /* Close stream socket */
     io.sock = sock;
@@ -7822,6 +7834,7 @@ void WIFI_Test_Speed (void) {
     sock = io.rc;
 
     /* Connect to stream server */
+    io.tcp  = 1;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 0);
@@ -7831,7 +7844,7 @@ void WIFI_Test_Speed (void) {
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
-      ARG_TRANSFER (sock, 1440, 1440);
+      ARG_TRANSFER (sock, 1420, 1420);
       TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
@@ -7858,6 +7871,7 @@ void WIFI_Test_Speed (void) {
     sock = io.rc;
 
     /* Connect to datagram server */
+    io.tcp  = 0;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
@@ -7906,7 +7920,7 @@ __NO_RETURN static void Th_Sidekick (IO_SIDEKICK *io2) {
   int32_t rc;
 
   for (;;) {
-    if (osThreadFlagsWait (SK_TERMINATE, osFlagsWaitAny, 100) == SK_TERMINATE) {
+    if (osThreadFlagsWait (SK_TERMINATE, osFlagsWaitAny, 200) == SK_TERMINATE) {
       break;
     }
     memset ((void *)buff, 0xCC, sizeof(buff));
@@ -7930,14 +7944,14 @@ The test case \b WIFI_Concurrent_Socket verifies transfer of two concurrent sock
 
 Stream socket test:
  - Create two stream sockets
- - Start transfer on 2nd socket with 100ms intervals
+ - Start transfer on 2nd socket with 200ms intervals
  - Transfer on main socket, full speed
  - Calculate transfer rate
  - Close sockets
 
 Datagram socket test:
  - Create datagram and stream sockets
- - Start transfer on stream socket with 100ms intervals
+ - Start transfer on stream socket with 200ms intervals
  - Transfer on main socket, full speed
  - Calculate transfer rate
  - Close sockets
@@ -7968,7 +7982,7 @@ void WIFI_Concurrent_Socket (void) {
 
   /* The test connects two stream sockets to the ECHO server and then    */
   /* performs simultaneous data transfer. The main socket transmits at   */
-  /* full speed, and the other socket sends messages at 100ms intervals. */
+  /* full speed, and the other socket sends messages at 200ms intervals. */
   /* Both sockets record the number of bytes of data transferred, and    */
   /* the transfer rate is calculated.                                    */
 
@@ -7988,6 +8002,7 @@ void WIFI_Concurrent_Socket (void) {
     io2.count = 0;
 
     /* Connect sockets */
+    io.tcp  = 1;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
     TH_ASSERT  (io.rc == 0);
@@ -8005,19 +8020,23 @@ void WIFI_Concurrent_Socket (void) {
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
-      ARG_TRANSFER (sock, 1440, 1440);
+      ARG_TRANSFER (sock, 1420, 1420);
       TH_EXECUTE (F_XFER_FIXED, WIFI_SOCKET_TIMEOUT_LONG);
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);
-    /* Check transfer rate */
+    /* Check main transfer rate */
     if (n_bytes < 10000) {
       snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Slow Transfer rate (%d KB/s)", n_bytes / 2048);
       TEST_MESSAGE(msg_buf);
     }
-
-    /* 2nd socket sends at 100ms intervals */
-    TH_ASSERT (io2.count > 1000);
+    /* Check auxiliary transfer rate */
+    if (io2.count == 0) {
+      TEST_ASSERT_MESSAGE(0,"[FAILED] Auxiliary transfer failed");
+    }
+    else if (io2.count < 440) {
+      TEST_MESSAGE("[WARNING] Auxiliary Transfer rate low");
+    }
 
     /* Terminate spawned thread */
     osThreadFlagsSet (spawn, SK_TERMINATE);
@@ -8039,7 +8058,7 @@ void WIFI_Concurrent_Socket (void) {
   /* The test connects datagram and stream sockets to the ECHO server     */
   /* and then performs simultaneous data transfer. The datagram socket    */
   /* transmits at full speed, and the stream socket sends messages at     */
-  /* 100ms intervals. The number of bytes of transferred data is recorded */
+  /* 200ms intervals. The number of bytes of transferred data is recorded */
   /* and the rate of transmission is calculated.                          */
 
   /* Create datagram socket */
@@ -8050,6 +8069,7 @@ void WIFI_Concurrent_Socket (void) {
     sock = io.rc;
 
     /* Connect datagram socket */
+    io.tcp  = 0;
     io.sock = sock;
     TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
@@ -8081,14 +8101,18 @@ void WIFI_Concurrent_Socket (void) {
       if (io.rc > 0) n_bytes += io.rc;
       else           break;
     } while (GET_SYSTICK() - ticks < tout);
-    /* Check transfer rate */
+    /* Check main transfer rate */
     if (n_bytes < 10000) {
       snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Slow Transfer rate (%d KB/s)", n_bytes / 2048);
       TEST_MESSAGE(msg_buf);
     }
-
-    /* 2nd socket sends at 100ms intervals */
-    TH_ASSERT (io2.count > 1000);
+    /* Check auxiliary transfer rate */
+    if (io2.count == 0) {
+      TEST_ASSERT_MESSAGE(0,"[FAILED] Auxiliary transfer failed");
+    }
+    else if (io2.count < 440) {
+      TEST_MESSAGE("[WARNING] Auxiliary Transfer rate low");
+    }
 
     /* Terminate spawned thread */
     osThreadFlagsSet (spawn, SK_TERMINATE);

@@ -9,7 +9,7 @@
   <license>LICENSE.txt</license>
   
   <releases>
-    <release version="1.4.0-rc0">
+    <release version="1.4.0-rc1">
       - Updated conditions to support all Cortex-M devices
       - Introduced test groups (each driver is organized in a group)
       - Improved XSL for XML display

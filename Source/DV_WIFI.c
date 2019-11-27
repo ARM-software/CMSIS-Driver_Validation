@@ -183,11 +183,11 @@ static void WIFI_DrvEvent (uint32_t evt, void *arg) {
 \defgroup wifi_funcs WiFi Validation
 \brief WiFi test cases
 \details
-The WiFi validation test performs the following checks:
+The WiFi validation test performs the following tests:
 - API interface compliance.
-- Some of Control and Management operation.
+- Some of the control and management operations.
 - Socket operation with various transfer sizes and communication parameters.
-- Socket performance tests.
+- Socket performance.
 */
 
 /* Helper function that initializes and powers on WiFi Module if not initialized and powered */

@@ -4,7 +4,7 @@
   <vendor>ARM</vendor>
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
-  <url>http://www.keil.com/pack</url>
+  <url>http://www.keil.com/pack/</url>
   <supportContact>http://silver.arm.com/support</supportContact>
   <license>LICENSE.txt</license>
   
@@ -47,10 +47,8 @@
     <keyword>CMSIS-Driver</keyword>
     <keyword>Driver validation</keyword>
   </keywords>
-
   
   <examples>
- 
     <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Keil/MCBSTM32F400">
       <description>CMSIS-Driver Validation Example</description>
       <board name="MCBSTM32F400" vendor="Keil"/>
@@ -64,7 +62,7 @@
         <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
-    
+
     <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Keil/MCBSTM32F200">
       <description>CMSIS-Driver Validation Example</description>
       <board name="MCBSTM32F200" vendor="Keil"/>
@@ -107,7 +105,7 @@
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
-    
+
     <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Infineon/XMC4500 Relax Lite Kit">
       <description>CMSIS-Driver Validation Example</description>
       <board name="XMC4500 Relax Lite Kit" vendor="Infineon"/>
@@ -121,12 +119,9 @@
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
-  
   </examples>
-
   
   <conditions>
-  
     <condition id="Cortex-M Device">
       <description>Cortex-M processor based device: Cortex-M0, Cortex-M0+, Cortex-M1, Cortex-M3, Cortex-M4, Cortex-M7, Cortex-M23, Cortex-M33, SC000 or SC3000</description>
       <accept Dcore="Cortex-M0"/>
@@ -142,7 +137,7 @@
       <accept Dcore="SC000"/>
       <accept Dcore="SC300"/>
     </condition>
-  
+
     <condition id="CMSIS Core with RTOS and STDOUT">
       <description>CMSIS Core with RTOS for Cortex-M processor</description>
       <accept condition="Cortex-M Device"/>
@@ -158,7 +153,7 @@
       <require Cclass="CMSIS Driver" Cgroup="SPI"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
-  
+
     <condition id="CMSIS Driver Validation I2C">
       <description>CMSIS Driver I2C</description>
       <require condition="CMSIS Core with RTOS and STDOUT"/>
@@ -180,21 +175,21 @@
       <require Cclass="CMSIS Driver" Cgroup="USART"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
-  
+
     <condition id="CMSIS Driver Validation MCI">
       <description>CMSIS Driver MCI</description>
       <require condition="CMSIS Core with RTOS and STDOUT"/>
       <require Cclass="CMSIS Driver" Cgroup="MCI"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
-  
+
     <condition id="CMSIS Driver Validation USBD">
       <description>CMSIS Driver USB Device</description>
       <require condition="CMSIS Core with RTOS and STDOUT"/>
       <require Cclass="CMSIS Driver" Cgroup="USB Device"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
-    
+
     <condition id="CMSIS Driver Validation USBH">
       <description>CMSIS Driver USB Host</description>
       <require condition="CMSIS Core with RTOS and STDOUT"/>
@@ -215,126 +210,124 @@
       <require Cclass="CMSIS Driver" Cgroup="WiFi"/>
       <require Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
-  
   </conditions>  
 
   <components>  
-     
     <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.4.0">  
       <description>Run driver validation test for enabled drivers</description>
       <doc>Documentation/html/index.html</doc>
+
       <component Cgroup="Framework" condition="CMSIS Core with RTOS and STDOUT">
-      <description>Test framework</description>
-      <files>
-        <file category="doc"     name="Documentation/html/index.html" />
-        <file category="include" name="Include/"/>
-        <file category="header"  name="Source/Config/DV_Config.h" attr="config" version = "1.2.2"/>
-        <file category="source"  name="Source/cmsis_dv.c"/>
-        <file category="header"  name="Include/cmsis_dv.h"/>
-        <file category="source"  name="Source/DV_Framework.c"/>
-        <file category="source"  name="Source/DV_Report.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="SPI" condition="CMSIS Driver Validation SPI">        
-      <description>SPI driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__spi__funcs.html" />
-        <file category="source" name="Source/DV_SPI.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="I2C" condition="CMSIS Driver Validation I2C">  
-      <description>I2C driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_I2C        /* Driver Validation I2C enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__i2c__funcs.html" />
-        <file category="source" name="Source/DV_I2C.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="USART" condition="CMSIS Driver Validation USART">  
-      <description>USART driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_USART      /* Driver Validation USART enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__usart__funcs.html" />
-        <file category="source" name="Source/DV_USART.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="Ethernet" condition="CMSIS Driver Validation ETH">
-      <description>Ethernet driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_ETH        /* Driver Validation Ethernet enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__eth__funcs.html" />
-        <file category="source" name="Source/DV_ETH.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="MCI" condition="CMSIS Driver Validation MCI">
-      <description>MCI driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_MCI        /* Driver Validation MCI enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__mci__funcs.html" />
-        <file category="source" name="Source/DV_MCI.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="USB Device" condition="CMSIS Driver Validation USBD">
-      <description>USB Device driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_USBD       /* Driver Validation USB Device enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__usbd__funcs.html" />
-        <file category="source" name="Source/DV_USBD.c"/>
-      </files>
-    </component>
+        <description>Test framework</description>
+        <files>
+          <file category="doc"     name="Documentation/html/index.html" />
+          <file category="include" name="Include/"/>
+          <file category="header"  name="Source/Config/DV_Config.h" attr="config" version = "1.2.2"/>
+          <file category="source"  name="Source/cmsis_dv.c"/>
+          <file category="header"  name="Include/cmsis_dv.h"/>
+          <file category="source"  name="Source/DV_Framework.c"/>
+          <file category="source"  name="Source/DV_Report.c"/>
+        </files>
+      </component>
 
-    <component Cgroup="USB Host" condition="CMSIS Driver Validation USBH">
-      <description>USB Host driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_USBH       /* Driver Validation USB Host enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__usbh__funcs.html" />
-        <file category="source" name="Source/DV_USBH.c"/>
-      </files>
-    </component>
-    
-    <component Cgroup="CAN" condition="CMSIS Driver Validation CAN">
-      <description>CAN driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_CAN        /* Driver Validation CAN enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__can__funcs.html" />
-        <file category="source" name="Source/DV_CAN.c"/>
-      </files>
-    </component>
+      <component Cgroup="SPI" condition="CMSIS Driver Validation SPI">        
+        <description>SPI driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__spi__funcs.html" />
+          <file category="source" name="Source/DV_SPI.c"/>
+        </files>
+      </component>
 
-    <component Cgroup="WiFi" condition="CMSIS Driver Validation WiFi">
-      <description>WiFi driver validation</description>
-      <RTE_Components_h>
-        #define RTE_CMSIS_DV_WIFI       /* Driver Validation WiFi enabled */
-      </RTE_Components_h>
-      <files>
-        <file category="doc" name="Documentation/html/group__wifi__funcs.html" />
-        <file category="source" name="Source/DV_WIFI.c"/>
-      </files>
-    </component>
-    
-  </bundle>
+      <component Cgroup="I2C" condition="CMSIS Driver Validation I2C">  
+        <description>I2C driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_I2C        /* Driver Validation I2C enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__i2c__funcs.html" />
+          <file category="source" name="Source/DV_I2C.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="USART" condition="CMSIS Driver Validation USART">  
+        <description>USART driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_USART      /* Driver Validation USART enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__usart__funcs.html" />
+          <file category="source" name="Source/DV_USART.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="Ethernet" condition="CMSIS Driver Validation ETH">
+        <description>Ethernet driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_ETH        /* Driver Validation Ethernet enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__eth__funcs.html" />
+          <file category="source" name="Source/DV_ETH.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="MCI" condition="CMSIS Driver Validation MCI">
+        <description>MCI driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_MCI        /* Driver Validation MCI enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__mci__funcs.html" />
+          <file category="source" name="Source/DV_MCI.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="USB Device" condition="CMSIS Driver Validation USBD">
+        <description>USB Device driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_USBD       /* Driver Validation USB Device enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__usbd__funcs.html" />
+          <file category="source" name="Source/DV_USBD.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="USB Host" condition="CMSIS Driver Validation USBH">
+        <description>USB Host driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_USBH       /* Driver Validation USB Host enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__usbh__funcs.html" />
+          <file category="source" name="Source/DV_USBH.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="CAN" condition="CMSIS Driver Validation CAN">
+        <description>CAN driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_CAN        /* Driver Validation CAN enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__can__funcs.html" />
+          <file category="source" name="Source/DV_CAN.c"/>
+        </files>
+      </component>
+
+      <component Cgroup="WiFi" condition="CMSIS Driver Validation WiFi">
+        <description>WiFi driver validation</description>
+        <RTE_Components_h>
+          #define RTE_CMSIS_DV_WIFI       /* Driver Validation WiFi enabled */
+        </RTE_Components_h>
+        <files>
+          <file category="doc"    name="Documentation/html/group__wifi__funcs.html" />
+          <file category="source" name="Source/DV_WIFI.c"/>
+        </files>
+      </component>
+    </bundle>
   </components> <!-- end of components sections -->
 </package>

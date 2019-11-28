@@ -5,7 +5,7 @@
 
 The \b SockServer is an application providing a set of services used by the WiFi CMSIS-Driver Validation suite to test the
 Socket interface of the WiFi driver. It is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
-The SockServer is available for different target boards. It runs several standard network services.
+The SockServer is available for different target systems. It runs several standard network services.
 
 The SockServer is available for following target systems:
  - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win</b>)
@@ -64,8 +64,6 @@ Problems and solutions:
       - Action:        Allow the connection
       - Profile:       Domain, Private (Public not advised)
       - Name:          Ping Echo  
- 2. SockServer on multiple embedded systems on the same local network
-    - Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project
 
 
 \section sockserver_embedded SockServer for embedded systems
@@ -153,11 +151,18 @@ static void app_main (void *argument) {
 \code
 #define OS_STACK_SIZE           400
 \endcode
--# Set default the global stack to 1024 bytes and heap to 6144 bytes your device's \b startup \b file
+-# Set the default global stack to 1024 bytes and heap to 6144 bytes in your device's \b startup \b file
 \code
 Stack_Size      EQU     0x00000400
 Heap_Size       EQU     0x00001800
 \endcode
+
+\subsection sockserver_embedded_troubleshooting Troubleshooting
+
+Problems and solutions:
+ 1. SockServer on multiple embedded systems on the same local network
+    - Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project
+
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/

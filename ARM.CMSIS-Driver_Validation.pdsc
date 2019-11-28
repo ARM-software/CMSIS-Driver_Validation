@@ -79,7 +79,7 @@
     </example>
 
     <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/ST/B-L475E-IOT01A1">
-      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362</description>
+      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362 driver on STMicroelectronics B-L475E-IOT01A1 board</description>
       <board name="B-L475E-IOT01A1" vendor="STMicroelectronics"/>
       <project>
         <environment name="uv" load="CMSIS_DV.uvprojx"/>
@@ -122,7 +122,7 @@
     </example>
 
     <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/Inventek/ISMART43362-E">
-      <description>CMSIS-Driver Validation of WiFi Inventek ISMART43362-E WiFi shield (on NXP LPCXpresso55S69)</description>
+      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362 driver on ISMART43362-E WiFi shield with NXP LPCXpresso55S69 board</description>
       <board name="LPCXpresso55S69" vendor="NXP"/>
       <project>
         <environment name="uv" load="CMSIS_DV.uvprojx"/>

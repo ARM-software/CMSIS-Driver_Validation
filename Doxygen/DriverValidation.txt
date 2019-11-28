@@ -456,6 +456,7 @@ This example is prepared for testing of the WiFi Driver and it requires:
 
 For details on WiFi Driver tests please refer to \ref wifi_funcs.
 
+\image html b-l475e-iot01a.png  "STMicroelectronics B-L475E-IOT01A1 board"
 */
 
 

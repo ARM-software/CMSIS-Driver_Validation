@@ -329,6 +329,7 @@ hardware. The following example projects are available. Use
 - \subpage examples_mcbstm32f400
 - \subpage examples_b_l475e_iot01a1
 - \subpage examples_stm32f746g
+- \subpage examples_ismart43362_e
 
 \anchor example_targets
 Targets
@@ -341,8 +342,7 @@ All projects contain two targets:
   \note <span style="font-weight:bold; color:DarkOrange">Passed</span> Status means that tests case has passed but there were some warnings (More details can be used to see the details).
   \note <span style="font-weight:bold; color:Blue">Not executed</span> Status means test case did not check any assertions.
   \note <span style="font-weight:bold; color:Red">Failed</span> Status means test case has failed (More details can be used to see the details).
-- \b Debug: Results and statistics are printed to the Debug (printf) Viewer window through the ITM output. You can also
-  examine the results in the \b test_report buffer structure which is accessible through the \b Watch window.
+- \b Debug: Results and statistics are printed to the Debug (printf) Viewer window through the ITM output.
 */
 
 
@@ -443,14 +443,38 @@ Software Setup
 --------------
 
 Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
-<b>CMSIS-Driver Validation (B-L475E-IOT01A1)</b> to your machine.
+<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A1)</b> to your machine.
 
 -# Choose one of the available \ref example_targets and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the test on the target hardware using the on-board ST-Link/V2.
 
-This example is prepared for testing WiFi Driver and for that it requires:
+This example is prepared for testing of the WiFi Driver and it requires:
+ - SockServer in local network
+ - Access Point in local network
+
+For details on WiFi Driver tests please refer to \ref wifi_funcs.
+
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page examples_ismart43362_e ISMART43362-E WiFi Shield with NXP LPCXpresso55S69
+
+Software Setup
+--------------
+
+Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a>, copy the example project
+<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (LPCXpresso55S69)</b> to your machine.
+
+-# Choose one of the available \ref example_targets and build the project.
+-# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
+   configuration.
+-# Run the test on the target hardware using the ULINKplus debugger.
+
+This example is prepared for testing of the WiFi Driver and it requires:
  - SockServer in local network
  - Access Point in local network
 

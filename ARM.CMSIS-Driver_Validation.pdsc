@@ -15,6 +15,7 @@
       - Improved XSL for XML display
       - Added SockServer application for PC running Microsoft Windows
       - Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
+      - Added example for Inventek ISM43362 WiFi Driver testing using ISMART43362-E WiFi shield mounted on NXP LPCXpresso55S69 board
       - Updated all examples
       - Removed example for Atmel board
       - Added upstream and downstream bandwidth testing to WiFi Driver testing
@@ -117,6 +118,21 @@
         <component Cclass="Device" Cgroup="Startup"/>
         <component Cclass="CMSIS"  Cgroup="RTOS"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+      </attributes>
+    </example>
+
+    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/Inventek/ISMART43362-E">
+      <description>CMSIS-Driver Validation of WiFi Inventek ISMART43362-E WiFi shield (on NXP LPCXpresso55S69)</description>
+      <board name="LPCXpresso55S69" vendor="NXP"/>
+      <project>
+        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS"  Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362"/>
       </attributes>
     </example>
   </examples>

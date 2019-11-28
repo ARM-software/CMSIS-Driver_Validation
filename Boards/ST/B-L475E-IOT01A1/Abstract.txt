@@ -3,7 +3,7 @@ microcontroller using STMicroelectronics 'B-L475E-IOT01A1' Evaluation Board
 with Wi-Fi module Inventek ISM43362-M3G-L44 (802.11 b/g/n compliant).
 
 Features:
-This uVision project can be used to test the CMSIS-Drivers for the STM32L4xx 
+This uVision project can be used to test the CMSIS-Drivers for the STM32L475 
 against the driver specification. Configure the tests as follows:
 
   - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
@@ -26,8 +26,16 @@ The following targets are available:
  
   - Debug:
     Results and statistics are printed to the Debug (printf) Viewer window
-    through the ITM output. Results are also available in the test_report
-    buffer structure (always accessible in the watch window).
+    through the ITM output.
+
+Debugger : STLink
+
+Packs (fixed) :
+ - ARM::CMSIS                   v5.6.0
+ - ARM::CMSIS-Driver            v2.5.0
+ - ARM::CMSIS-Driver_Validation v1.4.0
+ - Keil::ARM_Compiler           v1.6.2
+ - Keil::STM32L4xx_DFP          v2.2.0
 
 IMORTANT NOTE:
   - Configure parameters in DV_Config.h under WiFi - Configuration to suit

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Copyright © 2019 Arm Limited (or its affiliates). All rights reserved.
+ * Copyright (c) 2019 Arm Limited (or its affiliates). All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -26,6 +26,7 @@
 #include "WiFi_ISM43362_HW.h"
 
 #include "stm32l4xx_hal.h"
+
 
 /**
   \fn          void WiFi_ISM43362_Pin_Initialize (void)

@@ -70,6 +70,8 @@ Revision History
         - WiFi Driver Testing: Added SockServer application for PC running Microsoft Windows
         - WiFi Driver Testing: Added upstream and downstream bandwidth testing
         - WiFi Driver Testing: Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
+        - WiFi Driver Testing: Added examples for Espressif ESP8266 and ESP32 WiFi Driver testing on NXP MIMXRT1064-EVK board
+        - WiFi Driver Testing: Added example for WIZnet WizFi360 WiFi Driver testing on NXP MIMXRT1064-EVK board
       </td>
     </tr>
     <tr>

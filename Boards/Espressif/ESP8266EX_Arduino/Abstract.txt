@@ -1,0 +1,39 @@
+CMSIS-Driver Validation Example Project for NXP MIMXRT1064-EVK board and 
+an Arduino compatible WiFi shield using ESP8266 WiFi SoC.
+
+Features:
+This uVision project is preconfigured to test the CMSIS-Driver WiFi 
+implementation for ESP8266 connected via USART against the driver specification.
+
+The following targets are available:
+
+- Debug:
+   - Code:                      External QSPI Flash NOR
+   - RW:                        Internal RAM
+   - Debugger:                  CMSIS-DAP
+   - Compiler:                  ARM Compiler optimization Level 0
+   - Compiler:Event Recorder:   Enabled
+   - CMSIS:RTOS2:Keil RTX5:     Source
+
+ - Release:
+   - Code:                      External QSPI Flash NOR
+   - RW:                        Internal RAM
+   - Debugger:                  CMSIS-DAP
+   - Compiler:                  ARM Compiler optimization Level 3
+   - Compiler:Event Recorder:   Disabled
+   - CMSIS:RTOS2:Keil RTX5:     Library
+
+Results and statistics are outputed via virtual COM port accessible on the same
+J28 connector as CMSIS-DAP debugger.
+
+Notes:
+  - Configure parameters in DV_Config.h under WiFi - Configuration to suit
+    your testing environment
+
+  - Hardware serial communication pins 0 (RX) and 1 (TX) on the Arduino shield are
+    used to communicate with the ESP8266 WiFi SoC.
+
+  - Module retarget_user.c is used to allow user retarget to work together 
+    with Debug Console output. fsl_debug_console.c module is compiled with 
+    "__MCUXPRESSO" define which is used to prevent Debug Console to override 
+    putc and getc functions

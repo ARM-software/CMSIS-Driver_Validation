@@ -1,0 +1,1358 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_projx.xsd">
+
+  <SchemaVersion>2.1</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <Targets>
+    <Target>
+      <TargetName>Debug</TargetName>
+      <ToolsetNumber>0x4</ToolsetNumber>
+      <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
+      <TargetOption>
+        <TargetCommonOption>
+          <Device>MIMXRT1064DVL6A</Device>
+          <Vendor>NXP</Vendor>
+          <PackID>NXP.MIMXRT1064_DFP.12.0.0</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <Cpu>IRAM(0x20000000,0x020000) IRAM2(0x00000000,0x020000) IROM(0x70000000,0x400000) XRAM(0x20200000,0x0c0000) CPUTYPE("Cortex-M7") FPU3(DFPU) CLOCK(12000000) ELITTLE</Cpu>
+          <FlashUtilSpec></FlashUtilSpec>
+          <StartupFile></StartupFile>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM))</FlashDriverDll>
+          <DeviceId>0</DeviceId>
+          <RegisterFile>$$Device:MIMXRT1064DVL6A$fsl_device_registers.h</RegisterFile>
+          <MemoryEnv></MemoryEnv>
+          <Cmp></Cmp>
+          <Asm></Asm>
+          <Linker></Linker>
+          <OHString></OHString>
+          <InfinionOptionDll></InfinionOptionDll>
+          <SLE66CMisc></SLE66CMisc>
+          <SLE66AMisc></SLE66AMisc>
+          <SLE66LinkerMisc></SLE66LinkerMisc>
+          <SFDFile>$$Device:MIMXRT1064DVL6A$MIMXRT1064.xml</SFDFile>
+          <bCustSvd>0</bCustSvd>
+          <UseEnv>0</UseEnv>
+          <BinPath></BinPath>
+          <IncludePath></IncludePath>
+          <LibPath></LibPath>
+          <RegisterFilePath></RegisterFilePath>
+          <DBRegisterFilePath></DBRegisterFilePath>
+          <TargetStatus>
+            <Error>0</Error>
+            <ExitCodeStop>0</ExitCodeStop>
+            <ButtonStop>0</ButtonStop>
+            <NotGenerated>0</NotGenerated>
+            <InvalidFlash>1</InvalidFlash>
+          </TargetStatus>
+          <OutputDirectory>.\Debug\</OutputDirectory>
+          <OutputName>CMSIS_DV</OutputName>
+          <CreateExecutable>1</CreateExecutable>
+          <CreateLib>0</CreateLib>
+          <CreateHexFile>0</CreateHexFile>
+          <DebugInformation>1</DebugInformation>
+          <BrowseInformation>0</BrowseInformation>
+          <ListingPath>.\Debug\</ListingPath>
+          <HexFormatSelection>1</HexFormatSelection>
+          <Merge32K>0</Merge32K>
+          <CreateBatchFile>0</CreateBatchFile>
+          <BeforeCompile>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopU1X>0</nStopU1X>
+            <nStopU2X>0</nStopU2X>
+          </BeforeCompile>
+          <BeforeMake>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
+          </BeforeMake>
+          <AfterMake>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
+          </AfterMake>
+          <SelectedForBatchBuild>1</SelectedForBatchBuild>
+          <SVCSIdString></SVCSIdString>
+        </TargetCommonOption>
+        <CommonProperty>
+          <UseCPPCompiler>0</UseCPPCompiler>
+          <RVCTCodeConst>0</RVCTCodeConst>
+          <RVCTZI>0</RVCTZI>
+          <RVCTOtherData>0</RVCTOtherData>
+          <ModuleSelection>0</ModuleSelection>
+          <IncludeInBuild>1</IncludeInBuild>
+          <AlwaysBuild>0</AlwaysBuild>
+          <GenerateAssemblyFile>0</GenerateAssemblyFile>
+          <AssembleAssemblyFile>0</AssembleAssemblyFile>
+          <PublicsOnly>0</PublicsOnly>
+          <StopOnExitCode>3</StopOnExitCode>
+          <CustomArgument></CustomArgument>
+          <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
+        </CommonProperty>
+        <DllOption>
+          <SimDllName>SARMCM3.DLL</SimDllName>
+          <SimDllArguments> -REMAP -MPU</SimDllArguments>
+          <SimDlgDll>DCM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pCM7</SimDlgDllArguments>
+          <TargetDllName>SARMCM3.DLL</TargetDllName>
+          <TargetDllArguments> -MPU</TargetDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM7</TargetDlgDllArguments>
+        </DllOption>
+        <DebugOption>
+          <OPTHX>
+            <HexSelection>1</HexSelection>
+            <HexRangeLowAddress>0</HexRangeLowAddress>
+            <HexRangeHighAddress>0</HexRangeHighAddress>
+            <HexOffset>0</HexOffset>
+            <Oh166RecLen>16</Oh166RecLen>
+          </OPTHX>
+        </DebugOption>
+        <Utilities>
+          <Flash1>
+            <UseTargetDll>1</UseTargetDll>
+            <UseExternalTool>0</UseExternalTool>
+            <RunIndependent>0</RunIndependent>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
+            <Capability>1</Capability>
+            <DriverSelection>4096</DriverSelection>
+          </Flash1>
+          <bUseTDR>1</bUseTDR>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash3>"" ()</Flash3>
+          <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
+        </Utilities>
+        <TargetArmAds>
+          <ArmAdsMisc>
+            <GenerateListings>0</GenerateListings>
+            <asHll>1</asHll>
+            <asAsm>1</asAsm>
+            <asMacX>1</asMacX>
+            <asSyms>1</asSyms>
+            <asFals>1</asFals>
+            <asDbgD>1</asDbgD>
+            <asForm>1</asForm>
+            <ldLst>0</ldLst>
+            <ldmm>1</ldmm>
+            <ldXref>1</ldXref>
+            <BigEnd>0</BigEnd>
+            <AdsALst>1</AdsALst>
+            <AdsACrf>1</AdsACrf>
+            <AdsANop>0</AdsANop>
+            <AdsANot>0</AdsANot>
+            <AdsLLst>1</AdsLLst>
+            <AdsLmap>1</AdsLmap>
+            <AdsLcgr>1</AdsLcgr>
+            <AdsLsym>1</AdsLsym>
+            <AdsLszi>1</AdsLszi>
+            <AdsLtoi>1</AdsLtoi>
+            <AdsLsun>1</AdsLsun>
+            <AdsLven>1</AdsLven>
+            <AdsLsxf>1</AdsLsxf>
+            <RvctClst>0</RvctClst>
+            <GenPPlst>0</GenPPlst>
+            <AdsCpuType>"Cortex-M7"</AdsCpuType>
+            <RvctDeviceName></RvctDeviceName>
+            <mOS>1</mOS>
+            <uocRom>0</uocRom>
+            <uocRam>0</uocRam>
+            <hadIROM>1</hadIROM>
+            <hadIRAM>1</hadIRAM>
+            <hadXRAM>1</hadXRAM>
+            <uocXRam>0</uocXRam>
+            <RvdsVP>3</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <hadIRAM2>1</hadIRAM2>
+            <hadIROM2>0</hadIROM2>
+            <StupSel>8</StupSel>
+            <useUlib>1</useUlib>
+            <EndSel>0</EndSel>
+            <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
+            <RoSelD>3</RoSelD>
+            <RwSelD>4</RwSelD>
+            <CodeSel>0</CodeSel>
+            <OptFeed>0</OptFeed>
+            <NoZi1>0</NoZi1>
+            <NoZi2>1</NoZi2>
+            <NoZi3>0</NoZi3>
+            <NoZi4>0</NoZi4>
+            <NoZi5>0</NoZi5>
+            <Ro1Chk>0</Ro1Chk>
+            <Ro2Chk>0</Ro2Chk>
+            <Ro3Chk>0</Ro3Chk>
+            <Ir1Chk>1</Ir1Chk>
+            <Ir2Chk>0</Ir2Chk>
+            <Ra1Chk>0</Ra1Chk>
+            <Ra2Chk>0</Ra2Chk>
+            <Ra3Chk>0</Ra3Chk>
+            <Im1Chk>1</Im1Chk>
+            <Im2Chk>1</Im2Chk>
+            <OnChipMemories>
+              <Ocm1>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm1>
+              <Ocm2>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm2>
+              <Ocm3>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm3>
+              <Ocm4>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm4>
+              <Ocm5>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm5>
+              <Ocm6>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm6>
+              <IRAM>
+                <Type>0</Type>
+                <StartAddress>0x20000000</StartAddress>
+                <Size>0x20000</Size>
+              </IRAM>
+              <IROM>
+                <Type>1</Type>
+                <StartAddress>0x70000000</StartAddress>
+                <Size>0x400000</Size>
+              </IROM>
+              <XRAM>
+                <Type>1</Type>
+                <StartAddress>0x20200000</StartAddress>
+                <Size>0xc0000</Size>
+              </XRAM>
+              <OCR_RVCT1>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT1>
+              <OCR_RVCT2>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT2>
+              <OCR_RVCT3>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT3>
+              <OCR_RVCT4>
+                <Type>1</Type>
+                <StartAddress>0x70000000</StartAddress>
+                <Size>0x400000</Size>
+              </OCR_RVCT4>
+              <OCR_RVCT5>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT5>
+              <OCR_RVCT6>
+                <Type>0</Type>
+                <StartAddress>0x20200000</StartAddress>
+                <Size>0xbf800</Size>
+              </OCR_RVCT6>
+              <OCR_RVCT7>
+                <Type>0</Type>
+                <StartAddress>0x202bf800</StartAddress>
+                <Size>0x800</Size>
+              </OCR_RVCT7>
+              <OCR_RVCT8>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT8>
+              <OCR_RVCT9>
+                <Type>0</Type>
+                <StartAddress>0x20000000</StartAddress>
+                <Size>0x20000</Size>
+              </OCR_RVCT9>
+              <OCR_RVCT10>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x20000</Size>
+              </OCR_RVCT10>
+            </OnChipMemories>
+            <RvctStartVector></RvctStartVector>
+          </ArmAdsMisc>
+          <Cads>
+            <interw>1</interw>
+            <Optim>1</Optim>
+            <oTime>0</oTime>
+            <SplitLS>0</SplitLS>
+            <OneElfS>0</OneElfS>
+            <Strict>0</Strict>
+            <EnumInt>0</EnumInt>
+            <PlainCh>0</PlainCh>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <wLevel>2</wLevel>
+            <uThumb>0</uThumb>
+            <uSurpInc>0</uSurpInc>
+            <uC99>1</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
+            <VariousControls>
+              <MiscControls>--diag_suppress=1296</MiscControls>
+              <Define>XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE=1, XIP_BOOT_HEADER_DCD_ENABLE=1</Define>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
+            </VariousControls>
+          </Cads>
+          <Aads>
+            <interw>1</interw>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <thumb>0</thumb>
+            <SplitLS>0</SplitLS>
+            <SwStkChk>0</SwStkChk>
+            <NoWarn>0</NoWarn>
+            <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
+            <VariousControls>
+              <MiscControls></MiscControls>
+              <Define></Define>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
+            </VariousControls>
+          </Aads>
+          <LDads>
+            <umfTarg>0</umfTarg>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <noStLib>0</noStLib>
+            <RepFail>1</RepFail>
+            <useFile>0</useFile>
+            <TextAddressRange></TextAddressRange>
+            <DataAddressRange></DataAddressRange>
+            <pXoBase></pXoBase>
+            <ScatterFile>.\RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_flexspi_nor.scf</ScatterFile>
+            <IncludeLibs></IncludeLibs>
+            <IncludeLibsPath></IncludeLibsPath>
+            <Misc>--remove --keep=*(.boot_hdr.ivt) --keep=*(.boot_hdr.boot_data) --keep=*(.boot_hdr.conf) --predefine="-DXIP_BOOT_HEADER_ENABLE=1"</Misc>
+            <LinkerInputFile></LinkerInputFile>
+            <DisabledWarnings>6314</DisabledWarnings>
+          </LDads>
+        </TargetArmAds>
+      </TargetOption>
+      <Groups>
+        <Group>
+          <GroupName>Source</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>retarget_user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\retarget_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>lpuart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpuart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Documentation</GroupName>
+          <Files>
+            <File>
+              <FileName>Abstract.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Abstract.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::Board Support</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS Driver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS Driver Validation</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Device</GroupName>
+        </Group>
+      </Groups>
+    </Target>
+    <Target>
+      <TargetName>Release</TargetName>
+      <ToolsetNumber>0x4</ToolsetNumber>
+      <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
+      <TargetOption>
+        <TargetCommonOption>
+          <Device>MIMXRT1064DVL6A</Device>
+          <Vendor>NXP</Vendor>
+          <PackID>NXP.MIMXRT1064_DFP.12.0.0</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <Cpu>IRAM(0x20000000,0x020000) IRAM2(0x00000000,0x020000) IROM(0x70000000,0x400000) XRAM(0x20200000,0x0c0000) CPUTYPE("Cortex-M7") FPU3(DFPU) CLOCK(12000000) ELITTLE</Cpu>
+          <FlashUtilSpec></FlashUtilSpec>
+          <StartupFile></StartupFile>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM))</FlashDriverDll>
+          <DeviceId>0</DeviceId>
+          <RegisterFile>$$Device:MIMXRT1064DVL6A$fsl_device_registers.h</RegisterFile>
+          <MemoryEnv></MemoryEnv>
+          <Cmp></Cmp>
+          <Asm></Asm>
+          <Linker></Linker>
+          <OHString></OHString>
+          <InfinionOptionDll></InfinionOptionDll>
+          <SLE66CMisc></SLE66CMisc>
+          <SLE66AMisc></SLE66AMisc>
+          <SLE66LinkerMisc></SLE66LinkerMisc>
+          <SFDFile>$$Device:MIMXRT1064DVL6A$MIMXRT1064.xml</SFDFile>
+          <bCustSvd>0</bCustSvd>
+          <UseEnv>0</UseEnv>
+          <BinPath></BinPath>
+          <IncludePath></IncludePath>
+          <LibPath></LibPath>
+          <RegisterFilePath></RegisterFilePath>
+          <DBRegisterFilePath></DBRegisterFilePath>
+          <TargetStatus>
+            <Error>0</Error>
+            <ExitCodeStop>0</ExitCodeStop>
+            <ButtonStop>0</ButtonStop>
+            <NotGenerated>0</NotGenerated>
+            <InvalidFlash>1</InvalidFlash>
+          </TargetStatus>
+          <OutputDirectory>.\Release\</OutputDirectory>
+          <OutputName>CMSIS_DV</OutputName>
+          <CreateExecutable>1</CreateExecutable>
+          <CreateLib>0</CreateLib>
+          <CreateHexFile>0</CreateHexFile>
+          <DebugInformation>1</DebugInformation>
+          <BrowseInformation>0</BrowseInformation>
+          <ListingPath>.\Release\</ListingPath>
+          <HexFormatSelection>1</HexFormatSelection>
+          <Merge32K>0</Merge32K>
+          <CreateBatchFile>0</CreateBatchFile>
+          <BeforeCompile>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopU1X>0</nStopU1X>
+            <nStopU2X>0</nStopU2X>
+          </BeforeCompile>
+          <BeforeMake>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
+          </BeforeMake>
+          <AfterMake>
+            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg2>0</RunUserProg2>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
+            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
+            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
+          </AfterMake>
+          <SelectedForBatchBuild>1</SelectedForBatchBuild>
+          <SVCSIdString></SVCSIdString>
+        </TargetCommonOption>
+        <CommonProperty>
+          <UseCPPCompiler>0</UseCPPCompiler>
+          <RVCTCodeConst>0</RVCTCodeConst>
+          <RVCTZI>0</RVCTZI>
+          <RVCTOtherData>0</RVCTOtherData>
+          <ModuleSelection>0</ModuleSelection>
+          <IncludeInBuild>1</IncludeInBuild>
+          <AlwaysBuild>0</AlwaysBuild>
+          <GenerateAssemblyFile>0</GenerateAssemblyFile>
+          <AssembleAssemblyFile>0</AssembleAssemblyFile>
+          <PublicsOnly>0</PublicsOnly>
+          <StopOnExitCode>3</StopOnExitCode>
+          <CustomArgument></CustomArgument>
+          <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
+        </CommonProperty>
+        <DllOption>
+          <SimDllName>SARMCM3.DLL</SimDllName>
+          <SimDllArguments> -REMAP -MPU</SimDllArguments>
+          <SimDlgDll>DCM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pCM7</SimDlgDllArguments>
+          <TargetDllName>SARMCM3.DLL</TargetDllName>
+          <TargetDllArguments> -MPU</TargetDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM7</TargetDlgDllArguments>
+        </DllOption>
+        <DebugOption>
+          <OPTHX>
+            <HexSelection>1</HexSelection>
+            <HexRangeLowAddress>0</HexRangeLowAddress>
+            <HexRangeHighAddress>0</HexRangeHighAddress>
+            <HexOffset>0</HexOffset>
+            <Oh166RecLen>16</Oh166RecLen>
+          </OPTHX>
+        </DebugOption>
+        <Utilities>
+          <Flash1>
+            <UseTargetDll>1</UseTargetDll>
+            <UseExternalTool>0</UseExternalTool>
+            <RunIndependent>0</RunIndependent>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
+            <Capability>1</Capability>
+            <DriverSelection>4096</DriverSelection>
+          </Flash1>
+          <bUseTDR>1</bUseTDR>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash3>"" ()</Flash3>
+          <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
+        </Utilities>
+        <TargetArmAds>
+          <ArmAdsMisc>
+            <GenerateListings>0</GenerateListings>
+            <asHll>1</asHll>
+            <asAsm>1</asAsm>
+            <asMacX>1</asMacX>
+            <asSyms>1</asSyms>
+            <asFals>1</asFals>
+            <asDbgD>1</asDbgD>
+            <asForm>1</asForm>
+            <ldLst>0</ldLst>
+            <ldmm>1</ldmm>
+            <ldXref>1</ldXref>
+            <BigEnd>0</BigEnd>
+            <AdsALst>1</AdsALst>
+            <AdsACrf>1</AdsACrf>
+            <AdsANop>0</AdsANop>
+            <AdsANot>0</AdsANot>
+            <AdsLLst>1</AdsLLst>
+            <AdsLmap>1</AdsLmap>
+            <AdsLcgr>1</AdsLcgr>
+            <AdsLsym>1</AdsLsym>
+            <AdsLszi>1</AdsLszi>
+            <AdsLtoi>1</AdsLtoi>
+            <AdsLsun>1</AdsLsun>
+            <AdsLven>1</AdsLven>
+            <AdsLsxf>1</AdsLsxf>
+            <RvctClst>0</RvctClst>
+            <GenPPlst>0</GenPPlst>
+            <AdsCpuType>"Cortex-M7"</AdsCpuType>
+            <RvctDeviceName></RvctDeviceName>
+            <mOS>1</mOS>
+            <uocRom>0</uocRom>
+            <uocRam>0</uocRam>
+            <hadIROM>1</hadIROM>
+            <hadIRAM>1</hadIRAM>
+            <hadXRAM>1</hadXRAM>
+            <uocXRam>0</uocXRam>
+            <RvdsVP>3</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <hadIRAM2>1</hadIRAM2>
+            <hadIROM2>0</hadIROM2>
+            <StupSel>8</StupSel>
+            <useUlib>1</useUlib>
+            <EndSel>0</EndSel>
+            <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
+            <RoSelD>3</RoSelD>
+            <RwSelD>4</RwSelD>
+            <CodeSel>0</CodeSel>
+            <OptFeed>0</OptFeed>
+            <NoZi1>0</NoZi1>
+            <NoZi2>0</NoZi2>
+            <NoZi3>0</NoZi3>
+            <NoZi4>0</NoZi4>
+            <NoZi5>0</NoZi5>
+            <Ro1Chk>0</Ro1Chk>
+            <Ro2Chk>0</Ro2Chk>
+            <Ro3Chk>0</Ro3Chk>
+            <Ir1Chk>1</Ir1Chk>
+            <Ir2Chk>0</Ir2Chk>
+            <Ra1Chk>0</Ra1Chk>
+            <Ra2Chk>0</Ra2Chk>
+            <Ra3Chk>0</Ra3Chk>
+            <Im1Chk>1</Im1Chk>
+            <Im2Chk>1</Im2Chk>
+            <OnChipMemories>
+              <Ocm1>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm1>
+              <Ocm2>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm2>
+              <Ocm3>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm3>
+              <Ocm4>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm4>
+              <Ocm5>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm5>
+              <Ocm6>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </Ocm6>
+              <IRAM>
+                <Type>0</Type>
+                <StartAddress>0x20000000</StartAddress>
+                <Size>0x20000</Size>
+              </IRAM>
+              <IROM>
+                <Type>1</Type>
+                <StartAddress>0x70000000</StartAddress>
+                <Size>0x400000</Size>
+              </IROM>
+              <XRAM>
+                <Type>1</Type>
+                <StartAddress>0x20200000</StartAddress>
+                <Size>0xc0000</Size>
+              </XRAM>
+              <OCR_RVCT1>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT1>
+              <OCR_RVCT2>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT2>
+              <OCR_RVCT3>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT3>
+              <OCR_RVCT4>
+                <Type>1</Type>
+                <StartAddress>0x70000000</StartAddress>
+                <Size>0x400000</Size>
+              </OCR_RVCT4>
+              <OCR_RVCT5>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT5>
+              <OCR_RVCT6>
+                <Type>0</Type>
+                <StartAddress>0x20200000</StartAddress>
+                <Size>0xc0000</Size>
+              </OCR_RVCT6>
+              <OCR_RVCT7>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT7>
+              <OCR_RVCT8>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT8>
+              <OCR_RVCT9>
+                <Type>0</Type>
+                <StartAddress>0x20000000</StartAddress>
+                <Size>0x20000</Size>
+              </OCR_RVCT9>
+              <OCR_RVCT10>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x20000</Size>
+              </OCR_RVCT10>
+            </OnChipMemories>
+            <RvctStartVector></RvctStartVector>
+          </ArmAdsMisc>
+          <Cads>
+            <interw>1</interw>
+            <Optim>4</Optim>
+            <oTime>0</oTime>
+            <SplitLS>0</SplitLS>
+            <OneElfS>0</OneElfS>
+            <Strict>0</Strict>
+            <EnumInt>0</EnumInt>
+            <PlainCh>0</PlainCh>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <wLevel>2</wLevel>
+            <uThumb>0</uThumb>
+            <uSurpInc>0</uSurpInc>
+            <uC99>1</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
+            <VariousControls>
+              <MiscControls>--diag_suppress=1296</MiscControls>
+              <Define>XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE=1, XIP_BOOT_HEADER_DCD_ENABLE=1</Define>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
+            </VariousControls>
+          </Cads>
+          <Aads>
+            <interw>1</interw>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <thumb>0</thumb>
+            <SplitLS>0</SplitLS>
+            <SwStkChk>0</SwStkChk>
+            <NoWarn>0</NoWarn>
+            <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
+            <VariousControls>
+              <MiscControls></MiscControls>
+              <Define></Define>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
+            </VariousControls>
+          </Aads>
+          <LDads>
+            <umfTarg>0</umfTarg>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <noStLib>0</noStLib>
+            <RepFail>1</RepFail>
+            <useFile>0</useFile>
+            <TextAddressRange></TextAddressRange>
+            <DataAddressRange></DataAddressRange>
+            <pXoBase></pXoBase>
+            <ScatterFile>.\RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_flexspi_nor.scf</ScatterFile>
+            <IncludeLibs></IncludeLibs>
+            <IncludeLibsPath></IncludeLibsPath>
+            <Misc>--remove --keep=*(.boot_hdr.ivt) --keep=*(.boot_hdr.boot_data) --keep=*(.boot_hdr.conf) --predefine="-DXIP_BOOT_HEADER_ENABLE=1"</Misc>
+            <LinkerInputFile></LinkerInputFile>
+            <DisabledWarnings>6314</DisabledWarnings>
+          </LDads>
+        </TargetArmAds>
+      </TargetOption>
+      <Groups>
+        <Group>
+          <GroupName>Source</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>retarget_user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\retarget_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>lpuart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpuart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Documentation</GroupName>
+          <Files>
+            <File>
+              <FileName>Abstract.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Abstract.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::Board Support</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS Driver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS Driver Validation</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Device</GroupName>
+        </Group>
+      </Groups>
+    </Target>
+  </Targets>
+
+  <RTE>
+    <apis>
+      <api Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="USART" exclusive="0">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </api>
+      <api Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" exclusive="0">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </api>
+      <api Capiversion="2.1.2" Cclass="CMSIS" Cgroup="RTOS2" exclusive="1" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.2.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </api>
+    </apis>
+    <components>
+      <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT">
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0-rc1"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation WiFi">
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0-rc1"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.3.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.1" condition="RTOS2 RTX5 Lib" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.1" condition="RTOS2 RTX5" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" Cversion="1.4.0" condition="Cortex-M Device" isTargetSpecific="1">
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="Debug">
+            <mem>
+              <RVCTZI>2</RVCTZI>
+            </mem>
+          </targetInfo>
+        </targetInfos>
+      </component>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="User" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M">
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="WizFi360" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver">
+        <package name="CMSIS-Driver" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0-rc0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console">
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS Driver" Cgroup="USART" Csub="lpuart_cmsis_edma" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1064_AND_CMSIS_Driver_Include.USART_AND_RTE_Device_AND_driver.lpuart_edma">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="clock" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="common" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1064_AND_device.MIMXRT1064_CMSIS_AND_driver.clock">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="dmamux" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="edma" Cvendor="NXP" Cversion="2.1.8" condition="device.MIMXRT1064_AND_driver.common_AND_driver.dmamux">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpio" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="iomuxc" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lists" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart_adapter" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_driver.common_AND_driver.lpuart">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart_edma" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1064_AND_driver.edma_AND_driver.lpuart">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="xip_board" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="xip_device" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1064_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Project Template" Csub="RTE_Device" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_driver.edma">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Utilities" Csub="assert" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_utility.debug_console">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Utilities" Csub="debug_console" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.serial_manager_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug">
+            <c>
+              <Define>__MCUXPRESSO</Define>
+            </c>
+          </targetInfo>
+          <targetInfo name="Release">
+            <c>
+              <Define>__MCUXPRESSO</Define>
+            </c>
+          </targetInfo>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Utilities" Csub="serial_manager" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lists_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Utilities" Csub="serial_manager_uart" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_driver.lpuart">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7">
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </component>
+    </components>
+    <files>
+      <file attr="config" category="sourceC" name="project_template\board.c" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\board.c</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="project_template\board.h" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\board.h</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceC" name="project_template\clock_config.c" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\clock_config.c</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="project_template\clock_config.h" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\clock_config.h</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceC" name="project_template\peripherals.c" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\peripherals.c</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="project_template\peripherals.h" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\peripherals.h</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceC" name="project_template\pin_mux.c" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\pin_mux.c</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="project_template\pin_mux.h" version="1.0.0">
+        <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\pin_mux.h</instance>
+        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_uart_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device_AND_utility.debug_console"/>
+        <package license="Licenses.txt" name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.0">
+        <instance index="0">RTE\CMSIS\RTX_Config.c</instance>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.1" condition="RTOS2 RTX5 Lib"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="CMSIS\RTOS2\RTX\Config\RTX_Config.h" version="5.5.0">
+        <instance index="0">RTE\CMSIS\RTX_Config.h</instance>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.1" condition="RTOS2 RTX5 Lib"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="SDK\devices\MIMXRT1064\utilities\usb_device_config.h" version="1.0.1">
+        <instance index="0" removed="1">RTE\CMSIS_Driver\MIMXRT1064DVL6A\usb_device_config.h</instance>
+        <component Capiversion="2.1.0" Cclass="CMSIS Driver" Cgroup="USB Device" Csub="USB2" Cvendor="Keil" Cversion="1.0.0" condition="MIMXRT1064 CMSIS"/>
+        <package name="iMXRT1064_MWP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="1.0.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="header" name="WiFi\ESP8266\Config\WiFi_ESP8266_Config.h" version="1.0.0">
+        <instance index="0" removed="1">RTE\CMSIS_Driver\WiFi_ESP8266_Config.h</instance>
+        <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
+        <package name="CMSIS-Driver" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0-rc0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="header" name="WiFi\WizFi360\Config\WiFi_WizFi360_Config.h" version="1.0.0">
+        <instance index="0">RTE\CMSIS_Driver\WiFi_WizFi360_Config.h</instance>
+        <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="WizFi360" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
+        <package name="CMSIS-Driver" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0-rc0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.2">
+        <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
+        <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0-rc1"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Config\EventRecorderConf.h" version="1.1.0">
+        <instance index="0">RTE\Compiler\EventRecorderConf.h</instance>
+        <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" Cversion="1.4.0" condition="Cortex-M Device"/>
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="MIMXRT1064.h" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064.h</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="MIMXRT1064_features.h" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064_features.h</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_flexspi_nor.scf" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_flexspi_nor.scf</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_flexspi_nor_sdram.scf" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_flexspi_nor_sdram.scf</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_ram.scf" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_ram.scf</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_sdram.scf" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_sdram.scf</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_sdram_txt.scf" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_sdram_txt.scf</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="template\RTE_Device.h" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\RTE_Device.h</instance>
+        <component Cclass="Device" Cgroup="SDK Project Template" Csub="RTE_Device" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_driver.edma"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="fsl_device_registers.h" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\fsl_device_registers.h</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceAsm" condition="mdk" name="arm\startup_MIMXRT1064.s" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\startup_MIMXRT1064.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceC" name="system_MIMXRT1064.c" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\system_MIMXRT1064.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="system_MIMXRT1064.h" version="1.0.0">
+        <instance index="0">RTE\Device\MIMXRT1064DVL6A\system_MIMXRT1064.h</instance>
+        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
+        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="USB\Config\USBD_Config.c" version="5.2.0">
+        <instance index="0" removed="1">RTE\USB\USBD_Config_0.c</instance>
+        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="4"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" name="USB\Config\USBD_Config.c" version="5.2.0">
+        <instance index="1" removed="1">RTE\USB\USBD_Config_1.c</instance>
+        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="4"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="header" name="USB\Config\USBD_Config_CDC.h" version="5.2.0">
+        <instance index="0" removed="1">RTE\USB\USBD_Config_CDC_0.h</instance>
+        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Csub="CDC" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="8"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="header" name="USB\Config\USBD_Config_CDC.h" version="5.2.0">
+        <instance index="1" removed="1">RTE\USB\USBD_Config_CDC_1.h</instance>
+        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Csub="CDC" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="8"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" name="USB\Config\USB_Debug.c" version="1.0.0">
+        <instance index="0" removed="1">RTE\USB\USB_Debug.c</instance>
+        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="CORE" Cvariant="Debug" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Event Recorder"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos/>
+      </file>
+    </files>
+  </RTE>
+
+</Project>

@@ -135,6 +135,51 @@
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362"/>
       </attributes>
     </example>
+
+    <example name="CMSIS-Driver WiFi Espressif ESP8266 Validation" doc="Abstract.txt" folder="Boards/Espressif/ESP8266EX_Arduino">
+      <description>CMSIS-Driver Validation of WiFi Espressif ESP8266 driver on Arduino compatible shield with NXP MIMXRT1064-EVK board</description>
+      <board name="EVK-MIMXRT1064" vendor="NXP"/>
+      <project>
+        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS"  Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266"/>
+      </attributes>
+    </example>
+
+    <example name="CMSIS-Driver WiFi Espressif ESP32 Validation" doc="Abstract.txt" folder="Boards/Espressif/ESP32_Arduino">
+      <description>CMSIS-Driver Validation of WiFi Espressif ESP32 driver on Arduino compatible shield with NXP MIMXRT1064-EVK board</description>
+      <board name="EVK-MIMXRT1064" vendor="NXP"/>
+      <project>
+        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS"  Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP32"/>
+      </attributes>
+    </example>
+
+    <example name="CMSIS-Driver WiFi WIZnet WizFi360 Validation" doc="Abstract.txt" folder="Boards/WIZnet/WizFi360-EVB">
+      <description>CMSIS-Driver Validation of WiFi WIZnet WizFi360 driver on Arduino compatible shield with NXP MIMXRT1064-EVK board</description>
+      <board name="EVK-MIMXRT1064" vendor="NXP"/>
+      <project>
+        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS"  Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="WizFi360"/>
+      </attributes>
+    </example>
   </examples>
   
   <conditions>

@@ -480,7 +480,10 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 -# Choose one of the available \ref example_targets and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
--# Run the test on the target hardware using the ULINKplus debugger.
+-# Run the test on the target hardware.
+
+\note To communicate with the development board, a debug adapter 
+<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> is required.
 
 This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
 configuration described in \ref wifi_config.

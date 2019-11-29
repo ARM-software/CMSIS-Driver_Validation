@@ -43,7 +43,5 @@ IMORTANT NOTE:
     in 5 seconds after that the debug session has to be started
     (the WiFi shield needs to be reset for initial cursor fetch and because 
      it cannot be reset by software it needs to be reset manually)
-  - Module retarget_user.c is used to allow user retarget to work together 
-    with Debug Console output. fsl_debug_console.c module is compiled with 
-    "__MCUXPRESSO" define which is used to prevent Debug Console to override 
-    putc and getc functions
+  - fsl_debug_console.c module is compiled with "__MCUXPRESSO" define which 
+    is used to prevent Debug Console to override putc and getc functions

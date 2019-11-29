@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* Modified by Arm */
 
 #include "fsl_spi_cmsis.h"
 
@@ -631,13 +632,12 @@ static uint32_t SPI_DMAGetCount(cmsis_spi_dma_driver_state_t *spi)
     if (spi->flags & SPI_FLAG_MASTER)
     {
         cnt = spi->handle->masterHandle.transferSize - bytes;
-
     }
     else
     {
         cnt = spi->handle->slaveHandle.transferSize - bytes;
     }
-    cnt = ((cnt * (spi->handle->masterHandle.dataWidth + 1)) + 7) / 8;
+    cnt = (cnt * 8) / (spi->handle->masterHandle.dataWidth + 1);
 
     return cnt;
 }
@@ -1060,14 +1060,19 @@ static int32_t SPI_InterruptTransfer(const void *data_out,
 }
 static uint32_t SPI_InterruptGetCount(cmsis_spi_interrupt_driver_state_t *spi)
 {
+    uint32_t cnt;
+
     if (spi->flags & SPI_FLAG_MASTER)
     {
-        return ((((spi->handle->masterHandle.totalByteCount - spi->handle->masterHandle.rxRemainingBytes) * (spi->handle->masterHandle.dataWidth + 1)) + 7) / 8);
+        cnt = spi->handle->masterHandle.totalByteCount - spi->handle->masterHandle.rxRemainingBytes;
     }
     else
     {
-        return ((((spi->handle->slaveHandle.toReceiveCount - spi->handle->slaveHandle.rxRemainingBytes) * (spi->handle->masterHandle.dataWidth + 1)) + 7) / 8);
+        cnt = spi->handle->slaveHandle.toReceiveCount - spi->handle->slaveHandle.rxRemainingBytes;
     }
+    cnt = (cnt * 8) / (spi->handle->masterHandle.dataWidth + 1);
+
+    return cnt;
 }
 
 static int32_t SPI_InterruptControl(uint32_t control, uint32_t arg, cmsis_spi_interrupt_driver_state_t *spi)

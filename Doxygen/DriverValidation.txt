@@ -164,7 +164,7 @@ Every interface has specific settings that can be changed in the according secti
 
 \note For more information on additional settings and the different driver test cases, check the
 <a class="el" href="./modules.html">Reference</a> section.
-\note For WiFi driver validation some settings depend on the test environment and they necesseraly need to be set properly, 
+\note For WiFi driver validation some settings depend on the test environment and they need to be set properly, 
 for details please refer to \ref wifi_config section.
 
 
@@ -174,7 +174,7 @@ Open \b RTX_Config.h and set:
 - <b>Default Thread stack size [bytes]</b> to \a 2048
 - <b>Global Dynamic Memory size [bytes]</b> to \a 8192 (Note 1)
 
-\note Note 1: This setting is only necessary for WiFi driver testing for other tests default setting of 4096 is sufficient.
+\note Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.
 
 \section step6 Step 6: Configure Heap
 
@@ -453,8 +453,6 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A1)</b> to your machine.
 
 -# Choose one of the available \ref example_targets and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
 -# Run the test on the target hardware using the on-board ST-Link/V2.
 
 This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
@@ -478,8 +476,6 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (LPCXpresso55S69)</b> to your machine.
 
 -# Choose one of the available \ref example_targets and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
 -# Run the test on the target hardware.
 
 \note To communicate with the development board, a debug adapter 
@@ -487,6 +483,8 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 
 This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
 configuration described in \ref wifi_config.
+
+For details on WiFi driver tests please refer to \ref wifi_funcs.
 
 \image html LPCXpresso55S69.png  "NXP LPCXpresso55S69 with ISMART43362-E WiFi shield attached"
 */
@@ -571,7 +569,7 @@ under the \b CMSIS component class:
     </tr>
 </table>
 
-\note Note 1: This setting is only necessary for WiFi driver testing for other tests default setting of 4096 is sufficient.
+\note Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.
 
 \section rtos_req CMSIS-RTOS Requirements
 

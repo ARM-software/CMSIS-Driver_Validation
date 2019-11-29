@@ -20,7 +20,7 @@ The WiFi driver validation requires the following software:
 
 The WiFi driver validation settings are available in the \c DV_Config.h file.
 
-Some settings depend on test environment and need to be changed for proper operation of WiFi driver validation.
+Some settings depend on the test environment and need to be changed for proper operation of WiFi driver validation.
 These settings can be found under WiFi <b>Configuration</b> settings in the \c DV_Config.h file and need to be set as follows:
 
 <b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:
@@ -28,24 +28,24 @@ These settings can be found under WiFi <b>Configuration</b> settings in the \c D
 - Password
 - Security Type
 - Channel: use 0 for auto-detect channel
-- WPS PIN: PIN used for WPS tests (the Access Point has to have same PIN enabled and WPS service running)
+- WPS PIN: PIN used for WPS tests (the Access Point has to have the same PIN enabled and WPS service running)
 
 <b>Access Point</b> related settings needed for testing Access Point functionality of the WiFi module:
 - SSID: SSID created by the WiFi module
 - Password
 - Security Type
 - Channel: use 0 for auto-detect channel
-- WPS PIN: PIN used for WPS tests (auxiliary station has to have same PIN enabled)
+- WPS PIN: PIN used for WPS tests (auxiliary station has to have the same PIN enabled)
 
 <b>Socket</b> related setting needed for Socket API and Socket Operation tests:
-- SockServer IP: IP assigned to the SockServer on your local network
-  (for embedded SockServer IP is displayed on the embedded board's LCD, for SockServer on PC running Microsoft Windows 
-   please refer to \ref sockserver_embedded_telnet section on how to find out the IP address of the SockServer)
+- SockServer IP: IP address assigned to the SockServer on your local network
 
-Under <b>Test Cases</b> select wanted testing functionality as required.
+\note IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).
+
+Under <b>Test Cases</b> select testing functionality as required.
 
 <b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable 
-WiFi Driver API function test respectively.
+WiFi Driver API function tests respectively.
 
 <b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
 are used for more complex operational test of the WiFi driver.
@@ -108,7 +108,16 @@ available in <b>.\\Tools\\SockServer\\PC\\Win</b>.
 \subsection sockserver_pc_win_troubleshooting Troubleshooting
 
 Problems and solutions:
- 1. SockServer not responding to ping
+ 1. SockServer not responding to requests
+    - Open Windows firewall -> Advanced settings
+      - select inbound rules
+    - create a new custom rule (New Rule...)
+      - Rule type:     Program
+      - Program:       This program path (select path to SockServer.exe)
+      - Action:        Allow the connection
+      - Profile:       Domain, Private (Public not advised)
+      - Name:          SockServer  
+ 2. Test computer not responding to ping
     - Open Windows firewall -> Advanced settings
       - select inbound rules, enable rule
         File and Printer sharing (Echo request - ICMPv4-In)

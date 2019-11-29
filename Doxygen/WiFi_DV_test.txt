@@ -1,5 +1,63 @@
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
+\defgroup wifi_requirements WiFi Requirements
+\ingroup wifi_funcs
+
+The WiFi driver validation requires the following hardware:
+- WiFi Access Point connected to the local network
+- hardware running SockServer (can be \ref sockserver_pc "PC running Microsoft Windows" or an 
+  \ref sockserver_embedded "embedded system")
+
+The WiFi driver validation requires the following software:
+- \ref wifi_sock_setup "SockServer" application running in the same network as WiFi Access Point used for testing
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_config WiFi Configuration
+\ingroup wifi_funcs
+
+The WiFi driver validation settings are available in the \c DV_Config.h file.
+
+Some settings depend on test environment and need to be changed for proper operation of WiFi driver validation.
+These settings can be found under WiFi <b>Configuration</b> settings in the \c DV_Config.h file and need to be set as follows:
+
+<b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:
+- SSID
+- Password
+- Security Type
+- Channel: use 0 for auto-detect channel
+- WPS PIN: PIN used for WPS tests (the Access Point has to have same PIN enabled and WPS service running)
+
+<b>Access Point</b> related settings needed for testing Access Point functionality of the WiFi module:
+- SSID: SSID created by the WiFi module
+- Password
+- Security Type
+- Channel: use 0 for auto-detect channel
+- WPS PIN: PIN used for WPS tests (auxiliary station has to have same PIN enabled)
+
+<b>Socket</b> related setting needed for Socket API and Socket Operation tests:
+- SockServer IP: IP assigned to the SockServer on your local network
+  (for embedded SockServer IP is displayed on the embedded board's LCD, for SockServer on PC running Microsoft Windows 
+   please refer to \ref sockserver_embedded_telnet section on how to find out the IP address of the SockServer)
+
+Under <b>Test Cases</b> select wanted testing functionality as required.
+
+<b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable 
+WiFi Driver API function test respectively.
+
+<b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
+are used for more complex operational test of the WiFi driver.
+Brief description of each test functionality can be viewed by using 
+<a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
+view of the DV_Config.h file and clicking on the test or hovering a mouse pointer over it.
+
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
 \defgroup wifi_sock_setup WiFi SockServer 
 \ingroup wifi_funcs
 
@@ -175,8 +233,8 @@ CMSIS-Driver BSD rules regarding function behavior or function return codes. Hen
 error codes and report them as Warnings and considers certain error codes as acceptable for certain functions.
 Exceptions to BSD-strict error codes and functionality are written below: 
 
-WiFi socket deviations to BSD-strict functionality
-==================================================
+WiFi socket deviations from the BSD-strict specification
+========================================================
 
 -# \b SocketBind
  - bind socket to same address again<br>

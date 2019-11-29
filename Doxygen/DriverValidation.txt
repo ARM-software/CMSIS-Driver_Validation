@@ -462,7 +462,7 @@ For details on WiFi Driver tests please refer to \ref wifi_funcs.
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\page examples_ismart43362_e ISMART43362-E WiFi Shield with NXP LPCXpresso55S69
+\page examples_ismart43362_e NXP LPCXpresso55S69 with ISMART43362-E WiFi Shield
 
 Software Setup
 --------------
@@ -481,6 +481,7 @@ This example is prepared for testing of the WiFi Driver and it requires:
 
 For details on WiFi Driver tests please refer to \ref wifi_funcs.
 
+\image html LPCXpresso55S69.png  "NXP LPCXpresso55S69 with ISMART43362-E WiFi shield attached"
 */
 
 

@@ -357,31 +357,41 @@
 // <h> Station
 // <i> Settings relevant for Station
 // <s.32> SSID
-#define WIFI_STA_SSID                   "SSID of network to connect"
+// <i> SSID of network that Station will connect to
+#define WIFI_STA_SSID                   "SSID"
 // <s.32> Password
-#define WIFI_STA_PASS                   "Password of network to connect"
+// <i> Password of network that Station will connect to
+#define WIFI_STA_PASS                   "Password"
 // <o> Security Type
 // <0=> Open <1=> WEP <2=> WPA <3=> WPA2
+// <i> Security type of network that Station will connect to
 #define WIFI_STA_SECURITY               3
 // <o> Channel
+// <i> WiFi channel of network that Station will connect to
 // <i> Value 0 means Autodetect
 #define WIFI_STA_CH                     0
 // <s.8> WPS PIN
+// <i> WiFi Protected Setup Personal Identification Number
 #define WIFI_STA_WPS_PIN                "12345678"
 // </h>
 // <h> Access Point
 // <i> Settings relevant for Access Point
 // <s.32> SSID
-#define WIFI_AP_SSID                    "SSID of created network"
+// <i> SSID of created network
+#define WIFI_AP_SSID                    "CMSIS_DV"
 // <s.32> Password
-#define WIFI_AP_PASS                    "Password of created network"
+// <i> Password of created network
+#define WIFI_AP_PASS                    "Password"
 // <o> Security Type
 // <0=> Open <1=> WEP <2=> WPA <3=> WPA2
+// <i> Security type of created network
 #define WIFI_AP_SECURITY                3
 // <o> Channel
+// <i> WiFi channel of created network
 // <i> Value 0 means Autoselect
 #define WIFI_AP_CH                      0
 // <s.8> WPS PIN
+// <i> WiFi Protected Setup Personal Identification Number
 #define WIFI_AP_WPS_PIN                 "12345678"
 // </h>
 // <h> Socket
@@ -393,6 +403,7 @@
 // <h> Test Cases
 // <i> Enable/disable test cases
 // <e> Control
+// <i> Control functions tests
 #define WIFI_CONTROL_EN                 1
 // <q> WIFI_GetVersion
 #define WIFI_GETVERSION_EN              1
@@ -406,6 +417,7 @@
 #define WIFI_GETMODULEINFO_EN           1
 // </e>
 // <e> Management
+// <i> Management functions tests
 #define WIFI_MANAGEMENT_EN              1
 // <e> WIFI_SetOption/GetOption
 #define WIFI_SETGETOPTION_EN            1
@@ -465,6 +477,7 @@
 #define WIFI_GETNETINFO_EN              1
 // </e>
 // <e> Management (requires user interaction)
+// <i> Management functions tests that require user interaction
 #define WIFI_MANAGEMENT_USER_EN         0
 // <q> WIFI_Activate_AP
 // <i> For this test please connect a WiFi client (for example mobile phone) to AP
@@ -490,8 +503,8 @@
 // </e>
 // </e>
 // <e> Socket API (requires SockServer)
+// <i> Socket functions tests
 #define WIFI_SOCKET_EN                  1
-// <i> Enable/disable test cases
 #define WIFI_SOCKET_MAX_NUM             4
 // <q> WIFI_SocketCreate
 #define WIFI_SOCKETCREATE_EN            1
@@ -527,7 +540,7 @@
 #define WIFI_PING_EN                    1
 // </e>
 // <e> Socket Operation (requires SockServer)
-// <i> Enable/disable test cases
+// <i> Socket operation tests
 #define WIFI_SOCKET_OP_EN               1
 // <q> WIFI_Transfer_Fixed
 // <i> Sends and receives in fixed size blocks

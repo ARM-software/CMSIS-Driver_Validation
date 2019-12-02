@@ -30,13 +30,6 @@ The following targets are available:
 
 Debugger : STLink
 
-Packs (fixed) :
- - ARM::CMSIS                   v5.6.0
- - ARM::CMSIS-Driver            v2.5.0
- - ARM::CMSIS-Driver_Validation v1.4.0
- - Keil::ARM_Compiler           v1.6.2
- - Keil::STM32L4xx_DFP          v2.2.0
-
 IMORTANT NOTE:
   - Configure parameters in DV_Config.h under WiFi - Configuration to suit
     your testing environment

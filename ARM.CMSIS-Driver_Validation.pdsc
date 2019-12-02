@@ -16,6 +16,8 @@
       - Added SockServer application for PC running Microsoft Windows
       - Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
       - Added example for Inventek ISM43362 WiFi Driver testing using ISMART43362-E WiFi shield mounted on NXP LPCXpresso55S69 board
+      - Added examples for Espressif ESP8266 and ESP32 WiFi Driver testing with NXP MIMXRT1064-EVK board
+      - Added example for WIZnet WizFi360 WiFi Driver testing with NXP MIMXRT1064-EVK board
       - Updated all examples
       - Removed example for Atmel board
       - Added upstream and downstream bandwidth testing to WiFi Driver testing

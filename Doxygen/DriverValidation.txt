@@ -498,6 +498,9 @@ Hardware Setup
 For proper operation of the Inventek ISMART43362-E WiFi Shield please connect the jumper between 5V_BOARD and 5V_MOD pins 
 on the WiFi Shield.
 
+\note Before running the validation on this hardware the WiFi Shield has to be reset by pressing SW2 push-button 
+on the WiFi Shield and the debug session has to be started in less than 5 seconds after the reset push-button was released.
+
 \image html LPCXpresso55S69.png  "NXP LPCXpresso55S69 with Inventek ISMART43362-E WiFi Shield attached"
 */
 

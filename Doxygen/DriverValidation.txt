@@ -461,7 +461,7 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 -# Choose one of the available \ref example_targets and build the project.
 -# Run the test on the target hardware using the on-board ST-Link/V2.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
+This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
 configuration described in \ref wifi_config.
 
 For details on WiFi driver tests please refer to \ref wifi_funcs.
@@ -487,10 +487,16 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 \note To communicate with the development board, a debug adapter 
 <a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> is required.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
+This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
 configuration described in \ref wifi_config.
 
 For details on WiFi driver tests please refer to \ref wifi_funcs.
+
+Hardware Setup
+--------------
+
+For proper operation of the Inventek ISMART43362-E WiFi Shield please connect the jumper between 5V_BOARD and 5V_MOD pins 
+on the WiFi Shield.
 
 \image html LPCXpresso55S69.png  "NXP LPCXpresso55S69 with Inventek ISMART43362-E WiFi Shield attached"
 */
@@ -510,7 +516,7 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 -# Choose one of the available \ref example_targets and build the project.
 -# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
+This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
 configuration described in \ref wifi_config.
 
 For details on WiFi driver tests please refer to \ref wifi_funcs.
@@ -534,7 +540,7 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 -# Choose one of the available \ref example_targets and build the project.
 -# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
+This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
 configuration described in \ref wifi_config.
 
 For details on WiFi driver tests please refer to \ref wifi_funcs.
@@ -558,7 +564,7 @@ Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Ins
 -# Choose one of the available \ref example_targets and build the project.
 -# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, propper 
+This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
 configuration described in \ref wifi_config.
 
 For details on WiFi driver tests please refer to \ref wifi_funcs.

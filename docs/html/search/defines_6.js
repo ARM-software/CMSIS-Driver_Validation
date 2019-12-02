@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['non_5fexistent_5fport',['NON_EXISTENT_PORT',['../_d_v___w_i_f_i_8c.html#afead134fbfa73a0280699d1efb8742af',1,'DV_WIFI.c']]]
+  ['sk_5fterminate',['SK_TERMINATE',['../_d_v___w_i_f_i_8c.html#aab6b96324135db3d24b4e42c0eaa4135',1,'DV_WIFI.c']]]
 ];

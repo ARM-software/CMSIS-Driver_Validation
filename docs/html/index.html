@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -118,12 +118,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Configurable validation tests for several CMSIS-Driver interfaces</li>
 <li>Example projects that show the usage of the CMSIS-Driver validation</li>
 </ul>
-<p>The CMSIS-Driver validation tests and verifies:</p>
+<p>The CMSIS-Driver Validation tests and verifies:</p>
 <ul>
 <li><b>API</b> <b>interface</b> <b>interaction</b> using the driver capabilities as well as valid and invalid parameters.</li>
 <li><b>Data</b> <b>communication</b> with various transfer sizes and communication parameters (i.e. baudrate).</li>
 <li><b>Loopback</b> <b>communication</b> (for some interfaces) for testing the underlying hardware.</li>
-<li><b>Transfer</b> <b>speed</b> of the data communication with time measurement of data transfers (for interfaces with loopback functionality).</li>
+<li><b>Transfer</b> <b>speed</b> of the data communication with time measurement of data transfers.</li>
 </ul>
 <p>The CMSIS-Driver Validation requires <a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> or <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate implementation of a CMSIS-Driver interface.</p>
 <p>The diagram below is an overview of the configuration for CMSIS-Driver validation.</p>
@@ -153,24 +153,51 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>This manual assumes that you are familiar with MDK. Refer to <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.</p>
 <hr/>
 <h2>Revision History </h2>
-<table class="doxtable">
+<table  class="cmtable" summary="Revision History">
 <tr>
-<th align="left">Version </th><th align="left">Description  </th></tr>
+<th>Version </th><th>Description  </th></tr>
 <tr>
-<td align="left">V1.3.0 </td><td align="left">Added WiFi tests </td></tr>
+<td>V1.4.0 </td><td><ul>
+<li>Updated conditions to support all Cortex-M devices</li>
+<li>Introduced test groups (each driver is organized in a group)</li>
+<li>Improved XSL for XML display</li>
+<li>Updated all examples</li>
+<li>Removed example for Atmel board</li>
+<li>WiFi Driver Testing: Added SockServer application for PC running Microsoft Windows</li>
+<li>WiFi Driver Testing: Added upstream and downstream bandwidth testing</li>
+<li>WiFi Driver Testing: Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board</li>
+<li>WiFi Driver Testing: Added example for Inventek ISM43362 WiFi Driver testing using ISMART43362-E WiFi shield mounted on NXP LPCXpresso55S69 board</li>
+<li>WiFi Driver Testing: Added examples for Espressif ESP8266 and ESP32 WiFi Driver testing with NXP MIMXRT1064-EVK board</li>
+<li>WiFi Driver Testing: Added example for WIZnet WizFi360 WiFi Driver testing with NXP MIMXRT1064-EVK board   </li>
+</ul>
+</td></tr>
 <tr>
-<td align="left">V1.2.0 </td><td align="left">Added CMSIS-RTOS2 and Arm Compiler 6 compatibility </td></tr>
+<td>V1.3.0 </td><td><ul>
+<li>Added WiFi tests   </li>
+</ul>
+</td></tr>
 <tr>
-<td align="left">V1.1.0 </td><td align="left">Added USB Host, CAN and Ethernet Precision Time Protocol tests </td></tr>
+<td>V1.2.0 </td><td><ul>
+<li>Added CMSIS-RTOS2 and Arm Compiler 6 compatibility   </li>
+</ul>
+</td></tr>
 <tr>
-<td align="left">V1.0.0 </td><td align="left">Initial release for CMSIS-Driver API V2.0 </td></tr>
+<td>V1.1.0 </td><td><ul>
+<li>Added USB Host, CAN and Ethernet Precision Time Protocol tests   </li>
+</ul>
+</td></tr>
+<tr>
+<td>V1.0.0 </td><td><ul>
+<li>Initial release for CMSIS-Driver API V2.0   </li>
+</ul>
+</td></tr>
 </table>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 15:27:24 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

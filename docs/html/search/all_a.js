@@ -10,7 +10,6 @@ var searchData=
   ['mci_5finitialization',['MCI_Initialization',['../group__mci__funcs.html#ga1fbbdddda0f9ea5c393aa22fd14a2203',1,'DV_MCI.c']]],
   ['mci_5fpowercontrol',['MCI_PowerControl',['../group__mci__funcs.html#gae0bacb3721a19527d6c8be03a806731d',1,'DV_MCI.c']]],
   ['mci_5fsetbusspeedmode',['MCI_SetBusSpeedMode',['../group__mci__funcs.html#ga9ba9cbcc5c0f22f8ad1089453e0794d4',1,'DV_MCI.c']]],
-  ['min_5fbytes',['MIN_BYTES',['../_d_v___w_i_f_i_8c.html#a133d2b1bde659fd105718ebf11264cd9',1,'DV_WIFI.c']]],
   ['msg_5fbuf',['msg_buf',['../_d_v___w_i_f_i_8c.html#ae4623dbd5a508d53c880bbd91ac94e75',1,'DV_WIFI.c']]],
   ['msgflush',['MsgFlush',['../_d_v___report_8c.html#aa38920f1172f91cbcdb3c1c5f574845a',1,'DV_Report.c']]],
   ['msgprint',['MsgPrint',['../_d_v___report_8c.html#a1248983adb3d8f545c04ef41cb60c370',1,'DV_Report.c']]]

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['warning',['Warning',['../_d_v___report_8c.html#a619ade33c20209ee80417a60416ebf34',1,'DV_Report.c']]],
+  ['wiznet_20wizfi360_2devb_20wifi_20shield_20with_20nxp_20mimxrt1064_2devk',['WIZnet WizFi360-EVB WiFi Shield with NXP MIMXRT1064-EVK',['../examples_wizfi360.html',1,'examples']]],
   ['wifi_5factivate_5fap',['WIFI_Activate_AP',['../group__wifi__mgmt.html#ga5598b2b107b947e1d3060c48323c7f06',1,'DV_WIFI.c']]],
   ['wifi_5factivate_5fap_5fwps_5fpbc',['WIFI_Activate_AP_WPS_PBC',['../group__wifi__mgmt.html#ga282423f64284804a460395bcbf33e98b',1,'DV_WIFI.c']]],
   ['wifi_5factivate_5fap_5fwps_5fpin',['WIFI_Activate_AP_WPS_PIN',['../group__wifi__mgmt.html#gad4b541a11ee85b12340ef1f72fe7494b',1,'DV_WIFI.c']]],
@@ -8,7 +8,9 @@ var searchData=
   ['wifi_5factivate_5fstation_5fwps_5fpbc',['WIFI_Activate_Station_WPS_PBC',['../group__wifi__mgmt.html#ga248aa213a4b49ac0384feb9051829139',1,'DV_WIFI.c']]],
   ['wifi_5factivate_5fstation_5fwps_5fpin',['WIFI_Activate_Station_WPS_PIN',['../group__wifi__mgmt.html#ga20a27097854981b1538491cd57546cf7',1,'DV_WIFI.c']]],
   ['wifi_5fconcurrent_5fsocket',['WIFI_Concurrent_Socket',['../group__wifi__sock__op.html#ga3176acaa3ab1f518c2e1d57348b484a0',1,'DV_WIFI.c']]],
+  ['wifi_20configuration',['WiFi Configuration',['../group__wifi__config.html',1,'']]],
   ['wifi_20control',['WiFi Control',['../group__wifi__ctrl.html',1,'']]],
+  ['wifi_5fdownstream_5frate',['WIFI_Downstream_Rate',['../group__wifi__sock__op.html#gaea1b11e11f8975cafb88faa62e5c4c75',1,'DV_WIFI.c']]],
   ['wifi_5fdrvevent',['WIFI_DrvEvent',['../_d_v___w_i_f_i_8c.html#a224c3331c0a6cdf3c1094d30f1d15757',1,'DV_WIFI.c']]],
   ['wifi_5fdv_5finitialize',['WIFI_DV_Initialize',['../_d_v___w_i_f_i_8c.html#a377973ef16625155e8877e0f6759a4f8',1,'DV_WIFI.c']]],
   ['wifi_5fdv_5ftest_2etxt',['WiFi_DV_test.txt',['../_wi_fi___d_v__test_8txt.html',1,'']]],
@@ -24,13 +26,14 @@ var searchData=
   ['wifi_5fping',['WIFI_Ping',['../group__wifi__sock__api.html#gad37acd8194b984b4c25c88b0c05c2f03',1,'DV_WIFI.c']]],
   ['wifi_5fpowercontrol',['WIFI_PowerControl',['../group__wifi__ctrl.html#gaeb5d009d842e3e9392cef317c8132237',1,'DV_WIFI.c']]],
   ['wifi_5frecv_5ffragmented',['WIFI_Recv_Fragmented',['../group__wifi__sock__op.html#gad286800b77f175d91d9c4b42c7311051',1,'DV_WIFI.c']]],
+  ['wifi_20requirements',['WiFi Requirements',['../group__wifi__requirements.html',1,'']]],
   ['wifi_5fscan',['WIFI_Scan',['../group__wifi__mgmt.html#ga80774e115994cbc7936dc0e095f82d8a',1,'DV_WIFI.c']]],
   ['wifi_5fsend_5ffragmented',['WIFI_Send_Fragmented',['../group__wifi__sock__op.html#ga5f5bccd9e2bd0ff4d7eb82f4811b2233',1,'DV_WIFI.c']]],
   ['wifi_5fsetoption_5fgetoption',['WIFI_SetOption_GetOption',['../group__wifi__mgmt.html#gab3e92900df96e1c48b068d2a4f7b04b9',1,'DV_WIFI.c']]],
   ['wifi_20socket_20api',['WiFi Socket API',['../group__wifi__sock__api.html',1,'']]],
   ['wifi_20socket_20operation',['WiFi Socket Operation',['../group__wifi__sock__op.html',1,'']]],
-  ['wifi_20socket_20relaxed_20api',['WiFi Socket Relaxed API',['../group__wifi__sock__relaxed.html',1,'']]],
   ['wifi_20sockserver',['WiFi SockServer',['../group__wifi__sock__setup.html',1,'']]],
+  ['wifi_20socket_20testing',['WiFi Socket testing',['../group__wifi__sock__testing.html',1,'']]],
   ['wifi_5fsocketaccept',['WIFI_SocketAccept',['../group__wifi__sock__api.html#gaa29a391c5c63e0d9be6dfc250f29a610',1,'DV_WIFI.c']]],
   ['wifi_5fsocketbind',['WIFI_SocketBind',['../group__wifi__sock__api.html#ga67a1bb12d358a227080e43629ee911c3',1,'DV_WIFI.c']]],
   ['wifi_5fsocketclose',['WIFI_SocketClose',['../group__wifi__sock__api.html#ga365ef23d0c1980535863639bec4be080',1,'DV_WIFI.c']]],
@@ -48,5 +51,6 @@ var searchData=
   ['wifi_5fsocketsetopt',['WIFI_SocketSetOpt',['../group__wifi__sock__api.html#ga92055f19013c830b2b793c601226d1ea',1,'DV_WIFI.c']]],
   ['wifi_5ftest_5fspeed',['WIFI_Test_Speed',['../group__wifi__sock__op.html#ga1ea6beecd1a175a01fa3e6cb07cfa07f',1,'DV_WIFI.c']]],
   ['wifi_5ftransfer_5ffixed',['WIFI_Transfer_Fixed',['../group__wifi__sock__op.html#ga3f689afa848ea20e279c19999f4ec733',1,'DV_WIFI.c']]],
-  ['wifi_5ftransfer_5fincremental',['WIFI_Transfer_Incremental',['../group__wifi__sock__op.html#ga40ed04ab7d8aa4e2b13e5765048e93f2',1,'DV_WIFI.c']]]
+  ['wifi_5ftransfer_5fincremental',['WIFI_Transfer_Incremental',['../group__wifi__sock__op.html#ga40ed04ab7d8aa4e2b13e5765048e93f2',1,'DV_WIFI.c']]],
+  ['wifi_5fupstream_5frate',['WIFI_Upstream_Rate',['../group__wifi__sock__op.html#ga344f942e644180492ab1f51d03b543f1',1,'DV_WIFI.c']]]
 ];

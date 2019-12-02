@@ -20,8 +20,9 @@ var searchData=
   ['arg_5fsetopt',['ARG_SETOPT',['../_d_v___w_i_f_i_8c.html#a0b02ce40984845e7ec0a022893033152',1,'DV_WIFI.c']]],
   ['arg_5ftransfer',['ARG_TRANSFER',['../_d_v___w_i_f_i_8c.html#a50b07be40fa975fa21faf957eb2c516d',1,'DV_WIFI.c']]],
   ['arm_5fdriver_5fwifi_5f',['ARM_Driver_WiFi_',['../_d_v___w_i_f_i_8c.html#a745ff994572befcb56c72c55eb6b0689',1,'DV_WIFI.c']]],
-  ['as_5ffile_5fdbgi',['As_File_Dbgi',['../_d_v___report_8c.html#a50dd91fff66b7ee11cbd29abbcb620f4',1,'DV_Report.c']]],
-  ['as_5ffile_5fresult',['As_File_Result',['../_d_v___report_8c.html#a23ca225bb60757c34793f38695026f8d',1,'DV_Report.c']]],
-  ['assistant_5fport',['ASSISTANT_PORT',['../_d_v___w_i_f_i_8c.html#aaf16852302bc36d830c45ed79455f67b',1,'DV_WIFI.c']]],
-  ['atmel_20samv71_20xplained_20ultra',['Atmel SAMV71 Xplained Ultra',['../examples_samv71_x_u.html',1,'examples']]]
+  ['as_5fdetail',['as_detail',['../_d_v___report_8c.html#afc3b7a00f8fcea93006190d08e282303',1,'DV_Report.c']]],
+  ['as_5ffailed',['as_failed',['../_d_v___report_8c.html#a9c1c9cb57e5124d0c831fbf1bd57c5d1',1,'DV_Report.c']]],
+  ['as_5fpassed',['as_passed',['../_d_v___report_8c.html#a9a974919cccdffea92d7609433a0f90b',1,'DV_Report.c']]],
+  ['as_5fresult',['as_Result',['../_d_v___report_8c.html#a400de392f38a591cfd69eff8cbcf9112',1,'DV_Report.c']]],
+  ['assistant_5fport',['ASSISTANT_PORT',['../_d_v___w_i_f_i_8c.html#aaf16852302bc36d830c45ed79455f67b',1,'DV_WIFI.c']]]
 ];

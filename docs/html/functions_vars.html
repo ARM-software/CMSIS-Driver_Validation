@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -96,7 +96,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_a"><span>a</span></a></li>
       <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
-      <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
@@ -164,6 +163,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>cmd
 : <a class="el" href="struct_i_o___a_c_c_e_p_t.html#ae80dcd72941bd0b87440ed7995914928">IO_ACCEPT</a>
+, <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#a9f02a1ff7722a08dc86049674298af4d">IO_STREAMRATE</a>
 </li>
 <li>count
 : <a class="el" href="struct_i_o___s_i_d_e_k_i_c_k.html#a8f99af4cf9e427652c80b6432755520d">IO_SIDEKICK</a>
@@ -171,17 +171,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </ul>
 
 
-<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
-<li>data_to_set
-: <a class="el" href="structset__get__option__t.html#a83b37c395fb325095a09427e4bc2295e">set_get_option_t</a>
-</li>
-</ul>
-
-
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
-<li>interface
-: <a class="el" href="structset__get__option__t.html#ab6432211c2489e3406fc30d784fda488">set_get_option_t</a>
-</li>
 <li>ip
 : <a class="el" href="struct_i_o___a_c_c_e_p_t.html#a97fb3e800a0a6de5448420b8c6c0b16f">IO_ACCEPT</a>
 , <a class="el" href="struct_i_o___b_i_n_d.html#a84e9a6c72dada01048dc538a47b25b14">IO_BIND</a>
@@ -214,7 +204,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="struct_i_o___s_e_n_d.html#ad48e3a26f4da5fec86a8a6707d603c09">IO_SEND</a>
 , <a class="el" href="struct_i_o___s_e_n_d_t_o.html#aac2cb63c541af02066cf259213974a44">IO_SENDTO</a>
 , <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#ac936b66ffa52be764cf4475f38e239d0">IO_TRANSFER</a>
-, <a class="el" href="structset__get__option__t.html#a12f52bb66c953ad79272064429b67e6e">set_get_option_t</a>
+</li>
+<li>loss
+: <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#aa6792060555df0c44df6308bd19928fb">IO_STREAMRATE</a>
 </li>
 </ul>
 
@@ -239,9 +231,6 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="struct_i_o___g_e_t_o_p_t.html#a3ef0f224282a82384177e047139fd760">IO_GETOPT</a>
 , <a class="el" href="struct_i_o___s_e_t_o_p_t.html#a45221b46b36723a31b45e87d8a5e247a">IO_SETOPT</a>
 </li>
-<li>option
-: <a class="el" href="structset__get__option__t.html#a72916c0d8b6cb113d6a3e63dc7700d86">set_get_option_t</a>
-</li>
 <li>owner
 : <a class="el" href="struct_i_o___a_c_c_e_p_t.html#a72af46de8e610df803e883d3b5af6169">IO_ACCEPT</a>
 , <a class="el" href="struct_i_o___b_i_n_d.html#a03972e1c6f5c06d15a8cc118e2121884">IO_BIND</a>
@@ -259,6 +248,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="struct_i_o___s_e_n_d.html#a145d1917302b5ef41eaa2e1a59c56e79">IO_SEND</a>
 , <a class="el" href="struct_i_o___s_e_n_d_t_o.html#a81c1fd6f56c9a8b87ead90dd60cdbda8">IO_SENDTO</a>
 , <a class="el" href="struct_i_o___s_e_t_o_p_t.html#ae613161e8505f2c4d41c43b0cad93b29">IO_SETOPT</a>
+, <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#addfa15b64bdf3e4ba83dd741cb0cd317">IO_STREAMRATE</a>
 , <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#aa755bc3c8618bc561e1c0eebc19fc3d0">IO_TRANSFER</a>
 </li>
 </ul>
@@ -298,6 +288,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="struct_i_o___s_e_n_d.html#ace925eca344c445e084a38c6cc052b95">IO_SEND</a>
 , <a class="el" href="struct_i_o___s_e_n_d_t_o.html#a5c2af8a27988f0b1fe205437b101da1d">IO_SENDTO</a>
 , <a class="el" href="struct_i_o___s_e_t_o_p_t.html#a4a80693990ef390ed1b55b4b8819570d">IO_SETOPT</a>
+, <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#a1f4e481fd32adf2233397b51e65cc3b4">IO_STREAMRATE</a>
 , <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#a196ad9b503f8c1ab831a9373b891b9ed">IO_TRANSFER</a>
 </li>
 <li>reserved
@@ -328,12 +319,16 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="struct_i_o___s_e_n_d_t_o.html#aa14579ccd62eb968d8d3aad89e90aaae">IO_SENDTO</a>
 , <a class="el" href="struct_i_o___s_e_t_o_p_t.html#af41398e07b1d32411eb357399c2a765e">IO_SETOPT</a>
 , <a class="el" href="struct_i_o___s_i_d_e_k_i_c_k.html#a73dc55db9b28c2aa83f162760c66ee48">IO_SIDEKICK</a>
+, <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#a305fe8d640feb2da20e23f5b20cd24fb">IO_STREAMRATE</a>
 , <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#a395a55a110f59906060472ad9e7adec1">IO_TRANSFER</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>tcp
+: <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#a7b6751e4405ed3861331ab063741901e">IO_TRANSFER</a>
+</li>
 <li>tout
 : <a class="el" href="struct_i_o___r_e_c_v_f_r_o_m.html#ad7a0b7fadc2f226af80409011d8bc885">IO_RECVFROM</a>
 </li>
@@ -364,6 +359,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="struct_i_o___s_e_n_d.html#ae222c1286f1ca1ee82f43c0a80366f30">IO_SEND</a>
 , <a class="el" href="struct_i_o___s_e_n_d_t_o.html#ad0f7b7586539f38be0efcf31f7e7d506">IO_SENDTO</a>
 , <a class="el" href="struct_i_o___s_e_t_o_p_t.html#af0a8a1e23429a793602d6a9124ecfb8b">IO_SETOPT</a>
+, <a class="el" href="struct_i_o___s_t_r_e_a_m_r_a_t_e.html#afade087110ff522419af6bfaa8003cdb">IO_STREAMRATE</a>
 , <a class="el" href="struct_i_o___t_r_a_n_s_f_e_r.html#aad2732734a00a020c2b1bc91c1330596">IO_TRANSFER</a>
 </li>
 </ul>
@@ -372,7 +368,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:05 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

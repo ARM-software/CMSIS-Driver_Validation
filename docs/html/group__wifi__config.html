@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>set_get_option_t Struct Reference</title>
-<title>CMSIS-Driver Validation: set_get_option_t Struct Reference</title>
+<title>WiFi Configuration</title>
+<title>CMSIS-Driver Validation: WiFi Configuration</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="drv.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="jquery.js"></script>
@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -78,13 +78,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
-    </ul>
-  </div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -97,7 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structset__get__option__t.html','');});
+$(document).ready(function(){initNavTree('group__wifi__config.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -115,80 +108,46 @@ $(document).ready(function(){initNavTree('structset__get__option__t.html','');})
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">set_get_option_t Struct Reference</div>  </div>
+<div class="title">WiFi Configuration<div class="ingroups"><a class="el" href="group__wifi__funcs.html">WiFi Validation</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:ab6432211c2489e3406fc30d784fda488"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structset__get__option__t.html#ab6432211c2489e3406fc30d784fda488">interface</a></td></tr>
-<tr class="separator:ab6432211c2489e3406fc30d784fda488"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72916c0d8b6cb113d6a3e63dc7700d86"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structset__get__option__t.html#a72916c0d8b6cb113d6a3e63dc7700d86">option</a></td></tr>
-<tr class="separator:a72916c0d8b6cb113d6a3e63dc7700d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83b37c395fb325095a09427e4bc2295e"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structset__get__option__t.html#a83b37c395fb325095a09427e4bc2295e">data_to_set</a></td></tr>
-<tr class="separator:a83b37c395fb325095a09427e4bc2295e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12f52bb66c953ad79272064429b67e6e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structset__get__option__t.html#a12f52bb66c953ad79272064429b67e6e">len</a></td></tr>
-<tr class="separator:a12f52bb66c953ad79272064429b67e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="a83b37c395fb325095a09427e4bc2295e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const void* set_get_option_t::data_to_set</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab6432211c2489e3406fc30d784fda488"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t set_get_option_t::interface</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a12f52bb66c953ad79272064429b67e6e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t set_get_option_t::len</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a72916c0d8b6cb113d6a3e63dc7700d86"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t set_get_option_t::option</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
+<p>The WiFi driver validation settings are available in the <code>DV_Config.h</code> file.</p>
+<p>Some settings depend on the test environment and need to be changed for proper operation of WiFi driver validation. These settings can be found under WiFi <b>Configuration</b> settings in the <code>DV_Config.h</code> file and need to be set as follows:</p>
+<div class="image">
+<img src="dv_config_h_wifi_config.png" alt="dv_config_h_wifi_config.png"/>
+<div class="caption">
+DV_Config.h header file in Configuration Wizard view mode</div></div>
+<p> <b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:</p>
+<ul>
+<li>SSID</li>
+<li>Password</li>
+<li>Security Type</li>
+<li>Channel: use 0 for auto-detect channel</li>
+<li>WPS PIN: PIN used for WPS tests (the Access Point has to have the same PIN enabled and WPS service running)</li>
+</ul>
+<p><b>Access Point</b> related settings needed for testing Access Point functionality of the WiFi module:</p>
+<ul>
+<li>SSID: SSID created by the WiFi module</li>
+<li>Password</li>
+<li>Security Type</li>
+<li>Channel: use 0 for auto-detect channel</li>
+<li>WPS PIN: PIN used for WPS tests (auxiliary station has to have the same PIN enabled)</li>
+</ul>
+<p><b>Socket</b> related setting needed for Socket API and Socket Operation tests:</p>
+<ul>
+<li>SockServer IP: IP address assigned to the SockServer on your local network</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).</dd></dl>
+<p>Under <b>Test Cases</b> select testing functionality as required.</p>
+<p><b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable WiFi Driver API function tests respectively.</p>
+<p><b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests are used for more complex operational test of the WiFi driver. A brief description of each test functionality can be viewed by using <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a> view of the DV_Config.h file and clicking on the test or hovering a mouse pointer over it. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structset__get__option__t.html">set_get_option_t</a></li>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:04 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

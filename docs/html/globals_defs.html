@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -94,8 +94,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
-      <li><a href="#index_m"><span>m</span></a></li>
-      <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li class="current"><a href="#index_t"><span>t</span></a></li>
@@ -210,11 +208,20 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 <li>CAN_MSG_SIZE_FD
 : <a class="el" href="_d_v___c_a_n_8c.html#a2a476bb1ab202a6e68df3c127f9e40c3">DV_CAN.c</a>
 </li>
-<li>CAS
-: <a class="el" href="_d_v___report_8c.html#ade570fdc92454d2e464c7ea8f085e0a4">DV_Report.c</a>
-</li>
 <li>CHARGEN_PORT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#afcd157a8d8c9b13efdc87808553e89b9">DV_WIFI.c</a>
+</li>
+<li>CMD_CONNECT_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a47a0511142bc389c9794e3792eed5d29">DV_WIFI.c</a>
+</li>
+<li>CMD_CONNECT_UDP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#aaba2e41fb088e4711e389cc6d4e71ec4">DV_WIFI.c</a>
+</li>
+<li>CMD_RECV_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#ab68e08ff35aa1bd53fa8715e0a391e20">DV_WIFI.c</a>
+</li>
+<li>CMD_SEND_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a42e93a83860b88ca70b00fb203f21370">DV_WIFI.c</a>
 </li>
 </ul>
 
@@ -258,6 +265,9 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 <li>F_CREATE_UDP
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac6ec54bbd92e06b6357368de8d0f34fe">DV_WIFI.c</a>
 </li>
+<li>F_DOWNLOAD
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a5542cf6d915d288d0b162774ec802027">DV_WIFI.c</a>
+</li>
 <li>F_GETHOSTBYNAME
 : <a class="el" href="_d_v___w_i_f_i_8c.html#aead7afa6468d4d0f837464fe04dfa3dd">DV_WIFI.c</a>
 </li>
@@ -300,6 +310,9 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 <li>F_SETOPT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#aa82592e9a8bb8932bb8bedf29a328a40">DV_WIFI.c</a>
 </li>
+<li>F_UPLOAD
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a86049eb76632842fced0b5d795ab5f81">DV_WIFI.c</a>
+</li>
 <li>F_XFER_FIXED
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac2f748d259f73c27ff511fecca97a56b">DV_WIFI.c</a>
 </li>
@@ -308,20 +321,6 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 </li>
 <li>FLUSH
 : <a class="el" href="_d_v___report_8c.html#ad7ca11d555f526a6c553f150b898c0d8">DV_Report.c</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>MIN_BYTES
-: <a class="el" href="_d_v___w_i_f_i_8c.html#a133d2b1bde659fd105718ebf11264cd9">DV_WIFI.c</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
-<li>NON_EXISTENT_PORT
-: <a class="el" href="_d_v___w_i_f_i_8c.html#afead134fbfa73a0280699d1efb8742af">DV_WIFI.c</a>
 </li>
 </ul>
 
@@ -350,14 +349,14 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>TAS
-: <a class="el" href="_d_v___report_8c.html#aa4e56e680bfc00f7e9730d2357a0571c">DV_Report.c</a>
+<li>TCP_REJECTED_PORT
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3eda16559f77a368337afc9cb29b9f11">DV_WIFI.c</a>
 </li>
-<li>TEST_COMMAND_TCP
-: <a class="el" href="_d_v___w_i_f_i_8c.html#adbbdcbfe0ac75bfcdbb82c6dd1a9e1a4">DV_WIFI.c</a>
+<li>TCP_TIMEOUT_PORT
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a77b138b37547acce96a7cf971758757a">DV_WIFI.c</a>
 </li>
-<li>TEST_COMMAND_UDP
-: <a class="el" href="_d_v___w_i_f_i_8c.html#a06051fdcaa830675b4ba67bd9f6e3192">DV_WIFI.c</a>
+<li>TEST_BSIZE
+: <a class="el" href="_d_v___w_i_f_i_8c.html#ad49467459fcc7631e98666a42f747c0e">DV_WIFI.c</a>
 </li>
 <li>TEST_PORT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a7812026c12eab529fa6928dc0a708e62">DV_WIFI.c</a>
@@ -367,6 +366,9 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 </li>
 <li>TH_ASSERT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a32fd58827e181eda0603dcba4d331fcd">DV_WIFI.c</a>
+</li>
+<li>TH_ASSERT2
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3c2e3fc3721a0c6d74249581dc268905">DV_WIFI.c</a>
 </li>
 <li>TH_EXECUTE
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a9120c75f8b6df0cbd96a67a482ba6a6e">DV_WIFI.c</a>
@@ -383,7 +385,7 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:05 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

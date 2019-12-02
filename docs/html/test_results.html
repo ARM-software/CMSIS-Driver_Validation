@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -113,24 +113,28 @@ $(document).ready(function(){initNavTree('test_results.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The tests <a class="el" href="group__spi__funcs.html#ga20fdfd0f18a99ed6657b11bf41027e8f">SPI_Loopback_CheckBusSpeed</a> and <a class="el" href="group__usart__funcs.html#ga9dcba9495e1082c6318a98a8cc5196b9">USART_Loopback_CheckBaudrate</a> may issue warnings when using the default settings (especially loopback communication tests for SPI and USART): </p>
-<pre class="fragment">CMSIS-Driver Test Suite   Nov 18 2015   09:26:38 
+<pre class="fragment">CMSIS-Driver SPI Test Report   Nov 15 2019   15:35:11 
 
 TEST 01: SPI_GetCapabilities              PASSED
 TEST 02: SPI_Initialization               PASSED
 TEST 03: SPI_PowerControl                 
-  DV_SPI.c (244) [WARNING] Low power is not supported
+  DV_SPI.c (244): [WARNING] Low power is not supported
+                                          PASSED
 TEST 04: SPI_Config_PolarityPhase         PASSED
 TEST 05: SPI_Config_DataBits              PASSED
 TEST 06: SPI_Config_BitOrder              
-  DV_SPI.c (315) [WARNING] Bit order LSB_MSB is not supported
+  DV_SPI.c (315): [WARNING] Bit order LSB_MSB is not supported
+                                          PASSED
 TEST 07: SPI_Config_SSMode                
-  DV_SPI.c (343) [WARNING] Slave select MASTER_HW_INPUT is not supported
+  DV_SPI.c (343): [WARNING] Slave select MASTER_HW_INPUT is not supported
+                                          PASSED
 TEST 08: SPI_Config_BusSpeed              PASSED
 TEST 09: SPI_Config_CommonParams          PASSED
 TEST 10: SPI_Send                         PASSED
 TEST 11: SPI_Receive                      PASSED
 TEST 12: SPI_Loopback_CheckBusSpeed       
-  DV_SPI.c (525) [WARNING] At 25000kHz: measured time is 2.437125 x expected time
+  DV_SPI.c (525): [WARNING] At 25000kHz: measured time is 2.437125 x expected time
+                                          PASSED
 TEST 13: SPI_Loopback_Transfer            PASSED
 TEST 14: SPI_CheckInvalidInit             NOT EXECUTED
 </pre><p>The measured time is depending mainly on two factors: <b>DMA</b> and <b>software</b> <b>overhead</b>.</p>
@@ -152,7 +156,7 @@ Increasing the <b>Buffer size for baudrate test</b> reduces the software overhea
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:04 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>C:/Projects/ARM_GIT/CMSIS-Driver_Validation/Source/DV_Report.c File Reference</title>
-<title>CMSIS-Driver Validation: C:/Projects/ARM_GIT/CMSIS-Driver_Validation/Source/DV_Report.c File Reference</title>
+<title>D:/GitHub/ARM-software/CMSIS-Driver_Validation/Source/DV_Report.c File Reference</title>
+<title>CMSIS-Driver Validation: D:/GitHub/ARM-software/CMSIS-Driver_Validation/Source/DV_Report.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="drv.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="jquery.js"></script>
@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -120,10 +120,6 @@ $(document).ready(function(){initNavTree('_d_v___report_8c.html','');});
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aa4e56e680bfc00f7e9730d2357a0571c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#aa4e56e680bfc00f7e9730d2357a0571c">TAS</a>&#160;&#160;&#160;(&amp;test_report.assertions) /* Total assertions                     */</td></tr>
-<tr class="separator:aa4e56e680bfc00f7e9730d2357a0571c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade570fdc92454d2e464c7ea8f085e0a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ade570fdc92454d2e464c7ea8f085e0a4">CAS</a>&#160;&#160;&#160;(&amp;<a class="el" href="_d_v___report_8c.html#aa853d6993ad6815b78dfec003859937d">current_assertions</a>)     /* Current assertions                   */</td></tr>
-<tr class="separator:ade570fdc92454d2e464c7ea8f085e0a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad61844ab25ea35139950e67e9693bc9f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ad61844ab25ea35139950e67e9693bc9f">PRINT</a>(x)&#160;&#160;&#160;<a class="el" href="_d_v___report_8c.html#a1248983adb3d8f545c04ef41cb60c370">MsgPrint</a> x</td></tr>
 <tr class="separator:ad61844ab25ea35139950e67e9693bc9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7ca11d555f526a6c553f150b898c0d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ad7ca11d555f526a6c553f150b898c0d8">FLUSH</a>()&#160;&#160;&#160;<a class="el" href="_d_v___report_8c.html#aa38920f1172f91cbcdb3c1c5f574845a">MsgFlush</a>()</td></tr>
@@ -131,73 +127,53 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae62f754e28c31c985bca29f0f0f84141"><td class="memItemLeft" align="right" valign="top">static BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ae62f754e28c31c985bca29f0f0f84141">tr_Init</a> (void)</td></tr>
-<tr class="separator:ae62f754e28c31c985bca29f0f0f84141"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0ce2b321e66f17900727ed2390c0d11"><td class="memItemLeft" align="right" valign="top">static BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ac0ce2b321e66f17900727ed2390c0d11">tc_Init</a> (void)</td></tr>
-<tr class="separator:ac0ce2b321e66f17900727ed2390c0d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09f9ea757a448836312a967b9c850b07"><td class="memItemLeft" align="right" valign="top">static uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a09f9ea757a448836312a967b9c850b07">tr_Eval</a> (void)</td></tr>
-<tr class="separator:a09f9ea757a448836312a967b9c850b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cef0920d612619c6022108ed42b084b"><td class="memItemLeft" align="right" valign="top">static uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a7cef0920d612619c6022108ed42b084b">tc_Eval</a> (void)</td></tr>
-<tr class="separator:a7cef0920d612619c6022108ed42b084b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6914194346e0c1668511bb91e271022"><td class="memItemLeft" align="right" valign="top">static BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#aa6914194346e0c1668511bb91e271022">StatCount</a> (TC_RES res)</td></tr>
-<tr class="separator:aa6914194346e0c1668511bb91e271022"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41419818a6a46bf87cf961e6e27e965"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#af41419818a6a46bf87cf961e6e27e965">__set_result</a> (const char *module, uint32_t line, const char *message, TC_RES res)</td></tr>
+<tr class="separator:af41419818a6a46bf87cf961e6e27e965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae664aad287b0a25d25e29942739090f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ae664aad287b0a25d25e29942739090f8">__set_message</a> (const char *module, uint32_t line, const char *message)</td></tr>
+<tr class="separator:ae664aad287b0a25d25e29942739090f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61032c591ee498d00b563a006c1d87eb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a61032c591ee498d00b563a006c1d87eb">tr_Init</a> (void)</td></tr>
+<tr class="separator:a61032c591ee498d00b563a006c1d87eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2273b547510bbe15aeb11177739300c5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a2273b547510bbe15aeb11177739300c5">tr_Uninit</a> (void)</td></tr>
+<tr class="separator:a2273b547510bbe15aeb11177739300c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af97d6a1707820827db7936e8e6214572"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572">tg_Init</a> (const char *title, const char *date, const char *time, const char *file)</td></tr>
+<tr class="separator:af97d6a1707820827db7936e8e6214572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f4e871cbec7aa6f401d1389956eff8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8">tg_Uninit</a> (void)</td></tr>
+<tr class="separator:a61f4e871cbec7aa6f401d1389956eff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abec2ba7807bd47ac66e092f7785cc94e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e">tc_Init</a> (uint32_t num, const char *fn)</td></tr>
+<tr class="separator:abec2ba7807bd47ac66e092f7785cc94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62cb20775b2ecbe203da397b2eb72869"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869">tc_Uninit</a> (void)</td></tr>
+<tr class="separator:a62cb20775b2ecbe203da397b2eb72869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf006de7d00d8a4034356ae48fc88eb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb">tc_Detail</a> (const char *module, uint32_t line, const char *message)</td></tr>
+<tr class="separator:a1cf006de7d00d8a4034356ae48fc88eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a400de392f38a591cfd69eff8cbcf9112"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a400de392f38a591cfd69eff8cbcf9112">as_Result</a> (TC_RES res)</td></tr>
+<tr class="separator:a400de392f38a591cfd69eff8cbcf9112"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1248983adb3d8f545c04ef41cb60c370"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a1248983adb3d8f545c04ef41cb60c370">MsgPrint</a> (const char *msg,...)</td></tr>
 <tr class="separator:a1248983adb3d8f545c04ef41cb60c370"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa38920f1172f91cbcdb3c1c5f574845a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#aa38920f1172f91cbcdb3c1c5f574845a">MsgFlush</a> (void)</td></tr>
 <tr class="separator:aa38920f1172f91cbcdb3c1c5f574845a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23ca225bb60757c34793f38695026f8d"><td class="memItemLeft" align="right" valign="top">static BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a23ca225bb60757c34793f38695026f8d">As_File_Result</a> (TC_RES res)</td></tr>
-<tr class="separator:a23ca225bb60757c34793f38695026f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50dd91fff66b7ee11cbd29abbcb620f4"><td class="memItemLeft" align="right" valign="top">static BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a50dd91fff66b7ee11cbd29abbcb620f4">As_File_Dbgi</a> (TC_RES res, const char *fn, uint32_t ln, char *desc)</td></tr>
-<tr class="separator:a50dd91fff66b7ee11cbd29abbcb620f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae329008b2823eca1ef3ea76ba52c4b63"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ae329008b2823eca1ef3ea76ba52c4b63">tr_File_Init</a> (void)</td></tr>
-<tr class="separator:ae329008b2823eca1ef3ea76ba52c4b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f96ff24d3ab347a08d11d5a8849e16b"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a7f96ff24d3ab347a08d11d5a8849e16b">tr_File_Open</a> (const char *title, const char *date, const char *time, const char *fn)</td></tr>
-<tr class="separator:a7f96ff24d3ab347a08d11d5a8849e16b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3500d18c76140845e0744f312002d64"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#aa3500d18c76140845e0744f312002d64">tr_File_Close</a> (void)</td></tr>
-<tr class="separator:aa3500d18c76140845e0744f312002d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64b53dee9ea69e56508652d4211a0cdc"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a64b53dee9ea69e56508652d4211a0cdc">tc_File_Open</a> (uint32_t num, const char *fn)</td></tr>
-<tr class="separator:a64b53dee9ea69e56508652d4211a0cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87c170c6222edd101f806ebe1d5439d4"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a87c170c6222edd101f806ebe1d5439d4">tc_File_Close</a> (void)</td></tr>
-<tr class="separator:a87c170c6222edd101f806ebe1d5439d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e081280f4f24564ceaaa0d6f2796a88"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a8e081280f4f24564ceaaa0d6f2796a88">no_path</a> (const char *fn)</td></tr>
 <tr class="separator:a8e081280f4f24564ceaaa0d6f2796a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a448ce68b8cfa6be9626810b817a0a928"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a448ce68b8cfa6be9626810b817a0a928">__set_result</a> (const char *fn, uint32_t ln, TC_RES res, char *desc)</td></tr>
-<tr class="separator:a448ce68b8cfa6be9626810b817a0a928"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32b66436861477d4f1fbc3d2c864af22"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a32b66436861477d4f1fbc3d2c864af22">__assert_true</a> (const char *fn, uint32_t ln, uint32_t cond)</td></tr>
-<tr class="separator:a32b66436861477d4f1fbc3d2c864af22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a8948335b4ea7dadb7e22709c23864495"><td class="memItemLeft" align="right" valign="top">TEST_REPORT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a8948335b4ea7dadb7e22709c23864495">test_report</a></td></tr>
-<tr class="separator:a8948335b4ea7dadb7e22709c23864495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa853d6993ad6815b78dfec003859937d"><td class="memItemLeft" align="right" valign="top">static AS_STAT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#aa853d6993ad6815b78dfec003859937d">current_assertions</a></td></tr>
-<tr class="separator:aa853d6993ad6815b78dfec003859937d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29397e837f2de8e94e4d24dec84736fb"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a29397e837f2de8e94e4d24dec84736fb">Passed</a> [] = &quot;PASSED&quot;</td></tr>
-<tr class="separator:a29397e837f2de8e94e4d24dec84736fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a619ade33c20209ee80417a60416ebf34"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a619ade33c20209ee80417a60416ebf34">Warning</a> [] = &quot;WARNING&quot;</td></tr>
-<tr class="separator:a619ade33c20209ee80417a60416ebf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab73ba82de8f10874209315cfac1ab121"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ab73ba82de8f10874209315cfac1ab121">Failed</a> [] = &quot;FAILED&quot;</td></tr>
-<tr class="separator:ab73ba82de8f10874209315cfac1ab121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d68353dbe9e668e75c4efc83328fda4"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a4d68353dbe9e668e75c4efc83328fda4">NotExe</a> [] = &quot;NOT EXECUTED&quot;</td></tr>
-<tr class="separator:a4d68353dbe9e668e75c4efc83328fda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac27c1c5bbd510d21482ea18f3499d079"><td class="memItemLeft" align="right" valign="top">TC_ITF&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#ac27c1c5bbd510d21482ea18f3499d079">tcitf</a></td></tr>
-<tr class="separator:ac27c1c5bbd510d21482ea18f3499d079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19fe7f3888199ebcb53eb3b2036817d0"><td class="memItemLeft" align="right" valign="top">REPORT_ITF&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a19fe7f3888199ebcb53eb3b2036817d0">ritf</a></td></tr>
 <tr class="separator:a19fe7f3888199ebcb53eb3b2036817d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba6da4e76cfd11b449e9cbb271166e5"><td class="memItemLeft" align="right" valign="top">static TEST_GROUP_RESULTS&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#abba6da4e76cfd11b449e9cbb271166e5">test_group_result</a></td></tr>
+<tr class="separator:abba6da4e76cfd11b449e9cbb271166e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a974919cccdffea92d7609433a0f90b"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a9a974919cccdffea92d7609433a0f90b">as_passed</a> = 0</td></tr>
+<tr class="separator:a9a974919cccdffea92d7609433a0f90b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c1c9cb57e5124d0c831fbf1bd57c5d1"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a9c1c9cb57e5124d0c831fbf1bd57c5d1">as_failed</a> = 0</td></tr>
+<tr class="separator:a9c1c9cb57e5124d0c831fbf1bd57c5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc3b7a00f8fcea93006190d08e282303"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#afc3b7a00f8fcea93006190d08e282303">as_detail</a> = 0</td></tr>
+<tr class="separator:afc3b7a00f8fcea93006190d08e282303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bb7031d0bc898ab0835c83fac4a2ee5"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a1bb7031d0bc898ab0835c83fac4a2ee5">Passed</a> [] = &quot;PASSED&quot;</td></tr>
+<tr class="separator:a1bb7031d0bc898ab0835c83fac4a2ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf2bcee204aecffa708d9ab081f7d6a7"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#acf2bcee204aecffa708d9ab081f7d6a7">Failed</a> [] = &quot;FAILED&quot;</td></tr>
+<tr class="separator:acf2bcee204aecffa708d9ab081f7d6a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a836d45ca28fdc2b3e558586f37ecd869"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___report_8c.html#a836d45ca28fdc2b3e558586f37ecd869">NotExe</a> [] = &quot;NOT EXECUTED&quot;</td></tr>
+<tr class="separator:a836d45ca28fdc2b3e558586f37ecd869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ade570fdc92454d2e464c7ea8f085e0a4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CAS&#160;&#160;&#160;(&amp;<a class="el" href="_d_v___report_8c.html#aa853d6993ad6815b78dfec003859937d">current_assertions</a>)     /* Current assertions                   */</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="ad7ca11d555f526a6c553f150b898c0d8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -229,40 +205,28 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa4e56e680bfc00f7e9730d2357a0571c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define TAS&#160;&#160;&#160;(&amp;test_report.assertions) /* Total assertions                     */</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a32b66436861477d4f1fbc3d2c864af22"></a>
+<a class="anchor" id="ae664aad287b0a25d25e29942739090f8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t __assert_true </td>
+          <td class="memname">void __set_message </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>fn</em>, </td>
+          <td class="paramname"><em>module</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>ln</em>, </td>
+          <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cond</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -274,33 +238,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a448ce68b8cfa6be9626810b817a0a928"></a>
+<a class="anchor" id="af41419818a6a46bf87cf961e6e27e965"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t __set_result </td>
+          <td class="memname">void __set_result </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>fn</em>, </td>
+          <td class="paramname"><em>module</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>ln</em>, </td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">TC_RES&#160;</td>
-          <td class="paramname"><em>res</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
+          <td class="paramname"><em>res</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -312,7 +276,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a50dd91fff66b7ee11cbd29abbcb620f4"></a>
+<a class="anchor" id="a400de392f38a591cfd69eff8cbcf9112"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -320,53 +284,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BOOL As_File_Dbgi </td>
-          <td>(</td>
-          <td class="paramtype">TC_RES&#160;</td>
-          <td class="paramname"><em>res</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>fn</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>ln</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a23ca225bb60757c34793f38695026f8d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL As_File_Result </td>
+          <td class="memname">static void as_Result </td>
           <td>(</td>
           <td class="paramtype">TC_RES&#160;</td>
           <td class="paramname"><em>res</em></td><td>)</td>
@@ -464,7 +382,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa6914194346e0c1668511bb91e271022"></a>
+<a class="anchor" id="a1cf006de7d00d8a4034356ae48fc88eb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -472,11 +390,27 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BOOL StatCount </td>
+          <td class="memname">static void tc_Detail </td>
           <td>(</td>
-          <td class="paramtype">TC_RES&#160;</td>
-          <td class="paramname"><em>res</em></td><td>)</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -488,7 +422,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7cef0920d612619c6022108ed42b084b"></a>
+<a class="anchor" id="abec2ba7807bd47ac66e092f7785cc94e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -496,44 +430,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t * tc_Eval </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a87c170c6222edd101f806ebe1d5439d4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL tc_File_Close </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a64b53dee9ea69e56508652d4211a0cdc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL tc_File_Open </td>
+          <td class="memname">static void tc_Init </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>num</em>, </td>
@@ -550,11 +447,16 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac0ce2b321e66f17900727ed2390c0d11"></a>
+<a class="anchor" id="a62cb20775b2ecbe203da397b2eb72869"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -562,7 +464,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BOOL tc_Init </td>
+          <td class="memname">static void tc_Uninit </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -578,7 +480,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a09f9ea757a448836312a967b9c850b07"></a>
+<a class="anchor" id="af97d6a1707820827db7936e8e6214572"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -586,60 +488,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t * tr_Eval </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa3500d18c76140845e0744f312002d64"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL tr_File_Close </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae329008b2823eca1ef3ea76ba52c4b63"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL tr_File_Init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7f96ff24d3ab347a08d11d5a8849e16b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL tr_File_Open </td>
+          <td class="memname">static void tg_Init </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>title</em>, </td>
@@ -660,7 +509,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>fn</em>&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -668,11 +517,16 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ae62f754e28c31c985bca29f0f0f84141"></a>
+<a class="anchor" id="a61f4e871cbec7aa6f401d1389956eff8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -680,7 +534,55 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BOOL tr_Init </td>
+          <td class="memname">static void tg_Uninit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a61032c591ee498d00b563a006c1d87eb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void tr_Init </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2273b547510bbe15aeb11177739300c5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void tr_Uninit </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -697,7 +599,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="aa853d6993ad6815b78dfec003859937d"></a>
+<a class="anchor" id="afc3b7a00f8fcea93006190d08e282303"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -705,7 +607,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">AS_STAT current_assertions</td>
+          <td class="memname">uint32_t as_detail = 0</td>
         </tr>
       </table>
   </td>
@@ -717,7 +619,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab73ba82de8f10874209315cfac1ab121"></a>
+<a class="anchor" id="a9c1c9cb57e5124d0c831fbf1bd57c5d1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -725,7 +627,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t Failed[] = &quot;FAILED&quot;</td>
+          <td class="memname">uint32_t as_failed = 0</td>
         </tr>
       </table>
   </td>
@@ -737,7 +639,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4d68353dbe9e668e75c4efc83328fda4"></a>
+<a class="anchor" id="a9a974919cccdffea92d7609433a0f90b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -745,7 +647,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t NotExe[] = &quot;NOT EXECUTED&quot;</td>
+          <td class="memname">uint32_t as_passed = 0</td>
         </tr>
       </table>
   </td>
@@ -757,7 +659,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a29397e837f2de8e94e4d24dec84736fb"></a>
+<a class="anchor" id="acf2bcee204aecffa708d9ab081f7d6a7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -765,7 +667,47 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t Passed[] = &quot;PASSED&quot;</td>
+          <td class="memname">const char Failed[] = &quot;FAILED&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a836d45ca28fdc2b3e558586f37ecd869"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char NotExe[] = &quot;NOT EXECUTED&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1bb7031d0bc898ab0835c83fac4a2ee5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char Passed[] = &quot;PASSED&quot;</td>
         </tr>
       </table>
   </td>
@@ -786,52 +728,28 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#ae329008b2823eca1ef3ea76ba52c4b63">tr_File_Init</a>,</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#a7f96ff24d3ab347a08d11d5a8849e16b">tr_File_Open</a>,</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#aa3500d18c76140845e0744f312002d64">tr_File_Close</a>,</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#a64b53dee9ea69e56508652d4211a0cdc">tc_File_Open</a>,</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#a87c170c6222edd101f806ebe1d5439d4">tc_File_Close</a></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {                     </div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a61032c591ee498d00b563a006c1d87eb">tr_Init</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a2273b547510bbe15aeb11177739300c5">tr_Uninit</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572">tg_Init</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8">tg_Uninit</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e">tc_Init</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869">tc_Uninit</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb">tc_Detail</a>,</div>
+<div class="line">  <a class="code" href="_d_v___report_8c.html#a400de392f38a591cfd69eff8cbcf9112">as_Result</a></div>
 <div class="line">}</div>
-<div class="ttc" id="_d_v___report_8c_html_a64b53dee9ea69e56508652d4211a0cdc"><div class="ttname"><a href="_d_v___report_8c.html#a64b53dee9ea69e56508652d4211a0cdc">tc_File_Open</a></div><div class="ttdeci">BOOL tc_File_Open(uint32_t num, const char *fn)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:102</div></div>
-<div class="ttc" id="_d_v___report_8c_html_ae329008b2823eca1ef3ea76ba52c4b63"><div class="ttname"><a href="_d_v___report_8c.html#ae329008b2823eca1ef3ea76ba52c4b63">tr_File_Init</a></div><div class="ttdeci">BOOL tr_File_Init(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:72</div></div>
-<div class="ttc" id="_d_v___report_8c_html_aa3500d18c76140845e0744f312002d64"><div class="ttname"><a href="_d_v___report_8c.html#aa3500d18c76140845e0744f312002d64">tr_File_Close</a></div><div class="ttdeci">BOOL tr_File_Close(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:141</div></div>
-<div class="ttc" id="_d_v___report_8c_html_a87c170c6222edd101f806ebe1d5439d4"><div class="ttname"><a href="_d_v___report_8c.html#a87c170c6222edd101f806ebe1d5439d4">tc_File_Close</a></div><div class="ttdeci">BOOL tc_File_Close(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:121</div></div>
-<div class="ttc" id="_d_v___report_8c_html_a7f96ff24d3ab347a08d11d5a8849e16b"><div class="ttname"><a href="_d_v___report_8c.html#a7f96ff24d3ab347a08d11d5a8849e16b">tr_File_Open</a></div><div class="ttdeci">BOOL tr_File_Open(const char *title, const char *date, const char *time, const char *fn)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:80</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a61f4e871cbec7aa6f401d1389956eff8"><div class="ttname"><a href="_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8">tg_Uninit</a></div><div class="ttdeci">static void tg_Uninit(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:121</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a400de392f38a591cfd69eff8cbcf9112"><div class="ttname"><a href="_d_v___report_8c.html#a400de392f38a591cfd69eff8cbcf9112">as_Result</a></div><div class="ttdeci">static void as_Result(TC_RES res)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:229</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a61032c591ee498d00b563a006c1d87eb"><div class="ttname"><a href="_d_v___report_8c.html#a61032c591ee498d00b563a006c1d87eb">tr_Init</a></div><div class="ttdeci">static void tr_Init(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:72</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a2273b547510bbe15aeb11177739300c5"><div class="ttname"><a href="_d_v___report_8c.html#a2273b547510bbe15aeb11177739300c5">tr_Uninit</a></div><div class="ttdeci">static void tr_Uninit(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:88</div></div>
+<div class="ttc" id="_d_v___report_8c_html_af97d6a1707820827db7936e8e6214572"><div class="ttname"><a href="_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572">tg_Init</a></div><div class="ttdeci">static void tg_Init(const char *title, const char *date, const char *time, const char *file)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:97</div></div>
+<div class="ttc" id="_d_v___report_8c_html_abec2ba7807bd47ac66e092f7785cc94e"><div class="ttname"><a href="_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e">tc_Init</a></div><div class="ttdeci">static void tc_Init(uint32_t num, const char *fn)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:154</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a1cf006de7d00d8a4034356ae48fc88eb"><div class="ttname"><a href="_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb">tc_Detail</a></div><div class="ttdeci">static void tc_Detail(const char *module, uint32_t line, const char *message)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:204</div></div>
+<div class="ttc" id="_d_v___report_8c_html_a62cb20775b2ecbe203da397b2eb72869"><div class="ttname"><a href="_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869">tc_Uninit</a></div><div class="ttdeci">static void tc_Uninit(void)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:173</div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="ac27c1c5bbd510d21482ea18f3499d079"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TC_ITF tcitf</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#a23ca225bb60757c34793f38695026f8d">As_File_Result</a>,</div>
-<div class="line">  <a class="code" href="_d_v___report_8c.html#a50dd91fff66b7ee11cbd29abbcb620f4">As_File_Dbgi</a>,</div>
-<div class="line">}</div>
-<div class="ttc" id="_d_v___report_8c_html_a23ca225bb60757c34793f38695026f8d"><div class="ttname"><a href="_d_v___report_8c.html#a23ca225bb60757c34793f38695026f8d">As_File_Result</a></div><div class="ttdeci">static BOOL As_File_Result(TC_RES res)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:171</div></div>
-<div class="ttc" id="_d_v___report_8c_html_a50dd91fff66b7ee11cbd29abbcb620f4"><div class="ttname"><a href="_d_v___report_8c.html#a50dd91fff66b7ee11cbd29abbcb620f4">As_File_Dbgi</a></div><div class="ttdeci">static BOOL As_File_Dbgi(TC_RES res, const char *fn, uint32_t ln, char *desc)</div><div class="ttdef"><b>Definition:</b> DV_Report.c:179</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="a8948335b4ea7dadb7e22709c23864495"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST_REPORT test_report</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a619ade33c20209ee80417a60416ebf34"></a>
+<a class="anchor" id="abba6da4e76cfd11b449e9cbb271166e5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -839,7 +757,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t Warning[] = &quot;WARNING&quot;</td>
+          <td class="memname">TEST_GROUP_RESULTS test_group_result</td>
         </tr>
       </table>
   </td>
@@ -857,7 +775,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="_d_v___report_8c.html">DV_Report.c</a></li>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:04 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

@@ -17,5 +17,6 @@ var searchData=
   ['io_5fsendto',['IO_SENDTO',['../struct_i_o___s_e_n_d_t_o.html',1,'']]],
   ['io_5fsetopt',['IO_SETOPT',['../struct_i_o___s_e_t_o_p_t.html',1,'']]],
   ['io_5fsidekick',['IO_SIDEKICK',['../struct_i_o___s_i_d_e_k_i_c_k.html',1,'']]],
+  ['io_5fstreamrate',['IO_STREAMRATE',['../struct_i_o___s_t_r_e_a_m_r_a_t_e.html',1,'']]],
   ['io_5ftransfer',['IO_TRANSFER',['../struct_i_o___t_r_a_n_s_f_e_r.html',1,'']]]
 ];

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -138,14 +138,14 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>__ALIGNED()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#acf7bb3083e9bb58a8cf3bf35814b7d79">DV_WIFI.c</a>
 </li>
-<li>__assert_true()
-: <a class="el" href="_d_v___report_8c.html#a32b66436861477d4f1fbc3d2c864af22">DV_Report.c</a>
-</li>
 <li>__attribute__()
 : <a class="el" href="group__framework__funcs.html#ga189705fbc4254ff3cc332e052cd13215">DV_Framework.c</a>
 </li>
+<li>__set_message()
+: <a class="el" href="_d_v___report_8c.html#ae664aad287b0a25d25e29942739090f8">DV_Report.c</a>
+</li>
 <li>__set_result()
-: <a class="el" href="_d_v___report_8c.html#a448ce68b8cfa6be9626810b817a0a928">DV_Report.c</a>
+: <a class="el" href="_d_v___report_8c.html#af41419818a6a46bf87cf961e6e27e965">DV_Report.c</a>
 </li>
 </ul>
 
@@ -154,11 +154,8 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>ARM_Driver_WiFi_()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a745ff994572befcb56c72c55eb6b0689">DV_WIFI.c</a>
 </li>
-<li>As_File_Dbgi()
-: <a class="el" href="_d_v___report_8c.html#a50dd91fff66b7ee11cbd29abbcb620f4">DV_Report.c</a>
-</li>
-<li>As_File_Result()
-: <a class="el" href="_d_v___report_8c.html#a23ca225bb60757c34793f38695026f8d">DV_Report.c</a>
+<li>as_Result()
+: <a class="el" href="_d_v___report_8c.html#a400de392f38a591cfd69eff8cbcf9112">DV_Report.c</a>
 </li>
 </ul>
 
@@ -408,9 +405,6 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>SPI_Send()
 : <a class="el" href="group__spi__funcs.html#gaa17002cf53acef9aff6085a33900414b">DV_SPI.c</a>
 </li>
-<li>StatCount()
-: <a class="el" href="_d_v___report_8c.html#aa6914194346e0c1668511bb91e271022">DV_Report.c</a>
-</li>
 <li>station_init()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a68d4a2a27dba713feaac0a8daf631a4b">DV_WIFI.c</a>
 </li>
@@ -421,20 +415,26 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>tc_Eval()
-: <a class="el" href="_d_v___report_8c.html#a7cef0920d612619c6022108ed42b084b">DV_Report.c</a>
-</li>
-<li>tc_File_Close()
-: <a class="el" href="_d_v___report_8c.html#a87c170c6222edd101f806ebe1d5439d4">DV_Report.c</a>
-</li>
-<li>tc_File_Open()
-: <a class="el" href="_d_v___report_8c.html#a64b53dee9ea69e56508652d4211a0cdc">DV_Report.c</a>
+<li>tc_Detail()
+: <a class="el" href="_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb">DV_Report.c</a>
 </li>
 <li>tc_Init()
-: <a class="el" href="_d_v___report_8c.html#ac0ce2b321e66f17900727ed2390c0d11">DV_Report.c</a>
+: <a class="el" href="_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e">DV_Report.c</a>
+</li>
+<li>tc_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869">DV_Report.c</a>
+</li>
+<li>tg_Init()
+: <a class="el" href="_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572">DV_Report.c</a>
+</li>
+<li>tg_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8">DV_Report.c</a>
 </li>
 <li>Th_Accept()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ab41b5213080414bf0d070cdd98e358bb">DV_WIFI.c</a>
+</li>
+<li>th_assert2_msg()
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a28bfb37f406d6e8b936e285ba41c63ba">DV_WIFI.c</a>
 </li>
 <li>Th_Bind()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac92a33f0800cb70df678107f2ac85006">DV_WIFI.c</a>
@@ -449,7 +449,7 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 : <a class="el" href="_d_v___w_i_f_i_8c.html#adcf563ec2882902b8aecd9873b040ddc">DV_WIFI.c</a>
 </li>
 <li>th_execute()
-: <a class="el" href="_d_v___w_i_f_i_8c.html#acb7a5bea7a7a4c813824e6b9000a57e6">DV_WIFI.c</a>
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3c300926776cdc5122f984576305d8b8">DV_WIFI.c</a>
 </li>
 <li>Th_GetHostByName()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a7aa6675c695f5b39045ba65fbbd7320c">DV_WIFI.c</a>
@@ -487,26 +487,17 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>Th_Sidekick()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac56d58acf582176fca93c443ad52d6de">DV_WIFI.c</a>
 </li>
+<li>Th_StreamRate()
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a95ecc301e0b97304bd81aa799890deb1">DV_WIFI.c</a>
+</li>
 <li>Th_Transfer()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#aea83a3a1a71e6e6789a23247e304be05">DV_WIFI.c</a>
 </li>
-<li>tr_Eval()
-: <a class="el" href="_d_v___report_8c.html#a09f9ea757a448836312a967b9c850b07">DV_Report.c</a>
-</li>
-<li>tr_File_Close()
-: <a class="el" href="_d_v___report_8c.html#aa3500d18c76140845e0744f312002d64">DV_Report.c</a>
-</li>
-<li>tr_File_Init()
-: <a class="el" href="_d_v___report_8c.html#ae329008b2823eca1ef3ea76ba52c4b63">DV_Report.c</a>
-</li>
-<li>tr_File_Open()
-: <a class="el" href="_d_v___report_8c.html#a7f96ff24d3ab347a08d11d5a8849e16b">DV_Report.c</a>
-</li>
 <li>tr_Init()
-: <a class="el" href="_d_v___report_8c.html#ae62f754e28c31c985bca29f0f0f84141">DV_Report.c</a>
+: <a class="el" href="_d_v___report_8c.html#a61032c591ee498d00b563a006c1d87eb">DV_Report.c</a>
 </li>
-<li>TS_Init()
-: <a class="el" href="cmsis__dv_8c.html#ade36673f199aa9bd88d764caa0a10166">cmsis_dv.c</a>
+<li>tr_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a2273b547510bbe15aeb11177739300c5">DV_Report.c</a>
 </li>
 </ul>
 
@@ -633,6 +624,9 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>WIFI_Concurrent_Socket()
 : <a class="el" href="group__wifi__sock__op.html#ga3176acaa3ab1f518c2e1d57348b484a0">DV_WIFI.c</a>
 </li>
+<li>WIFI_Downstream_Rate()
+: <a class="el" href="group__wifi__sock__op.html#gaea1b11e11f8975cafb88faa62e5c4c75">DV_WIFI.c</a>
+</li>
 <li>WIFI_DrvEvent()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a224c3331c0a6cdf3c1094d30f1d15757">DV_WIFI.c</a>
 </li>
@@ -732,13 +726,16 @@ $(document).ready(function(){initNavTree('globals_func.html','');});
 <li>WIFI_Transfer_Incremental()
 : <a class="el" href="group__wifi__sock__op.html#ga40ed04ab7d8aa4e2b13e5765048e93f2">DV_WIFI.c</a>
 </li>
+<li>WIFI_Upstream_Rate()
+: <a class="el" href="group__wifi__sock__op.html#ga344f942e644180492ab1f51d03b543f1">DV_WIFI.c</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:05 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

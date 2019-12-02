@@ -17,6 +17,6 @@ var annotated =
     [ "IO_SENDTO", "struct_i_o___s_e_n_d_t_o.html", "struct_i_o___s_e_n_d_t_o" ],
     [ "IO_SETOPT", "struct_i_o___s_e_t_o_p_t.html", "struct_i_o___s_e_t_o_p_t" ],
     [ "IO_SIDEKICK", "struct_i_o___s_i_d_e_k_i_c_k.html", "struct_i_o___s_i_d_e_k_i_c_k" ],
-    [ "IO_TRANSFER", "struct_i_o___t_r_a_n_s_f_e_r.html", "struct_i_o___t_r_a_n_s_f_e_r" ],
-    [ "set_get_option_t", "structset__get__option__t.html", "structset__get__option__t" ]
+    [ "IO_STREAMRATE", "struct_i_o___s_t_r_e_a_m_r_a_t_e.html", "struct_i_o___s_t_r_e_a_m_r_a_t_e" ],
+    [ "IO_TRANSFER", "struct_i_o___t_r_a_n_s_f_e_r.html", "struct_i_o___t_r_a_n_s_f_e_r" ]
 ];

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -112,7 +112,14 @@ $(document).ready(function(){initNavTree('group__wifi__sock__setup.html','');});
 <div class="title">WiFi SockServer<div class="ingroups"><a class="el" href="group__wifi__funcs.html">WiFi Validation</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The <b>SockServer</b> is an application providing a set of services that the WiFi Driver Validation uses to test the Socket interface of the WiFi driver and is located in the <b>.\Tools\SockServer</b> subdirectory of the pack root directory. The SockServer runs several standard network services.</p>
+<p>The <b>SockServer</b> is an application providing a set of services used by the WiFi CMSIS-Driver Validation suite to test the Socket interface of the WiFi driver. It is located in the <b>.\Tools\SockServer</b> subdirectory of the pack root directory. The SockServer is available for different target systems. It runs several standard network services.</p>
+<p>The SockServer is available for following target systems:</p>
+<ul>
+<li><b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\Tools\SockServer\PC\Win</b>)</li>
+<li><b>Keil MCB4300</b> evaluation board (µVision project located in <b>.\Tools\SockServer\Embedded\MDK\Board\MCB4300</b>)</li>
+<li><b>Keil MCBSTM32F400</b> evaluation board (µVision project located in <b>.\Tools\SockServer\Embedded\MDK\Board\MCBSTM32F400</b>)</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>To run SockServer in an embedded system, you need a license for MDK-Professional (for the MDK-Middleware Network component).</dd></dl>
 <p>The following services are available by SockServer:</p>
 <ul>
 <li><b>Echo</b> service on port <span class="XML-Token">7</span>, TCP and UDP <br/>
@@ -126,8 +133,75 @@ $(document).ready(function(){initNavTree('group__wifi__sock__setup.html','');});
 <li><b>Telnet</b> service on port <span class="XML-Token">23</span> <br/>
  (SockServer status monitoring service)</li>
 </ul>
-<p>The <b>SockServer</b> also supports a telnet connection, which gives you information about received and sent data. This can help resolve driver problems when Wifi socket sending and receiving does not work well. For example, when the transfer test fails, you don't know if the <b>SocketSend</b> or <b>SocketRecv</b> functions have failed or both.</p>
-<p>For the telnet connection, at the command prompt, type the following command or use another telnet client application. </p>
+<dl class="section note"><dt>Note</dt><dd>SockServer provides the Telnet service only in embedded systems.</dd></dl>
+<h1><a class="anchor" id="sockserver_pc"></a>
+SockServer for PC running Microsoft Windows</h1>
+<p><b>Requirements:</b> </p>
+<ul>
+<li>Personal Computer running Microsoft Windows</li>
+<li>PC connection to local network</li>
+</ul>
+<p>SockServer is already built and can be executed by running the SockServer.exe file in <b>.\Tools\SockServer\PC\Win</b></p>
+<p>If you need to change the functionality of SockServer, source files and a batch script for building the executable are available in <b>.\Tools\SockServer\PC\Win</b>.</p>
+<dl class="section note"><dt>Note</dt><dd><ul>
+<li>SockServer build process requires Minimalist GNU for Windows (MinGW).</li>
+<li>To build the SockServer executable for Windows, follow these steps:<ul>
+<li>Download and install MinGW from <a href="https://osdn.net/projects/mingw/releases/">https://osdn.net/projects/mingw/releases/</a></li>
+<li>Set environment path in Microsoft Windows as explained under Environment Settings heading on <a href="http://www.mingw.org/wiki/Getting_Started">http://www.mingw.org/wiki/Getting_Started</a></li>
+<li>Run <b>Build.bat</b> located in <b>.\Tools\SockServer\PC\Win</b> which will result in an executable that is located in <b>.\Tools\SockServer\PC\Win</b></li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+<h2><a class="anchor" id="sockserver_pc_win_troubleshooting"></a>
+Troubleshooting</h2>
+<p>Problems and solutions:</p>
+<ol type="1">
+<li>SockServer not responding to requests<ul>
+<li>Open Windows firewall -&gt; Advanced settings<ul>
+<li>select inbound rules</li>
+</ul>
+</li>
+<li>create a new custom rule (New Rule...)<ul>
+<li>Rule type: Program</li>
+<li>Program: This program path (select path to SockServer.exe)</li>
+<li>Action: Allow the connection</li>
+<li>Profile: Domain, Private (Public not advised)</li>
+<li>Name: SockServer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Test computer not responding to ping<ul>
+<li>Open Windows firewall -&gt; Advanced settings<ul>
+<li>select inbound rules, enable rule File and Printer sharing (Echo request - ICMPv4-In)</li>
+</ul>
+</li>
+<li>If rule does not exist, create a new custom rule (New Rule...)<ul>
+<li>Rule type: Custom</li>
+<li>Program: All programs</li>
+<li>Protocol type: ICMPv4</li>
+<li>ICMP Settings: Customize - Specific ICMP types: Echo Request</li>
+<li>Scope: Any IP address</li>
+<li>Action: Allow the connection</li>
+<li>Profile: Domain, Private (Public not advised)</li>
+<li>Name: Ping Echo</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1><a class="anchor" id="sockserver_embedded"></a>
+SockServer for embedded systems</h1>
+<p><b>Requirements:</b> </p>
+<ul>
+<li>Keil MCB4300 or Keil MCBSTM32F400 evaluation board</li>
+<li>Wired Ethernet connection to local network</li>
+</ul>
+<h2><a class="anchor" id="sockserver_embedded_telnet"></a>
+Using the Telnet service</h2>
+<p>The Telnet service provides information about received and sent data. This can help to resolve driver problems when WiFi socket sending and receiving does not work. For example, when the transfer test fails, either <b>SocketSend</b> or <b>SocketRecv</b> functions may have failed or both.</p>
+<p>For the Telnet connection from the PC, open a CMD window. At the prompt, type the following command or use another Telnet client application: </p>
 <div class="fragment"><div class="line">c:\&gt;telnet sockserver</div>
 </div><!-- fragment --><p>The initial page opens: </p>
 <div class="image">
@@ -140,17 +214,13 @@ Initial telnet connection</div></div>
 <div class="caption">
 Status monitoring</div></div>
 <p> Status monitor constantly updates the SockServer status on the screen. To stop the screen update, press any telnet client key.</p>
-<p>WiFi drivers need to be tested in the wireless local area network. The testing environment contains the following equipment:</p>
-<ul>
-<li>WiFi router or Access Point with access to the Internet</li>
-<li>board running <b>SockServer</b> application and connected to the same network with Ethernet cable</li>
-<li>evaluation board with the WiFi module used for testing</li>
-</ul>
-<h2>Porting SockServer </h2>
-<p>Currently, the <b>SockServer</b> application is available for the <b>MCB4300</b> and <b>MCBSTM32F400</b> evaluation boards. To create SockServer application for a different microcontroller, you need to do the following:</p>
+<dl class="section note"><dt>Note</dt><dd>You might need to enable the Telnet service in Windows 10 first. Here's a <a href="https://www.technipages.com/windows-10-enable-telnet" target="_blank">tutorial</a> on how to do this.</dd></dl>
+<h2><a class="anchor" id="sockserver_embedded_porting"></a>
+Porting SockServer to other targets</h2>
+<p>Currently, the <b>SockServer</b> application is available for the <b>MCB4300</b> and <b>MCBSTM32F400</b> evaluation boards. To create SockServer application for a different target device, follow the steps below:</p>
 <ol type="1">
-<li>Create new network project in uVision</li>
-<li>Select and configure the RTE Components:<ul>
+<li>Create new network project in µVision</li>
+<li>Select and configure the following software components:<ul>
 <li><b>Network:Core</b> and configure the host name and pool size in <b>Net_Config.c</b> <div class="fragment"><div class="line"><span class="preprocessor">#define NET_HOST_NAME               &quot;SockServer&quot;</span></div>
 <div class="line"><span class="preprocessor">#define NET_MEM_POOL_SIZE           16384</span></div>
 </div><!-- fragment --></li>
@@ -169,11 +239,11 @@ Status monitoring</div></div>
 </ul>
 </li>
 <li>Configure device specific hardware:<ul>
-<li>Configure the CMSIS Ethernet driver and other device specific components (clock system, I/O, ...) as required. Please consult your device's/board's documentation for more information.</li>
+<li>Configure the CMSIS-Driver for Ethernet and other device specific components (clock system, I/O, ...) as required. Please consult your device's/board's documentation for more information.</li>
 </ul>
 </li>
-<li>Copy <b>SockServer.c</b> and <b>SockServer.h</b> files and add the first to the project</li>
-<li>Copy <b>Telnet_Server_UIF.c</b> and add it to the project</li>
+<li>Copy and add <b>SockServer.c</b> and <b>SockServer.h</b> files to the project</li>
+<li>Copy and add <b>Telnet_Server_UIF.c</b> to the project</li>
 <li>Add the code to start the services in <b>main.c</b> <div class="fragment"><div class="line"><span class="comment">// Application main thread</span></div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> app_main (<span class="keywordtype">void</span> *argument) {</div>
 <div class="line"> </div>
@@ -185,18 +255,27 @@ Status monitoring</div></div>
 <div class="line">  osThreadNew(TestAssistant, NULL, NULL);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li>Increase default RTX stack size to 400 bytes in <b>RTX_Config.h</b> <div class="fragment"><div class="line"><span class="preprocessor">#define OS_STACK_SIZE           400</span></div>
+<li>Increase the default RTX stack size to 400 bytes in <b>RTX_Config.h</b> <div class="fragment"><div class="line"><span class="preprocessor">#define OS_STACK_SIZE           400</span></div>
 </div><!-- fragment --></li>
-<li>Set default global stack to 1024 bytes and heap to 6144 bytes in <b>startup</b> <b>file</b> <div class="fragment"><div class="line">Stack_Size      EQU     0x00000400</div>
+<li>Set the default global stack to 1024 bytes and heap to 6144 bytes in your device's <b>startup</b> <b>file</b> <div class="fragment"><div class="line">Stack_Size      EQU     0x00000400</div>
 <div class="line">Heap_Size       EQU     0x00001800</div>
-</div><!-- fragment --> </li>
+</div><!-- fragment --></li>
+</ol>
+<h2><a class="anchor" id="sockserver_embedded_troubleshooting"></a>
+Troubleshooting</h2>
+<p>Problems and solutions:</p>
+<ol type="1">
+<li>SockServer on multiple embedded systems on the same local network<ul>
+<li>Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project </li>
+</ul>
+</li>
 </ol>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:04 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

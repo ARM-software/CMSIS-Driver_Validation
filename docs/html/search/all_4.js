@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['data_5fto_5fset',['data_to_set',['../structset__get__option__t.html#a83b37c395fb325095a09427e4bc2295e',1,'set_get_option_t']]],
   ['deviceevent',['DeviceEvent',['../_d_v___u_s_b_d_8c.html#a41fbde253f9fa5aa9aa5de0836f426e3',1,'DV_USBD.c']]],
   ['discard_5fport',['DISCARD_PORT',['../_d_v___w_i_f_i_8c.html#a17c692ece29e57427217662f50cf6926',1,'DV_WIFI.c']]],
   ['drivervalidation_2etxt',['DriverValidation.txt',['../_driver_validation_8txt.html',1,'']]],

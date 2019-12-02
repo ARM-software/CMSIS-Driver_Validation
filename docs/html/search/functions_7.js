@@ -20,7 +20,6 @@ var searchData=
   ['spi_5frunsend_5fnocallback',['SPI_RunSend_NoCallback',['../_d_v___s_p_i_8c.html#a6f1ca5a4dc09710e197e2ce96646ff09',1,'DV_SPI.c']]],
   ['spi_5fruntransfer',['SPI_RunTransfer',['../_d_v___s_p_i_8c.html#a609bec4fde4ca996644121423ecda8f2',1,'DV_SPI.c']]],
   ['spi_5fsend',['SPI_Send',['../group__spi__funcs.html#gaa17002cf53acef9aff6085a33900414b',1,'DV_SPI.c']]],
-  ['statcount',['StatCount',['../_d_v___report_8c.html#aa6914194346e0c1668511bb91e271022',1,'DV_Report.c']]],
   ['station_5finit',['station_init',['../_d_v___w_i_f_i_8c.html#a68d4a2a27dba713feaac0a8daf631a4b',1,'DV_WIFI.c']]],
   ['station_5funinit',['station_uninit',['../_d_v___w_i_f_i_8c.html#ab3abec9390b828ed3978fba37f0d6fab',1,'DV_WIFI.c']]]
 ];

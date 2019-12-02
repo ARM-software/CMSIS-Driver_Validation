@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -141,35 +141,29 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>TAS
-: <a class="el" href="_d_v___report_8c.html#aa4e56e680bfc00f7e9730d2357a0571c">DV_Report.c</a>
-</li>
-<li>tc_Eval()
-: <a class="el" href="_d_v___report_8c.html#a7cef0920d612619c6022108ed42b084b">DV_Report.c</a>
-</li>
-<li>tc_File_Close()
-: <a class="el" href="_d_v___report_8c.html#a87c170c6222edd101f806ebe1d5439d4">DV_Report.c</a>
-</li>
-<li>tc_File_Open()
-: <a class="el" href="_d_v___report_8c.html#a64b53dee9ea69e56508652d4211a0cdc">DV_Report.c</a>
+<li>tc_Detail()
+: <a class="el" href="_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb">DV_Report.c</a>
 </li>
 <li>tc_Init()
-: <a class="el" href="_d_v___report_8c.html#ac0ce2b321e66f17900727ed2390c0d11">DV_Report.c</a>
+: <a class="el" href="_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e">DV_Report.c</a>
 </li>
-<li>TC_LIST
-: <a class="el" href="cmsis__dv_8c.html#a6da0fd5ed2464e08fdb6d00bdeee27c1">cmsis_dv.c</a>
+<li>tc_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869">DV_Report.c</a>
 </li>
-<li>tcitf
-: <a class="el" href="_d_v___report_8c.html#ac27c1c5bbd510d21482ea18f3499d079">DV_Report.c</a>
+<li>TCP_REJECTED_PORT
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3eda16559f77a368337afc9cb29b9f11">DV_WIFI.c</a>
+</li>
+<li>TCP_TIMEOUT_PORT
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a77b138b37547acce96a7cf971758757a">DV_WIFI.c</a>
+</li>
+<li>TEST_BSIZE
+: <a class="el" href="_d_v___w_i_f_i_8c.html#ad49467459fcc7631e98666a42f747c0e">DV_WIFI.c</a>
 </li>
 <li>test_buf
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a3df7f1c805a777ef692e5be65a6486b8">DV_WIFI.c</a>
 </li>
-<li>TEST_COMMAND_TCP
-: <a class="el" href="_d_v___w_i_f_i_8c.html#adbbdcbfe0ac75bfcdbb82c6dd1a9e1a4">DV_WIFI.c</a>
-</li>
-<li>TEST_COMMAND_UDP
-: <a class="el" href="_d_v___w_i_f_i_8c.html#a06051fdcaa830675b4ba67bd9f6e3192">DV_WIFI.c</a>
+<li>test_group_result
+: <a class="el" href="_d_v___report_8c.html#abba6da4e76cfd11b449e9cbb271166e5">DV_Report.c</a>
 </li>
 <li>test_msg
 : <a class="el" href="_d_v___w_i_f_i_8c.html#afdc27ef950fe9a74adb671d27c298b28">DV_WIFI.c</a>
@@ -177,8 +171,14 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 <li>TEST_PORT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a7812026c12eab529fa6928dc0a708e62">DV_WIFI.c</a>
 </li>
-<li>test_report
-: <a class="el" href="_d_v___report_8c.html#a8948335b4ea7dadb7e22709c23864495">DV_Report.c</a>
+<li>tg_cnt
+: <a class="el" href="cmsis__dv_8c.html#aa493d89cb5f3b7c7b2ef7727f07e39fc">cmsis_dv.c</a>
+</li>
+<li>tg_Init()
+: <a class="el" href="_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572">DV_Report.c</a>
+</li>
+<li>tg_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8">DV_Report.c</a>
 </li>
 <li>Th_Accept()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ab41b5213080414bf0d070cdd98e358bb">DV_WIFI.c</a>
@@ -188,6 +188,12 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 </li>
 <li>TH_ASSERT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a32fd58827e181eda0603dcba4d331fcd">DV_WIFI.c</a>
+</li>
+<li>TH_ASSERT2
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3c2e3fc3721a0c6d74249581dc268905">DV_WIFI.c</a>
+</li>
+<li>th_assert2_msg()
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a28bfb37f406d6e8b936e285ba41c63ba">DV_WIFI.c</a>
 </li>
 <li>Th_Bind()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac92a33f0800cb70df678107f2ac85006">DV_WIFI.c</a>
@@ -201,11 +207,11 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 <li>Th_Create()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#adcf563ec2882902b8aecd9873b040ddc">DV_WIFI.c</a>
 </li>
-<li>th_execute()
-: <a class="el" href="_d_v___w_i_f_i_8c.html#acb7a5bea7a7a4c813824e6b9000a57e6">DV_WIFI.c</a>
-</li>
 <li>TH_EXECUTE
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a9120c75f8b6df0cbd96a67a482ba6a6e">DV_WIFI.c</a>
+</li>
+<li>th_execute()
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a3c300926776cdc5122f984576305d8b8">DV_WIFI.c</a>
 </li>
 <li>Th_GetHostByName()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a7aa6675c695f5b39045ba65fbbd7320c">DV_WIFI.c</a>
@@ -246,32 +252,23 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 <li>Th_Sidekick()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac56d58acf582176fca93c443ad52d6de">DV_WIFI.c</a>
 </li>
+<li>Th_StreamRate()
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a95ecc301e0b97304bd81aa799890deb1">DV_WIFI.c</a>
+</li>
 <li>TH_TOUT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ac79bd91ac67036ae3cac63162b573c82">DV_WIFI.c</a>
 </li>
 <li>Th_Transfer()
 : <a class="el" href="_d_v___w_i_f_i_8c.html#aea83a3a1a71e6e6789a23247e304be05">DV_WIFI.c</a>
 </li>
-<li>tr_Eval()
-: <a class="el" href="_d_v___report_8c.html#a09f9ea757a448836312a967b9c850b07">DV_Report.c</a>
-</li>
-<li>tr_File_Close()
-: <a class="el" href="_d_v___report_8c.html#aa3500d18c76140845e0744f312002d64">DV_Report.c</a>
-</li>
-<li>tr_File_Init()
-: <a class="el" href="_d_v___report_8c.html#ae329008b2823eca1ef3ea76ba52c4b63">DV_Report.c</a>
-</li>
-<li>tr_File_Open()
-: <a class="el" href="_d_v___report_8c.html#a7f96ff24d3ab347a08d11d5a8849e16b">DV_Report.c</a>
-</li>
 <li>tr_Init()
-: <a class="el" href="_d_v___report_8c.html#ae62f754e28c31c985bca29f0f0f84141">DV_Report.c</a>
+: <a class="el" href="_d_v___report_8c.html#a61032c591ee498d00b563a006c1d87eb">DV_Report.c</a>
+</li>
+<li>tr_Uninit()
+: <a class="el" href="_d_v___report_8c.html#a2273b547510bbe15aeb11177739300c5">DV_Report.c</a>
 </li>
 <li>ts
-: <a class="el" href="cmsis__dv_8c.html#a0874e20212306918e768fbb8fdc0b4e9">cmsis_dv.c</a>
-</li>
-<li>TS_Init()
-: <a class="el" href="cmsis__dv_8c.html#ade36673f199aa9bd88d764caa0a10166">cmsis_dv.c</a>
+: <a class="el" href="cmsis__dv_8c.html#adf0167df16a8815898f1d78483dbc2ac">cmsis_dv.c</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -279,7 +276,7 @@ $(document).ready(function(){initNavTree('globals_t.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:05 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

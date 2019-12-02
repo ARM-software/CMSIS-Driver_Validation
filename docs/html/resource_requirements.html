@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -134,7 +134,10 @@ CMSIS-RTOS2 Requirements</h1>
 <th align="left">Option (under section Thread Configuration) </th><th>Set Value to  </th></tr>
 <tr>
 <td>Default Thread stack size [bytes] </td><td>2048  </td></tr>
+<tr>
+<td>Global Dynamic Memory size [bytes] (Note 1) </td><td>8192  </td></tr>
 </table>
+<dl class="section note"><dt>Note</dt><dd>Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.</dd></dl>
 <h1><a class="anchor" id="rtos_req"></a>
 CMSIS-RTOS Requirements</h1>
 <p>Instead of CMSIS-RTOS2 you can use CMSIS-RTOS. In this case the <code>main</code> thread is implicitly created. For proper operation, you need to add a certain amount of thread stack size to the <code>main</code> thread.</p>
@@ -156,7 +159,7 @@ Only WiFi tests create one additional thread for socket testing and usually WiFi
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:04 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

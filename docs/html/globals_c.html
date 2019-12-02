@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.3.0</span>
+   &#160;<span id="projectnumber">Version 1.4.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -208,14 +208,23 @@ $(document).ready(function(){initNavTree('globals_c.html','');});
 , <a class="el" href="_d_v___u_s_a_r_t_8c.html#a6a52fbb4742c6d2becd908f58ce19bcf">DV_USART.c</a>
 , <a class="el" href="_d_v___u_s_b_d_8c.html#a0c2942c084e068ac1094b8e5863a51a3">DV_USBD.c</a>
 </li>
-<li>CAS
-: <a class="el" href="_d_v___report_8c.html#ade570fdc92454d2e464c7ea8f085e0a4">DV_Report.c</a>
-</li>
 <li>CHARGEN_PORT
 : <a class="el" href="_d_v___w_i_f_i_8c.html#afcd157a8d8c9b13efdc87808553e89b9">DV_WIFI.c</a>
 </li>
 <li>closeDebug()
 : <a class="el" href="group__framework__funcs.html#gab619c5d0a237afcf7ec113ff7b8c5ced">DV_Framework.c</a>
+</li>
+<li>CMD_CONNECT_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a47a0511142bc389c9794e3792eed5d29">DV_WIFI.c</a>
+</li>
+<li>CMD_CONNECT_UDP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#aaba2e41fb088e4711e389cc6d4e71ec4">DV_WIFI.c</a>
+</li>
+<li>CMD_RECV_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#ab68e08ff35aa1bd53fa8715e0a391e20">DV_WIFI.c</a>
+</li>
+<li>CMD_SEND_TCP
+: <a class="el" href="_d_v___w_i_f_i_8c.html#a42e93a83860b88ca70b00fb203f21370">DV_WIFI.c</a>
 </li>
 <li>cmsis_dv()
 : <a class="el" href="group__framework__funcs.html#gaf2fc6d3011404f9d07346948bcc6c74d">DV_Framework.c</a>
@@ -227,18 +236,15 @@ $(document).ready(function(){initNavTree('globals_c.html','');});
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a91553b72c9b4759ddb48feffd7f2ffb1">DV_WIFI.c</a>
 </li>
 <li>CREATE_SYMBOL()
-: <a class="el" href="_d_v___e_t_h_8c.html#ad61589eb7b214a338e95ed9d4b881a6a">DV_ETH.c</a>
-, <a class="el" href="_d_v___u_s_b_d_8c.html#a9d270a554eb1bccccc83242db424d2b8">DV_USBD.c</a>
-, <a class="el" href="_d_v___m_c_i_8c.html#a124cdb946c4a12ea3a2a0a7150abaed2">DV_MCI.c</a>
-, <a class="el" href="_d_v___u_s_b_h_8c.html#ad61f68c22694705aea6cc26b439e9358">DV_USBH.c</a>
-, <a class="el" href="_d_v___e_t_h_8c.html#aee22ac2de38029ff43570fc72fe233d5">DV_ETH.c</a>
-, <a class="el" href="_d_v___s_p_i_8c.html#a76b5b64ba74fa90a680bfe2339716f58">DV_SPI.c</a>
-, <a class="el" href="_d_v___c_a_n_8c.html#a841a48f0cda879d7aa97ff84260625c5">DV_CAN.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#ac043a32e73e3deb1fedc25430791cbfd">DV_USART.c</a>
+: <a class="el" href="_d_v___m_c_i_8c.html#a124cdb946c4a12ea3a2a0a7150abaed2">DV_MCI.c</a>
+, <a class="el" href="_d_v___e_t_h_8c.html#ad61589eb7b214a338e95ed9d4b881a6a">DV_ETH.c</a>
 , <a class="el" href="_d_v___i2_c_8c.html#ae68ec77720fb50ac15862f1c200dcbde">DV_I2C.c</a>
-</li>
-<li>current_assertions
-: <a class="el" href="_d_v___report_8c.html#aa853d6993ad6815b78dfec003859937d">DV_Report.c</a>
+, <a class="el" href="_d_v___s_p_i_8c.html#a76b5b64ba74fa90a680bfe2339716f58">DV_SPI.c</a>
+, <a class="el" href="_d_v___e_t_h_8c.html#aee22ac2de38029ff43570fc72fe233d5">DV_ETH.c</a>
+, <a class="el" href="_d_v___u_s_b_d_8c.html#a9d270a554eb1bccccc83242db424d2b8">DV_USBD.c</a>
+, <a class="el" href="_d_v___u_s_a_r_t_8c.html#ac043a32e73e3deb1fedc25430791cbfd">DV_USART.c</a>
+, <a class="el" href="_d_v___c_a_n_8c.html#a841a48f0cda879d7aa97ff84260625c5">DV_CAN.c</a>
+, <a class="el" href="_d_v___u_s_b_h_8c.html#ad61f68c22694705aea6cc26b439e9358">DV_USBH.c</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -246,7 +252,7 @@ $(document).ready(function(){initNavTree('globals_c.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 4 2019 14:13:05 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

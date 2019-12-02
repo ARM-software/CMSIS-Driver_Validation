@@ -8,6 +8,7 @@ var searchData=
   ['f_5fcreate',['F_CREATE',['../_d_v___w_i_f_i_8c.html#a0c53ae1484af6b640335421e987fe923',1,'DV_WIFI.c']]],
   ['f_5fcreate_5ftcp',['F_CREATE_TCP',['../_d_v___w_i_f_i_8c.html#aa1016d85c21ac2899b700ac68d455827',1,'DV_WIFI.c']]],
   ['f_5fcreate_5fudp',['F_CREATE_UDP',['../_d_v___w_i_f_i_8c.html#ac6ec54bbd92e06b6357368de8d0f34fe',1,'DV_WIFI.c']]],
+  ['f_5fdownload',['F_DOWNLOAD',['../_d_v___w_i_f_i_8c.html#a5542cf6d915d288d0b162774ec802027',1,'DV_WIFI.c']]],
   ['f_5fgethostbyname',['F_GETHOSTBYNAME',['../_d_v___w_i_f_i_8c.html#aead7afa6468d4d0f837464fe04dfa3dd',1,'DV_WIFI.c']]],
   ['f_5fgetopt',['F_GETOPT',['../_d_v___w_i_f_i_8c.html#a20b4ddd4fa572299ef91aefbcb2e7ef3',1,'DV_WIFI.c']]],
   ['f_5fgetpeername',['F_GETPEERNAME',['../_d_v___w_i_f_i_8c.html#a2eb5124063e9a9bef8688235c5562971',1,'DV_WIFI.c']]],
@@ -22,6 +23,7 @@ var searchData=
   ['f_5fsend_5ffrag',['F_SEND_FRAG',['../_d_v___w_i_f_i_8c.html#a3d18387798db5f04c490fc97287a404b',1,'DV_WIFI.c']]],
   ['f_5fsendto',['F_SENDTO',['../_d_v___w_i_f_i_8c.html#a204d25d767de02f885ed15b6bb1b9018',1,'DV_WIFI.c']]],
   ['f_5fsetopt',['F_SETOPT',['../_d_v___w_i_f_i_8c.html#aa82592e9a8bb8932bb8bedf29a328a40',1,'DV_WIFI.c']]],
+  ['f_5fupload',['F_UPLOAD',['../_d_v___w_i_f_i_8c.html#a86049eb76632842fced0b5d795ab5f81',1,'DV_WIFI.c']]],
   ['f_5fxfer_5ffixed',['F_XFER_FIXED',['../_d_v___w_i_f_i_8c.html#ac2f748d259f73c27ff511fecca97a56b',1,'DV_WIFI.c']]],
   ['f_5fxfer_5fincr',['F_XFER_INCR',['../_d_v___w_i_f_i_8c.html#a1b7b10d08c05cf2527e573c2baa4b31d',1,'DV_WIFI.c']]],
   ['flush',['FLUSH',['../_d_v___report_8c.html#ad7ca11d555f526a6c553f150b898c0d8',1,'DV_Report.c']]]

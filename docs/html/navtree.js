@@ -10,7 +10,7 @@ var NAVTREE =
       [ "Step 5: Configure Keil RTX5", "test_setup.html#step5", null ],
       [ "Step 6: Configure Heap", "test_setup.html#step6", null ],
       [ "Step 7: Configure the Device", "test_setup.html#step7", null ],
-      [ "Step 8: Make Hardware Connections for Loopback Tests", "test_setup.html#step8", null ],
+      [ "Step 8: Setup Additional Hardware", "test_setup.html#step8", null ],
       [ "Step 9: Download and Run the Project", "test_setup.html#step9", null ]
     ] ],
     [ "Reading Test Results", "test_results.html", null ],
@@ -33,7 +33,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"struct_i_o___r_e_c_v_f_r_o_m.html#ad7a0b7fadc2f226af80409011d8bc885"
+"struct_i_o___r_e_c_v_f_r_o_m.html#a0565ebb8f00075cbc5fab80560a9a37c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,0 +1,35 @@
+CMSIS-Driver Validation Example Project for STMicroelectronics 'STM32L475' 
+microcontroller using STMicroelectronics 'B-L475E-IOT01A1' Evaluation Board 
+with Wi-Fi module Inventek ISM43362-M3G-L44 (802.11 b/g/n compliant).
+
+Features:
+This uVision project can be used to test the CMSIS-Drivers for the STM32L475 
+against the driver specification. Configure the tests as follows:
+
+  - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
+    are executed
+  - Test configuration options can be set with the Configuration Wizard in
+    DV_Config.h:
+    - Test result output format (plain text/XML)
+    - Buffer sizes and patterns
+    - Driver numbers
+    - Specific peripheral parameters
+    - Enable/disable test cases
+  
+--------------------------------------------------------------------------------
+The following targets are available:
+
+  - Create Report:
+    Results and statistics are printed to the file TestReport\TestReport.xml
+    through the ITM output (to examine the results, open the XML document with
+    the browser of your choice).
+ 
+  - Debug:
+    Results and statistics are printed to the Debug (printf) Viewer window
+    through the ITM output.
+
+Debugger : STLink
+
+IMORTANT NOTE:
+  - Configure parameters in DV_Config.h under WiFi - Configuration to suit
+    your testing environment

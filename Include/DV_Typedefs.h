@@ -1,11 +1,12 @@
 /*-----------------------------------------------------------------------------
  *      Name:         DV_Typedefs.h 
- *      Purpose:      Test framework filetypes and structures description
+ *      Purpose:      Test framework filetypes and structures header
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
-#ifndef __TYPEDEFS_H__
-#define __TYPEDEFS_H__
+
+#ifndef __CMSIS_DV_TYPEDEFS_H__
+#define __CMSIS_DV_TYPEDEFS_H__
 
 #include <stdint.h>
 #include <stdarg.h>
@@ -37,9 +38,16 @@ typedef unsigned int    BOOL;
 #endif
 
 #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
-  
-/* Assertions and test results */
-#define SET_RESULT(res, desc) __set_result (__FILE__, __LINE__, res, desc)
-#define ASSERT_TRUE(cond)     __assert_true (__FILE__, __LINE__, cond)
 
-#endif /* __TYPEDEFS_H__ */
+/* Test macros */
+#define TEST_FAIL()                             TEST_FAIL_MESSAGE("[FAILED]")
+#define TEST_FAIL_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, FAILED)
+#define TEST_PASS()                             TEST_PASS_MESSAGE(NULL)
+#define TEST_PASS_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, PASSED)
+
+#define TEST_ASSERT(condition)                  TEST_ASSERT_MESSAGE(condition,"[FAILED]")
+#define TEST_ASSERT_MESSAGE(condition,message)  if (condition) { __set_result (__FILE__, __LINE__, NULL, PASSED); } else __set_result (__FILE__, __LINE__, message, FAILED)
+
+#define TEST_MESSAGE(message)                   __set_message(__FILE__, __LINE__, message)
+
+#endif /* __CMSIS_DV_TYPEDEFS_H__ */

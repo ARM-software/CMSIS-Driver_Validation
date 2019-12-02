@@ -32,19 +32,23 @@ const uint32_t BUFFER[] =  {
 };
 const uint32_t BUFFER_NUM = ARRAY_SIZE(BUFFER);
 
+#ifdef  RTE_CMSIS_DV_WIFI
 /*-----------------------------------------------------------------------------
- *      Init test suite
+ *      Init/Uninit test suite: WiFi
  *----------------------------------------------------------------------------*/
-static void TS_Init (void) {
-
+static void TS_Init_WiFi (void) {
+  WIFI_DV_Initialize ();
 }
+static void TS_Uninit_WiFi (void) {
+  WIFI_DV_Uninitialize ();
+}
+#endif
 
 /*-----------------------------------------------------------------------------
  *      Test cases list
  *----------------------------------------------------------------------------*/
-static TEST_CASE TC_LIST[] = {
-
-#ifdef  RTE_DV_API_SPI 
+#ifdef  RTE_CMSIS_DV_SPI
+static TEST_CASE TC_List_SPI[] = {
   TCD ( SPI_GetCapabilities,            SPI_GETCAPABILITIES_EN          ),
   TCD ( SPI_Initialization,             SPI_INITIALIZATION_EN           ),
   TCD ( SPI_PowerControl,               SPI_POWERCONTROL_EN             ),
@@ -59,9 +63,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( SPI_Loopback_CheckBusSpeed,     SPI_LOOPBACK_CHECKBUSSPEED_EN   ),
   TCD ( SPI_Loopback_Transfer,          SPI_LOOPBACK_TRANSFER_EN        ),
   TCD ( SPI_CheckInvalidInit,           SPI_CHECKINVALIDINIT_EN         ),
-  
+};
 #endif
-#ifdef  RTE_DV_API_USART    
+
+#ifdef  RTE_CMSIS_DV_USART
+static TEST_CASE TC_List_USART[] = {
   TCD ( USART_GetCapabilities,          USART_GETCAPABILITIES_EN        ),
   TCD ( USART_Initialization,           USART_INITIALIZATION_EN         ),
   TCD ( USART_PowerControl,             USART_POWERCONTROL_EN           ),
@@ -75,8 +81,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( USART_Loopback_CheckBaudrate,   USART_LOOPBACK_CHECKBAUDRATE_EN ),
   TCD ( USART_Loopback_Transfer,        USART_LOOPBACK_TRANSFER_EN      ),
   TCD ( USART_CheckInvalidInit,         USART_CHECKINVALIDINIT_EN       ),
+};
 #endif
-#ifdef  RTE_DV_API_ETH  
+
+#ifdef  RTE_CMSIS_DV_ETH
+static TEST_CASE TC_List_ETH[] = {
   TCD ( ETH_MAC_GetCapabilities,        ETH_MAC_GETCAPABILITIES_EN      ),
   TCD ( ETH_MAC_Initialization,         ETH_MAC_INITIALIZATION_EN       ),
   TCD ( ETH_MAC_PowerControl,           ETH_MAC_POWERCONTROL_EN         ),
@@ -91,8 +100,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( ETH_Loopback_PTP,               ETH_LOOPBACK_PTP_EN             ),
   TCD ( ETH_PHY_CheckInvalidInit,       ETH_PHY_CHECKINVALIDINIT_EN     ),
   TCD ( ETH_MAC_CheckInvalidInit,       ETH_MAC_CHECKINVALIDINIT_EN     ),
+};
 #endif
-#ifdef  RTE_DV_API_I2C  
+
+#ifdef  RTE_CMSIS_DV_I2C
+static TEST_CASE TC_List_I2C[] = {
   TCD ( I2C_GetCapabilities,            I2C_GETCAPABILITIES_EN          ),
   TCD ( I2C_Initialization,             I2C_INITIALIZATION_EN           ),
   TCD ( I2C_PowerControl,               I2C_POWERCONTROL_EN             ),
@@ -101,8 +113,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( I2C_BusClear,                   I2C_BUSCLEAR_EN                 ),
   TCD ( I2C_AbortTransfer,              I2C_ABORTTRANSFER_EN            ),
   TCD ( I2C_CheckInvalidInit,           I2C_CHECKINVALIDINIT_EN         ),
+};
 #endif
-#ifdef  RTE_DV_API_MCI  
+
+#ifdef  RTE_CMSIS_DV_MCI
+static TEST_CASE TC_List_MCI[] = {
   TCD ( MCI_GetCapabilities,            MCI_GETCAPABILITIES_EN          ),
   TCD ( MCI_Initialization,             MCI_INITIALIZATION_EN           ),
   TCD ( MCI_PowerControl,               MCI_POWERCONTROL_EN             ),
@@ -111,20 +126,29 @@ static TEST_CASE TC_LIST[] = {
   TCD ( MCI_Config_CmdLineMode,         MCI_CONFIG_CMDLINEMODE_EN       ),
   TCD ( MCI_Config_DriverStrength,      MCI_CONFIG_DRIVERSTRENGTH_EN    ),
   TCD ( MCI_CheckInvalidInit,           MCI_CHECKINVALIDINIT_EN         ),
+};
 #endif
-#ifdef  RTE_DV_API_USBD
+
+#ifdef  RTE_CMSIS_DV_USBD
+static TEST_CASE TC_List_USBD[] = {
   TCD ( USBD_GetCapabilities,           USBD_GETCAPABILITIES_EN         ),
   TCD ( USBD_Initialization,            USBD_INITIALIZATION_EN          ),
   TCD ( USBD_PowerControl,              USBD_POWERCONTROL_EN            ),
   TCD ( USBD_CheckInvalidInit,          USBD_CHECKINVALIDINIT_EN        ),
-#endif  
-#ifdef  RTE_DV_API_USBH
+};
+#endif
+
+#ifdef  RTE_CMSIS_DV_USBH
+static TEST_CASE TC_List_USBH[] = {
   TCD ( USBH_GetCapabilities,           USBH_GETCAPABILITIES_EN         ),
   TCD ( USBH_Initialization,            USBH_INITIALIZATION_EN          ),
   TCD ( USBH_PowerControl,              USBH_POWERCONTROL_EN            ),
   TCD ( USBH_CheckInvalidInit,          USBH_CHECKINVALIDINIT_EN        ),
-#endif 
-#ifdef  RTE_DV_API_CAN
+};
+#endif
+
+#ifdef  RTE_CMSIS_DV_CAN
+static TEST_CASE TC_List_CAN[] = {
   TCD ( CAN_GetCapabilities,            CAN_GETCAPABILITIES_EN          ),
   TCD ( CAN_Initialization,             CAN_INITIALIZATION_EN           ),
   TCD ( CAN_PowerControl,               CAN_POWERCONTROL_EN             ),
@@ -132,10 +156,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( CAN_Loopback_CheckBitrateFD,    CAN_LOOPBACK_CHECK_BR_FD_EN     ),
   TCD ( CAN_Loopback_Transfer,          CAN_LOOPBACK_TRANSFER_EN        ),
   TCD ( CAN_Loopback_TransferFD,        CAN_LOOPBACK_TRANSFER_FD_EN     ),
-#endif 
-#ifdef  RTE_DV_WIFI
-  TCD ( WIFI_DV_Initialize,             1U                              ),
+};
+#endif
 
+#ifdef  RTE_CMSIS_DV_WIFI
+static TEST_CASE TC_List_WiFi[] = {
   /*    WiFi Control tests */
   #if ( WIFI_CONTROL_EN != 0)
   TCD ( WIFI_GetVersion,                WIFI_GETVERSION_EN              ),
@@ -152,7 +177,7 @@ static TEST_CASE TC_LIST[] = {
   TCD ( WIFI_IsConnected,               WIFI_ISCONNECTED_EN             ),
   TCD ( WIFI_GetNetInfo,                WIFI_GETNETINFO_EN              ),
   #endif
-  /*    WiFi Management tests requireing user interaction */
+  /*    WiFi Management tests requiring user interaction */
   #if ( WIFI_MANAGEMENT_USER_EN != 0)
   TCD ( WIFI_Activate_AP,               WIFI_ACT_AP                     ),
   #if ( WIFI_WPS_USER_EN != 0)
@@ -189,11 +214,11 @@ static TEST_CASE TC_LIST[] = {
   TCD ( WIFI_Recv_Fragmented,           WIFI_RECV_FRAGMENTED_EN         ),
   TCD ( WIFI_Test_Speed,                WIFI_TEST_SPEED_EN              ),
   TCD ( WIFI_Concurrent_Socket,         WIFI_CONCURRENT_SOCKET_EN       ),
+  TCD ( WIFI_Downstream_Rate,           WIFI_DOWNSTREAM_RATE_EN         ),
+  TCD ( WIFI_Upstream_Rate,             WIFI_UPSTREAM_RATE_EN           ),
   #endif
-
-  TCD ( WIFI_DV_Uninitialize,           1U                              ),
-#endif
 };
+#endif
 
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
 #pragma clang diagnostic push
@@ -202,14 +227,119 @@ static TEST_CASE TC_LIST[] = {
 /*-----------------------------------------------------------------------------
  *      Test suite description
  *----------------------------------------------------------------------------*/
-TEST_SUITE ts = {
+TEST_GROUP ts[] = {
+#ifdef  RTE_CMSIS_DV_SPI                /* SPI test group                     */
+{
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver Test Suite",
-  TS_Init,  
+  "CMSIS-Driver SPI Test Report",
+  NULL,
+  NULL,
   1,
-  TC_LIST,
-  ARRAY_SIZE (TC_LIST),  
-};  
+  TC_List_SPI,
+  ARRAY_SIZE (TC_List_SPI),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_USART              /* USART test group                   */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver USART Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_USART,
+  ARRAY_SIZE (TC_List_USART),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_ETH                /* ETH test group                     */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver ETH Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_ETH,
+  ARRAY_SIZE (TC_List_ETH),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_I2C                /* I2C test group                     */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver I2C (API v2.3) Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_I2C,
+  ARRAY_SIZE (TC_List_I2C),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_MCI                /* MCI test group                     */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver MCI Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_MCI,
+  ARRAY_SIZE (TC_List_MCI),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_USBD               /* USBD test group                    */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver USBD Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_USBD,
+  ARRAY_SIZE (TC_List_USBD),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_USBH               /* USBH test group                    */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver USBH Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_USBH,
+  ARRAY_SIZE (TC_List_USBH),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_CAN                /* CAN test group                    */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver CAN Test Report",
+  NULL,
+  NULL,
+  1,
+  TC_List_CAN,
+  ARRAY_SIZE (TC_List_CAN),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_WIFI               /* WIFI test group                    */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver WiFi Test Report",
+  TS_Init_WiFi,
+  TS_Uninit_WiFi,
+  1,
+  TC_List_WiFi,
+  ARRAY_SIZE (TC_List_WiFi),
+},
+#endif
+};
+
+/* Number of test groups in suite */
+uint32_t tg_cnt = sizeof(ts)/sizeof(ts[0]);
+
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
 #pragma clang diagnostic pop
 #endif

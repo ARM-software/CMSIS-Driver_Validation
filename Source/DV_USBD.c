@@ -57,7 +57,7 @@ The test case \b USBD_GetCapabilities verifies the function \b GetCapabilities.
 void USBD_GetCapabilities (void) {                    
   /* Get USBD capabilities */
   capab = drv->GetCapabilities();
-  ASSERT_TRUE(&capab != NULL); 
+  TEST_ASSERT(&capab != NULL); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -73,16 +73,16 @@ The test case \b USBD_Initialization verifies the USBD functions with the sequen
 void USBD_Initialization (void) { 
     
   /* Initialize without callback */
-  ASSERT_TRUE(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK); 
     
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(USB_DeviceEvent, USB_EndpointEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USB_DeviceEvent, USB_EndpointEvent) == ARM_DRIVER_OK); 
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -99,19 +99,19 @@ The test case \b USBD_CheckInvalidInit verifies the driver behaviour when receiv
 void USBD_CheckInvalidInit (void) { 
 
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Try to power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) != ARM_DRIVER_OK); 
   
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -129,21 +129,21 @@ void USBD_PowerControl (void) {
   int32_t val;
   
   /* Initialize with callback */
-  ASSERT_TRUE(drv->Initialize(USB_DeviceEvent, USB_EndpointEvent) == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Initialize(USB_DeviceEvent, USB_EndpointEvent) == ARM_DRIVER_OK); 
   
   /* Power on */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);  
   
   /* Power low */
   val = drv->PowerControl (ARM_POWER_LOW);
-  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { SET_RESULT(WARNING, "Low power is not supported"); }
-  else { ASSERT_TRUE(val == ARM_DRIVER_OK); }
+  if (val == ARM_DRIVER_ERROR_UNSUPPORTED) { TEST_MESSAGE("[WARNING] Low power is not supported"); }
+  else { TEST_ASSERT(val == ARM_DRIVER_OK); }
    
   /* Power off */
-  ASSERT_TRUE(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   
   /* Uninitialize */
-  ASSERT_TRUE(drv->Uninitialize() == ARM_DRIVER_OK); 
+  TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
 
 /**

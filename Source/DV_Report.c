@@ -1,302 +1,59 @@
 /*-----------------------------------------------------------------------------
- *      Name:         report.c 
+ *      Name:         DV_Report.c 
  *      Purpose:      Report statistics and layout implementation
  *-----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
+
 #include "DV_Report.h"
 
-TEST_REPORT test_report;
-static AS_STAT current_assertions;   /* Current test case statistics         */
-#define TAS (&test_report.assertions) /* Total assertions                     */
-#define CAS (&current_assertions)     /* Current assertions                   */
 
+/* Local macros */
 #define PRINT(x) MsgPrint x
 #define FLUSH()  MsgFlush()
 
-static uint8_t Passed[] = "PASSED";
-static uint8_t Warning[] = "WARNING";
-static uint8_t Failed[] = "FAILED";
-static uint8_t NotExe[] = "NOT EXECUTED";
+/* Global functions */
+void __set_result  (const char *module, uint32_t line, const char *message, TC_RES res);
+void __set_message (const char *module, uint32_t line, const char *message);
 
+/* Local functions */
+static void tr_Init  (void);
+static void tr_Uninit(void);
+static void tg_Init  (const char *title, const char *date, const char *time, const char *file);
+static void tg_Uninit(void);
+static void tc_Init  (uint32_t num, const char *fn);
+static void tc_Uninit(void);
+static void tc_Detail(const char *module, uint32_t line, const char *message);
+static void as_Result(TC_RES res);
 
-/*-----------------------------------------------------------------------------
- * Test report function prototypes
- *----------------------------------------------------------------------------*/
-static BOOL     tr_Init   (void);
-static BOOL     tc_Init   (void);
-static uint8_t *tr_Eval   (void);
-static uint8_t *tc_Eval   (void);
-static BOOL     StatCount (TC_RES res);
-
-/*-----------------------------------------------------------------------------
- * Printer function prototypes
- *----------------------------------------------------------------------------*/
 static void MsgPrint (const char *msg, ...);
 static void MsgFlush (void);
 
-
-/*-----------------------------------------------------------------------------
- * Assert interface function prototypes
- *----------------------------------------------------------------------------*/
-static BOOL As_File_Result (TC_RES res);
-static BOOL As_File_Dbgi   (TC_RES res, const char *fn, uint32_t ln, char *desc);
-
-TC_ITF tcitf = {
-  As_File_Result,
-  As_File_Dbgi,
+/* Global variables */
+REPORT_ITF ritf = {                     /* Structure for report interface     */
+  tr_Init,
+  tr_Uninit,
+  tg_Init,
+  tg_Uninit,
+  tc_Init,
+  tc_Uninit,
+  tc_Detail,
+  as_Result
 };
 
+/* Local variables */
+static TEST_GROUP_RESULTS test_group_result;    /* Test group results         */
 
-/*-----------------------------------------------------------------------------
- * Test report interface function prototypes
- *----------------------------------------------------------------------------*/
-BOOL tr_File_Init  (void);
-BOOL tr_File_Open  (const char *title, const char *date, const char *time, const char *fn);
-BOOL tr_File_Close (void);
-BOOL tc_File_Open  (uint32_t num, const char *fn);
-BOOL tc_File_Close (void);
-
-REPORT_ITF ritf = {
-  tr_File_Init,
-  tr_File_Open,
-  tr_File_Close,
-  tc_File_Open,
-  tc_File_Close
-};
+static uint32_t   as_passed = 0;        /* Assertions passed                  */
+static uint32_t   as_failed = 0;        /* Assertions failed                  */
+static uint32_t   as_detail = 0;        /* Assertions details available       */
+static const char Passed[] = "PASSED";
+static const char Failed[] = "FAILED";
+static const char NotExe[] = "NOT EXECUTED";
 
 
 /*-----------------------------------------------------------------------------
- * Init test report
- *----------------------------------------------------------------------------*/
-BOOL tr_File_Init (void) {
-  return (tr_Init());
-}
-
-
-/*-----------------------------------------------------------------------------
- * Open test report
- *----------------------------------------------------------------------------*/
-BOOL tr_File_Open (const char *title, const char *date, const char *time, const char *fn) {
-#if (PRINT_XML_REPORT==1)  
-  PRINT(("<?xml version=\"1.0\"?>\n"));
-  PRINT(("<?xml-stylesheet href=\"TR_Style.xsl\" type=\"text/xsl\" ?>\n"));
-  PRINT(("<report>\n"));  
-  PRINT(("<test>\n"));
-  PRINT(("<title>%s</title>\n", title));
-  PRINT(("<date>%s</date>\n",   date));
-  PRINT(("<time>%s</time>\n",   time));
-  PRINT(("<file>%s</file>\n",   fn));
-  PRINT(("<test_cases>\n"));
-#else
-  (void) fn;
-  PRINT(("%s   %s   %s \n\n", title, date, time));
-#endif  
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Open test case
- *----------------------------------------------------------------------------*/
-BOOL tc_File_Open (uint32_t num, const char *fn) {
-  tc_Init ();
-#if (PRINT_XML_REPORT==1)   
-  PRINT(("<tc>\n"));
-  PRINT(("<no>%d</no>\n",     num));
-  PRINT(("<func>%s</func>\n", fn));
-  PRINT(("<req></req>"));
-  PRINT(("<meth></meth>"));
-  PRINT(("<dbgi>\n"));
-#else
-  PRINT(("TEST %02d: %-32s ", num, fn));
-#endif 
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Close test case
- *----------------------------------------------------------------------------*/
-BOOL tc_File_Close (void) {
-  uint8_t *res = tc_Eval();
-#if (PRINT_XML_REPORT==1) 
-  PRINT(("</dbgi>\n"));
-  PRINT(("<res>%s</res>\n", res));
-  PRINT(("</tc>\n"));
-#else
-  if ((res==Passed)||(res==NotExe))  
-    PRINT(("%s\n", res));
-  else
-    PRINT(("\n"));
-#endif 
-  FLUSH();
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Close test report
- *----------------------------------------------------------------------------*/
-BOOL tr_File_Close (void) {
-#if (PRINT_XML_REPORT==1) 
-  PRINT(("</test_cases>\n"));
-  PRINT(("<summary>\n"));
-  PRINT(("<tcnt>%d</tcnt>\n", test_report.tests));
-  PRINT(("<exec>%d</exec>\n", test_report.executed));
-  PRINT(("<pass>%d</pass>\n", test_report.passed));
-  PRINT(("<fail>%d</fail>\n", test_report.failed));
-  PRINT(("<warn>%d</warn>\n", test_report.warnings));
-  PRINT(("<tres>%s</tres>\n", tr_Eval()));
-  PRINT(("</summary>\n"));
-  PRINT(("</test>\n"));
-  PRINT(("</report>\n"));
-#else
-  PRINT(("\nTest Summary: %d Tests, %d Executed, %d Passed, %d Failed, %d Warnings.\n", 
-         test_report.tests, 
-         test_report.executed, 
-         test_report.passed, 
-         test_report.failed, 
-         test_report.warnings)); 
-  PRINT(("Test Result: %s\n", tr_Eval()));
-#endif 
-  FLUSH();
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Assertion result counter 
- *----------------------------------------------------------------------------*/
-BOOL As_File_Result (TC_RES res) {
-  return (StatCount (res));
-}
-
-
-/*-----------------------------------------------------------------------------
- * Set debug information state 
- *----------------------------------------------------------------------------*/
-BOOL As_File_Dbgi (TC_RES res, const char *fn, uint32_t ln, char *desc) {
-  /* Write debug information block */
-#if (PRINT_XML_REPORT==1) 
-  PRINT(("<detail>\n"));
-  if (desc!=NULL) PRINT(("<desc>%s</desc>\n", desc));
-  PRINT(("<module>%s</module>\n", fn));
-  PRINT(("<line>%d</line>\n", ln));
-  PRINT(("</detail>\n"));
-#else
-  PRINT(("\n  %s (%d)", fn, ln));
-  if (res==WARNING) PRINT((" [WARNING]"));
-  if (res==FAILED) PRINT((" [FAILED]"));
-  if (desc!=NULL) PRINT((" %s", desc));
-#endif 
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Init test report
- *----------------------------------------------------------------------------*/
-BOOL tr_Init (void) {
-  TAS->passed = 0;
-  TAS->failed = 0;
-  TAS->warnings = 0;
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Init test case
- *----------------------------------------------------------------------------*/
-BOOL tc_Init (void) {
-  CAS->passed = 0;
-  CAS->failed = 0;
-  CAS->warnings = 0;
-  return (__TRUE);
-}
-
-
-/*-----------------------------------------------------------------------------
- * Evaluate test report results
- *----------------------------------------------------------------------------*/
-uint8_t *tr_Eval (void) {
-  if (test_report.failed > 0) {
-    /* Test fails if any test case failed */
-    return (Failed);
-  }
-  else if (test_report.warnings > 0) {
-    /* Test warns if any test case warnings */
-    return (Warning);
-  }
-  else if (test_report.passed > 0) {
-    /* Test passes if at least one test case passed */
-    return (Passed);
-  }
-  else {
-    /* No test cases were executed */
-    return (NotExe);
-  }
-}
-
-
-/*-----------------------------------------------------------------------------
- * Evaluate test case results
- *----------------------------------------------------------------------------*/
-uint8_t *tc_Eval (void) {
-  test_report.tests++;
-  test_report.executed++;
-
-  if (CAS->failed > 0) {
-    /* Test case fails if any failed assertion recorded */
-    test_report.failed++;
-    return Failed;
-  }
-  else if (CAS->warnings > 0) {
-    /* Test case warns if any warnings assertion recorded */
-    test_report.warnings++;
-    return Warning;
-  }
-  else if (CAS->passed > 0) {
-    /* Test case passes if at least one assertion passed */
-    test_report.passed++;
-    return Passed;
-  }
-  else {
-    /* Assert was not invoked - nothing to evaluate */
-    test_report.executed--;
-    return NotExe;
-  }
-}
-
-
-/*-----------------------------------------------------------------------------
- * Statistics result counter
- *----------------------------------------------------------------------------*/
-BOOL StatCount (TC_RES res) {
-  switch (res) {
-    case PASSED:
-      CAS->passed++;
-      TAS->passed++;
-      break;
-
-    case WARNING:
-      CAS->warnings++;
-      TAS->warnings++;
-      break;
-
-    case FAILED:
-      CAS->failed++;
-      TAS->failed++;
-      break;
-
-    case NOT_EXECUTED:
-      return (__FALSE);
-  }
-  return (__TRUE);
-}
-
-/*-----------------------------------------------------------------------------
- * No path
+ * No path - helper function
  *----------------------------------------------------------------------------*/
 static const char *no_path (const char *fn) {
   const char *cp;
@@ -310,52 +67,197 @@ static const char *no_path (const char *fn) {
 }
 
 /*-----------------------------------------------------------------------------
- * Set result
+ * Init test report
  *----------------------------------------------------------------------------*/
-uint32_t __set_result (const char *fn, uint32_t ln, TC_RES res, char* desc) {
+static void tr_Init (void) {
 
-  fn = no_path (fn);
+  test_group_result.idx = 0;
 
-  // save assertion result
-  switch (res) {
-    case PASSED:     
-      if (TAS->passed < BUFFER_ASSERTIONS) {
-        test_report.assertions.info.passed[TAS->passed].module = fn;
-        test_report.assertions.info.passed[TAS->passed].line = ln;
-      }
-      break;
-    case FAILED:
-      if (TAS->failed < BUFFER_ASSERTIONS) {
-        test_report.assertions.info.failed[TAS->failed].module = fn;
-        test_report.assertions.info.failed[TAS->failed].line = ln;
-      }
-      break;
-    case WARNING:
-      if (TAS->warnings < BUFFER_ASSERTIONS) {
-        test_report.assertions.info.warnings[TAS->warnings].module = fn;
-        test_report.assertions.info.warnings[TAS->warnings].line = ln;
-      }
-      break;
-    case NOT_EXECUTED:
-      break;
-  }  
-  
-  // set debug info (if the test case didn't pass)
-  if (res != PASSED) tcitf.Dbgi (res, fn, ln, desc);
-  // set result
-  tcitf.Result (res);
-  return (res);
+#if (PRINT_XML_REPORT==1)
+  PRINT(("<?xml version=\"1.0\"?>\n"));
+  PRINT(("<?xml-stylesheet href=\"TR_Style.xsl\" type=\"text/xsl\" ?>\n"));
+  PRINT(("<report>\n"));
+#else
+  PRINT(("                                \n\n"));
+#endif  
 }
 
 /*-----------------------------------------------------------------------------
- * Assert true 
+ * Uninit test report
  *----------------------------------------------------------------------------*/
-uint32_t __assert_true (const char *fn, uint32_t ln, uint32_t cond) {
-  TC_RES res = FAILED;
-  if (cond!=0) res = PASSED; 
-  __set_result(fn, ln, res, NULL);
-  return (res);
+static void tr_Uninit (void) {
+#if (PRINT_XML_REPORT==1)
+  PRINT(("</report>\n"));
+#endif
 }
+
+/*-----------------------------------------------------------------------------
+ * Init test group
+ *----------------------------------------------------------------------------*/
+static void tg_Init (const char *title, const char *date, const char *time, const char *fn) {
+
+  test_group_result.idx++;
+  test_group_result.tests  = 0;
+  test_group_result.passed = 0;
+  test_group_result.failed = 0;
+
+#if (PRINT_XML_REPORT==1)
+  PRINT(("<test>\n"));
+  PRINT(("<title>%s</title>\n", title));
+  PRINT(("<date>%s</date>\n",   date));
+  PRINT(("<time>%s</time>\n",   time));
+  PRINT(("<file>%s</file>\n",   fn));
+  PRINT(("<group>%i</group>\n", test_group_result.idx));
+  PRINT(("<test_cases>\n"));
+#else
+  (void) fn;
+  PRINT(("%s   %s   %s \n\n", title, date, time));
+#endif  
+}
+
+/*-----------------------------------------------------------------------------
+ * Uninit test group
+ *----------------------------------------------------------------------------*/
+static void tg_Uninit (void) {
+  const char *tres;
+
+  if (test_group_result.failed > 0) {   /* If any test failed => Failed       */
+    tres = Failed;
+  } else if (test_group_result.passed > 0) {    /* If 1 passed => Passed      */
+    tres = Passed;
+  } else {                              /* If no tests exec => Not-executed   */
+    tres = NotExe;
+  }
+
+#if (PRINT_XML_REPORT==1) 
+  PRINT(("</test_cases>\n"));
+  PRINT(("<summary>\n"));
+  PRINT(("<tcnt>%d</tcnt>\n", test_group_result.tests));
+  PRINT(("<pass>%d</pass>\n", test_group_result.passed));
+  PRINT(("<fail>%d</fail>\n", test_group_result.failed));
+  PRINT(("<tres>%s</tres>\n", tres));
+  PRINT(("</summary>\n"));
+  PRINT(("</test>\n"));
+#else
+  PRINT(("\nTest Summary: %d Tests, %d Passed, %d Failed.\n", 
+         test_group_result.tests, 
+         test_group_result.passed, 
+         test_group_result.failed));
+  PRINT(("Test Result: %s\n\n\n", tres));
+#endif 
+  FLUSH();
+}
+
+/*-----------------------------------------------------------------------------
+ * Init test case
+ *----------------------------------------------------------------------------*/
+static void tc_Init (uint32_t num, const char *fn) {
+
+  as_passed = 0;
+  as_failed = 0;
+  as_detail = 0;
+
+#if (PRINT_XML_REPORT==1)   
+  PRINT(("<tc>\n"));
+  PRINT(("<no>%d</no>\n",     num));
+  PRINT(("<func>%s</func>\n", fn));
+  PRINT(("<dbgi>\n"));
+#else
+  PRINT(("TEST %02d: %-32s ", num, fn));
+#endif 
+}
+
+/*-----------------------------------------------------------------------------
+ * Uninit test case
+ *----------------------------------------------------------------------------*/
+static void tc_Uninit (void) {
+  const char *res;
+
+  test_group_result.tests++;
+
+  if (as_failed > 0) {                  /* If any assertion failed => Failed  */
+    test_group_result.failed++;
+    res = Failed;
+  } else if (as_passed > 0) {           /* If 1 assertion passed => Passed    */
+    test_group_result.passed++;
+    res = Passed;
+  } else {                              /* If no assertions => Not-executed   */
+    res = NotExe;
+  }
+
+#if (PRINT_XML_REPORT==1) 
+  PRINT(("</dbgi>\n"));
+  PRINT(("<res>%s</res>\n", res));
+  PRINT(("</tc>\n"));
+  (void)as_detail;
+#else
+  if (as_detail != 0) {
+    PRINT(("\n                                          "));
+  }
+  PRINT(("%s\n", res));
+#endif 
+}
+
+/*-----------------------------------------------------------------------------
+ * Write test case detail
+ *----------------------------------------------------------------------------*/
+static void tc_Detail (const char *module, uint32_t line, const char *message) {
+
+  module = no_path (module);
+
+  as_detail = 1;
+
+#if (PRINT_XML_REPORT==1) 
+  PRINT(("<detail>\n"));
+  PRINT(("<module>%s</module>\n", module));
+  PRINT(("<line>%d</line>\n",     line));
+  if (message != NULL) {
+    PRINT(("<message>%s</message>\n", message));
+  }
+  PRINT(("</detail>\n"));
+#else
+  PRINT(("\n  %s (%d)", module, line));
+  if (message != NULL) {
+    PRINT((": %s", message));
+  }
+#endif
+}
+
+/*-----------------------------------------------------------------------------
+ * Assertion result registering
+ *----------------------------------------------------------------------------*/
+static void as_Result (TC_RES res) {
+
+  if (res == PASSED) {
+    as_passed++;
+  } else if (res == FAILED) {
+    as_failed++;
+  }
+}
+
+/*-----------------------------------------------------------------------------
+ * Set result
+ *----------------------------------------------------------------------------*/
+void __set_result (const char *module, uint32_t line, const char *message, TC_RES res) {
+
+  // Set debug info
+  if (message != NULL) {
+    tc_Detail(module, line, message);
+  }
+
+  // Set result
+  as_Result(res);
+}
+
+/*-----------------------------------------------------------------------------
+ * Set message
+ *----------------------------------------------------------------------------*/
+void __set_message (const char *module, uint32_t line, const char *message) {
+  if (message != NULL) {
+    tc_Detail(module, line, message);
+  }
+}
+
 
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
 #pragma clang diagnostic push

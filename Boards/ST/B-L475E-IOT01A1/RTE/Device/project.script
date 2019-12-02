@@ -1,0 +1,4 @@
+load STM32L475VGTx 
+project name STCubeGenerated 
+project toolchain "MDK-ARM V5" 
+project path "D:\Development\Current\WiFi\Validation\Source\MCBSTM32F400\CMSIS_DV_API\RTE\Device\STM32L475VGTx\" 

@@ -1,0 +1,40 @@
+CMSIS-Driver Validation Example Project for NXP LPCXpresso55S69 board with 
+Inventek ISMART43362-E WiFi shield using ISM43362-M3G-L44-E es-WiFi module.
+
+Features:
+This uVision project can be used to test the CMSIS-Drivers for the LPC55S69 
+against the driver specification. Configure the tests as follows:
+
+  - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
+    are executed
+  - Test configuration options can be set with the Configuration Wizard in
+    DV_Config.h:
+    - Test result output format (plain text/XML)
+    - Buffer sizes and patterns
+    - Driver numbers
+    - Specific peripheral parameters
+    - Enable/disable test cases
+  
+--------------------------------------------------------------------------------
+The following targets are available:
+
+  - Create Report:
+    Results and statistics are printed to the file TestReport\TestReport.xml
+    through the ITM output (to examine the results, open the XML document with
+    the browser of your choice).
+ 
+  - Debug:
+    Results and statistics are printed to the Debug (printf) Viewer window
+    through the ITM output.
+
+Debugger : ULINKplus
+
+IMORTANT NOTE:
+  - Configure parameters in DV_Config.h under WiFi - Configuration to suit
+    your testing environment
+  - To run the tests the WiFi shield has to be reset by SW2 push-button and 
+    in 5 seconds after that the debug session has to be started
+    (the WiFi shield needs to be reset for initial cursor fetch and because 
+     it cannot be reset by software it needs to be reset manually)
+  - fsl_debug_console.c module is compiled with "__MCUXPRESSO" define which 
+    is used to prevent Debug Console to override putc and getc functions

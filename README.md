@@ -1,6 +1,6 @@
 # CMSIS Driver Validation
 
-The branch *master* of this GitHub repository contains the CMSIS-Driver Validation Version 1.2.0.  The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/General/html/index.html) is available under 
+The branch *master* of this GitHub repository contains the CMSIS-Driver Validation Version 1.2.0.  The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
  http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html
 
 Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation Version 1.1.0. 
@@ -15,6 +15,7 @@ Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-
 | DoxyGen          | Source of the documentation                               |
 | Include          | header files for driver validation components             |
 | Source           | source files for driver validation components             |
+| Tools            | SockServer source and executable files                    |
 | Utilities        | Utility programs                                          |
 
 ## Generate CMSIS Pack for Release

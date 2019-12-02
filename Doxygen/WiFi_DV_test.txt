@@ -5,7 +5,7 @@
 
 The WiFi driver validation requires the following hardware:
 - WiFi Access Point connected to the local network
-- hardware running SockServer (can be \ref sockserver_pc "PC running Microsoft Windows" or an 
+- Hardware running SockServer (can be \ref sockserver_pc "PC running Microsoft Windows" or an 
   \ref sockserver_embedded "embedded system")
 
 The WiFi driver validation requires the following software:
@@ -22,6 +22,8 @@ The WiFi driver validation settings are available in the \c DV_Config.h file.
 
 Some settings depend on the test environment and need to be changed for proper operation of WiFi driver validation.
 These settings can be found under WiFi <b>Configuration</b> settings in the \c DV_Config.h file and need to be set as follows:
+
+\image html dv_config_h_wifi_config.png "DV_Config.h header file in Configuration Wizard view mode"
 
 <b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:
 - SSID
@@ -49,7 +51,7 @@ WiFi Driver API function tests respectively.
 
 <b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
 are used for more complex operational test of the WiFi driver.
-Brief description of each test functionality can be viewed by using 
+A brief description of each test functionality can be viewed by using 
 <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
 view of the DV_Config.h file and clicking on the test or hovering a mouse pointer over it.
 

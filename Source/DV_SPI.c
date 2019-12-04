@@ -4,6 +4,7 @@
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
+
 #include "cmsis_dv.h" 
 #include "DV_Config.h"
 #include "DV_Framework.h"
@@ -233,7 +234,7 @@ void SPI_Initialization (void) {
 /**
 \brief  Test case: SPI_CheckInvalidInit
 \details
-The test case \b SPI_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test case \b SPI_CheckInvalidInit verifies the driver behavior when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -293,7 +294,6 @@ void SPI_PowerControl (void) {
   
   /* Uninitialize */
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
-  
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -312,11 +312,11 @@ The test case \b SPI_Config_PolarityPhase verifies the \b Control function with 
 */
 void SPI_Config_PolarityPhase (void) { 
   
-  /* Initialize with callback and power on*/
+  /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(SPI_DrvEvent) == ARM_DRIVER_OK);   
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
-  /* Set basic SPI bus configuration*/
+  /* Set basic SPI bus configuration */
   TEST_ASSERT(drv->Control(ARM_SPI_MODE_MASTER | ARM_SPI_CPOL0_CPHA0 | ARM_SPI_DATA_BITS(SPI_DATA_BITS), SPI_BR[0]*1000) == ARM_DRIVER_OK);
   
   /* Change polarity */
@@ -328,7 +328,7 @@ void SPI_Config_PolarityPhase (void) {
   /* Change polarity and phase */
   TEST_ASSERT(drv->Control(ARM_SPI_MODE_MASTER | ARM_SPI_CPOL1_CPHA1 | ARM_SPI_DATA_BITS(SPI_DATA_BITS), SPI_BR[0]*1000) == ARM_DRIVER_OK);
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -348,7 +348,7 @@ The test case \b SPI_Config_DataBits verifies the \b Control function with the s
 void SPI_Config_DataBits (void) { 
   int32_t val;  
   
-  /* Initialize with callback and power on*/
+  /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(SPI_DrvEvent) == ARM_DRIVER_OK);   
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
@@ -362,7 +362,7 @@ void SPI_Config_DataBits (void) {
   if (val == ARM_SPI_ERROR_DATA_BITS) { TEST_MESSAGE("[WARNING] Data Bits = 16 are not supported"); }
   else { TEST_ASSERT(val == ARM_DRIVER_OK); } 
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -382,7 +382,7 @@ The test case \b SPI_Config_BitOrder verifies the \b Control function with the s
 void SPI_Config_BitOrder (void) { 
   int32_t val;  
   
-  /* Initialize with callback and power on*/
+  /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(SPI_DrvEvent) == ARM_DRIVER_OK);   
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
   
@@ -396,7 +396,7 @@ void SPI_Config_BitOrder (void) {
   if (val == ARM_SPI_ERROR_BIT_ORDER) { TEST_MESSAGE("[WARNING] Bit order MSB_LSB is not supported"); }
   else { TEST_ASSERT(val == ARM_DRIVER_OK); }
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -417,7 +417,7 @@ The test case \b SPI_Config_SSMode verifies the \b Control function with the seq
 void SPI_Config_SSMode (void) { 
   int32_t val;  
   
-  /* Initialize with callback and power on*/
+  /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(SPI_DrvEvent) == ARM_DRIVER_OK);   
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK); 
 
@@ -436,7 +436,7 @@ void SPI_Config_SSMode (void) {
   if (val == ARM_SPI_ERROR_SS_MODE) { TEST_MESSAGE("[WARNING] Slave select MASTER_SW is not supported"); }
   else { TEST_ASSERT(val == ARM_DRIVER_OK); }
 
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -452,9 +452,9 @@ The test case \b SPI_Config_CommonParams verifies the \b Control function with t
  - Power off
  - Uninitialize
 */
-void  SPI_Config_CommonParams (void) {
+void SPI_Config_CommonParams (void) {
   
-  /* Initialize with callback and power on*/
+  /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(SPI_DrvEvent) == ARM_DRIVER_OK);   
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_OK);
   
@@ -462,7 +462,7 @@ void  SPI_Config_CommonParams (void) {
   TEST_ASSERT(drv->Control(ARM_SPI_MODE_MASTER | ARM_SPI_CPOL0_CPHA0 | ARM_SPI_DATA_BITS(SPI_DATA_BITS) |
     ARM_SPI_MSB_LSB | ARM_SPI_SS_MASTER_UNUSED, SPI_BR[0]*1000) == ARM_DRIVER_OK);
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -498,7 +498,7 @@ void SPI_Config_BusSpeed (void) {
   /* Test bus speeds */
   for (speed=0; speed<SPI_BR_NUM; speed++) {
 
-    /* Change bus speed with specific control parameter*/
+    /* Change bus speed with specific control parameter */
     TEST_ASSERT (drv->Control(ARM_SPI_SET_BUS_SPEED, SPI_BR[speed]*1000) 
        == ARM_DRIVER_OK);
           
@@ -509,7 +509,7 @@ void SPI_Config_BusSpeed (void) {
       TEST_MESSAGE(str);
     } else TEST_PASS();
     
-    /* Change bus speed with general control parameter*/
+    /* Change bus speed with general control parameter */
     TEST_ASSERT(drv->Control(ARM_SPI_MODE_MASTER | ARM_SPI_CPOL0_CPHA0 | ARM_SPI_DATA_BITS(8) | ARM_SPI_MSB_LSB | ARM_SPI_SS_MASTER_SW, SPI_BR[speed]*1000) 
        == ARM_DRIVER_OK);
        
@@ -522,7 +522,7 @@ void SPI_Config_BusSpeed (void) {
    
   }
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
 }
@@ -568,7 +568,7 @@ void SPI_Send (void) {
     } else TEST_PASS();      
   } 
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
@@ -617,7 +617,7 @@ void SPI_Receive (void) {
     } else TEST_PASS();       
   } 
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
@@ -672,7 +672,7 @@ void SPI_Loopback_CheckBusSpeed (void) {
       buffer_out[cnt] = (buf_t)rand()&((1U<<SPI_DATA_BITS)-1U);
     } 
   
-    /* Change bus speed with specific control parameter*/
+    /* Change bus speed with specific control parameter */
     TEST_ASSERT (drv->Control(ARM_SPI_SET_BUS_SPEED, SPI_BR[speed]*1000) 
        == ARM_DRIVER_OK);
           
@@ -693,14 +693,14 @@ void SPI_Loopback_CheckBusSpeed (void) {
       TEST_MESSAGE(str);
     } else TEST_PASS();     
     
-    /* Check received data against sent data*/
+    /* Check received data against sent data */
     if (memcmp(buffer_in, buffer_out, BUFFER_SIZE_BR)!=0) {
       snprintf(str,sizeof(str),"[FAILED] At %dkHz: fail to check block of %d bytes", val, BUFFER_SIZE_BR);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS(); 
   }
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   
@@ -740,7 +740,7 @@ void SPI_Loopback_Transfer (void) {
   /* Set Local Loopback */
   SPI_LOCAL_LOOPBACK();
   
-  /* Set output buffer pattern*/
+  /* Set output buffer pattern */
   for (cnt = 0; cnt<BUFFER[BUFFER_NUM-1];) {  
     for (i = 0; i<ARRAY_SIZE(pattern);) {
       buffer_out[cnt] = pattern[i++];
@@ -789,7 +789,7 @@ void SPI_Loopback_Transfer (void) {
     } else TEST_PASS();     
   } 
   
-  /* Power off and uninitialize*/
+  /* Power off and uninitialize */
   TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
   

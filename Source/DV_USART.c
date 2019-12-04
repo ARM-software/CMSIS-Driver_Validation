@@ -4,6 +4,7 @@
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
+
 #include "cmsis_dv.h" 
 #include "DV_Config.h"
 #include "DV_Framework.h"
@@ -224,7 +225,7 @@ The test case \b USART_Initialization verifies the USART functions with the sequ
   - \b Initialize with callback
   - \b Uninitialize
 */
-void  USART_Initialization (void) {
+void USART_Initialization (void) {
   
   /* Initialize without callback */
   TEST_ASSERT(drv->Initialize(NULL) == ARM_DRIVER_OK); 
@@ -251,7 +252,7 @@ The test case \b USART_CheckInvalidInit verifies the driver behaviour when recei
   - \b PowerControl with Power off
   - \b Uninitialize
 */
-void  USART_CheckInvalidInit (void) {
+void USART_CheckInvalidInit (void) {
   
   /* Uninitialize */
   TEST_ASSERT(drv->Uninitialize() == ARM_DRIVER_OK); 
@@ -284,7 +285,7 @@ The test case \b USART_PowerControl verifies the \b PowerControl function with t
  - Power off
  - Uninitialize
 */
-void  USART_PowerControl (void) {
+void USART_PowerControl (void) {
   int32_t val;
   
   /* Initialize with callback */
@@ -600,7 +601,7 @@ The test case \b USART_Config_CommonParams verifies the \b Control function with
  - Power off
  - Uninitialize
 */
-void  USART_Config_CommonParams (void) {
+void USART_Config_CommonParams (void) {
   
   /* Initialize with callback and power on */
   TEST_ASSERT(drv->Initialize(USART_DrvEvent) == ARM_DRIVER_OK); 

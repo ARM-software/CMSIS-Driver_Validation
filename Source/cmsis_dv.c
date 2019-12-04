@@ -4,6 +4,7 @@
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
+
 #include "cmsis_dv.h"
 #include "RTE_Components.h"
 #include "DV_Framework.h"
@@ -32,10 +33,10 @@ const uint32_t BUFFER[] =  {
 };
 const uint32_t BUFFER_NUM = ARRAY_SIZE(BUFFER);
 
-#ifdef  RTE_CMSIS_DV_WIFI
 /*-----------------------------------------------------------------------------
- *      Init/Uninit test suite: WiFi
+ *      Init/Uninit test suite
  *----------------------------------------------------------------------------*/
+#ifdef  RTE_CMSIS_DV_WIFI
 static void TS_Init_WiFi (void) {
   WIFI_DV_Initialize ();
 }

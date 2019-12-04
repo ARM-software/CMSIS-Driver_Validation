@@ -4,6 +4,7 @@
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
+
 #include "cmsis_os.h" 
 #include "cmsis_dv.h" 
 #include "DV_Config.h"
@@ -69,7 +70,7 @@ The test case \b USBH_Initialization verifies the USBH functions with the sequen
   - \b Uninitialize
 */
 void USBH_Initialization (void) { 
-    
+
   /* Initialize without callback */
   TEST_ASSERT(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK); 
     

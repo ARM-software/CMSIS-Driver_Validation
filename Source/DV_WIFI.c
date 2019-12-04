@@ -448,6 +448,8 @@ void WIFI_GetModuleInfo (void) {
   switch (ret) {
     case ARM_DRIVER_OK:
       TEST_ASSERT(strlen(data_buf) != 0);
+      snprintf(msg_buf, sizeof(msg_buf), "[INFO] Module Info is %s", data_buf);
+      TEST_MESSAGE(msg_buf);
       break;
     case ARM_DRIVER_ERROR_UNSUPPORTED:
       TEST_MESSAGE("[WARNING] GetModuleInfo () is not supported");

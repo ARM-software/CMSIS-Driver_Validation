@@ -16,13 +16,12 @@
  *----------------------------------------------------------------------------*/
 
 /* Test case definition macro                                                 */
-#define TCD(x, y) {x, #x, y}
+#define TCD(x, y) { (((y) != 0) ? (x) : (NULL)), #x }
 
 /* Test case description structure                                            */
 typedef struct {
   void (*TestFunc)(void);             /* Test function                        */
   const char *TFName;                 /* Test function name string            */
-  BOOL en;                            /* Test function enabled                */
 } const TEST_CASE;
 
 /* Test group description structure                                           */

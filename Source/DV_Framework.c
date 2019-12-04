@@ -73,7 +73,7 @@ void cmsis_dv (void __attribute__((unused)) *argument) {
         no = ts[i].TCBaseNum+tc;        /* Test case number                   */
         fn = ts[i].TC[tc].TFName;       /* Test function name string          */
         ritf.tc_Init (no, fn);          /* Init test case report #(Base + TC) */
-        if (ts[i].TC[tc].en) {
+        if (ts[i].TC[tc].TestFunc != NULL) {
           ts[i].TC[tc].TestFunc();      /* Execute test case if enabled       */
         }
         ritf.tc_Uninit ();              /* Uninit test case report            */

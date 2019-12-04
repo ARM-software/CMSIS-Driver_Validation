@@ -60,6 +60,12 @@ Revision History
       <th>Description</th>
     </tr>
     <tr>
+      <td>V1.4.1-dev0</td>
+      <td>
+        - Updated framework allowing linker to remove unused test functions
+      </td>
+    </tr>
+    <tr>
       <td>V1.4.0</td>
       <td>
         - Updated conditions to support all Cortex-M devices

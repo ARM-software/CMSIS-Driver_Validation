@@ -79,6 +79,7 @@ static TEST_CASE TC_List_USART[] = {
   TCD ( USART_Config_Baudrate,          USART_CONFIG_BAUDRATE_EN        ),
   TCD ( USART_Config_CommonParams,      USART_CONFIG_COMMONPARAMS_EN    ),
   TCD ( USART_Send,                     USART_SEND_EN                   ),
+  TCD ( USART_AsynchronousReceive,      USART_ASYNCHRONOUSRECEIVE_EN    ),
   TCD ( USART_Loopback_CheckBaudrate,   USART_LOOPBACK_CHECKBAUDRATE_EN ),
   TCD ( USART_Loopback_Transfer,        USART_LOOPBACK_TRANSFER_EN      ),
   TCD ( USART_CheckInvalidInit,         USART_CHECKINVALIDINIT_EN       ),

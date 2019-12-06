@@ -880,7 +880,7 @@
     </apis>
     <components>
       <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0-rc1"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1185,16 +1185,16 @@
       <file attr="config" category="header" name="WiFi\ESP8266\Config\WiFi_ESP8266_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ESP8266_Config.h</instance>
         <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0-rc0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.2">
+      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0-rc1"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>

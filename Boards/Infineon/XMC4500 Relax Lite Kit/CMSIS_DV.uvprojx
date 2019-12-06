@@ -176,7 +176,7 @@
             <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
-            <mOS>0</mOS>
+            <mOS>1</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
             <hadIROM>1</hadIROM>
@@ -655,7 +655,7 @@
             <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
-            <mOS>0</mOS>
+            <mOS>1</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
             <hadIROM>1</hadIROM>
@@ -1027,7 +1027,7 @@
         </targetInfos>
       </component>
       <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1207,10 +1207,10 @@
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.2">
+      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack" vendor="ARM" version="1.4.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

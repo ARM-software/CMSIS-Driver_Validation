@@ -870,7 +870,7 @@
     </apis>
     <components>
       <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1203,7 +1203,7 @@
       <file attr="config" category="header" name="WiFi\ISM43362\Config\WiFi_ISM43362_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ISM43362_Config.h</instance>
         <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.3.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1212,16 +1212,16 @@
       <file attr="config" category="source" name="WiFi\ISM43362\Config\WiFi_ISM43362_HW.c" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ISM43362_HW.c</instance>
         <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.3.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.2">
+      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.4.1-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

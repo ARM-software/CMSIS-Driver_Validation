@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
  *      Name:         DV_Config.h
  *      Purpose:      DV Config header
- *      Version:      1.2.2
+ *      Version:      1.2.3
  *----------------------------------------------------------------------------
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
@@ -156,6 +156,8 @@
 #define USART_CONFIG_COMMONPARAMS_EN    1
 // <q> USART_Send
 #define USART_SEND_EN                   1
+// <q> USART_AsynchronousReceive
+#define USART_ASYNCHRONOUSRECEIVE_EN    1
 // <q> USART_Loopback_CheckBaudrate
 #define USART_LOOPBACK_CHECKBAUDRATE_EN 1
 // <q> USART_Loopback_Transfer
@@ -395,9 +397,14 @@
 #define WIFI_AP_WPS_PIN                 "12345678"
 // </h>
 // <h> Socket
+// <i> Settings relevant for Socket testing
 // <s.15>SockServer IP
-// <i>Static IPv4 Address of SockServer (used for testing socket operation) in text representation
+// <i>Static IPv4 Address of SockServer
 #define WIFI_SOCKET_SERVER_IP           "192.168.1.10"
+// <o> Number of sockets
+// <i> Number of sockets that driver supports
+// <i> Default: 4
+#define WIFI_SOCKET_MAX_NUM             4
 // </h>
 // </h>
 // <h> Test Cases
@@ -483,7 +490,6 @@
 // <i> For this test please connect a WiFi client (for example mobile phone) to AP
 // <i> and check if connection has succeeded
 #define WIFI_ACT_AP                     1
-#define WIFI_AP_CLIENT_CON_TIMEOUT      120000
 // <e> WPS
 #define WIFI_WPS_USER_EN                1
 // <q> WIFI_Activate_Station_WPS_PBC
@@ -505,7 +511,6 @@
 // <e> Socket API (requires SockServer)
 // <i> Socket functions tests
 #define WIFI_SOCKET_EN                  1
-#define WIFI_SOCKET_MAX_NUM             4
 // <q> WIFI_SocketCreate
 #define WIFI_SOCKETCREATE_EN            1
 // <q> WIFI_SocketBind
@@ -612,6 +617,9 @@
 // Timeout configuration that can be used for adjusting tests to limitations of the WiFi Module (in ms)
 #define WIFI_SOCKET_TIMEOUT             30000
 #define WIFI_SOCKET_TIMEOUT_LONG        35000
+
+// Time that Access Point will wait for Client to connect to it (in ms)
+#define WIFI_AP_CLIENT_CON_TIMEOUT      120000
 
 //------------------------------------------------------------------------------
 

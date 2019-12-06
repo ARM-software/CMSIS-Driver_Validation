@@ -138,14 +138,15 @@ int8_t USART_RunSend_NoCallback (void *out, uint32_t cnt) {
 }
 
 // USART receive with callback
-int8_t USART_RunReceive (void *in, uint32_t cnt);
-int8_t USART_RunReceive (void *in, uint32_t cnt) {
+int8_t USART_RunReceive (void *out, void *in, uint32_t cnt);
+int8_t USART_RunReceive (void *out, void *in, uint32_t cnt) {
   uint32_t tick;
   
   Event &= ~ARM_USART_EVENT_RECEIVE_COMPLETE;
       
-  drv->Receive (in, cnt);
-    
+  drv->Receive (in,  cnt);
+  drv->Send    (out, cnt);              // Send data that will be received with loopback
+
   tick = GET_SYSTICK();
   do {
     if (Event & ARM_USART_EVENT_RECEIVE_COMPLETE) {
@@ -159,12 +160,13 @@ int8_t USART_RunReceive (void *in, uint32_t cnt) {
 }
 
 // USART receive without callback
-int8_t USART_RunReceive_NoCallback (void *in, uint32_t cnt);
-int8_t USART_RunReceive_NoCallback (void *in, uint32_t cnt) {
+int8_t USART_RunReceive_NoCallback (void *out, void *in, uint32_t cnt);
+int8_t USART_RunReceive_NoCallback (void *out, void *in, uint32_t cnt) {
   uint32_t tick;
         
-  drv->Receive (in, cnt);
-    
+  drv->Receive (in,  cnt);
+  drv->Send    (out, cnt);              // Send data that will be received with loopback
+
   tick = GET_SYSTICK();
   do {
     if (drv->GetRxCount() == cnt) {
@@ -685,7 +687,9 @@ void USART_AsynchronousReceive (void) {
   uint16_t cnt;
   
   /* Allocate buffer */
-  buffer_in = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
+  buffer_in  = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
+  buffer_out = malloc(BUFFER[BUFFER_NUM-1]*sizeof(buf_t));
+  TEST_ASSERT(buffer_in  != NULL);
   TEST_ASSERT(buffer_out != NULL);
   
   /* Initialize with callback, power on and configure USART bus */
@@ -696,17 +700,17 @@ void USART_AsynchronousReceive (void) {
   TEST_ASSERT(drv->Control (ARM_USART_CONTROL_TX,1) == ARM_DRIVER_OK); 
   TEST_ASSERT(drv->Control (ARM_USART_CONTROL_RX,1) == ARM_DRIVER_OK); 
   
-  /* Send data chunks */
+  /* Receive data chunks */
   for (cnt = 0; cnt<BUFFER_NUM; cnt++) { 
     
-    /* Send using callback */
-    if (USART_RunReceive(buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {
+    /* Receive using callback */
+    if (USART_RunReceive(buffer_out, buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {
       snprintf(str,sizeof(str),"[FAILED] Fail to receive %d bytes",BUFFER[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();   
     
-    /* Send without callback */
-    if (USART_RunReceive_NoCallback(buffer_out, BUFFER[cnt]) != ARM_DRIVER_OK) {   
+    /* Receive without callback */
+    if (USART_RunReceive_NoCallback(buffer_out, buffer_in, BUFFER[cnt]) != ARM_DRIVER_OK) {   
       snprintf(str,sizeof(str),"[FAILED] Fail to send without callback %d bytes",BUFFER[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();    

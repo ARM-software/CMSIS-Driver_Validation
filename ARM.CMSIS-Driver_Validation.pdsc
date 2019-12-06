@@ -62,10 +62,10 @@
         <environment name="uv" load="CMSIS_DV.uvprojx"/>
       </project>
       <attributes>
-        <component Cclass="CMSIS" Cgroup="CORE"/>
+        <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS" Cgroup="RTOS"/>
-        <component Cbundle="API" Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
+        <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
 
@@ -78,7 +78,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
@@ -92,7 +92,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362"/>
       </attributes>
@@ -107,7 +107,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
@@ -121,7 +121,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
       </attributes>
     </example>
@@ -135,7 +135,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362"/>
       </attributes>
@@ -150,7 +150,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266"/>
       </attributes>
@@ -165,7 +165,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP32"/>
       </attributes>
@@ -180,7 +180,7 @@
       <attributes>
         <component Cclass="CMSIS"  Cgroup="CORE"/>
         <component Cclass="Device" Cgroup="Startup"/>
-        <component Cclass="CMSIS"  Cgroup="RTOS"/>
+        <component Cclass="CMSIS"  Cgroup="RTOS2"/>
         <component Cbundle="API"   Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
         <component Cclass="CMSIS Driver" Cgroup="WiFi" Csub="WizFi360"/>
       </attributes>
@@ -208,8 +208,7 @@
       <description>CMSIS Core with RTOS for Cortex-M processor</description>
       <accept condition="Cortex-M Device"/>
       <require Cclass="CMSIS" Cgroup="CORE"/>
-      <accept Cclass="CMSIS" Cgroup="RTOS"/>
-      <accept Cclass="CMSIS" Cgroup="RTOS2"/>
+      <require Cclass="CMSIS" Cgroup="RTOS2"/>
       <require Cclass="Compiler" Cgroup="I/O" Csub="STDOUT"/>
     </condition>
 
@@ -279,7 +278,7 @@
   </conditions>  
 
   <components>  
-    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.4.0">  
+    <bundle Cbundle="API" Cclass="CMSIS Driver Validation" Cversion="1.4.1-dev0">  
       <description>Run driver validation test for enabled drivers</description>
       <doc>Documentation/html/index.html</doc>
 

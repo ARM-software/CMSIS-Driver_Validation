@@ -1176,12 +1176,6 @@
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="SDK\devices\MIMXRT1064\utilities\usb_device_config.h" version="1.0.1">
-        <instance index="0" removed="1">RTE\CMSIS_Driver\MIMXRT1064DVL6A\usb_device_config.h</instance>
-        <component Capiversion="2.1.0" Cclass="CMSIS Driver" Cgroup="USB Device" Csub="USB2" Cvendor="Keil" Cversion="1.0.0" condition="MIMXRT1064 CMSIS"/>
-        <package name="iMXRT1064_MWP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="1.0.0"/>
-        <targetInfos/>
-      </file>
       <file attr="config" category="header" name="WiFi\ESP32\Config\WiFi_ESP32_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ESP32_Config.h</instance>
         <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP32" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
@@ -1190,12 +1184,6 @@
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
-      </file>
-      <file attr="config" category="header" name="WiFi\ESP8266\Config\WiFi_ESP8266_Config.h" version="1.0.0">
-        <instance index="0" removed="1">RTE\CMSIS_Driver\WiFi_ESP8266_Config.h</instance>
-        <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266" Cvariant="UART" Cvendor="Keil" Cversion="1.0.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0-rc0"/>
-        <targetInfos/>
       </file>
       <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
@@ -1321,36 +1309,6 @@
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
-      </file>
-      <file attr="config" category="source" name="USB\Config\USBD_Config.c" version="5.2.0">
-        <instance index="0" removed="1">RTE\USB\USBD_Config_0.c</instance>
-        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="4"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="source" name="USB\Config\USBD_Config.c" version="5.2.0">
-        <instance index="1" removed="1">RTE\USB\USBD_Config_1.c</instance>
-        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="4"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="header" name="USB\Config\USBD_Config_CDC.h" version="5.2.0">
-        <instance index="0" removed="1">RTE\USB\USBD_Config_CDC_0.h</instance>
-        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Csub="CDC" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="8"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="header" name="USB\Config\USBD_Config_CDC.h" version="5.2.0">
-        <instance index="1" removed="1">RTE\USB\USBD_Config_CDC_1.h</instance>
-        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="Device" Csub="CDC" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Device Instance and Device Driver" maxInstances="8"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="source" name="USB\Config\USB_Debug.c" version="1.0.0">
-        <instance index="0" removed="1">RTE\USB\USB_Debug.c</instance>
-        <component Cbundle="MDK-Pro" Cclass="USB" Cgroup="CORE" Cvariant="Debug" Cvendor="Keil" Cversion="6.13.7" condition="USB Core and Event Recorder"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
-        <targetInfos/>
       </file>
     </files>
   </RTE>

@@ -3,8 +3,8 @@
 \mainpage Introduction
 
 This manual explains the scope and the usage of the Software Pack for \b CMSIS-Driver \b Validation.
-<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> are standard peripheral
-API interfaces that connect microcontroller peripherals with middleware or the user application. 
+<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> specifies the 
+software API for peripheral driver interfaces that connect microcontroller peripherals with middleware or the user application. 
 
 The Software Pack for CMSIS-Driver validation provides:
   - Configurable validation tests for several CMSIS-Driver interfaces
@@ -17,7 +17,6 @@ The CMSIS-Driver Validation tests and verifies:
   - \b Transfer \b speed of the data communication with time measurement of data transfers.
 
 The CMSIS-Driver Validation requires
-<a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> or
 <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
 used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate
 implementation of a CMSIS-Driver interface.
@@ -202,8 +201,8 @@ Refer to the \ref resource_requirements section for a calculation example.
 
 Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device
 using the \c RTE_Device.h file from the \b Device group. Enable all interfaces you wish to use in the tests and make all
-necessary pin-out changes required by your actual board layout (consult the board schematics). The pre-built
-\ref examples "examples" are already configured for the underlying hardware.
+necessary pin-out changes required by your actual board layout (consult the board schematics). The \ref examples "examples" 
+are already configured for the underlying hardware.
 
 For a robust test with good coverage, implement various targets with different settings:
 - \b Enable/disable the \b DMA controller of your device
@@ -332,7 +331,7 @@ warning anymore).
 /**
 \page examples Examples
 
-This Software Pack contains a set or pre-built examples that show how to use the validation suite together with real
+This Software Pack contains a set of examples that show how to use the validation suite together with real
 hardware. The following example projects are available. Use
 <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine:
 
@@ -618,7 +617,7 @@ The following picture shows the necessary external loopback connections for the 
 \section heap_req Heap Requirements
 Heap is used by memory allocation functions. It is configured in the
 <a class="el" href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" target="_blank">startup_device.s</a>
-file located under the \b Device component class.
+file located under the \b Device component class or by a linker script.
 
 Additional memory is allocated for the validation framework and for the buffers that are used in the driver tests. 
 
@@ -663,38 +662,4 @@ under the \b CMSIS component class:
 </table>
 
 \note Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.
-
-\section rtos_req CMSIS-RTOS Requirements
-
-Instead of CMSIS-RTOS2 you can use CMSIS-RTOS. In this case the \c main thread is implicitly created.
-For proper operation, you need to add a certain amount of thread stack size to the \c main thread.
-
-The thread requirements need to be reflected in the CMSIS-RTOS configuration. Refer to the
-<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS/html/index.html" target="_blank">CMSIS-RTOS Reference</a> for further details.
-
-For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS/html/rtxImplementation.html" target="_blank">CMSIS-RTOS RTX</a>, thread
-requirements are configured in the
-<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS/html/configure.html" target="_blank">RTX_Conf_CM.c</a> file located
-under the \b CMSIS component class:
-
-<table class="doxtable" summary="CMSIS-RTOS Configuration">
-    <tr>
-      <th align="left">Option (under section Thread Configuration)</th>
-      <th>Set Value to</th>
-    </tr>
-    <tr>
-      <td>Default Thread stack size [bytes]</td>
-      <td>2048</td>
-    </tr>
-    <tr>
-      <td>Main Thread stack size [bytes]</td>
-      <td>2048</td>
-    </tr>
-</table>
-
-\note Do not forget to set the correct <b>RTOS Kernel Timer input clock frequency [Hz]</b> otherwise the tests will not run
-properly on the device.
-
-\note Only WiFi tests create one additional thread for socket testing and usually WiFi drivers have a thread 
-for processing messages.
 */

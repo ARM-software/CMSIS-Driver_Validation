@@ -14,22 +14,9 @@
 int main(void)
 {
 
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelInitialize ();
-#endif
+  osKernelInitialize ();                // Initialize CMSIS-RTOS2
+  osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread
+  osKernelStart ();                     // Start thread execution
 
-#if defined(RTE_CMSIS_RTOS2)
-  osThreadNew(cmsis_dv, NULL, NULL);
-#else
-  cmsis_dv(NULL);
-#endif
-
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelStart ();
-#endif
-
-  /* Infinite loop */
-  while (1)
-  {
-  }
+  for (;;) {}
 }

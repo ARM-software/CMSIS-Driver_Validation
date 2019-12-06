@@ -127,27 +127,17 @@ static void CPU_CACHE_Enable (void) {
   */
 int main (void) {
 
-  MPU_Config();                             /* Configure the MPU              */
+  MPU_Config();                         /* Configure the MPU */
 
-  CPU_CACHE_Enable();                       /* Enable the CPU Cache           */
+  CPU_CACHE_Enable();                   /* Enable the CPU Cache */
 
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelInitialize ();
-#endif
+  HAL_Init();                           /* Initialize the HAL Library */
 
-  HAL_Init();                           /* Initialize the HAL Library         */
+  SystemClock_Config();                 /* Configure the System Clock */
 
-  SystemClock_Config();                 /* Configure the System Clock         */
-
-#if defined(RTE_CMSIS_RTOS2)
-  osThreadNew(cmsis_dv, NULL, NULL);
-#else
-  cmsis_dv(NULL);
-#endif
-
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelStart ();
-#endif
+  osKernelInitialize ();                /* Initialize CMSIS-RTOS2 */
+  osThreadNew(cmsis_dv, NULL, NULL);    /* Create validation main thread */
+  osKernelStart();                      /* Start thread execution */
 
   /* Infinite loop */
   while (1)

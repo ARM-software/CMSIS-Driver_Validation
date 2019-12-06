@@ -5,7 +5,6 @@
  *      Copyright(c) KEIL - An ARM Company
  *----------------------------------------------------------------------------*/
 
-#include "cmsis_os.h" 
 #include "cmsis_dv.h" 
 #include "DV_Config.h"
 #include "DV_Framework.h"

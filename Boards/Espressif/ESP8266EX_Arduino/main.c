@@ -28,9 +28,9 @@ int main(void) {
   // Update System Core Clock info
   SystemCoreClockUpdate();
 
-  osKernelInitialize ();                        // Initialize CMSIS-RTOS2
-  osThreadNew (cmsis_dv, NULL, NULL);           // Create application main thread
-  osKernelStart ();                             // Start thread execution
+  osKernelInitialize ();                // Initialize CMSIS-RTOS2
+  osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread
+  osKernelStart ();                     // Start thread execution
 
   for (;;) {}
 }

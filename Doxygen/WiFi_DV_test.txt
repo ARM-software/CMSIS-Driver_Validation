@@ -32,8 +32,8 @@ These settings can be found under WiFi <b>Configuration</b> settings in the \c D
 - Channel: use 0 for auto-detect channel
 - WPS PIN: PIN used for WPS tests (the Access Point has to have the same PIN enabled and WPS service running)
 
-<b>Access Point</b> related settings needed for testing Access Point functionality of the WiFi module:
-- SSID: SSID created by the WiFi module
+<b>Access Point</b> related settings needed for testing Access Point functionality (network creation) of the WiFi module:
+- SSID
 - Password
 - Security Type
 - Channel: use 0 for auto-detect channel
@@ -41,6 +41,7 @@ These settings can be found under WiFi <b>Configuration</b> settings in the \c D
 
 <b>Socket</b> related setting needed for Socket API and Socket Operation tests:
 - SockServer IP: IP address assigned to the SockServer on your local network
+- Number of sockets: Number of sockets that the driver supports and that will be tested
 
 \note IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).
 
@@ -53,7 +54,7 @@ WiFi Driver API function tests respectively.
 are used for more complex operational test of the WiFi driver.
 A brief description of each test functionality can be viewed by using 
 <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
-view of the DV_Config.h file and clicking on the test or hovering a mouse pointer over it.
+view of the \c DV_Config.h file and clicking on the test or hovering a mouse pointer over it.
 
 */
 

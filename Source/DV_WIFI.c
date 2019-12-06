@@ -8279,7 +8279,7 @@ void WIFI_Downstream_Rate (void) {
       TEST_ASSERT_MESSAGE(0,msg_buf);
     }
     else if (rval != 0) {
-      snprintf(msg_buf, sizeof(msg_buf), "[INFO] Speed %d KB/s", io.rc/4000);
+      snprintf(msg_buf, sizeof(msg_buf), "[INFO] Speed %d KB/s", io.rc/4096);
       TEST_MESSAGE(msg_buf);
     }
 
@@ -8347,7 +8347,7 @@ void WIFI_Upstream_Rate (void) {
       TEST_ASSERT_MESSAGE(0,msg_buf);
     }
     else if (rval != 0) {
-      snprintf(msg_buf, sizeof(msg_buf), "[INFO] Speed %d KB/s", io.rc/4000);
+      snprintf(msg_buf, sizeof(msg_buf), "[INFO] Speed %d KB/s", io.rc/4096);
       TEST_MESSAGE(msg_buf);
     }
 

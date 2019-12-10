@@ -347,7 +347,7 @@ void TestAssistant (void *argument) {
       continue;
     }
 
-    /* Syntax:  SEND <proto>,<blocksz>,<time_ms>
+    /* Syntax:  SEND <proto>,<bsize>,<time_ms>
        Param:   <proto>   = protocol (TCP, UDP)
                 <bsize>   = size of data block in bytes 
                 <time_ms> = test duration in ms
@@ -390,7 +390,7 @@ void TestAssistant (void *argument) {
       continue;
     }
 
-    /* Syntax:  RECV <proto>,<blocksz>
+    /* Syntax:  RECV <proto>,<bsize>
        Param:   <proto> = protocol (TCP, UDP)
                 <bsize> = size of data block in bytes 
     */

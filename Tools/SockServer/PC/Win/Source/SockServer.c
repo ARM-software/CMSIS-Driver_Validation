@@ -274,7 +274,7 @@ DWORD WINAPI AssistantThread (void *argument) {
     return (0);
   }
 
-  /* Syntax:  SEND <proto>,<blocksz>,<time_ms>
+  /* Syntax:  SEND <proto>,<bsize>,<time_ms>
      Param:   <proto>   = protocol (TCP, UDP)
               <bsize>   = size of data block in bytes 
               <time_ms> = test duration in ms
@@ -320,7 +320,7 @@ DWORD WINAPI AssistantThread (void *argument) {
     return (0);
   }
 
-  /* Syntax:  RECV <proto>,<blocksz>
+  /* Syntax:  RECV <proto>,<bsize>
      Param:   <proto> = protocol (TCP, UDP)
               <bsize> = size of data block in bytes 
   */

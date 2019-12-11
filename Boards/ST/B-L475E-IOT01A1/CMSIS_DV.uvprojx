@@ -1028,9 +1028,9 @@
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="WiFi\ISM43362\Config\WiFi_ISM43362_Config.h" version="1.0.0">
+      <file attr="config" category="header" name="WiFi\ISM43362\Config\WiFi_ISM43362_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ISM43362_Config.h</instance>
-        <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.3.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
+        <component Capiversion="1.0.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.4.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
         <package license="LICENSE.txt" name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>

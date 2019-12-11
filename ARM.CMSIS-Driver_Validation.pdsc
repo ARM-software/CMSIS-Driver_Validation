@@ -9,6 +9,9 @@
   <license>LICENSE.txt</license>
   
   <releases>
+    <release version="1.4.1-dev1">
+      - Deprecated CMSIS-RTOS1
+    </release>
     <release version="1.4.1-dev0">
       - Updated framework allowing linker to remove unused test functions
     </release>

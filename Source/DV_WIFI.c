@@ -3909,7 +3909,7 @@ Datagram socket test:
  - Close socket
 */
 void WIFI_SocketAccept (void) {
-  uint8_t      ip[4];
+  uint8_t      ip[5] __ALIGNED(4);
   uint32_t     ip_len;
   uint16_t     port;
   osThreadId_t worker;
@@ -4872,7 +4872,7 @@ Datagram socket test 1:
  - Receive again, closed socket
 */
 void WIFI_SocketRecvFrom (void) {
-  uint8_t      ip[4];
+  uint8_t      ip[5] __ALIGNED(4);
   uint32_t     ip_len,ticks,tout;
   uint16_t     port;
   uint8_t      buf[4];
@@ -5560,7 +5560,7 @@ Datagram socket test 1:
  - Close socket
 */
 void WIFI_SocketGetSockName (void) {
-  uint8_t        local_ip[4];
+  uint8_t        local_ip[5] __ALIGNED(4);
   uint16_t       local_port;
   uint32_t       ip_len;
   osThreadId_t   worker;
@@ -5930,7 +5930,7 @@ Datagram socket test:
  - Get peer name, closed socket
 */
 void WIFI_SocketGetPeerName (void) {
-  uint8_t        peer_ip[4];
+  uint8_t        peer_ip[5] __ALIGNED(4);
   uint16_t       peer_port;
   uint32_t       ip_len;
   osThreadId_t   worker;
@@ -6968,7 +6968,7 @@ This test requires internet connectivity to DNS server.
 */
 void WIFI_SocketGetHostByName (void) {
   const char  *host_name = "www.arm.com";
-  uint8_t      host_ip[4];
+  uint8_t      host_ip[5] __ALIGNED(4);
   uint32_t     ip_len;
   osThreadId_t worker;
   int32_t      rval;

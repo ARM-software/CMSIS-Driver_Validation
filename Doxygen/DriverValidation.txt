@@ -506,6 +506,10 @@ For details on WiFi driver tests please refer to \ref wifi_funcs.
 Hardware Setup
 --------------
 
+This example uses the ISMART module with SPI communication. By default, the shield is loaded with a UART firmware.
+Instructions on how to flash the SPI firmware can be found in the
+[CMSIS-Driver documentation](https://arm-software.github.io/CMSIS-Driver/General/html/driver_WiFi.html#driver_ISM43362).
+
 For proper operation of the Inventek ISMART43362-E WiFi Shield please connect the jumper between 5V_BOARD and 5V_MOD pins 
 on the WiFi Shield.
 

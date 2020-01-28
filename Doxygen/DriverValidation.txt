@@ -59,6 +59,15 @@ Revision History
       <th>Description</th>
     </tr>
     <tr>
+      <td>V1.5.0-dev0</td>
+      <td>
+        - Removed bundle
+        - Added requirements for CMSIS driver API versions
+        - Updated WiFi Driver tests (WiFi Driver API V1.1)
+        - Updated all examples
+      </td>
+    </tr>
+    <tr>
       <td>V1.4.1-dev1</td>
       <td>
         - Deprecated CMSIS-RTOS1

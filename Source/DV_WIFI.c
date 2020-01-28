@@ -4657,10 +4657,10 @@ void WIFI_SocketRecv (void) {
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 
-    /* Check parameter (len = 0) */
+    /* Receive no data (check that received data is available) */
     ARG_RECV   (sock, buf, 0);
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == 0);
 
     /* Receive some data */
     ARG_RECV   (sock, buffer, sizeof(buffer));
@@ -4933,11 +4933,6 @@ void WIFI_SocketRecvFrom (void) {
     TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 
-    /* Check parameter (len = 0) */
-    ARG_RECVFROM (sock, buf, 0, ip, &ip_len, &port);
-    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
-
     /* Send one byte of data to trigger a reply */
     io.sock = sock;
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT_LONG);
@@ -4948,6 +4943,11 @@ void WIFI_SocketRecvFrom (void) {
     ip_len = sizeof(ip) + 1;
     memset ((void *)ip, 0, sizeof(ip));
     
+    /* Receive no data (check that received data is available) */
+    ARG_RECVFROM (sock, NULL, 0, ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc == 0);
+
     /* Receive some data */
     ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
     TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT_LONG);
@@ -5156,10 +5156,10 @@ void WIFI_SocketSend (void) {
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 
-    /* Check parameter (len = 0) */
+    /* Send no data (check that send is available) */
     ARG_SEND   (sock, test_msg, 0);
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == 0);
 
     /* Send some data */
     ARG_SEND   (sock, test_msg, sizeof(test_msg));
@@ -5411,10 +5411,10 @@ void WIFI_SocketSendTo (void) {
     TH_EXECUTE (F_SENDTO, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
 
-    /* Check parameter (len = 0) */
+    /* Send no data (check that send is available) */
     ARG_SENDTO (sock, test_msg, 0, ip_socket_server, 4, ECHO_PORT);
     TH_EXECUTE (F_SENDTO, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+    TH_ASSERT  (io.rc == 0);
 
     /* Send some data */
     ARG_SENDTO (sock, test_msg, sizeof(test_msg), ip_socket_server, 4, ECHO_PORT);

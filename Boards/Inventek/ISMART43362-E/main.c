@@ -76,7 +76,7 @@ int main (void) {
 
   SystemCoreClockUpdate();
 
-  SDK_DelayAtLeastUs(5000);             // 5 seconds for debugger connect
+  SDK_DelayAtLeastUs(5000000);          // 5 seconds for debugger connect
 
   osKernelInitialize ();                // Initialize CMSIS-RTOS2
   osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread

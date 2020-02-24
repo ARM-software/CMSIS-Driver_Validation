@@ -48,7 +48,7 @@
 #define WIFI_ISM43362_SOCKETS_NUM          (4)
 
 // SPI bus speed (default: 20 Mbps)
-#define WIFI_ISM43362_SPI_BUS_SPEED        (20000000)
+#define WIFI_ISM43362_SPI_BUS_SPEED        (16000000)
 
 // SPI mutex acquire timeout in ms (default: 1000)
 #define WIFI_ISM43362_SPI_TIMEOUT          (1000)

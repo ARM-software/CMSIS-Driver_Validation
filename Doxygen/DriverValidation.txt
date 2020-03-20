@@ -59,6 +59,12 @@ Revision History
       <th>Description</th>
     </tr>
     <tr>
+      <td>V1.5.0-dev1</td>
+      <td>
+        - Updated examples using NXP MIMXRT1064-EVK board to support the latest MIMXRT1064_DFP
+      </td>
+    </tr>
+    <tr>
       <td>V1.5.0-dev0</td>
       <td>
         - Removed bundle

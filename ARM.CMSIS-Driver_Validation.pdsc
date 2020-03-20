@@ -9,6 +9,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="1.5.0-dev1">
+      - Updated examples using NXP MIMXRT1064-EVK board to support the latest MIMXRT1064_DFP
+    </release>
     <release version="1.5.0-dev0">
       - Removed bundle
       - Added requirements for CMSIS driver API versions

@@ -11,7 +11,7 @@ The following targets are available:
    - Code:                      External QSPI Flash NOR
    - RW:                        Internal RAM
    - Debugger:                  CMSIS-DAP
-   - Compiler:                  ARM Compiler optimization Level 0
+   - Compiler:                  ARM Compiler 6, optimization: -O0 (no optimization)
    - Compiler:Event Recorder:   Enabled
    - CMSIS:RTOS2:Keil RTX5:     Source
 
@@ -19,7 +19,7 @@ The following targets are available:
    - Code:                      External QSPI Flash NOR
    - RW:                        Internal RAM
    - Debugger:                  CMSIS-DAP
-   - Compiler:                  ARM Compiler optimization Level 3
+   - Compiler:                  ARM Compiler 6, optimization: -Oz (image size)
    - Compiler:Event Recorder:   Disabled
    - CMSIS:RTOS2:Keil RTX5:     Library
 

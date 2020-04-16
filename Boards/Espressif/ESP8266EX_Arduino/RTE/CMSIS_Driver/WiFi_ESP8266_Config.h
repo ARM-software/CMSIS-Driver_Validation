@@ -42,7 +42,7 @@
 //                               <921600=>921600
 // <i> Defines the serial interface baudrate.
 // <i> Default: 115200
-#define WIFI_ESP8266_SERIAL_BAUDRATE        115200
+#define WIFI_ESP8266_SERIAL_BAUDRATE        921600
 
 // <o> WiFi thread priority <0=>osPriorityLow
 //                          <1=>osPriorityBelowNormal

@@ -1,12 +1,31 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_Ethernet.c
- *      Purpose:      Ethernet test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Ethernet (ETH) Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "cmsis_dv.h" 
-#include "DV_Config.h"
+#include "DV_ETH_Config.h"
 #include "DV_Framework.h"
 #include "Driver_ETH_MAC.h"
 #include "Driver_ETH_PHY.h"
@@ -63,13 +82,13 @@ int8_t ETH_RunTransfer (uint8_t *out, uint8_t *in, uint32_t cnt) {
 
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup eth_funcs Ethernet Validation
-\brief Ethernet test cases
+\defgroup dv_eth Ethernet Validation
+\brief Ethernet driver validation
 \details
 The Ethernet validation test performs the following checks:
 - API interface compliance.
@@ -89,14 +108,17 @@ To perform loopback communication tests, it is required to connect the RX and TX
 
 Various \b Ethernet \b loopback \b plugs are available from different vendors that fulfill this purpose.
 
+\defgroup eth_tests Tests
+\ingroup dv_eth
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_GetCapabilities
+\brief Function: ETH_MAC_GetCapabilities
 \details
-The test case \b ETH_MAC_GetCapabilities verifies the Ethernet MAC function \b GetCapabilities.
+The test function \b ETH_MAC_GetCapabilities verifies the Ethernet MAC function \b GetCapabilities.
 */
 void ETH_MAC_GetCapabilities (void) {                    
   /* Get ETH_MAC capabilities */
@@ -106,9 +128,9 @@ void ETH_MAC_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_Initialization
+\brief Function: ETH_MAC_Initialization
 \details
-The test case \b ETH_MAC_Initialization verifies the Ethernet MAC functions in the following order:
+The test function \b ETH_MAC_Initialization verifies the Ethernet MAC functions in the following order:
   - \b Initialize  without callback
   - \b Uninitialize
   - \b Initialize with callback if supported
@@ -131,9 +153,9 @@ void ETH_MAC_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_CheckInvalidInit
+\brief Function: ETH_MAC_CheckInvalidInit
 \details
-The test case \b ETH_MAC_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b ETH_MAC_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -165,9 +187,9 @@ void ETH_MAC_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_PowerControl
+\brief Function: ETH_MAC_PowerControl
 \details
-The test case \b ETH_MAC_PowerControl verifies the Ethernet MAC \b PowerControl function with the sequence:
+The test function \b ETH_MAC_PowerControl verifies the Ethernet MAC \b PowerControl function with the sequence:
   - Initialize 
   - Power on
   - Set bus speed \token{10M}
@@ -199,9 +221,9 @@ void ETH_MAC_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_SetBusSpeed
+\brief Function: ETH_MAC_SetBusSpeed
 \details
-The test case \b ETH_MAC_SetBusSpeed verifies the Ethernet MAC \b Control function with the sequence:
+The test function \b ETH_MAC_SetBusSpeed verifies the Ethernet MAC \b Control function with the sequence:
   - Initialize 
   - Power on
   - Set bus speed \token{10M}
@@ -239,9 +261,9 @@ void ETH_MAC_SetBusSpeed (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_Config_Mode
+\brief Function: ETH_MAC_Config_Mode
 \details
-The test case \b ETH_MAC_Config_Mode verifies the Ethernet MAC \b Control function with the sequence:
+The test function \b ETH_MAC_Config_Mode verifies the Ethernet MAC \b Control function with the sequence:
   - Initialize 
   - Power on
   - Set full duplex
@@ -268,9 +290,9 @@ void ETH_MAC_Config_Mode (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_Config_CommonParams
+\brief Function: ETH_MAC_Config_CommonParams
 \details
-The test case \b ETH_MAC_Config_CommonParams verifies the Ethernet MAC \b Control function with the sequence:
+The test function \b ETH_MAC_Config_CommonParams verifies the Ethernet MAC \b Control function with the sequence:
   - Initialize 
   - Power on
   - Configure Ethernet MAC bus
@@ -300,9 +322,9 @@ void ETH_MAC_Config_CommonParams (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_PHY_Initialization
+\brief Function: ETH_PHY_Initialization
 \details
-The test case \b ETH_PHY_Initialization verifies the Ethernet PHY functions in the following order:
+The test function \b ETH_PHY_Initialization verifies the Ethernet PHY functions in the following order:
   - \b Initialize with read and write functions
 */
 void ETH_PHY_Initialization (void) { 
@@ -324,9 +346,9 @@ void ETH_PHY_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_PHY_CheckInvalidInit
+\brief Function: ETH_PHY_CheckInvalidInit
 \details
-The test case \b ETH_PHY_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b ETH_PHY_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -362,9 +384,9 @@ void ETH_PHY_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_PHY_PowerControl
+\brief Function: ETH_PHY_PowerControl
 \details
-The test case \b ETH_PHY_PowerControl verifies the Ethernet PHY \b PowerControl function with the sequence:
+The test function \b ETH_PHY_PowerControl verifies the Ethernet PHY \b PowerControl function with the sequence:
   - Initialize
   - Power on
   - Power low
@@ -402,9 +424,9 @@ void ETH_PHY_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: ETH_PHY_Config
+\brief  Function: ETH_PHY_Config
 \details
-The test case \b ETH_PHY_Config verifies the PHY functions 
+The test function \b ETH_PHY_Config verifies the PHY functions 
   - Initialize
   - Power on
   - SetInterface 
@@ -438,9 +460,9 @@ void ETH_PHY_Config (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: ETH_Loopback_Transfer
+\brief  Function: ETH_Loopback_Transfer
 \details
-The test case \b ETH_Loopback_Transfer verifies data transfer via Ehernet with the following sequence:
+The test function \b ETH_Loopback_Transfer verifies data transfer via Ehernet with the following sequence:
  - Buffer allocation
  - Initialize
  - Power on
@@ -538,9 +560,9 @@ void ETH_Loopback_Transfer (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_MAC_PTP_ControlTimer
+\brief Function: ETH_MAC_PTP_ControlTimer
 \details
-The test case \b ETH_MAC_PTP_ControlTimer verifies the PTP ControlTimer function with the sequence:
+The test function \b ETH_MAC_PTP_ControlTimer verifies the PTP ControlTimer function with the sequence:
   - Initialize 
   - Power on
   - Set Time
@@ -681,9 +703,9 @@ void ETH_MAC_PTP_ControlTimer (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: ETH_Loopback_PTP
+\brief Function: ETH_Loopback_PTP
 \details
-The test case \b ETH_Loopback_PTP verifies the Precision Time Protocol functions ControlTimer, GetRxFrameTime and 
+The test function \b ETH_Loopback_PTP verifies the Precision Time Protocol functions ControlTimer, GetRxFrameTime and 
 GetTxFrameTime with the sequence:
   - Initialize 
   - Power on
@@ -791,4 +813,4 @@ void ETH_Loopback_PTP (void) {
 /**
 @}
 */ 
-// end of group eth_funcs
+// end of group dv_eth

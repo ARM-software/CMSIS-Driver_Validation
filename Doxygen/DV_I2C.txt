@@ -1,0 +1,18 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup i2c_config Configuration
+\ingroup  dv_i2c
+
+The I2C driver validation settings are available in the <b>DV_I2C_Config.h</b> configuration file.
+
+\image html dv_i2c_config_h.png "DV_I2C_Config.h configuration file in Configuration Wizard view mode"
+
+\section i2c_config_detail Configuration settings
+
+<b>Driver_I2C#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_I2C2</c> then this setting would be set to <c>2</c>.
+
+<b>Tests</b> section contains selections of tests to be executed.
+For details on tests performed by each test function please refer to \ref i2c_tests "I2C Tests".
+
+*/

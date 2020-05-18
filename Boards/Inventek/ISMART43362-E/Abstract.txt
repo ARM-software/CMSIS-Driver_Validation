@@ -7,14 +7,14 @@ against the driver specification. Configure the tests as follows:
 
   - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
     are executed
-  - Test configuration options can be set with the Configuration Wizard in
+  - Test configuration options can be set with the Configuration Wizard in:
     DV_Config.h:
     - Test result output format (plain text/XML)
-    - Buffer sizes and patterns
-    - Driver numbers
+    DV_WiFi_Config.h:
+    - Driver number
     - Specific peripheral parameters
     - Enable/disable test cases
-  
+
 --------------------------------------------------------------------------------
 The following targets are available:
 
@@ -30,11 +30,11 @@ The following targets are available:
 Debugger : ULINKplus
 
 IMORTANT NOTE:
-  - Configure parameters in DV_Config.h under WiFi - Configuration to suit
+  - Configure parameters in DV_WiFi_Config.h under WiFi - Configuration to suit
     your testing environment
   - To run the tests the WiFi shield has to be reset by SW2 push-button and 
     in 5 seconds after that the debug session has to be started
     (the WiFi shield needs to be reset for initial cursor fetch and because 
      it cannot be reset by software it needs to be reset manually)
   - fsl_debug_console.c module is compiled with "__MCUXPRESSO" define which 
-    is used to prevent Debug Console to override putc and getc functions
+    is used to prevent Debug Console to override fputc and fgetc functions

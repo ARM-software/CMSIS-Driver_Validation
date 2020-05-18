@@ -1,12 +1,32 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_USART.c
- *      Purpose:      USART test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Universal Synchronous Asynchronous Receiver/Transmitter (USART) 
+ *              Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "cmsis_dv.h" 
-#include "DV_Config.h"
+#include "DV_USART_Config.h"
 #include "DV_Framework.h"
 #include "Driver_USART.h"
 #include <stdio.h>
@@ -181,14 +201,14 @@ int8_t USART_RunReceive_NoCallback (void *out, void *in, uint32_t cnt) {
 
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
 
  
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup usart_funcs USART Validation
-\brief USART test cases
+\defgroup dv_usart USART Validation
+\brief USART driver validation
 \details
 The USART validation test performs the following checks:
 - API interface compliance.
@@ -202,14 +222,18 @@ Loopback Communication Setup
 
 To perform loopback communication tests, it is required to connect the USART's \b TX signal to the \b RX signal (refer to the
 schematics of your target hardware for detailed pinout information).
+
+\defgroup usart_tests Tests
+\ingroup dv_usart
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: USART_GetCapabilities
+\brief Function: USART_GetCapabilities
 \details
-The test case \b USART_GetCapabilities verifies the function \b GetCapabilities.
+The test function \b USART_GetCapabilities verifies the function \b GetCapabilities.
 */
 void USART_GetCapabilities (void) {
   /* Get USART capabilities */
@@ -219,9 +243,9 @@ void USART_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Initialization
+\brief  Function: USART_Initialization
 \details
-The test case \b USART_Initialization verifies the USART functions with the sequence:
+The test function \b USART_Initialization verifies the USART functions with the sequence:
   - \b Initialize without callback
   - \b Uninitialize
   - \b Initialize with callback
@@ -244,9 +268,9 @@ void USART_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_CheckInvalidInit
+\brief  Function: USART_CheckInvalidInit
 \details
-The test case \b USART_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b USART_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -278,9 +302,9 @@ void USART_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_PowerControl
+\brief  Function: USART_PowerControl
 \details
-The test case \b USART_PowerControl verifies the \b PowerControl function with the sequence:
+The test function \b USART_PowerControl verifies the \b PowerControl function with the sequence:
  - Initialize with callback
  - Power on
  - Power low
@@ -310,9 +334,9 @@ void USART_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_PolarityPhase
+\brief  Function: USART_Config_PolarityPhase
 \details
-The test case \b USART_Config_PolarityPhase verifies the \b Control function with the sequence:
+The test function \b USART_Config_PolarityPhase verifies the \b Control function with the sequence:
  - Initialize with callback
  - Power on
  - Set basic SPI bus configuration
@@ -347,9 +371,9 @@ void USART_Config_PolarityPhase (void) {
   
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_DataBits
+\brief  Function: USART_Config_DataBits
 \details
-The test case \b USART_Config_DataBits verifies the \b Control function with the sequence:
+The test function \b USART_Config_DataBits verifies the \b Control function with the sequence:
  - Initialize with callback
  - Power on
  - Data bits = \token{5}
@@ -394,9 +418,9 @@ void USART_Config_DataBits (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_StopBits
+\brief  Function: USART_Config_StopBits
 \details
-The test case \b USART_Config_StopBits verifies the \b Control function with the sequence:
+The test function \b USART_Config_StopBits verifies the \b Control function with the sequence:
  - Initialize with callback
  - Power on
  - Stop bits = \token{1}
@@ -436,9 +460,9 @@ void USART_Config_StopBits (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_Parity
+\brief  Function: USART_Config_Parity
 \details
-The test case \b USART_Config_Parity verifies the \b Control function with the sequence:
+The test function \b USART_Config_Parity verifies the \b Control function with the sequence:
  - Initialize with callback
  - Power on
  - Sets parity bits: even parity
@@ -473,9 +497,9 @@ void USART_Config_Parity (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_Baudrate
+\brief  Function: USART_Config_Baudrate
 \details
-The test case \b USART_Config_Baudrate verifies the \b Control function and configures various baudrates with the sequence:
+The test function \b USART_Config_Baudrate verifies the \b Control function and configures various baudrates with the sequence:
  - Initialize with callback
  - Power on
  - Change bus speed 
@@ -507,9 +531,9 @@ void USART_Config_Baudrate (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Loopback_CheckBaudrate
+\brief  Function: USART_Loopback_CheckBaudrate
 \details
-The test case \b USART_Loopback_CheckBaudrate verifies the \b Control function, configures various baudrates, and measures
+The test function \b USART_Loopback_CheckBaudrate verifies the \b Control function, configures various baudrates, and measures
 the transfer time with this sequence:
 
  - Initialize with callback
@@ -518,8 +542,6 @@ the transfer time with this sequence:
  - Measure transfer time
  - Power off
  - Uninitialize
-
- \note If this test issues errors or warnings, refer to the \ref test_results section for more information.
 */
 void USART_Loopback_CheckBaudrate (void) { 
   uint16_t cnt;
@@ -592,9 +614,9 @@ void USART_Loopback_CheckBaudrate (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Config_CommonParams
+\brief  Function: USART_Config_CommonParams
 \details
-The test case \b USART_Config_CommonParams verifies the \b Control function with the sequence:
+The test function \b USART_Config_CommonParams verifies the \b Control function with the sequence:
  - Initialize with callback
  - Power on
  - Configure USART bus
@@ -622,9 +644,9 @@ void USART_Config_CommonParams (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Send
+\brief  Function: USART_Send
 \details
-The test case \b USART_Send verifies the \b Send function with the sequence:
+The test function \b USART_Send verifies the \b Send function with the sequence:
  - Initialize with callback
  - Power on
  - Send data using callback
@@ -673,9 +695,9 @@ void USART_Send (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_AsynchronousReceive
+\brief  Function: USART_AsynchronousReceive
 \details
-The test case \b USART_AsynchronousReceive verifies the \b Receive function with the sequence:
+The test function \b USART_AsynchronousReceive verifies the \b Receive function with the sequence:
  - Initialize with callback
  - Power on
  - Send data using callback
@@ -726,9 +748,9 @@ void USART_AsynchronousReceive (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USART_Loopback_Transfer
+\brief  Function: USART_Loopback_Transfer
 \details
-The test case \b USART_Loopback_Transfer verifies the \b Transfer function with the sequence:
+The test function \b USART_Loopback_Transfer verifies the \b Transfer function with the sequence:
  - Initialize with callback
  - Power on
  - Clear input buffer
@@ -813,7 +835,7 @@ void USART_Loopback_Transfer (void) {
 /**
 @}
 */ 
-// end of group usart_funcs
+// end of group dv_usart
 
   
 

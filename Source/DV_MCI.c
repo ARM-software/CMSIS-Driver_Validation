@@ -1,12 +1,31 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_MCI.c
- *      Purpose:      MCI test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/ 
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Memory Card Interface (MCI) Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "cmsis_dv.h" 
-#include "DV_Config.h"
+#include "DV_MCI_Config.h"
 #include "DV_Framework.h"
 #include "Driver_MCI.h"
 #include <stdio.h>
@@ -27,23 +46,27 @@ static void MCI_DrvEvent (uint32_t event) {
 }
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
  
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup mci_funcs MCI Validation
-\brief MCI test cases
+\defgroup dv_mci MCI Validation
+\brief MCI driver validation
 \details
 The MCI validation test checks the API interface compliance only.
+
+\defgroup mci_tests Tests
+\ingroup dv_mci
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: MCI_GetCapabilities
+\brief Function: MCI_GetCapabilities
 \details
-The test case \b MCI_GetCapabilities verifies the function \b GetCapabilities.
+The test function \b MCI_GetCapabilities verifies the function \b GetCapabilities.
 */
 void MCI_GetCapabilities (void) {                    
   /* Get USBD capabilities */
@@ -53,9 +76,9 @@ void MCI_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_Initialization
+\brief  Function: MCI_Initialization
 \details
-The test case \b MCI_Initialization verifies the MCI functions with the sequence:
+The test function \b MCI_Initialization verifies the MCI functions with the sequence:
   - \b Initialize without callback
   - \b Uninitialize
   - \b Initialize with callback
@@ -78,9 +101,9 @@ void MCI_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_CheckInvalidInit
+\brief  Function: MCI_CheckInvalidInit
 \details
-The test case \b MCI_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b MCI_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -107,9 +130,9 @@ void MCI_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_PowerControl
+\brief  Function: MCI_PowerControl
 \details
-The test case \b MCI_PowerControl verifies the \b PowerControl function with the sequence:
+The test function \b MCI_PowerControl verifies the \b PowerControl function with the sequence:
  - Initialize
  - Power on
  - Power low
@@ -139,9 +162,9 @@ void MCI_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_SetBusSpeedMode
+\brief  Function: MCI_SetBusSpeedMode
 \details
-The test case \b MCI_SetBusSpeedMode verifies the \b Control function and sets the bus speed with the sequence:
+The test function \b MCI_SetBusSpeedMode verifies the \b Control function and sets the bus speed with the sequence:
  - Initialize
  - Power on
  - default speed
@@ -201,9 +224,9 @@ void MCI_SetBusSpeedMode (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_Config_DataWidth
+\brief  Function: MCI_Config_DataWidth
 \details
-The test case \b MCI_Config_DataWidth verifies the \b Control function and set the data width with the sequence:
+The test function \b MCI_Config_DataWidth verifies the \b Control function and set the data width with the sequence:
  - Initialize
  - Power on
  - Default data width \token{1}
@@ -251,9 +274,9 @@ void MCI_Config_DataWidth (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_Config_CmdLineMode
+\brief  Function: MCI_Config_CmdLineMode
 \details
-The test case \b MCI_Config_CmdLineMode verifies the \b Control function with the sequence:
+The test function \b MCI_Config_CmdLineMode verifies the \b Control function with the sequence:
  - Initialize
  - Power on
  - Default push-pull
@@ -283,9 +306,9 @@ void MCI_Config_CmdLineMode (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: MCI_Config_DriverStrength
+\brief  Function: MCI_Config_DriverStrength
 \details
-The test case \b MCI_Config_DriverStrength verifies the \b Control function and sets the driver strength with the sequence:
+The test function \b MCI_Config_DriverStrength verifies the \b Control function and sets the driver strength with the sequence:
  - Initialize
  - Power on
  - Type A
@@ -330,4 +353,4 @@ void MCI_Config_DriverStrength (void) {
 /**
 @}
 */ 
-// end of group mci_funcs
+// end of group dv_mci

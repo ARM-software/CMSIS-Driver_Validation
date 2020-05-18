@@ -577,7 +577,7 @@
             <ldmm>1</ldmm>
             <ldXref>1</ldXref>
             <BigEnd>0</BigEnd>
-            <AdsALst>0</AdsALst>
+            <AdsALst>1</AdsALst>
             <AdsACrf>1</AdsACrf>
             <AdsANop>0</AdsANop>
             <AdsANot>0</AdsANot>
@@ -590,8 +590,8 @@
             <AdsLsun>1</AdsLsun>
             <AdsLven>1</AdsLven>
             <AdsLsxf>1</AdsLsxf>
-            <RvctClst>0</RvctClst>
-            <GenPPlst>0</GenPPlst>
+            <RvctClst>1</RvctClst>
+            <GenPPlst>1</GenPPlst>
             <AdsCpuType>"Cortex-M33"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>1</mOS>
@@ -905,7 +905,7 @@
     </apis>
     <components>
       <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.0.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev2"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -932,10 +932,15 @@
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib">
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib" isTargetSpecific="1">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
+        <targetInfos>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
@@ -1219,8 +1224,8 @@
       </file>
       <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.0">
         <instance index="0">RTE\CMSIS\RTX_Config.c</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0-dev1"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1228,8 +1233,8 @@
       </file>
       <file attr="config" category="header" name="CMSIS\RTOS2\RTX\Config\RTX_Config.h" version="5.5.1">
         <instance index="0">RTE\CMSIS\RTX_Config.h</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0-dev1"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1237,8 +1242,8 @@
       </file>
       <file attr="config" category="header" name="WiFi\ISM43362\Config\WiFi_ISM43362_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ISM43362_Config.h</instance>
-        <component Capiversion="1.1.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.5.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.1-dev3"/>
+        <component Capiversion="1.1.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.8.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
+        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.6.0-dev3"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1246,17 +1251,26 @@
       </file>
       <file attr="config" category="source" name="WiFi\ISM43362\Config\WiFi_ISM43362_HW.c" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ISM43362_HW.c</instance>
-        <component Capiversion="1.1.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.5.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.5.1-dev3"/>
+        <component Capiversion="1.1.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ISM43362" Cvariant="SPI" Cvendor="Keil" Cversion="1.8.0" condition="CMSIS Core with RTOS2 and SPI Driver"/>
+        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.6.0-dev3"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
+      <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev0"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.0.0">
+        <instance index="0">RTE\CMSIS_Driver_Validation\DV_WiFi_Config.h</instance>
+        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

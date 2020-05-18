@@ -1,0 +1,27 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup eth_config Configuration
+\ingroup  dv_eth
+
+The Ethernet driver validation settings are available in the <b>DV_ETH_Config.h</b> configuration file.
+
+\image html dv_eth_config_h.png "DV_ETH_Config.h configuration file in Configuration Wizard view mode"
+
+\section eth_config_detail Configuration settings
+
+<b>Driver_ETH_MAC#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_ETH_MAC2</c> then this setting would be set to <c>2</c>.
+
+<b>Link timeout</b> specifies timeout for link check, expressed in microseconds.
+
+<b>Transfer timeout</b> setting specifies maximum timeout for a transfer, expressed in microseconds.
+
+<b>Time duration for PTP Control Time</b> setting specifies referent time interval used for PTP testing, expressed in milliseconds.
+
+<b>Tolerance for PTP Control Time</b> setting specifies allowed deviation of measured time 
+in comparison to expected time in PTP frames, expressed in nanoseconds.
+
+<b>Tests</b> section contains selections of tests to be executed.
+For details on tests performed by each test function please refer to \ref eth_tests "Ethernet Tests".
+
+*/

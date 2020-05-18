@@ -165,13 +165,13 @@
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.5.1-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.5.1-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.6.0-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.6.0-dev3</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0-dev1\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.7.0-dev1</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -370,13 +370,13 @@
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.5.1-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.5.1-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.6.0-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.6.0-dev3</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0-dev1\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.7.0-dev1</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -453,7 +453,7 @@
 
   <Group>
     <GroupName>:STM32CubeMX:Common Sources</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

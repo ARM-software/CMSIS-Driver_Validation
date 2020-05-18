@@ -164,51 +164,19 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
-      <MemoryWindow1>
-        <Mm>
-          <WinNumber>1</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>spi_send_buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow1>
-      <MemoryWindow2>
-        <Mm>
-          <WinNumber>2</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>spi_recv_buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow2>
-      <MemoryWindow3>
-        <Mm>
-          <WinNumber>3</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>buffer</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow3>
-      <MemoryWindow4>
-        <Mm>
-          <WinNumber>4</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow4>
       <ScvdPack>
         <Filename>C:\Keil_v5\ARM\PACK\Keil\ARM_Compiler\1.6.2\EventRecorder.scvd</Filename>
         <Type>Keil.ARM_Compiler.1.6.2</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.5.1-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.5.1-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.6.0-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.6.0-dev3</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0-dev1\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.7.0-dev1</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -406,51 +374,19 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
-      <MemoryWindow1>
-        <Mm>
-          <WinNumber>1</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>spi_send_buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow1>
-      <MemoryWindow2>
-        <Mm>
-          <WinNumber>2</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>spi_recv_buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow2>
-      <MemoryWindow3>
-        <Mm>
-          <WinNumber>3</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>buffer</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow3>
-      <MemoryWindow4>
-        <Mm>
-          <WinNumber>4</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>buf</ItemText>
-          <AccSizeX>0</AccSizeX>
-        </Mm>
-      </MemoryWindow4>
       <ScvdPack>
         <Filename>C:\Keil_v5\ARM\PACK\Keil\ARM_Compiler\1.6.2\EventRecorder.scvd</Filename>
         <Type>Keil.ARM_Compiler.1.6.2</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.5.1-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
-        <Type>ARM.CMSIS-Driver.2.5.1-dev3</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS-Driver\2.6.0-dev3\WiFi\ISM43362\WiFi_ISM43362.scvd</Filename>
+        <Type>ARM.CMSIS-Driver.2.6.0-dev3</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0-dev1\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.7.0-dev1</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -527,7 +463,7 @@
 
   <Group>
     <GroupName>Sources</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -1,0 +1,28 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup usart_config Configuration
+\ingroup  dv_usart
+
+The USART driver validation settings are available in the <b>DV_USART_Config.h</b> configuration file.
+
+\image html dv_usart_config_h.png "DV_USART_Config.h configuration file in Configuration Wizard view mode"
+
+\section usart_config_detail Configuration settings
+
+<b>Driver_USART#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_USART2</c> then this setting would be set to <c>2</c>.
+
+<b>USART baudrates</b> section specifies which baudrate settings will be tested.
+If a setting is not to be tested then set the value to 0.
+
+<b>Percentual tolerance for baudrate test</b> setting specifies allowed deviation of measured baudrate 
+in comparison to requested baudrate, expressed in percents.
+
+<b>USART data bits</b> setting specifies number of data bits used for testing.
+
+<b>Transfer timeout</b> setting specifies maximum timeout for a transfer, expressed in microseconds.
+
+<b>Tests</b> section contains selections of tests to be executed.
+For details on tests performed by each test function please refer to \ref usart_tests "USART Tests".
+
+*/

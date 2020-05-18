@@ -1,12 +1,31 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_CAN.c
- *      Purpose:      CAN test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Controller Area Network (CAN) Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "cmsis_dv.h"
-#include "DV_Config.h"
+#include "DV_CAN_Config.h"
 #include "DV_Framework.h"
 #include "Driver_CAN.h"
 #include <stdio.h>
@@ -115,23 +134,27 @@ int8_t CAN_RunTransfer (uint32_t tx_obj_idx, ARM_CAN_MSG_INFO *tx_msg_info, cons
 
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup can_funcs CAN Validation
-\brief CAN test cases
+\defgroup dv_can CAN Validation
+\brief CAN driver validation
 \details
 The CAN validation test checks the API interface compliance.
+
+\defgroup can_tests Tests
+\ingroup dv_can
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: CAN_GetCapabilities
+\brief Function: CAN_GetCapabilities
 \details
-The test case \b CAN_GetCapabilities verifies the function \b GetCapabilities.
+The test function \b CAN_GetCapabilities verifies the function \b GetCapabilities.
 */
 void CAN_GetCapabilities (void) {
   /* Get CAN capabilities */
@@ -145,9 +168,9 @@ void CAN_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_Initialization
+\brief  Function: CAN_Initialization
 \details
-The test case \b CAN_Initialization verifies the CAN functions with the sequence:
+The test function \b CAN_Initialization verifies the CAN functions with the sequence:
   - Initialize  without callback
   - Uninitialize
   - Initialize with callback
@@ -170,9 +193,9 @@ void CAN_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_CheckInvalidInit
+\brief  Function: CAN_CheckInvalidInit
 \details
-The test case \b CAN_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b CAN_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - Uninitialize
   - PowerControl with Power off
   - PowerControl with Power on
@@ -203,9 +226,9 @@ void CAN_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_PowerControl
+\brief  Function: CAN_PowerControl
 \details
-The test case \b CAN_PowerControl verifies the \b PowerControl function with the sequence:
+The test function \b CAN_PowerControl verifies the \b PowerControl function with the sequence:
  - Initialize
  - Power on
  - Power low
@@ -235,9 +258,9 @@ void CAN_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_Loopback_CheckBitrate
+\brief  Function: CAN_Loopback_CheckBitrate
 \details
-The test case \b CAN_Loopback_CheckBitrate verifies different bitrates with the sequence:
+The test function \b CAN_Loopback_CheckBitrate verifies different bitrates with the sequence:
  - Initialize
  - Power on
  - Change bitrate
@@ -398,9 +421,9 @@ void CAN_Loopback_CheckBitrate (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_Loopback_CheckBitrateFD
+\brief  Function: CAN_Loopback_CheckBitrateFD
 \details
-The test case \b CAN_Loopback_CheckBitrateFD verifies different bitrates with the sequence:
+The test function \b CAN_Loopback_CheckBitrateFD verifies different bitrates with the sequence:
  - Initialize
  - Power on
  - Change bitrate
@@ -595,9 +618,9 @@ void CAN_Loopback_CheckBitrateFD (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_Loopback_Transfer
+\brief  Function: CAN_Loopback_Transfer
 \details
-The test case \b CAN_Loopback_Transfer verifies the data transfers with the sequence:
+The test function \b CAN_Loopback_Transfer verifies the data transfers with the sequence:
  - Initialize
  - Power on
  - Set filter with standard ID
@@ -788,9 +811,9 @@ void CAN_Loopback_Transfer (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: CAN_Loopback_TransferFD
+\brief  Function: CAN_Loopback_TransferFD
 \details
-The test case \b CAN_Loopback_TransferFD verifies the data transfers with the sequence:
+The test function \b CAN_Loopback_TransferFD verifies the data transfers with the sequence:
  - Initialize
  - Power on
  - Set filter with standard ID
@@ -1015,5 +1038,5 @@ void CAN_Loopback_TransferFD (void) {
 /**
 @}
 */
-// end of group can_funcs
+// end of group dv_can
 

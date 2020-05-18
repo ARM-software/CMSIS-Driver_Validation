@@ -103,7 +103,7 @@
         <bEvRecOn>1</bEvRecOn>
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
-        <nTsel>1</nTsel>
+        <nTsel>2</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -114,9 +114,14 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile>.\SaveXML.ini</tIfile>
-        <pMon>BIN\ULP2CM3.DLL</pMon>
+        <pMon>BIN\ULPL2CM3.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ULPL2CM3</Key>
+          <Name>-UL19881111A -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+        </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>ULP2CM3</Key>
@@ -155,8 +160,8 @@
       </TargetDriverDllRegistry>
       <Breakpoint/>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0-dev1\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.7.0-dev1</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -293,7 +298,7 @@
         <bEvRecOn>1</bEvRecOn>
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
-        <nTsel>1</nTsel>
+        <nTsel>2</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -304,9 +309,14 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile>.\STM32F2xx_TP.ini</tIfile>
-        <pMon>BIN\ULP2CM3.DLL</pMon>
+        <pMon>BIN\ULPL2CM3.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ULPL2CM3</Key>
+          <Name>-UL19881111A -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+        </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>ULP2CM3</Key>
@@ -345,8 +355,8 @@
       </TargetDriverDllRegistry>
       <Breakpoint/>
       <ScvdPack>
-        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
-        <Type>ARM.CMSIS.5.6.0</Type>
+        <Filename>C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Type>ARM.CMSIS.5.7.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -403,7 +413,7 @@
 
   <Group>
     <GroupName>Source Files</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

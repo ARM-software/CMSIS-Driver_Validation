@@ -1,9 +1,27 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_WIFI.c
- *      Purpose:      WiFi driver test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       WiFi Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
 
 /*
   Known limitations:
@@ -21,7 +39,7 @@
 */
 
 #include "cmsis_dv.h"
-#include "DV_Config.h"
+#include "DV_WiFi_Config.h"
 #include "DV_Framework.h"
 #include "Driver_WiFi.h"
 #include <stdio.h>
@@ -175,19 +193,22 @@ static void WIFI_DrvEvent (uint32_t evt, void *arg) {
 
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_funcs WiFi Validation
-\brief WiFi test cases
+\defgroup dv_wifi WiFi Validation
+\brief WiFi driver validation
 \details
 The WiFi validation test performs the following tests:
 - API interface compliance.
 - Some of the control and management operations.
 - Socket operation with various transfer sizes and communication parameters.
 - Socket performance.
+
+\defgroup wifi_tests Tests
+\ingroup dv_wifi
 */
 
 /* Helper function that initializes and powers on WiFi Module if not initialized and powered */
@@ -258,17 +279,17 @@ void WIFI_DV_Uninitialize (void) {
 /* WiFi Control tests */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_ctrl WiFi Control
-\ingroup wifi_funcs
+\defgroup wifi_ctrl Control
+\ingroup wifi_tests
 \details
 These tests verify API and operation of the WiFi control functions.
 @{
 */
 
 /**
-\brief Test case: WIFI_GetVersion
+\brief Function: WIFI_GetVersion
 \details
-The test case \b WIFI_GetVersion verifies the WiFi Driver \b GetVersion function.
+The test function \b WIFI_GetVersion verifies the WiFi Driver \b GetVersion function.
 \code
 ARM_DRIVER_VERSION (*GetVersion) (void);
 \endcode
@@ -286,9 +307,9 @@ void WIFI_GetVersion (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_GetCapabilities
+\brief Function: WIFI_GetCapabilities
 \details
-The test case \b WIFI_GetCapabilities verifies the WiFi Driver \b GetCapabilities function.
+The test function \b WIFI_GetCapabilities verifies the WiFi Driver \b GetCapabilities function.
 \code
 ARM_WIFI_CAPABILITIES (*GetCapabilities) (void);
 \endcode
@@ -318,9 +339,9 @@ void WIFI_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Initialize/Uninitialize
+\brief Function: WIFI_Initialize/Uninitialize
 \details
-The test case \b WIFI_Initialize_Uninitialize verifies the WiFi Driver \b Initialize and \b Uninitialize functions.
+The test function \b WIFI_Initialize_Uninitialize verifies the WiFi Driver \b Initialize and \b Uninitialize functions.
 \code
 int32_t (*Initialize) (ARM_WIFI_SignalEvent_t cb_event);
 \endcode
@@ -362,9 +383,9 @@ void WIFI_Initialize_Uninitialize (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_PowerControl
+\brief Function: WIFI_PowerControl
 \details
-The test case \b WIFI_PowerControl verifies the WiFi Driver \b PowerControl function.
+The test function \b WIFI_PowerControl verifies the WiFi Driver \b PowerControl function.
 \code
 int32_t (*PowerControl) (ARM_POWER_STATE state);
 \endcode
@@ -415,9 +436,9 @@ void WIFI_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_GetModuleInfo
+\brief Function: WIFI_GetModuleInfo
 \details
-The test case \b WIFI_GetModuleInfo verifies the WiFi Driver \b GetModuleInfo function.
+The test function \b WIFI_GetModuleInfo verifies the WiFi Driver \b GetModuleInfo function.
 \code
 int32_t (*GetModuleInfo) (char *module_info, uint32_t max_len);
 \endcode
@@ -469,8 +490,8 @@ void WIFI_GetModuleInfo (void) {
 /* WiFi Management tests */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_mgmt WiFi Management
-\ingroup wifi_funcs
+\defgroup wifi_mgmt Management
+\ingroup wifi_tests
 \details
 These tests verify API and operation of the WiFi management functions.
 @{
@@ -1066,7 +1087,7 @@ static void WIFI_SetOption_GetOption_MAC (void) {
     return;
   }
 
-// Read default MAC so it can be restored at the end of this test case
+// Read default MAC so it can be restored at the end of this test function
 #if ((WIFI_SETGETOPTION_MAC_EN & 3) == 3)
   if (((cap.station_ap != 0) || (cap.station != 0))) {
     len = 6U;
@@ -2301,12 +2322,12 @@ static void WIFI_SetOption_GetOption_IP_DHCP_LEASE_TIME (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_SetOption_GetOption
+\brief Function: WIFI_SetOption_GetOption
 \details
-The test case \b WIFI_SetOption_GetOption verifies the WiFi Driver \b SetOption and \b GetOption functions.
+The test function \b WIFI_SetOption_GetOption verifies the WiFi Driver \b SetOption and \b GetOption functions.
 (Options: ARM_WIFI_BSSID, ARM_WIFI_MAC, ARM_WIFI_IP, ARM_WIFI_IP_SUBNET_MASK, ARM_WIFI_IP_GATEWAY, ARM_WIFI_IP_DNS1,
 ARM_WIFI_IP_DNS2, ARM_WIFI_IP_DHCP_POOL_BEGIN, ARM_WIFI_IP_DHCP_POOL_END are checked with buffer not aligned to 4 bytes).<br>
-Tests for each option is conditionally executed depending on WIFI_SETGETOPTION_... settings in DV_Config.h file.
+Tests for each option is conditionally executed depending on WIFI_SETGETOPTION_... settings in DV_WiFi_Config.h file.
 \code
   int32_t (*SetOption) (uint32_t interface, uint32_t option, const void *data, uint32_t len);
 \endcode
@@ -2381,9 +2402,9 @@ void WIFI_SetOption_GetOption (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Scan
+\brief Function: WIFI_Scan
 \details
-The test case \b WIFI_Scan verifies the WiFi Driver \b Scan function.
+The test function \b WIFI_Scan verifies the WiFi Driver \b Scan function.
 \code
 int32_t (*Scan) (ARM_WIFI_SCAN_INFO_t scan_info[], uint32_t max_num);
 \endcode
@@ -2410,9 +2431,9 @@ void WIFI_Scan (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_Deactivate
+\brief Function: WIFI_Activate_Deactivate
 \details
-The test case \b WIFI_Activate_Deactivate verifies the WiFi Driver \b Activate and \b Deactivate functions.
+The test function \b WIFI_Activate_Deactivate verifies the WiFi Driver \b Activate and \b Deactivate functions.
 \code
 int32_t (*Activate) (uint32_t interface, const ARM_WIFI_CONFIG_t *config);
 \endcode
@@ -2637,9 +2658,9 @@ void WIFI_Activate_Deactivate (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_IsConnected
+\brief Function: WIFI_IsConnected
 \details
-The test case \b WIFI_IsConnected verifies the WiFi Driver \b IsConnected function.
+The test function \b WIFI_IsConnected verifies the WiFi Driver \b IsConnected function.
 \code
 uint32_t (*IsConnected) (void);
 \endcode
@@ -2671,9 +2692,9 @@ void WIFI_IsConnected (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_GetNetInfo
+\brief Function: WIFI_GetNetInfo
 \details
-The test case \b WIFI_GetNetInfo verifies the WiFi Driver \b GetNetInfo function.
+The test function \b WIFI_GetNetInfo verifies the WiFi Driver \b GetNetInfo function.
 \code
 int32_t (*GetNetInfo) (ARM_WIFI_NET_INFO_t *net_info);
 \endcode
@@ -2714,9 +2735,9 @@ void WIFI_GetNetInfo (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_AP
+\brief Function: WIFI_Activate_AP
 \details
-The test case \b WIFI_Activate_AP verifies the WiFi Driver \b Activate function AP operation.
+The test function \b WIFI_Activate_AP verifies the WiFi Driver \b Activate function AP operation.
 Test result is checked by connecting WiFi client to AP.
 */
 void WIFI_Activate_AP (void) {
@@ -2767,11 +2788,11 @@ void WIFI_Activate_AP (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_Station_WPS_PBC
+\brief Function: WIFI_Activate_Station_WPS_PBC
 \details
-The test case \b WIFI_Activate_Station_WPS_PBC verifies the WiFi Driver \b Activate function Station connection with WPS 
+The test function \b WIFI_Activate_Station_WPS_PBC verifies the WiFi Driver \b Activate function Station connection with WPS 
 and Push-Button Configuration method.
-This test case requires that test Access Point has active Push-button WPS method when test is started.
+This test function requires that test Access Point has active Push-button WPS method when test is started.
 Usually started on the WiFi AP (router) by pressing the WPS button.
 */
 void WIFI_Activate_Station_WPS_PBC (void) {
@@ -2811,11 +2832,11 @@ void WIFI_Activate_Station_WPS_PBC (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_Station_WPS_PIN
+\brief Function: WIFI_Activate_Station_WPS_PIN
 \details
-The test case \b WIFI_Activate_Station_WPS_PIN verifies the WiFi Driver \b Activate function Station connection with WPS 
+The test function \b WIFI_Activate_Station_WPS_PIN verifies the WiFi Driver \b Activate function Station connection with WPS 
 and PIN method.
-This test case requires that test Access Point has active PIN WPS method when test is started.
+This test function requires that test Access Point has active PIN WPS method when test is started.
 Usually needs to be configured on the WiFi AP (router).
 */
 void WIFI_Activate_Station_WPS_PIN (void) {
@@ -2856,9 +2877,9 @@ void WIFI_Activate_Station_WPS_PIN (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_AP_WPS_PBC
+\brief Function: WIFI_Activate_AP_WPS_PBC
 \details
-The test case \b WIFI_Activate_AP_WPS_PBC verifies the WiFi Driver \b Activate function AP WPS 
+The test function \b WIFI_Activate_AP_WPS_PBC verifies the WiFi Driver \b Activate function AP WPS 
 and Push-Button Configuration method functionality.
 Test result is checked by connecting the WiFi client to AP with WPS Push-Button Configuration method.
 */
@@ -2895,9 +2916,9 @@ void WIFI_Activate_AP_WPS_PBC (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: WIFI_Activate_AP_WPS_PIN
+\brief Function: WIFI_Activate_AP_WPS_PIN
 \details
-The test case \b WIFI_Activate_AP_WPS_PIN verifies the WiFi Driver \b Activate function AP WPS 
+The test function \b WIFI_Activate_AP_WPS_PIN verifies the WiFi Driver \b Activate function AP WPS 
 PIN method functionality.
 Test result is checked by connecting the WiFi client to AP with WPS PIN method.
 */
@@ -2942,8 +2963,8 @@ void WIFI_Activate_AP_WPS_PIN (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /**
-\defgroup wifi_sock_api WiFi Socket API
-\ingroup wifi_funcs
+\defgroup wifi_sock_api Socket API
+\ingroup wifi_tests
 \details 
 These tests verify API and operation of the WiFi socket functions.
 */
@@ -3045,6 +3066,7 @@ static void th_assert2_msg (const char *s1, int32_t r1, int32_t r2) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Create IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      af;
@@ -3055,6 +3077,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_CREATE;
+#endif
 
 /* Assign arguments */
 #define ARG_CREATE(_af,_type,_proto) do {                     \
@@ -3090,10 +3113,10 @@ __NO_RETURN static void Th_Create (IO_CREATE *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketCreate
+\brief  Function: WIFI_SocketCreate
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketCreate verifies the WiFi Driver \b SocketCreate function:
+The test function \b WIFI_SocketCreate verifies the WiFi Driver \b SocketCreate function:
 \code
 int32_t (*SocketCreate) (int32_t af, int32_t type, int32_t protocol);
 \endcode
@@ -3242,6 +3265,7 @@ void WIFI_SocketCreate (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Bind IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t        sock;
   const uint8_t *ip;
@@ -3253,6 +3277,7 @@ typedef struct {
   osThreadId_t   owner;
   uint32_t       xid;
 } IO_BIND;
+#endif
 
 /* Assign arguments */
 #define ARG_BIND(_sock,_ip,_ip_len,_port) do {                   \
@@ -3299,10 +3324,10 @@ __NO_RETURN static void Th_Bind (IO_BIND *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketBind
+\brief  Function: WIFI_SocketBind
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketBind verifies the WiFi Driver \b SocketBind function:
+The test function \b WIFI_SocketBind verifies the WiFi Driver \b SocketBind function:
 \code
 int32_t (*SocketBind) (int32_t socket, const uint8_t *ip, uint32_t  ip_len, uint16_t  port);
 \endcode
@@ -3549,6 +3574,7 @@ void WIFI_SocketBind (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Listen IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      backlog;
@@ -3557,6 +3583,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_LISTEN;
+#endif
 
 /* Assign arguments */
 #define ARG_LISTEN(_sock,_backlog) do {                     \
@@ -3607,10 +3634,10 @@ __NO_RETURN static void Th_Listen (IO_LISTEN *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketListen
+\brief  Function: WIFI_SocketListen
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketListen verifies the WiFi Driver \b SocketListen function:
+The test function \b WIFI_SocketListen verifies the WiFi Driver \b SocketListen function:
 \code
 int32_t (*SocketListen) (int32_t socket, int32_t backlog);
 \endcode
@@ -3774,6 +3801,7 @@ void WIFI_SocketListen (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Accept IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint8_t     *ip;
@@ -3785,6 +3813,7 @@ typedef struct {
   uint32_t     xid;
   const char  *cmd;
 } IO_ACCEPT;
+#endif
 
 /* Assign arguments */
 #define ARG_ACCEPT(_sock,_ip,_ip_len,_port) do {                   \
@@ -3877,10 +3906,10 @@ __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketAccept
+\brief  Function: WIFI_SocketAccept
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketAccept verifies the WiFi Driver \b SocketAccept function:
+The test function \b WIFI_SocketAccept verifies the WiFi Driver \b SocketAccept function:
 \code
 int32_t (*SocketAccept) (int32_t socket, uint8_t *ip, uint32_t *ip_len, uint16_t *port);
 \endcode
@@ -4106,6 +4135,7 @@ void WIFI_SocketAccept (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Connect IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t        sock;
   const uint8_t *ip;
@@ -4117,6 +4147,7 @@ typedef struct {
   osThreadId_t   owner;
   uint32_t       xid;
 } IO_CONNECT;
+#endif
 
 /* Assign arguments */
 #define ARG_CONNECT(_sock,_ip,_ip_len,_port) do {                   \
@@ -4175,10 +4206,10 @@ __NO_RETURN static void Th_Connect (IO_CONNECT *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketConnect
+\brief  Function: WIFI_SocketConnect
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketConnect verifies the WiFi Driver \b SocketConnect function:
+The test function \b WIFI_SocketConnect verifies the WiFi Driver \b SocketConnect function:
 \code
 int32_t (*SocketConnect) (int32_t socket, const uint8_t *ip, uint32_t  ip_len, uint16_t  port);
 \endcode
@@ -4490,6 +4521,7 @@ void WIFI_SocketConnect (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Recv IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint8_t     *buf;
@@ -4500,6 +4532,7 @@ typedef struct {
   uint32_t     xid;
   uint32_t     tval;
 } IO_RECV;
+#endif
 
 /* Assign arguments */
 #define ARG_RECV(_sock,_buf,_len) do {               \
@@ -4565,7 +4598,7 @@ __NO_RETURN static void Th_Recv (IO_RECV *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketRecv
+\brief  Function: WIFI_SocketRecv
 \ingroup wifi_sock_api
 \details
 Test case \b WIFI_SocketRecv verifies the WiFi Driver \b SocketRecv function:
@@ -4777,6 +4810,7 @@ void WIFI_SocketRecv (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* RecvFrom IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint8_t     *buf;
@@ -4790,6 +4824,7 @@ typedef struct {
   uint32_t     xid;
   uint32_t     tout;
 } IO_RECVFROM;
+#endif
 
 /* Assign arguments */
 #define ARG_RECVFROM(_sock,_buf,_len,_ip,_ip_len,_port) do {                   \
@@ -4853,10 +4888,10 @@ __NO_RETURN static void Th_RecvFrom (IO_RECVFROM *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketRecvFrom
+\brief  Function: WIFI_SocketRecvFrom
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketRecvFrom verifies the WiFi Driver \b SocketRecvFrom function:
+The test function \b WIFI_SocketRecvFrom verifies the WiFi Driver \b SocketRecvFrom function:
 \code
 int32_t (*SocketRecvFrom) (int32_t socket, void *buf, uint32_t len, uint8_t *ip, uint32_t *ip_len, uint16_t *port);
 \endcode
@@ -5000,6 +5035,7 @@ void WIFI_SocketRecvFrom (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Send IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t        sock;
   const uint8_t *buf;
@@ -5009,6 +5045,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_SEND;
+#endif
 
 /* Assign arguments */
 #define ARG_SEND(_sock,_buf,_len) do {               \
@@ -5066,10 +5103,10 @@ __NO_RETURN static void Th_Send (IO_SEND *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketSend
+\brief  Function: WIFI_SocketSend
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketSend verifies the WiFi Driver \b SocketSend function:
+The test function \b WIFI_SocketSend verifies the WiFi Driver \b SocketSend function:
 \code
 int32_t (*SocketSend) (int32_t socket, const void *buf, uint32_t len);
 \endcode
@@ -5280,6 +5317,7 @@ void WIFI_SocketSend (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* SendTo IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t        sock;
   const uint8_t *buf;
@@ -5293,6 +5331,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_SENDTO;
+#endif
 
 /* Assign arguments */
 #define ARG_SENDTO(_sock,_buf,_len,_ip,_ip_len,_port) do {                   \
@@ -5343,10 +5382,10 @@ __NO_RETURN static void Th_SendTo (IO_SENDTO *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketSendTo
+\brief  Function: WIFI_SocketSendTo
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketSend verifies the WiFi Driver \b SocketSendTo function:
+The test function \b WIFI_SocketSend verifies the WiFi Driver \b SocketSendTo function:
 \code
 int32_t (*SocketSendTo) (int32_t socket, const void *buf, uint32_t len, const uint8_t *ip, uint32_t ip_len, uint16_t port);
 \endcode
@@ -5453,6 +5492,7 @@ void WIFI_SocketSendTo (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* GetSockName IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint8_t     *ip;
@@ -5463,6 +5503,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_GETSOCKNAME;
+#endif
 
 /* Assign arguments */
 #define ARG_GETSOCKNAME(_sock,_ip,_ip_len,_port) do {                   \
@@ -5521,10 +5562,10 @@ __NO_RETURN static void Th_GetSockName (IO_GETSOCKNAME *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketGetSockName
+\brief  Function: WIFI_SocketGetSockName
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketGetSockName verifies the WiFi Driver \b SocketGetSockName function:
+The test function \b WIFI_SocketGetSockName verifies the WiFi Driver \b SocketGetSockName function:
 \code
 int32_t (*SocketGetSockName) (int32_t socket, uint8_t *ip, uint32_t *ip_len, uint16_t *port);
 \endcode
@@ -5823,6 +5864,7 @@ void WIFI_SocketGetSockName (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* GetPeerName IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint8_t     *ip;
@@ -5833,6 +5875,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_GETPEERNAME;
+#endif
 
 /* Assign arguments */
 #define ARG_GETPEERNAME(_sock,_ip,_ip_len,_port) do {                   \
@@ -5896,10 +5939,10 @@ __NO_RETURN static void Th_GetPeerName (IO_GETPEERNAME *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketGetPeerName
+\brief  Function: WIFI_SocketGetPeerName
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketGetPeerName verifies the WiFi Driver \b SocketGetPeerName function:
+The test function \b WIFI_SocketGetPeerName verifies the WiFi Driver \b SocketGetPeerName function:
 \code
 int32_t (*SocketGetPeerName) (int32_t socket, uint8_t *ip, uint32_t *ip_len, uint16_t *port);
 \endcode
@@ -6154,6 +6197,7 @@ void WIFI_SocketGetPeerName (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* GetOpt IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      opt_id;
@@ -6164,6 +6208,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_GETOPT;
+#endif
 
 /* Assign arguments */
 #define ARG_GETOPT(_sock,_opt_id,_opt_val,_opt_len) do {                     \
@@ -6212,10 +6257,10 @@ __NO_RETURN static void Th_GetOpt (IO_GETOPT *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketGetOpt
+\brief  Function: WIFI_SocketGetOpt
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketGetOpt verifies the WiFi Driver \b SocketGetOpt function:
+The test function \b WIFI_SocketGetOpt verifies the WiFi Driver \b SocketGetOpt function:
 \code
 int32_t (*SocketGetOpt) (int32_t socket, int32_t opt_id, void *opt_val, uint32_t *opt_len);
 \endcode
@@ -6421,6 +6466,7 @@ void WIFI_SocketGetOpt (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* SetOpt IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      opt_id;
@@ -6431,6 +6477,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_SETOPT;
+#endif
 
 /* Assign arguments */
 #define ARG_SETOPT(_sock,_opt_id,_opt_val,_opt_len) do {                     \
@@ -6478,10 +6525,10 @@ __NO_RETURN static void Th_SetOpt (IO_SETOPT *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketSetOpt
+\brief  Function: WIFI_SocketSetOpt
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketSetOpt verifies the WiFi Driver \b SocketSetOpt function:
+The test function \b WIFI_SocketSetOpt verifies the WiFi Driver \b SocketSetOpt function:
 \code
 int32_t (*SocketSetOpt) (int32_t socket, int32_t opt_id, const void *opt_val, uint32_t opt_len);
 \endcode
@@ -6664,6 +6711,7 @@ void WIFI_SocketSetOpt (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Close IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      rc;
@@ -6671,6 +6719,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_CLOSE;
+#endif
 
 /* Assign arguments */
 #define ARG_CLOSE(_sock) do {               \
@@ -6726,10 +6775,10 @@ __NO_RETURN static void Th_Close (IO_CLOSE *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketClose
+\brief  Function: WIFI_SocketClose
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketClose verifies the WiFi Driver \b SocketClose function:
+The test function \b WIFI_SocketClose verifies the WiFi Driver \b SocketClose function:
 \code
 int32_t (*SocketClose) (int32_t socket);
 \endcode
@@ -6908,6 +6957,7 @@ void WIFI_SocketClose (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* GetHostByName IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   const char  *name;
   int32_t      af;
@@ -6918,6 +6968,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_GETHOST;
+#endif
 
 /* Assign arguments */
 #define ARG_GETHOST(_name,_af,_ip,_ip_len) do {                   \
@@ -6950,10 +7001,10 @@ __NO_RETURN static void Th_GetHostByName (IO_GETHOST *io) {
 }
 
 /**
-\brief  Test case: WIFI_SocketGetHostByName
+\brief  Function: WIFI_SocketGetHostByName
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_SocketGetHostByName the WiFi Driver \b SocketGetHostByName function:
+The test function \b WIFI_SocketGetHostByName the WiFi Driver \b SocketGetHostByName function:
 \code
 int32_t (*SocketGetHostByName) (const char *name, int32_t af, uint8_t *ip, uint32_t *ip_len);
 \endcode
@@ -7063,6 +7114,7 @@ void WIFI_SocketGetHostByName (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Ping IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   const uint8_t *ip;
   uint32_t       ip_len;
@@ -7071,6 +7123,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
 } IO_PING;
+#endif
 
 /* Assign arguments */
 #define ARG_PING(_ip,_ip_len) do {                   \
@@ -7101,10 +7154,10 @@ __NO_RETURN static void Th_Ping (IO_PING *io) {
 }
 
 /**
-\brief  Test case: WIFI_Ping
+\brief  Function: WIFI_Ping
 \ingroup wifi_sock_api
 \details
-The test case \b WIFI_Ping verifies the WiFi Driver \b Ping function:
+The test function \b WIFI_Ping verifies the WiFi Driver \b Ping function:
 \code
 int32_t (*Ping) (const uint8_t *ip, uint32_t ip_len);
 \endcode
@@ -7168,8 +7221,8 @@ void WIFI_Ping (void) {
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /**
-\defgroup wifi_sock_op WiFi Socket Operation
-\ingroup wifi_funcs
+\defgroup wifi_sock_op Socket Operation
+\ingroup wifi_tests
 \details 
 These tests verify operation of the WiFi socket functions.
 */
@@ -7184,6 +7237,7 @@ These tests verify operation of the WiFi socket functions.
 */
 
 /* Transfer IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   uint32_t     len;
@@ -7194,6 +7248,7 @@ typedef struct {
   uint32_t     xid;
   int32_t      tcp;
 } IO_TRANSFER;
+#endif
 
 /* Assign arguments */
 #define ARG_TRANSFER(_sock,_len,_size) do {               \
@@ -7327,10 +7382,10 @@ __NO_RETURN static void Th_Transfer (IO_TRANSFER *io) {
 }
 
 /**
-\brief  Test case: WIFI_Transfer_Fixed
+\brief  Function: WIFI_Transfer_Fixed
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Transfer_Fixed verifies data transfer in fixed size blocks.
+The test function \b WIFI_Transfer_Fixed verifies data transfer in fixed size blocks.
  
 Stream socket test: 
  - Create stream socket
@@ -7471,10 +7526,10 @@ void WIFI_Transfer_Fixed (void) {
 }
 
 /**
-\brief  Test case: WIFI_Transfer_Incremental
+\brief  Function: WIFI_Transfer_Incremental
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Transfer_Incremental verifies data transfer in ascending size blocks.
+The test function \b WIFI_Transfer_Incremental verifies data transfer in ascending size blocks.
 Each subsequent block that the socket sends is one byte larger than the previous block.
 
 Stream socket test:
@@ -7626,10 +7681,10 @@ void WIFI_Transfer_Incremental (void) {
 }
 
 /**
-\brief  Test case: WIFI_Send_Fragmented
+\brief  Function: WIFI_Send_Fragmented
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Send_Fragmented verifies data transfer in chunks.
+The test function \b WIFI_Send_Fragmented verifies data transfer in chunks.
 
 Stream socket test:
  - Create stream socket
@@ -7708,10 +7763,10 @@ void WIFI_Send_Fragmented (void) {
 }
 
 /**
-\brief  Test case: WIFI_Recv_Fragmented
+\brief  Function: WIFI_Recv_Fragmented
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Recv_Fragmented verifies data transfer in chunks.
+The test function \b WIFI_Recv_Fragmented verifies data transfer in chunks.
 
 Stream socket test:
  - Create stream socket
@@ -7790,10 +7845,10 @@ void WIFI_Recv_Fragmented (void) {
 }
 
 /**
-\brief  Test case: WIFI_Test_Speed
+\brief  Function: WIFI_Test_Speed
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Test_Speed tests data transfer speed.
+The test function \b WIFI_Test_Speed tests data transfer speed.
 
 Stream socket test:
  - Create stream socket
@@ -7911,10 +7966,12 @@ void WIFI_Test_Speed (void) {
 }
 
 /* Sidekick IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t  sock;
   uint32_t count;
 } IO_SIDEKICK;
+#endif
 
 /* Concurrent coworker thread */
 __NO_RETURN static void Th_Sidekick (IO_SIDEKICK *io2) {
@@ -7939,10 +7996,10 @@ __NO_RETURN static void Th_Sidekick (IO_SIDEKICK *io2) {
 }
 
 /**
-\brief  Test case: WIFI_Concurrent_Socket
+\brief  Function: WIFI_Concurrent_Socket
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Concurrent_Socket verifies transfer of two concurrent sockets.
+The test function \b WIFI_Concurrent_Socket verifies transfer of two concurrent sockets.
 
 Stream socket test:
  - Create two stream sockets
@@ -8149,6 +8206,7 @@ void WIFI_Concurrent_Socket (void) {
 #define TEST_BSIZE          1420
 
 /* StreamRate IO parameters */
+#ifndef __DOXYGEN__                     // Exclude form the documentation
 typedef struct {
   int32_t      sock;
   int32_t      rc;
@@ -8158,6 +8216,7 @@ typedef struct {
   int32_t      loss;
   const char  *cmd;
 } IO_STREAMRATE;
+#endif
 
 /* StreamRate coworker thread */
 __NO_RETURN static void Th_StreamRate (IO_STREAMRATE *io) {
@@ -8231,10 +8290,10 @@ __NO_RETURN static void Th_StreamRate (IO_STREAMRATE *io) {
 }
 
 /**
-\brief  Test case: WIFI_Downstream_Rate
+\brief  Function: WIFI_Downstream_Rate
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Downstream_Rate tests the maximum rate at which the data
+The test function \b WIFI_Downstream_Rate tests the maximum rate at which the data
 can be received.
 */
 void WIFI_Downstream_Rate (void) {
@@ -8299,10 +8358,10 @@ void WIFI_Downstream_Rate (void) {
 }
 
 /**
-\brief  Test case: WIFI_Upstream_Rate
+\brief  Function: WIFI_Upstream_Rate
 \ingroup wifi_sock_op
 \details
-The test case \b WIFI_Upstream_Rate tests the maximum rate at which the data
+The test function \b WIFI_Upstream_Rate tests the maximum rate at which the data
 can be sent.
 */
 void WIFI_Upstream_Rate (void) {

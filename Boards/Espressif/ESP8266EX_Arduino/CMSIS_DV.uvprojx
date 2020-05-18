@@ -880,7 +880,7 @@
     </apis>
     <components>
       <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.0.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev0"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev2"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1174,8 +1174,8 @@
       </file>
       <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.0">
         <instance index="0">RTE\CMSIS\RTX_Config.c</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0-dev5"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1183,8 +1183,8 @@
       </file>
       <file attr="config" category="header" name="CMSIS\RTOS2\RTX\Config\RTX_Config.h" version="5.5.1">
         <instance index="0">RTE\CMSIS\RTX_Config.h</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5 Lib"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0-dev5"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1193,16 +1193,25 @@
       <file attr="config" category="header" name="WiFi\ESP8266\Config\WiFi_ESP8266_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver\WiFi_ESP8266_Config.h</instance>
         <component Capiversion="1.1.0" Cclass="CMSIS Driver" Cgroup="WiFi" Csub="ESP8266" Cvariant="UART" Cvendor="Keil" Cversion="1.2.0" condition="CMSIS Core with RTOS2 and USART Driver"/>
-        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.6.0-dev1"/>
+        <package name="CMSIS-Driver" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.6.0-dev3"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Source\Config\DV_Config.h" version="1.2.3">
+      <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="1.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="1.5.0-dev0"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev0"/>
+        <targetInfos>
+          <targetInfo name="Debug"/>
+          <targetInfo name="Release"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.0.0">
+        <instance index="0">RTE\CMSIS_Driver_Validation\DV_WiFi_Config.h</instance>
+        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi"/>
+        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1215,18 +1224,6 @@
         <targetInfos>
           <targetInfo name="Debug"/>
         </targetInfos>
-      </file>
-      <file attr="config" category="header" name="MIMXRT1064.h" version="1.0.0">
-        <instance index="0" removed="1">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064.h</instance>
-        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
-        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="header" name="MIMXRT1064_features.h" version="1.0.0">
-        <instance index="0" removed="1">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064_features.h</instance>
-        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
-        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos/>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1064xxxxx_flexspi_nor.scf" version="1.0.0">
         <instance index="0">RTE\Device\MIMXRT1064DVL6A\MIMXRT1064xxxxx_flexspi_nor.scf</instance>
@@ -1281,12 +1278,6 @@
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
-      </file>
-      <file attr="config" category="header" name="fsl_device_registers.h" version="1.0.0">
-        <instance index="0" removed="1">RTE\Device\MIMXRT1064DVL6A\fsl_device_registers.h</instance>
-        <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1064_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_CMSIS_Include_core_cm7"/>
-        <package license="Licenses.txt" name="MIMXRT1064_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos/>
       </file>
       <file attr="config" category="sourceAsm" condition="mdk" name="arm\startup_MIMXRT1064.s" version="1.0.0">
         <instance index="0">RTE\Device\MIMXRT1064DVL6A\startup_MIMXRT1064.s</instance>

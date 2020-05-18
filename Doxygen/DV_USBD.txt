@@ -1,7 +1,26 @@
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
+\defgroup usbd_config Configuration
+\ingroup  dv_usbd
+
+The USB Device driver validation settings are available in the <b>DV_USBD_Config.h</b> configuration file.
+
+\image html dv_usbd_config_h.png "DV_USBD_Config.h configuration file in Configuration Wizard view mode"
+
+\section usbd_config_detail Configuration settings
+
+<b>Driver_USBD#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_USBD2</c> then this setting would be set to <c>2</c>.
+
+<b>Tests</b> section contains selections of tests to be executed.
+For details on tests performed by each test function please refer to \ref usbd_tests "USB Device Tests".
+
+*/
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
 \defgroup usbd_comp_test USB Compliance Tests 
-\ingroup usbd_funcs
+\ingroup dv_usbd
 
 USB drivers need to be tested against the requirements of the USB standard. The following tools are provided by the
 <a href="http://www.usb.org" target="_blank">USB Implementers Forum</a>: 
@@ -23,16 +42,16 @@ Then, follow these steps to run the verification tools on a Windows PC:
 - Open the Windows Device Manager and select <b>View - Devices by connection</b> to view the USB host controllers available
   on the PC:
 
-  \image html USB_Test_DevManager.png "Select USB Device"
+  \image html usbd_dev_manager.png "Select USB Device"
 
 - Expand the entry and verify the controller properties to which your device is connected. Remember the location of the
   controller that will be tested:
   
-  \image html USB_Test_DevLocation.png "Device Location"
+  \image html usbd_dev_location.png "Device Location"
 
 - Run the USB Command Verifier tool and select the controller according to the location found in the previous step:
 
-  \image html USB_Test_selectDevice.png "Select Controller"
+  \image html usbd_select_device.png "Select Controller"
 
 \note 
 Do not test the controller that is connected to the keyboard or mouse. All devices connected to the tested controller will
@@ -41,7 +60,7 @@ stop working.
 - When selecting the <b>Compliance Test</b> mode all test cases will run. In the <b>Debug</b> mode, you can choose individual
   test cases by selecting the related check boxes. Test reports are saved automatically in the \b Reports directory.
 
-\image html USB_Test_CommandVerifier.png "Compliance Tests"
+\image html usbd_command_verifier.png "Compliance Tests"
 The following tests should be executed for:
  - USB Mass Storage Class: Chapter 9 Tests + MSC Tests
  - USB HID class: Chapter 9 Tests + HID Tests

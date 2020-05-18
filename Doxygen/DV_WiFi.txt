@@ -1,7 +1,7 @@
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_requirements WiFi Requirements
-\ingroup wifi_funcs
+\defgroup wifi_requirements Requirements
+\ingroup dv_wifi
 
 The WiFi driver validation requires the following hardware:
 - WiFi Access Point connected to the local network
@@ -15,15 +15,16 @@ The WiFi driver validation requires the following software:
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_config WiFi Configuration
-\ingroup wifi_funcs
+\defgroup wifi_config Configuration
+\ingroup dv_wifi
 
-The WiFi driver validation settings are available in the \c DV_Config.h file.
+The WiFi driver validation settings are available in the <b>DV_WiFi_Config.h</b> configuration file.
 
-Some settings depend on the test environment and need to be changed for proper operation of WiFi driver validation.
-These settings can be found under WiFi <b>Configuration</b> settings in the \c DV_Config.h file and need to be set as follows:
+Some settings depend on the test environment and need to be changed for proper operation of the WiFi driver validation.<br>
+These settings can be found under <b>Configuration</b> settings in the <b>DV_WiFi_Config.h</b> configuration file and need to 
+be set as follows:
 
-\image html dv_config_h_wifi_config.png "DV_Config.h header file in Configuration Wizard view mode"
+\image html dv_wifi_config_h.png "DV_WiFi_Config.h configuration file in Configuration Wizard view mode"
 
 <b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:
 - SSID
@@ -45,24 +46,25 @@ These settings can be found under WiFi <b>Configuration</b> settings in the \c D
 
 \note IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).
 
-Under <b>Test Cases</b> select testing functionality as required.
+Under <b>Tests</b> select testing functionality as required.
+For details on tests performed by each test function please refer to \ref wifi_tests "WiFi Tests".
 
 <b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable 
 WiFi Driver API function tests respectively.
 
 <b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
-are used for more complex operational test of the WiFi driver.
+are used for more complex operational test of the WiFi driver.<br>
 A brief description of each test functionality can be viewed by using 
 <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
-view of the \c DV_Config.h file and clicking on the test or hovering a mouse pointer over it.
+view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a mouse pointer over it.
 
 */
 
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_sock_setup WiFi SockServer 
-\ingroup wifi_funcs
+\defgroup wifi_sock_setup SockServer 
+\ingroup dv_wifi
 
 The \b SockServer is an application providing a set of services used by the WiFi CMSIS-Driver Validation suite to test the
 Socket interface of the WiFi driver. It is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
@@ -217,7 +219,7 @@ static void app_main (void *argument) {
   osThreadNew(TestAssistant, NULL, NULL);
 }
 \endcode
--# Increase the default RTX stack size to 400 bytes in \b RTX_Config.h
+-# Increase the default RTX stack size to 400 bytes in <b>RTX_Config.h</b>
 \code
 #define OS_STACK_SIZE           400
 \endcode
@@ -237,8 +239,8 @@ Problems and solutions:
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup wifi_sock_testing WiFi Socket testing
-\ingroup wifi_funcs
+\defgroup wifi_sock_testing Socket testing
+\ingroup dv_wifi
 
 Due to limitations of WiFi modules and their Software Development Kits (SDK), often it is not possible to comply with
 CMSIS-Driver BSD rules regarding function behavior or function return codes. Hence, the WiFi Driver tests accept alternative

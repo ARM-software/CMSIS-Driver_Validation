@@ -2,48 +2,50 @@
 /**
 \mainpage Introduction
 
-This manual explains the scope and the usage of the Software Pack for \b CMSIS-Driver \b Validation.
+This manual explains the scope and the usage of the Software Pack for <b>CMSIS-Driver Validation</b>.<br>
 <a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> specifies the 
 software API for peripheral driver interfaces that connect microcontroller peripherals with middleware or the user application. 
 
-The Software Pack for CMSIS-Driver validation provides:
-  - Configurable validation tests for several CMSIS-Driver interfaces
-  - Example projects that show the usage of the CMSIS-Driver validation
+The CMSIS-Driver Validation is used to validate the driver implementation compliance to the CMSIS-Driver specification.
+
+The CMSIS-Driver Validation provides:
+  - Configurable validation tests for various CMSIS-Driver interfaces
+  - Example projects that show the usage of the CMSIS-Driver Validation
 
 The CMSIS-Driver Validation tests and verifies:
-  - \b API \b interface \b interaction using the driver capabilities as well as valid and invalid parameters.
-  - \b Data \b communication with various transfer sizes and communication parameters (i.e. baudrate).
-  - \b Loopback \b communication (for some interfaces) for testing the underlying hardware.
-  - \b Transfer \b speed of the data communication with time measurement of data transfers.
+  - <b>API interface</b> using the driver capabilities as well as valid and invalid parameters
+  - <b>Data communication</b> with various transfer sizes and communication parameters:
+    - <b>Loopback testing</b> (for some interfaces) for testing of the underlying hardware with usage of a local loopback
+    - <b>Server testing</b> (for some interfaces) for extensive testing of the underlying hardware with usage of a dedicated Server
+  - <b>Transfer speed</b> of the data communication with time measurement of data transfer duration
+  - <b>Error event</b> signaling in error conditions
 
 The CMSIS-Driver Validation requires
 <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
-used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate
-implementation of a CMSIS-Driver interface.
+used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.<br>
 
-The diagram below is an overview of the configuration for CMSIS-Driver validation.
+The diagram below shows an overview of the CMSIS-Driver Validation configuration.
 
-\image html DVSuite.png
+\image html cmsis_dv.png
 
 This manual contains the following chapters:
-  - \ref test_setup - Describes the general setup of the CMSIS-Driver validation test and how to generate test output.
-  - \ref test_results - Explains how to interpret the test results from loopback tests.
-  - \ref examples - Contains information of several example projects including the required hardware setup.
-  - \ref resource_requirements - Lists memory and CMSIS-RTOS requirements.
-  - <a class="el" href="./modules.html">Reference</a> - explains the individual tests for the various CMSIS-Driver
-    interfaces.
+  - \ref setup                 - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.
+  - \ref report                - Describes the reports produced by the CMSIS-Driver Validation.
+  - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
+  - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
+  - \ref examples              - Contains information about several example projects including the required hardware setup.
+  - <a class="el" href="./modules.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
 
-The Software Pack for CMSIS-Driver validation current tests the following interfaces:
-  - \ref can_funcs - Controller Area Network (CAN) peripheral.
-  - \ref eth_funcs - Interface to Ethernet MAC and PHY peripheral.
-  - \ref i2c_funcs - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.
-  - \ref mci_funcs - Memory card interface for SD/MMC memory.
-  - \ref spi_funcs - Serial Peripheral Interface (SPI) driver.
-  - \ref usart_funcs - Universal Synchronous and Asynchronous Receiver/Transmitter
-    (USART) interface driver.
-  - \ref usbd_funcs - Universal Serial Bus (USB) Device interface driver.
-  - \ref usbh_funcs - Universal Serial Bus (USB) Host interface driver.
-  - \ref wifi_funcs - WiFi (Wireless Fidelity Interface) module driver.
+The CMSIS-Driver Validation provides validation for the following interfaces:
+  - \ref dv_can   "CAN"        - Controller Area Network (CAN) interface driver.
+  - \ref dv_eth   "Ethernet"   - Ethernet MAC and PHY peripheral interface driver.
+  - \ref dv_i2c   "I2C"        - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.
+  - \ref dv_mci   "MCI"        - Memory Card Interface driver for SD/MMC memory.
+  - \ref dv_spi   "SPI"        - Serial Peripheral Interface (SPI) driver.
+  - \ref dv_usart "USART"      - Universal Synchronous and Asynchronous Receiver/Transmitter (USART) interface driver.
+  - \ref dv_usbd  "USB Device" - Universal Serial Bus (USB) Device interface driver.
+  - \ref dv_usbh  "USB Host"   - Universal Serial Bus (USB) Host interface driver.
+  - \ref dv_wifi  "WiFi"       - WiFi (Wireless Fidelity Interface) module/shield driver.
 
 This manual assumes that you are familiar with MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
@@ -59,30 +61,17 @@ Revision History
       <th>Description</th>
     </tr>
     <tr>
-      <td>V1.5.0-dev1</td>
-      <td>
-        - Updated examples using NXP MIMXRT1064-EVK board to support the latest MIMXRT1064_DFP
-      </td>
-    </tr>
-    <tr>
-      <td>V1.5.0-dev0</td>
+      <td>V2.0.0-dev3</td>
       <td>
         - Removed bundle
+        - Changed configuration from single config file to a config file per component
+        - Updated framework allowing linker to remove unused test functions
+        - Reworked SPI Driver testing (major)
+        - Added SPI_Server application for Keil MCBSTM32F400 evaluation board
         - Added requirements for CMSIS driver API versions
         - Updated WiFi Driver tests (WiFi Driver API V1.1)
         - Updated all examples
-      </td>
-    </tr>
-    <tr>
-      <td>V1.4.1-dev1</td>
-      <td>
         - Deprecated CMSIS-RTOS1
-      </td>
-    </tr>
-    <tr>
-      <td>V1.4.1-dev0</td>
-      <td>
-        - Updated framework allowing linker to remove unused test functions
       </td>
     </tr>
     <tr>
@@ -126,235 +115,375 @@ Revision History
       </td>
     </tr>
  </table>
-*/
 
+
+*/
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\page test_setup Test Setup
+\page setup Setup
 
-\section step1 Step 1: Create an MDK project with your target microcontroller device
+\section step1 Step 1: Create an MDK project for your target microcontroller device
 
 
-\section step2 Step 2: Add required software components
+\section step2 Step 2: Add the required software components
 
 For proper operation, add the following software components in the <b>Manage Run-Time Environment</b> window:
-- <b>CMSIS Driver Validation:Framework</b>
-- <b>CMSIS Driver Validation:driver</b>, driver interfaces to be tested
-- <b>CMSIS Driver:driver</b>, driver implementations to be tested
-- <b>CMSIS:RTOS2 (API):Keil RTX5</b>
-- <b>Compiler:I/O:STDOUT</b>, variant \b ITM (if your hardware does not support ITM select \b User or \b EVR)
-- Resolve any unresolved component dependecies
+- <b>CMSIS Driver Validation: Framework</b>
+- <b>CMSIS Driver Validation: driver</b>, driver interfaces to be tested
+- <b>CMSIS Driver: driver</b>, driver implementations to be tested
+- <b>CMSIS: RTOS2 (API): Keil RTX5</b>
+- <b>Compiler: I/O: STDOUT</b>, variant \b ITM (if your hardware does not support ITM select \b EVR to use Event Recorder instead of ITM)
+- Resolve any unresolved component dependencies
 
 
-\section step3 Step 3: Add main.c
+\section step3 Step 3: Add the application's main file (main.c)
 
-Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>. Select <b>User Code Template</b> and choose the
-\b main file from <b>Device:Startup</b> or <b>CMSIS-RTOS2:Keil RTX5</b>.
+Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the
+<b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>.
 
 Add this include:
 \code
-include "cmsis_dv.h"
+#include "cmsis_dv.h"
 \endcode
 
-In the main function, after kernel initialization, create the \c cmsis_dv thread:
+In the <c>app_main</c> function, create the \c cmsis_dv thread, before endless <c>for</c> loop:
 \code
 osThreadNew(cmsis_dv, NULL, NULL);
 \endcode
-to run all tests that you have chosen in the next step.
+to run all the tests that you have chosen in the next step.
 
 
-\section step4 Step 4: Configure DV_Config.h
+\section step4 Step 4: Configure the CMSIS-Driver Validation framework in DV_Config.h file
 
-Open \c DV_Config.h under the <b>CMSIS Driver Validation</b> group in the Project window.
+Open <b>DV_Config.h</b> under the <b>CMSIS Driver Validation</b> group in the Project window.
 
-\image html dv_config_h.png "Configuration File DV_Config.h"
+In the configuration file <b>DV_Config.h</b> select <b>Plain Text</b> as the <b>Report Format</b>.
 
-<b>Common Test Settings</b>
+\section step5 Step 5: Configure the interface settings and tests in related DV_interface_Config.h files
 
-The common test settings help you to choose the output format of the test, buffer sizes and buffer content that should
-be used for the send, receive, and transfer tests:
-- The \b Print \b Output \b Format lets you select if you wish to create the output as plain text or as styled XML.
-- \b Buffer \b sizes lets you select the buffer sizes that are used for data transfer. This setting has a direct impact on
-  required \ref step6 "heap".
-- You can specify also the <b>Buffer size for baudrate test</b>. For USART you can set the <b>Percentual tolerance for baudrate 
-  test</b> and for SPI the <b>Percentual trigger for bus speed test</b>. Depending on the device \ref step7 "configuration", for 
-  example when DMA is not used, the transfers may have larger overhead which is more significant for higher bus speeds. The 
-  transfer overhead is reduced for larger transfer buffer sizes.
-- Select your preferred <b>Buffer pattern</b>
+Each interface has a related <b>DV_<i>interface</i>_Config.h</b> file, where <i>interface</i> represents interface's acronym or abbreviation.<br>
+For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.
 
-<b>Driver-specific Settings</b>
-
-Every interface has specific settings that can be changed in the according section:
-- You need to specify the driver instance number (<b>Driver_<i>interface</i>#</b>) used for the test. This is especially
-  important for microcontroller devices that have multiple peripherals of the same kind.
-- Some drivers can have additional baudrate or timing settings.
-- Select all driver tests that you wish to use. Note that all tests can run independently from each other. You do not need to
-  specify a certain order.
-
-\note For more information on additional settings and the different driver test cases, check the
-<a class="el" href="./modules.html">Reference</a> section.
-\note For WiFi driver validation some settings depend on the test environment and they need to be set properly, 
-for details please refer to \ref wifi_config section.
+For details on interface specific configuration and test selection please check the Configuration section in the 
+<a class="el" href="./modules.html">Reference</a> of the related interface.
 
 
-\section step5 Step 5: Configure Keil RTX5
+\section step6 Step 6: Configure the Heap memory
 
-Open \b RTX_Config.h and set:
-- <b>Default Thread stack size [bytes]</b> to \a 2048
-- <b>Global Dynamic Memory size [bytes]</b> to \a 8192 (Note 1)
+Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these 
+buffers to be allocated.<br>
+Depending on how heap is configured in your system, open your <b>startup_<i>device</i>.s</b> file from the \b Device group in the \b Project window 
+or use a <b>linker script</b> to adjust the heap size.<br>
+Set the <b>heap size</b> to minimum of <b>16384</b> bytes.
 
-\note Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.
-
-\section step6 Step 6: Configure Heap
-
-Depending on the buffer sizes that you have chosen in \ref step4 "Step 4", you need to add more heap. Depending on how heap is 
-configured in your system open your startup_<i>device</i>.s file from the \b Device group in the \b Project window or use a 
-linker script to adjust the heap setting. Click on the 
-<a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a> view. 
-Increase the heap size:
-- for the validation framework add 1024 bytes.
-- double the largest buffer size you have set in the configuration file and add this as well.
-
-Refer to the \ref resource_requirements section for a calculation example.
+For details on heap requirements please refer to the \ref heap_req "Heap Memory requirements" documentation.
 
 
-\section step7 Step 7: Configure the Device
+\section step7 Step 7: Configure the CMSIS-RTOS2 (Keil RTX5)
+
+Open <b>RTX_Config.h</b> and set:
+- <b>System Configuration: Global Dynamic Memory size [bytes]</b> to \a 16384
+- <b>Thread configuration: Default Thread stack size [bytes]</b> to \a 3072
+
+For details on CMSIS-RTOS2 requirements please refer to the \ref rtos2_req "CMSIS-RTOS2 requirements" documentation.
+
+\section step8 Step 8: Configure the Device
 
 Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device
-using the \c RTE_Device.h file from the \b Device group. Enable all interfaces you wish to use in the tests and make all
-necessary pin-out changes required by your actual board layout (consult the board schematics). The \ref examples "examples" 
-are already configured for the underlying hardware.
+using the \c RTE_Device.h file from the \b Device group or with a vendor provided pin configuration tool. 
+Enable all interfaces you wish to test and make all necessary pin-out changes required by your actual board layout (consult the board schematics).<br> 
+You can check the provided \ref examples "examples" as a reference point.
 
 For a robust test with good coverage, implement various targets with different settings:
-- \b Enable/disable the \b DMA controller of your device
-- Set different \b buffer \b sizes in \ref step4 "DV_Config.h"
-- Select different compiler \b optimization \b levels in the
+- Use <b>non-DMA (IRQ)</b> and <b>DMA</b> configurations if they are available on the driver
+- Use different compiler <b>optimization levels</b> in the
   <a href="http://www.keil.com/support/man/docs/uv4/uv4_dg_adscc.htm" target="_blank">C/C++ tab</a> of the
-  <b>Options for Target</b> dialog.
+  <b>Options for Target</b> dialog
 
 
-\section step8 Step 8: Setup Additional Hardware
+\section step9 Step 9: Setup the required hardware
 
-For the interfaces that support loopback testing: \ref eth_funcs "Ethernet", \ref spi_funcs "SPI", and \ref usart_funcs "USART", 
+For the interfaces that support loopback testing: \ref dv_eth "Ethernet", \ref dv_usart "USART" and \ref dv_spi "SPI", 
 connect the following pins on your target hardware together (refer to the hardware schematics):
 
 - Ethernet: RX+ and TX+, RX- and TX-
-- SPI: MISO and MOSI
-- USART: RX and TX
+- USART:    RX and TX
+- SPI:      MOSI and MISO
 
-For WiFi specific hardware requirements please refer to \ref wifi_requirements.
+For the interfaces that support testing with dedicated server: \ref dv_wifi "WiFi" and \ref dv_spi "SPI", 
+connect the related hardware as required by the related server:
 
-\section step9 Step 9: Download and Run the Project
+- WiFi: WiFi module has to be in close proximity to the Access Point which is in the same network as the required \ref wifi_sock_setup
+- SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
+
+
+\section step10 Step 10: Download and Run the Project
 
 In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as standard output channel ensure that 
-\b Trace and ITM port \token{0} are enabled and that the correct clock frequency is set:
+\b Trace and <b>ITM port 0</b> are enabled and that the correct <b>Core Clock</b> frequency is set:
 
 \image html target_dialog.png "ITM Channel setting"
 
-Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window:
-
+Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window.<br>
+Example below shows output result of an SPI driver testing:
 \verbatim
-CMSIS-Driver ETH Test Report   Nov 15 2019   15:25:59 
+CMSIS-Driver SPI Test Report   May  4 2020   14:06:23 
 
-TEST 01: ETH_MAC_GetCapabilities          PASSED
-TEST 02: ETH_MAC_Initialization           PASSED
-TEST 03: ETH_MAC_PowerControl             
-  DV_ETH.c (163): [WARNING] Low power is not supported
+TEST 01: SPI_GetVersion                   
+  DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15
                                           PASSED
-TEST 04: ETH_MAC_SetBusSpeed              
-  DV_ETH.c (197): [WARNING] Link speed 1G is not supported
+TEST 02: SPI_GetCapabilities              PASSED
+TEST 03: SPI_Initialize_Uninitialize      PASSED
+TEST 04: SPI_PowerControl                 
+  DV_SPI.c (1314): [WARNING] PowerControl (ARM_POWER_LOW) is not supported
                                           PASSED
-TEST 05: ETH_MAC_Config_Mode              PASSED
-TEST 06: ETH_MAC_Config_CommonParams      PASSED
-TEST 07: ETH_PHY_Initialization           PASSED
-TEST 08: ETH_PHY_PowerControl             
-  DV_ETH.c (300): [WARNING] Low power is not supported
+TEST 05: SPI_Mode_Master_SS_Unused        PASSED
+TEST 06: SPI_Mode_Master_SS_Sw_Ctrl       PASSED
+TEST 07: SPI_Mode_Master_SS_Hw_Ctrl_Out   PASSED
+TEST 08: SPI_Mode_Master_SS_Hw_Mon_In     PASSED
+TEST 09: SPI_Mode_Slave_SS_Hw_Mon         PASSED
+TEST 10: SPI_Mode_Slave_SS_Sw_Ctrl        PASSED
+TEST 11: SPI_Format_Clock_Pol0_Pha0       PASSED
+TEST 12: SPI_Format_Clock_Pol0_Pha1       PASSED
+TEST 13: SPI_Format_Clock_Pol1_Pha0       PASSED
+TEST 14: SPI_Format_Clock_Pol1_Pha1       PASSED
+TEST 15: SPI_Format_Frame_TI              PASSED
+TEST 16: SPI_Format_Clock_Microwire       NOT EXECUTED
+TEST 17: SPI_Data_Bits_1                  NOT EXECUTED
+TEST 18: SPI_Data_Bits_2                  NOT EXECUTED
+TEST 19: SPI_Data_Bits_3                  NOT EXECUTED
+TEST 20: SPI_Data_Bits_4                  NOT EXECUTED
+TEST 21: SPI_Data_Bits_5                  NOT EXECUTED
+TEST 22: SPI_Data_Bits_6                  NOT EXECUTED
+TEST 23: SPI_Data_Bits_7                  NOT EXECUTED
+TEST 24: SPI_Data_Bits_8                  PASSED
+TEST 25: SPI_Data_Bits_9                  NOT EXECUTED
+TEST 26: SPI_Data_Bits_10                 NOT EXECUTED
+TEST 27: SPI_Data_Bits_11                 NOT EXECUTED
+TEST 28: SPI_Data_Bits_12                 NOT EXECUTED
+TEST 29: SPI_Data_Bits_13                 NOT EXECUTED
+TEST 30: SPI_Data_Bits_14                 NOT EXECUTED
+TEST 31: SPI_Data_Bits_15                 NOT EXECUTED
+TEST 32: SPI_Data_Bits_16                 PASSED
+TEST 33: SPI_Data_Bits_17                 NOT EXECUTED
+TEST 34: SPI_Data_Bits_18                 NOT EXECUTED
+TEST 35: SPI_Data_Bits_19                 NOT EXECUTED
+TEST 36: SPI_Data_Bits_20                 NOT EXECUTED
+TEST 37: SPI_Data_Bits_21                 NOT EXECUTED
+TEST 38: SPI_Data_Bits_22                 NOT EXECUTED
+TEST 39: SPI_Data_Bits_23                 NOT EXECUTED
+TEST 40: SPI_Data_Bits_24                 NOT EXECUTED
+TEST 41: SPI_Data_Bits_25                 NOT EXECUTED
+TEST 42: SPI_Data_Bits_26                 NOT EXECUTED
+TEST 43: SPI_Data_Bits_27                 NOT EXECUTED
+TEST 44: SPI_Data_Bits_28                 NOT EXECUTED
+TEST 45: SPI_Data_Bits_29                 NOT EXECUTED
+TEST 46: SPI_Data_Bits_30                 NOT EXECUTED
+TEST 47: SPI_Data_Bits_31                 NOT EXECUTED
+TEST 48: SPI_Data_Bits_32                 NOT EXECUTED
+TEST 49: SPI_Bit_Order_MSB_LSB            PASSED
+TEST 50: SPI_Bit_Order_LSB_MSB            PASSED
+TEST 51: SPI_Bus_Speed_Min                PASSED
+TEST 52: SPI_Bus_Speed_Max                
+  DV_SPI.c (3524): [WARNING] At requested bus speed of 10000000 bps, effective bus speed is 6477809 bps
                                           PASSED
-TEST 09: ETH_PHY_Config                   PASSED
-TEST 10: ETH_Loopback_Transfer            PASSED
-TEST 11: ETH_PHY_CheckInvalidInit         NOT EXECUTED
-TEST 12: ETH_MAC_CheckInvalidInit         NOT EXECUTED
+TEST 53: SPI_Number_Of_Items              PASSED
+TEST 54: SPI_Abort                        PASSED
+TEST 55: SPI_DataLost                     PASSED
+TEST 56: SPI_ModeFault                    PASSED
 
-Test Summary: 12 Tests, 10 Passed, 0 Failed.
+Test Summary: 56 Tests, 25 Passed, 0 Failed.
 Test Result: PASSED
 \endverbatim
 
-If you see warnings during loopback transfer tests, please read the section \ref test_results which gives you more
-information on how to interpret the results.
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\page test_results Reading Test Results
+\page report Report
 
-The tests \ref SPI_Loopback_CheckBusSpeed and \ref USART_Loopback_CheckBaudrate may issue warnings when using the default
-settings (especially loopback communication tests for SPI and USART):
+The CMSIS-Driver Validation can output the test report in a <b>Plain Text</b> format or as an <b>XML</b> formatted output.<br>
+Selection of the output report type is done in the <b>DV_Config.h</b> configuration file.
+
+\image html dv_config_h.png "Configuration file DV_Config.h in Configuration Wizard view mode"
+
+The <b>Plain Text</b> selection instructs the CMSIS-Driver Validation framework to generate a plain text report 
+which can be seen in the <b>Debug (printf) Viewer</b> window and is mostly used for driver debugging purposes 
+but can also be used as a final report.
+
+The <b>XML</b> selection instructs the CMSIS-Driver Validation framework to generate an XML formatted report 
+which is meant to be used as a final report and can be viewed nicely in any Web browser.<br>
+
+The report file can be written into a <b>TestReport.xml</b> file directly by the uVision with an additional debugger script 
+called <b>SaveXML.ini</b> which needs to specified as <b>Initialization File:</b> for the <b>Debugger</b> in the 
+<b>Options for target</b> dialog, or it can be copy-pasted manually from the <b>Debug (printf) Viewer</b> window to 
+the TestReport.xml file.<br>
+The SaveXML.ini script can be found in <c>\<pack root directory\></c><b>\\Scripts</b> directory.
+
+To view <b>TestReport.xml</b> file in a Web browser an additional style sheet <b>TR_Style.xsl</b> file needs to be 
+in the same directory as the TestReport.xml file.<br>
+The TR_Style.xsl file contains the description of formatting for the Web browser to display the TestReport.xml report and 
+can be found in <c>\<pack root directory\></c><b>\\Scripts</b> directory.
+
+
+The XML file uses coloring to differentiate the results in the following way:
+ - <span style="font-weight:bold; color:Green">Passed</span> status means that test function has passed successfully.
+ - <span style="font-weight:bold; color:DarkOrange">Passed</span> status means that test function has passed but there were some warnings 
+     (<c>More details</c> can be used to see the details about warnings).
+ - <span style="font-weight:bold; color:Blue">Not executed</span> status means that test function did not check any assertions.
+ - <span style="font-weight:bold; color:Red">Failed</span> status means that test function has failed 
+     (<c>More details</c> can be used to see the details on reasons of failure).
+
+*/
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page debugging Debugging
+
+After running the CMSIS-Driver Validation output report is used to see if the driver is compliant to the CMSIS-Driver specification.
+
+If the result of the driver testing under <c>Test Summary</c> contains any <c>Failed</c> tests then the driver needs to be corrected.
+
+Example of report in the Plain Text format of a non-compliant SPI driver:
 \verbatim
-CMSIS-Driver SPI Test Report   Nov 15 2019   15:35:11 
+CMSIS-Driver SPI Test Report   May  6 2020   10:47:11 
 
-TEST 01: SPI_GetCapabilities              PASSED
-TEST 02: SPI_Initialization               PASSED
-TEST 03: SPI_PowerControl                 
-  DV_SPI.c (244): [WARNING] Low power is not supported
+TEST 01: SPI_GetVersion                   
+  DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15
                                           PASSED
-TEST 04: SPI_Config_PolarityPhase         PASSED
-TEST 05: SPI_Config_DataBits              PASSED
-TEST 06: SPI_Config_BitOrder              
-  DV_SPI.c (315): [WARNING] Bit order LSB_MSB is not supported
+TEST 02: SPI_GetCapabilities              PASSED
+TEST 03: SPI_Initialize_Uninitialize      
+  DV_SPI.c (1106): [FAILED]
+  DV_SPI.c (1109): [FAILED]
+  DV_SPI.c (1112): [FAILED]
+                                          FAILED
+TEST 04: SPI_PowerControl                 
+  DV_SPI.c (1314): [WARNING] PowerControl (ARM_POWER_LOW) is not supported
                                           PASSED
-TEST 07: SPI_Config_SSMode                
-  DV_SPI.c (343): [WARNING] Slave select MASTER_HW_INPUT is not supported
-                                          PASSED
-TEST 08: SPI_Config_BusSpeed              PASSED
-TEST 09: SPI_Config_CommonParams          PASSED
-TEST 10: SPI_Send                         PASSED
-TEST 11: SPI_Receive                      PASSED
-TEST 12: SPI_Loopback_CheckBusSpeed       
-  DV_SPI.c (525): [WARNING] At 25000kHz: measured time is 2.437125 x expected time
-                                          PASSED
-TEST 13: SPI_Loopback_Transfer            PASSED
-TEST 14: SPI_CheckInvalidInit             NOT EXECUTED
+...
+
+Test Summary: 56 Tests, 24 Passed, 1 Failed.
+Test Result: FAILED
 \endverbatim
 
-The measured time is depending mainly on two factors: \b DMA and \b software \b overhead.
+From previous report it is clear that there was one test function has failed.<br>
+By Inspecting the details in previous report it is clear that <c>TEST 03: SPI_Initialize_Uninitialize</c> has failed 
+on multiple assertions.<br>
+Each failed assertion is recorded as a single  line in the test report.<br>
+The failed assert information in the output report contains additional information about the <b>source module</b> and <b>line</b> 
+in that module where the assertion is located as well as any optional additional debugging info.
 
-If you are not using \b DMA for data transfer, an interrupt is generated, in worst case, for every transferred byte. The
-interrupt handling overhead for each byte can produce 10 times slower transfer than DMA. DMA will transfer the data
-without overhead. Thus, only bus speed/baudrate tests with DMA enabled should be considered for
-optimization. In case DMA cannot be used (because no DMA channel is left to be used for example), the user needs to be aware
-that the data rates will decrease significantly.
+The documentation can be consulted regarding the failed function, for example in previous case 
+documentation on the \ref SPI_Initialize_Uninitialize can be consulted.
 
-The \b software \b overhead is introduced by the way the measurement is done. When the measurement is started a system tick 
-value is stored and then the transfer is set up and started. The software then needs to determine when the transfer 
-has ended and calculate required time difference by using previously stored system ticks and current system ticks.
-Usually, the software overhead is a constant number of CPU cycles. The total amount of time required for the software overhead 
-depends on the actual CPU that is used and on the optimization level used during build. \n
-Increasing the <b>Buffer size for baudrate test</b> reduces the software overhead effect. The following calculation example
-explains why.
+Main way of fixing the driver consists of opening reported file mentioned as failed and inspecting the 
+line in which failure was reported.
 
-\b Calculation \b Example
+In the previous report, opening <b>DV_SPI.c</b> module (available in the project) and inspecting the <b>1106</b> line 
+which states:
+\verbatim
+  // Driver is uninitialized and peripheral is powered-off:
+  // Call PowerControl(ARM_POWER_FULL) function and assert that it returned ARM_DRIVER_ERROR status
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_ERROR);
+\endverbatim
 
-SPI bus speed = 25 Mbps
+informs us that call to <c>PowerControl (ARM_POWER_FULL)</c>, when driver is not initialized, is expected to 
+return <c>ARM_DRIVER_ERROR</c> status code but it has returned a different status code instead.
 
-- Buffer size for baudrate tests = 512 byte (default value, equals 512 * 8 bit)
-- Actual bus speed = 18 Mbps (read from driver)
-- Expected time to transfer data = 227 µs (512 * 8 bit/18 Mbps)
-- Measured time = 245 µs = 227 µs + 18 µs (coming from a software overhead)
-- This results in a measured/expected time ratio of 1.08 which will lead to a warning
+We should put a breakpoint to this line and start the debug session.<br>
+When the breakpoint is hit we can see that a call to <c>PowerControl (ARM_POWER_FULL)</c> has returned <c>ARM_DRIVER_OK</c> 
+instead of expected <c>ARM_DRIVER_ERROR</c> status code.
 
-Using a buffer size of 8192 bytes in the example above will reduce the software overhead to less than 1% (which will issue no
-warning anymore).
+We can now go into source code of the driver and fix this.
+
+After we have fixed the driver, the report now looks like below:
+
+\verbatim
+CMSIS-Driver SPI Test Report   May  6 2020   11:15:30 
+
+TEST 01: SPI_GetVersion                   
+  DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15
+                                          PASSED
+TEST 02: SPI_GetCapabilities              PASSED
+TEST 03: SPI_Initialize_Uninitialize      PASSED
+TEST 04: SPI_PowerControl                 
+  DV_SPI.c (1314): [WARNING] PowerControl (ARM_POWER_LOW) is not supported
+                                          PASSED
+...
+
+Test Summary: 56 Tests, 25 Passed, 0 Failed.
+Test Result: PASSED
+\endverbatim
+
+The fix for the assertion failing in line 1106 was has also fixed subsequent assertions 
+in lines 1109 and 1112 thus the driver now reports no failed tests and reports that all 
+of the 25 executed tests have passed.
+
+This report could be used as an insurance that the SPI Driver on this device is compliant to the CMSIS-Driver specification.
+
+The TestReport.xml report created instead of Plain Text opened in a Web browser looks like on the picture below:
+
+\image html xml_report.png "XML test report"
+
 */
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page resource_requirements Resource Requirements
 
+\section heap_req Heap Memory
+Heap memory is used by the memory allocation functions.<br>
+It is usually configured in the <a class="el" href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" target="_blank">startup_device.s</a>
+file located under the \b Device component class but it can also, in some cases,  be configured by a <b>linker script</b> instead.
 
+Some interface test functions allocate additional buffers from the heap memory.
+
+The CMSIS-Driver Validation framework does not impose heap requirements because it does not use heap memory.
+
+Each interface test module has specific requirements for the heap memory, default requirements are listed below:
+
+| Interface test module   | Heap memory requirement (in bytes) |
+| :---------------------: | :--------------------------------: |
+| CAN                     | 128                                |
+| Ethernet                | 1024                               |
+| SPI                     | 12288                              |
+| USART                   | 2048                               |
+
+Interface test modules that are not listed in the previous table do not use heap memory.
+
+The system heap memory size must support the largest heap requirement of any used interface test module.<br>
+For example, if SPI driver testing is selected heap memory size should be set to at least 12 kB.
+
+Suggested value for heap memory size is <b>16384</b> bytes.
+
+\note Each module contains additional settings in related configuration file which are not exposed through 
+      Configuration Wizard and impact the heap memory requirement.<br>
+      If these values are changed please adjust heap memory size accordingly.
+
+\section rtos2_req CMSIS-RTOS2
+
+The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the
+<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
+
+For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
+requirements are configured in the
+<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
+under the \b CMSIS component class:
+
+| Option                                                            | Value                              |
+| :---------------------------------------------------------------- | :--------------------------------: |
+| System Configuration: Global Dynamic Memory size [bytes] (Note 1) | 16384                              |
+| Thread Configuration: Default Thread Stack size [bytes]           | 3072                               |
+
+\note Note 1: This setting is only necessary for WiFi driver testing, for other driver testing value of 4096 bytes is sufficient.
+
+*/
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples Examples
 
-This Software Pack contains a set of examples that show how to use the validation suite together with real
-hardware. The following example projects are available. Use
-<a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine:
+The CMSIS-Driver Validation Software Pack contains a set of examples that show how to use the CMSIS-Driver Validation on 
+a real hardware.<br>
+Use <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine.
+
+The following example projects are available:
 
 - \subpage examples_xmc4500_relax
 - \subpage examples_mcbstm32f200
@@ -370,14 +499,10 @@ hardware. The following example projects are available. Use
 Targets
 -------
 
-All projects contain two targets:
-- <b>Create Report</b>: Test results and statistics are printed to the file \c TestReport\TestReport.xml. 
-  Open the file in a web browser of your choice.
-  \note <span style="font-weight:bold; color:Green">Passed</span> Status means that test case has passed sucessfully.
-  \note <span style="font-weight:bold; color:DarkOrange">Passed</span> Status means that tests case has passed but there were some warnings (More details can be used to see the details).
-  \note <span style="font-weight:bold; color:Blue">Not executed</span> Status means test case did not check any assertions.
-  \note <span style="font-weight:bold; color:Red">Failed</span> Status means test case has failed (More details can be used to see the details).
-- \b Debug: Results and statistics are printed to the Debug (printf) Viewer window through the standard output.
+Example projects contain some of the following targets:
+- <b>Create Report</b>: Test results and statistics are printed to the <b>TestReport\TestReport.xml</b> file. Open the file in a Web browser of your choice.
+- \b Debug: Results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
+- \b Release: Same as the Debug target but with higher level of code optimization selected.
 */
 
 
@@ -388,27 +513,26 @@ All projects contain two targets:
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>Infineon::XMC4000_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
--# Run the test on the target hardware using the on-board JLink-Lite debug adapter.
+-# Run the validation on the target hardware using the on-board JLink-Lite debugger.
 
 Hardware Setup
 --------------
 
 The following picture shows the necessary external loopback connections for the Infineon XMC4500 Relax Kit evaluation board:
- - UART2: \b P0.4 (UART2_RX)  and \b P0.5 (UART2_TX)  (Header X2)
- - SPI0:  \b P5.0 (SPI0_MOSI) and \b P5.1 (SPI0_MISO) (Header X2)
- - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+ - <b>UART2</b>: \b P0.4 (UART2_RX)  and \b P0.5 (UART2_TX)  (Header X2)
+ - <b>SPI0</b>:  \b P5.0 (SPI0_MOSI) and \b P5.1 (SPI0_MISO) (Header X2)
+ - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 
-\image html xmc4500.png  "Connections for Loop Back Communication Tests on Infineon XMC4500 Relax Kit"
+\image html xmc4500.png  "Connections for Loopback Communication Tests on the Infineon XMC4500 Relax Kit"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_mcbstm32f200 Keil MCBSTM32F200
@@ -416,31 +540,30 @@ The following picture shows the necessary external loopback connections for the 
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>Keil::STM32F2xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
--# Run the test on the target hardware.
+-# Run the validation on the target hardware.
 
-\note To communicate with the development board, a debug adapter from the
-<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
+\note The example is preconfigured to use an 
+<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
 
 
 Hardware Setup
 --------------
 
 The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
- - SPI2: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI)
- - USART1: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
- - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+ - <b>SPI2</b>: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI) (for Loopback Test Mode)
+ - <b>USART1</b>: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
+ - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 
-\image html mcbstm32f400.png  "Connections for Loop Back Communication Tests on Keil MCBSTM32F200"
+\image html mcbstm32f400.png  "Connections for Loopback Communication Tests on the Keil MCBSTM32F200"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_mcbstm32f400 Keil MCBSTM32F400
@@ -448,31 +571,30 @@ The following picture shows the necessary external loopback connections for the 
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>Keil::STM32F4xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (MCBSTM32F400)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
--# Run the test on the target hardware.
+-# Run the validation on the target hardware.
 
-\note To communicate with the development board, a debug adapter from the
-<a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.
+\note The example is preconfigured to use an 
+<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
 
 
 Hardware Setup
 --------------
 
 The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
- - SPI2: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI)
- - USART1: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
- - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+ - <b>SPI2</b>: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI) (for Loopback Test Mode)
+ - <b>USART1</b>: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
+ - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 
-\image html mcbstm32f400.png  "Connections for Loop Back Communication Tests on Keil MCBSTM32F400"
+\image html mcbstm32f400.png  "Connections for Loopback Communication Tests on the Keil MCBSTM32F400"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_b_l475e_iot01a1 STMicroelectronics B-L475E-IOT01A1
@@ -480,22 +602,21 @@ The following picture shows the necessary external loopback connections for the 
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>Keil::STM32L4xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A1)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
--# Run the test on the target hardware using the on-board ST-Link/V2.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
-configuration described in \ref wifi_config.
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
+as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
-For details on WiFi driver tests please refer to \ref wifi_funcs.
+For details on WiFi driver validation please refer to \ref dv_wifi.
 
 \image html b-l475e-iot01a.png  "STMicroelectronics B-L475E-IOT01A1 board"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_ismart43362_e Inventek ISMART43362-E WiFi Shield with NXP LPCXpresso55S69
@@ -503,25 +624,26 @@ For details on WiFi driver tests please refer to \ref wifi_funcs.
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>NXP::LPC55S69_DFP</b> and <b>NXP::LPCXpresso55S69_EVK</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (LPCXpresso55S69)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
--# Run the test on the target hardware.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Run the validation on the target hardware.
 
-\note To communicate with the development board, a debug adapter 
-<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> is required.
+\note The example is preconfigured to use an 
+<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
-configuration described in \ref wifi_config.
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements", 
+as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
-For details on WiFi driver tests please refer to \ref wifi_funcs.
+For details on WiFi driver tests please refer to \ref dv_wifi.
 
 Hardware Setup
 --------------
 
-This example uses the ISMART module with SPI communication. By default, the shield is loaded with a UART firmware.
+This example uses the ISMART module with SPI communication.<br>
+By default, the shield is loaded with a UART firmware.<br>
 Instructions on how to flash the SPI firmware can be found in the
 [CMSIS-Driver documentation](https://arm-software.github.io/CMSIS-Driver/General/html/driver_WiFi.html#driver_ISM43362).
 
@@ -531,10 +653,9 @@ on the WiFi Shield.
 \note Before running the validation on this hardware the WiFi Shield has to be reset by pressing SW2 push-button 
 on the WiFi Shield and the debug session has to be started in less than 5 seconds after the reset push-button was released.
 
-\image html LPCXpresso55S69.png  "NXP LPCXpresso55S69 with Inventek ISMART43362-E WiFi Shield attached"
+\image html lpcxpresso55s69.png  "NXP LPCXpresso55S69 with Inventek ISMART43362-E WiFi Shield attached"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_esp8266 Espressif ESP8266 SparkFun WiFi Shield with NXP MIMXRT1064-EVK
@@ -542,23 +663,22 @@ on the WiFi Shield and the debug session has to be started in less than 5 second
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Espressif ESP8266 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
--# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
-configuration described in \ref wifi_config.
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
+as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
-For details on WiFi driver tests please refer to \ref wifi_funcs.
+For details on WiFi driver tests please refer to \ref dv_wifi.
 
-\image html MIMXRT1064EVK.png  "NXP MIMXRT1064-EVK with"
-\image html esp8266_sparkfun.png  "Espressif ESP8266 SparkFun WiFi Shield"
+\image html mimxrt1064evk.png    "NXP MIMXRT1064-EVK with"
+\image html esp8266_sparkfun.png "Espressif ESP8266 SparkFun WiFi Shield"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_esp32 Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK
@@ -566,23 +686,22 @@ For details on WiFi driver tests please refer to \ref wifi_funcs.
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Espressif ESP32 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
--# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
-configuration described in \ref wifi_config.
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
+as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
-For details on WiFi driver tests please refer to \ref wifi_funcs.
+For details on WiFi driver tests please refer to \ref dv_wifi.
 
-\image html MIMXRT1064EVK.png  "NXP MIMXRT1064-EVK with"
-\image html esp32_wroom_sparkfun.png  "Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield"
+\image html mimxrt1064evk.png        "NXP MIMXRT1064-EVK with"
+\image html esp32_wroom_sparkfun.png "Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_wizfi360 WIZnet WizFi360-EVB WiFi Shield with NXP MIMXRT1064-EVK
@@ -590,23 +709,22 @@ For details on WiFi driver tests please refer to \ref wifi_funcs.
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi WIZnet WizFi360 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
--# Run the test on the target hardware using the on-board CMSIS-DAP Debugger.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for testing of the WiFi driver and it requires \ref wifi_requirements, as well as, proper 
-configuration described in \ref wifi_config.
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
+as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
-For details on WiFi driver tests please refer to \ref wifi_funcs.
+For details on WiFi driver tests please refer to \ref dv_wifi.
 
-\image html MIMXRT1064EVK.png  "NXP MIMXRT1064-EVK with"
+\image html mimxrt1064evk.png "NXP MIMXRT1064-EVK with"
 \image html wizfi360-evb.png  "WIZnet WizFi360-EVB WiFi Shield"
+
 */
-
-
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \page examples_stm32f746g STMicroelectronics STM32F746G-Discovery
@@ -614,77 +732,24 @@ For details on WiFi driver tests please refer to \ref wifi_funcs.
 Software Setup
 --------------
 
-Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest 
+Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest 
 <b>Keil::STM32F7xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (STM32F746G-Discovery)</b> to your machine.
 
--# Choose one of the available \ref example_targets and build the project.
+-# Choose one of the available \ref example_targets "Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
--# Run the test on the target hardware using the on-board ST-Link/V2.
+-# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
 
 
 Hardware Setup
 --------------
 
-The following picture shows the necessary external loopback connections for the STM32F746G-Discovery evaluation board:
- - SPI2: \b D12 (SPI2_MISO) and \b D11 (SPI2_MOSI)
- - USART6: \b D1 (USART6_TX) and \b D0 (USART6_RX)
- - For Ethernet use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
+The following picture shows the necessary external loopback connections for the STMicroelectronics STM32F746G-Discovery evaluation board:
+ - <b>SPI2</b>: \b D12 (SPI2_MISO) and \b D11 (SPI2_MOSI)
+ - <b>USART6</b>: \b D1 (USART6_TX) and \b D0 (USART6_RX)
+ - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
 
-\image html stm32f746G-disco.png  "Connections for Loop Back Communication Tests on STM32F746G-Discovery"
-*/
+\image html stm32f746g-disco.png  "Connections for Loopback Communication Tests on STM32F746G-Discovery"
 
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page resource_requirements Resource Requirements
-
-\section heap_req Heap Requirements
-Heap is used by memory allocation functions. It is configured in the
-<a class="el" href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" target="_blank">startup_device.s</a>
-file located under the \b Device component class or by a linker script.
-
-Additional memory is allocated for the validation framework and for the buffers that are used in the driver tests. 
-
-For the validation framework add 1024 bytes of heap. Then, double the amount of the largest buffer size specified in the
-\ref step4 "DV_Config.h" file and add this as well.
-
-| Option (under section Heap Configuration)                         | Increase Value by
-| :---------------------------------------------------------------- | :----------------------
-| Heap Size (in Bytes)                                              | + (1024 + 2 x maximum buffer size)
-
-\b Calculation \b Example
-
-Let's assume that the default heap size in your device's startup file is \c 0x400 (which is 1024 bytes). Add 1024 for the
-framework and for example another 2048 bytes if you are using the default \b Buffer \b Size of 512 bytes but you have set the
-<b>Buffer size for baudrate tests</b> to 1024 bytes. This computes to a total heap of 3584 bytes which is equivalent to
-\c 0xE00. Set this number in the startup file.
-
-
-\section rtos2_req CMSIS-RTOS2 Requirements
-
-The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the
-<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
-
-For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
-requirements are configured in the
-<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
-under the \b CMSIS component class:
-
-<table class="doxtable" summary="CMSIS-RTOS2 Configuration">
-    <tr>
-      <th align="left">Option (under section Thread Configuration)</th>
-      <th>Set Value to</th>
-    </tr>
-    <tr>
-      <td>Default Thread stack size [bytes]</td>
-      <td>2048</td>
-    </tr>
-    <tr>
-      <td>Global Dynamic Memory size [bytes] (Note 1)</td>
-      <td>8192</td>
-    </tr>
-</table>
-
-\note Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.
 */

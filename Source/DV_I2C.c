@@ -1,12 +1,31 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_I2C.c
- *      Purpose:      I2C test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Inter-Integrated Circuit (I2C) Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "cmsis_dv.h" 
-#include "DV_Config.h"
+#include "DV_I2C_Config.h"
 #include "DV_Framework.h"
 #include "Driver_I2C.h"
 #include <stdio.h>
@@ -27,23 +46,27 @@ static void I2C_DrvEvent (uint32_t event) {
 }
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
  
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup i2c_funcs I2C Validation
-\brief I2C test cases
+\defgroup dv_i2c I2C Validation
+\brief I2C driver validation
 \details
 The I2C validation test checks the API interface compliance only.
+
+\defgroup i2c_tests Tests
+\ingroup dv_i2c
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: I2C_GetCapabilities
+\brief Function: I2C_GetCapabilities
 \details
-The test case \b I2C_GetCapabilities verifies the function \b GetCapabilities.
+The test function \b I2C_GetCapabilities verifies the function \b GetCapabilities.
 */
 void I2C_GetCapabilities (void) {                    
   /* Get SPI capabilities */
@@ -53,9 +76,9 @@ void I2C_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_Initialization
+\brief  Function: I2C_Initialization
 \details
-The test case \b I2C_Initialization verifies the I2C functions with the sequence:
+The test function \b I2C_Initialization verifies the I2C functions with the sequence:
   - \b Initialize  without callback
   - \b Uninitialize
   - \b Initialize with callback
@@ -78,9 +101,9 @@ void I2C_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_CheckInvalidInit
+\brief  Function: I2C_CheckInvalidInit
 \details
-The test case \b I2C_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b I2C_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -111,9 +134,9 @@ void I2C_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_PowerControl
+\brief  Function: I2C_PowerControl
 \details
-The test case \b I2C_PowerControl verifies the \b PowerControl function with the sequence:
+The test function \b I2C_PowerControl verifies the \b PowerControl function with the sequence:
  - Initialize 
  - Power on
  - Power low
@@ -143,9 +166,9 @@ void I2C_PowerControl (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_SetBusSpeed
+\brief  Function: I2C_SetBusSpeed
 \details
-The test case \b I2C_SetBusSpeed verifies the \b Control function with the sequence:
+The test function \b I2C_SetBusSpeed verifies the \b Control function with the sequence:
  - Initialize 
  - Power on
  - Set bus speed standard 
@@ -187,9 +210,9 @@ int32_t val;
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_SetOwnAddress
+\brief  Function: I2C_SetOwnAddress
 \details
-The test case \b I2C_SetOwnAddress verifies the \b Control function with the sequence:
+The test function \b I2C_SetOwnAddress verifies the \b Control function with the sequence:
  - Initialize 
  - Power on
  - Set slave own address \token{0x0000}
@@ -224,9 +247,9 @@ void I2C_SetOwnAddress (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_BusClear
+\brief  Function: I2C_BusClear
 \details
-The test case \b I2C_BusClear verifies the \b Control function with the sequence:
+The test function \b I2C_BusClear verifies the \b Control function with the sequence:
  - Initialize 
  - Power on
  - Clear Bus
@@ -249,9 +272,9 @@ void I2C_BusClear (void) {
   
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: I2C_AbortTransfer
+\brief  Function: I2C_AbortTransfer
 \details
-The test case \b I2C_AbortTransfer verifies the \b Control function with the sequence:
+The test function \b I2C_AbortTransfer verifies the \b Control function with the sequence:
  - Initialize 
  - Power on
  - Abort transfer
@@ -275,5 +298,5 @@ void I2C_AbortTransfer (void) {
 /**
 @}
 */ 
-// end of group i2c_funcs
+// end of group dv_i2c
 

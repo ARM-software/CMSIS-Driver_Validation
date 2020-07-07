@@ -108,6 +108,8 @@ Command examples:
    -> SET BUF TX,0,53
   Set Rx buffer to '?':
    -> SET BUF RX,0,3F
+  Get 16 bytes of Rx buffer content:
+   -> GET BUF RX,16 <- 16 bytes (for example "????????????????")
   Set communication mode to slave, clock phase 0, clock polarity 0, 
   8 data bits, MSB first, slave select hardware monitored, 2MBps:
    -> SET COM 1,0,8,0,1,2000

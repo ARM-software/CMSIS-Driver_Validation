@@ -29,14 +29,15 @@
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
 
 // <h> SPI Server
-// <i> SPI Server configuration.
+//   <i> SPI Server configuration.
 //   <o0> Driver_SPI# <0-255>
-//   <i> Choose the Driver_SPI# instance.
-//   <i> For example to use Driver_SPI0 select 0.
+//     <i> Choose the Driver_SPI# instance.
+//     <i> For example to use Driver_SPI0 select 0.
 //   <h> Communication settings
-//     <i> These settings specify SPI communication interface configuration of the SPI Server used for command / response exchange with the SPI Client.
-//     <o1.0..3> Clock / Frame Format
-//     <i> Select clock / frame format setting used by the SPI Server.
+//     <i> These settings specify SPI communication interface configuration of the SPI Server 
+//     <i> used for command / response exchange with the SPI Client.
+//     <o1> Clock / Frame Format
+//       <i> Select clock / frame format setting used by the SPI Server.
 //       <0=> Clock Polarity 0, Clock Phase 0
 //       <1=> Clock Polarity 0, Clock Phase 1
 //       <2=> Clock Polarity 1, Clock Phase 0
@@ -44,9 +45,9 @@
 //       <4=> Texas Instruments Frame Format
 //       <5=> National Semiconductor Microwire Frame Format
 //     <o2> Data Bits <8=> 8 <16=> 16
-//     <i> Select data bit setting used by the SPI Server.
+//       <i> Select data bit setting used by the SPI Server.
 //     <o3> Bit Order <0=> MSB to LSB <1=> LSB to MSB
-//     <i> Select bit order setting used by the SPI Server.
+//       <i> Select bit order setting used by the SPI Server.
 //   </h>
 // </h>
 

@@ -171,6 +171,7 @@ static TEST_CASE TC_List_SPI[] = {
   #endif
   #if ( SPI_TG_OTHER_EN != 0 )
   TCD ( SPI_Number_Of_Items,            SPI_TC_NUMBER_OF_ITEMS_EN       ),
+  TCD ( SPI_GetDataCount,               SPI_TC_GET_DATA_COUNT_EN        ),
   TCD ( SPI_Abort,                      SPI_TC_ABORT_EN                 ),
   #endif
   #endif

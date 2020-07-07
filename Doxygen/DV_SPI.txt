@@ -14,7 +14,7 @@ Some settings depend on the test environment and need to be changed for proper o
 <b>Driver_SPI#</b> selects the driver instance that will be tested.<br>
 For example if we want to test <c>Driver_SPI2</c> then this setting would be set to <c>2</c>.
 
-<b>Configuration</b> section contains configuration of: Test Mode, SPI Server settings and Tests selection:
+<b>Configuration</b> section contains configuration of: Test Mode, SPI Server and Tests settings:
 - <b>Test Mode</b> can be set to <b>Loopback</b> or <b>SPI Server</b>.<br>
   Loopback mode should be used for initial validation.<br>
   Loopback mode requires that MOSI and MISO pins are connected together thus driver validation can test basic 
@@ -53,13 +53,13 @@ For example if we want to test <c>Driver_SPI2</c> then this setting would be set
 <b>Tests</b> section contains selections of tests to be executed:
 - <b>Driver Management</b> allows enabling or disabling of the whole driver management group of test functions.<br>
   Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref spi_tests_drv_mgmt.
+  by each test function please refer to \ref spi_tests_drv_mgmt documentation.
 - <b>Data Exchange</b> allows enabling or disabling of the whole data exchange group of test functions.<br>
   Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref spi_tests_data_xchg.
+  by each test function please refer to \ref spi_tests_data_xchg documentation.
 - <b>Error Event</b> allows enabling or disabling of the whole error event group of test functions.<br>
   Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref spi_tests_err_evt.
+  by each test function please refer to \ref spi_tests_err_evt documentation.
 
 */
 
@@ -81,7 +81,7 @@ The SPI Server offers the following features:
 - <b>transfer</b> in Slave or Master mode
 - <b>generation of mode fault</b> by activation of the Slave Select line during Slave transfer
 
-\section spi_Server_oper Operation
+\section spi_server_oper Operation
 
 The SPI Server is continuously waiting on a command from the SPI Client (Driver Validation), 
 after the command is received it is executed, and the process repeats.<br>
@@ -104,7 +104,7 @@ Communication interface settings used during command exchange are set in the <b>
   - <b>Data Bits</b> setting specifies the number of data bits per item used for command exchange.
   - <b>Bit Order</b> setting specifies the bit order used for command exchange.
 
-\note SPI Server is receiving commands in SPI Slave mode with usage of Slave Select line
+\note The SPI Server is receiving commands operating in SPI Slave mode with usage of the Slave Select line
 
 \section spi_server_commands Commands
 
@@ -112,14 +112,14 @@ Commands are encoded in human readable format (ASCII strings) so they can be vie
 and analyzed more easily.
 
 Supported commands:
- - <b>GET VER</b>: used to retrieve the version of the SPI Server application
- - <b>GET CAP</b>: used to retrieve the capabilities of the SPI Server 
+ - <b>GET VER</b>: used to retrieve version of the SPI Server application
+ - <b>GET CAP</b>: used to retrieve capabilities of the SPI Server 
                    (the Server auto-detects capabilities upon reception of this command)
- - <b>SET BUF</b>: used for initialization of the content of receive or transmit buffer of the SPI Server
- - <b>GET BUF</b>: used for retrieving the content of receive or transmit buffer of the SPI Server
- - <b>SET COM</b>: used for specifying configuration of the transfer activated by the XFER command 
- - <b>XFER</b>:    used to trigger a transfer (parameters specified with the last SET COM command)
- - <b>GET CNT</b>: used to retrieve the number of transferred items in previous transfer
+ - <b>SET BUF</b>: used to initialize receive or transmit buffer content of the SPI Server
+ - <b>GET BUF</b>: used to retrieve receive or transmit buffer content of the SPI Server
+ - <b>SET COM</b>: used to specify transfer configuration for the next transfer
+ - <b>XFER</b>:    used to trigger a transfer
+ - <b>GET CNT</b>: used to retrieve number of transferred items in the last transfer
 
 \note For details about commands please refer to <b>Abstract.txt</b> file in the 
 <c>\<pack root directory\></c>\\Tools\\SPI_Server\\Board\\MCBSTM32F400 directory.
@@ -140,11 +140,11 @@ To create SPI Server application for a different target device, follow the steps
    (please consult device's documentation for more information)
  - Resolve any unresolved dependencies between components
 -# Copy the <b>SPI_Server.c</b> file from the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Source</b> directory 
-   to the project root and add it to uVision project
+   to the project root and add it to µVision project
 -# Copy the <b>SPI_Server.h</b> and <b>SPI_Server_HW.h</b> files from the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Include</b> 
    directory to the project root
 -# Copy the files specified below from the directory <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Config</b> 
-   to the project root and add them to uVision project:
+   to the project root and add them to µVision project:
  - <b>SPI_Server_Config.h</b>: also adapt this file as required by your device
  - <b>SPI_Server_HW.c</b>:     also adapt this file for your device's specific handling of the SPI Slave Select line
 -# Add root of the project to include path (<b>Options for Target</b> -> <b>C/C++</b> -> <b>Include Paths: .\\</b>)

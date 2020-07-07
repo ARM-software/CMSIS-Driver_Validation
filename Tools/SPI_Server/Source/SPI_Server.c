@@ -131,14 +131,13 @@ static const SPI_COM_CONFIG_t   spi_com_config_default = { ARM_SPI_MODE_SLAVE,
                                                            0U   // Bus speed for Slave mode is unused
                                                          };
 static       SPI_COM_CONFIG_t   spi_com_config_xfer;
+static       uint8_t            spi_bytes_per_item        = 1U;
 static       uint8_t            spi_cmd_buf_rx[32]        __ALIGNED(4);
 static       uint8_t            spi_cmd_buf_tx[32]        __ALIGNED(4);
 static       uint8_t           *ptr_spi_xfer_buf_rx       = NULL;
 static       uint8_t           *ptr_spi_xfer_buf_tx       = NULL;
-
 static       void              *ptr_spi_xfer_buf_rx_alloc = NULL;
 static       void              *ptr_spi_xfer_buf_tx_alloc = NULL;
-
 // Global functions
 
 /**
@@ -155,11 +154,12 @@ int32_t SPI_Server_Start (void) {
   (void)vioPrint(vioLevelHeading, " SPI Server v1.0.0 ");
 
   // Initialize local variables
-  spi_server_state  = SPI_SERVER_STATE_RECEPTION;
-  spi_cmd_timeout   = SPI_SERVER_CMD_TIMEOUT;
-  spi_xfer_timeout  = SPI_SERVER_CMD_TIMEOUT;
-  spi_xfer_cnt      = 0U;
-  spi_xfer_buf_size = SPI_SERVER_BUF_SIZE;
+  spi_server_state   = SPI_SERVER_STATE_RECEPTION;
+  spi_cmd_timeout    = SPI_SERVER_CMD_TIMEOUT;
+  spi_xfer_timeout   = SPI_SERVER_CMD_TIMEOUT;
+  spi_xfer_cnt       = 0U;
+  spi_xfer_buf_size  = SPI_SERVER_BUF_SIZE;
+  spi_bytes_per_item = DATA_BITS_TO_BYTES(SPI_SERVER_DATA_BITS);
   memset(spi_cmd_buf_rx,  0, sizeof(spi_cmd_buf_rx));
   memset(spi_cmd_buf_tx,  0, sizeof(spi_cmd_buf_tx));
   memcpy(&spi_com_config_xfer, &spi_com_config_default, sizeof(SPI_COM_CONFIG_t));
@@ -432,6 +432,7 @@ static int32_t SPI_Com_Configure (const SPI_COM_CONFIG_t *config) {
                       config->bit_order |
                       config->ss_mode   ,
                       config->bus_speed ) == ARM_DRIVER_OK) {
+    spi_bytes_per_item = DATA_BITS_TO_BYTES((config->bit_num & ARM_SPI_DATA_BITS_Msk) >> ARM_SPI_DATA_BITS_Pos);
     ret = EXIT_SUCCESS;
   }
 
@@ -465,7 +466,7 @@ static int32_t SPI_Com_Receive (void *data_in, uint32_t num, uint32_t timeout) {
   ret = EXIT_FAILURE;
 
   if (spi_server_thread_id != NULL) {
-    memset(data_in, (int32_t)'?', num);
+    memset(data_in, (int32_t)'?', spi_bytes_per_item * num);
     vioSetSignal (vioLED0, vioLEDon);
     cnt  = 0;
     time = timeout;
@@ -488,10 +489,10 @@ static int32_t SPI_Com_Receive (void *data_in, uint32_t num, uint32_t timeout) {
               if (flags == osFlagsErrorTimeout) {     // If timeout
                 if (time != osWaitForever) {
                   if (time > tmo) {
-                     time -= tmo;
+                    time -= tmo;
                   } else {
-                     time = 0U;
-                     break;
+                    time = 0U;
+                    break;
                   }
                 }
               } else if ((flags & (0x80000000U | ARM_SPI_EVENT_TRANSFER_COMPLETE)) == ARM_SPI_EVENT_TRANSFER_COMPLETE) {
@@ -519,7 +520,7 @@ static int32_t SPI_Com_Receive (void *data_in, uint32_t num, uint32_t timeout) {
       }
       if (ret != EXIT_SUCCESS) {
         // If receive was activated but failed to receive expected data then abort the transfer
-        drvSPI->Control(ARM_SPI_ABORT_TRANSFER, 0U);
+        (void)drvSPI->Control(ARM_SPI_ABORT_TRANSFER, 0U);
       }
       vioSetSignal (vioLED0, vioLEDoff);
     }
@@ -548,11 +549,12 @@ static int32_t SPI_Com_Send (const void *data_out, uint32_t num, uint32_t timeou
     vioSetSignal (vioLED1, vioLEDon);
     if (drvSPI->Send(data_out, num) == ARM_DRIVER_OK) {
       flags = osThreadFlagsWait(SPI_EVENTS_MASK, osFlagsWaitAny, timeout);
-      vioSetSignal (vioLED1, vioLEDoff);
       if ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U) {
         // If completed event was signaled
         ret = EXIT_SUCCESS;
-      } else {
+      }
+      vioSetSignal (vioLED1, vioLEDoff);
+      if (ret != EXIT_SUCCESS) {
         // If error or timeout
         (void)drvSPI->Control(ARM_SPI_ABORT_TRANSFER, 0U);
       }
@@ -584,7 +586,6 @@ static int32_t SPI_Com_Transfer (const void *data_out, void *data_in, uint32_t n
     if (drvSPI->Transfer(data_out, data_in, num) == ARM_DRIVER_OK) {
       flags = osThreadFlagsWait(SPI_EVENTS_MASK, osFlagsWaitAny, timeout);
       vioSetSignal (vioLED2, vioLEDoff);
-      spi_xfer_cnt = drvSPI->GetDataCount();
       if ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U) {
         // If completed event was signaled
         ret = EXIT_SUCCESS;
@@ -1059,9 +1060,9 @@ static int32_t SPI_Cmd_SetCom (const char *cmd) {
     ret = EXIT_FAILURE;
   }
 
-  if (ret == EXIT_SUCCESS) {
+  if ((ret == EXIT_SUCCESS) && (ptr_str != NULL)) {
     // Parse 'format' (clock polarity/phase or frame format)
-    ptr_str = strstr(cmd, ",");         // Find ','
+    ptr_str = strstr(ptr_str, ",");     // Find ','
     if (ptr_str != NULL) {              // If ',' was found
       ptr_str++;                        // Skip ','
       while (*ptr_str == ' ') {         // Skip whitespaces after ','
@@ -1243,7 +1244,7 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
     ret = EXIT_FAILURE;
   }
 
-  if (ret == EXIT_SUCCESS) {
+  if ((ret == EXIT_SUCCESS) && (ptr_str != NULL)) {
     // Parse optional 'delay'
     ptr_str = strstr(ptr_str, ",");     // Find ','
     if (ptr_str != NULL) {              // If ',' was found
@@ -1316,10 +1317,12 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
       if (num_ss_provided == 0U) {      // Normal transfer (in Slave or Master mode)
         // Transfer data
         ret = SPI_Com_Transfer(ptr_spi_xfer_buf_tx, ptr_spi_xfer_buf_rx, num, spi_xfer_timeout);
+        spi_xfer_cnt = drvSPI->GetDataCount();
       } else {                          // Special handling for generation of master mode fault
         if (num_ss != 0U) {
           // Transfer num_ss number of items if num_ss != 0
           ret = SPI_Com_Transfer(ptr_spi_xfer_buf_tx, ptr_spi_xfer_buf_rx, num_ss, spi_xfer_timeout);
+          spi_xfer_cnt = drvSPI->GetDataCount();
         }
 
         if (ret == EXIT_SUCCESS) {
@@ -1366,4 +1369,3 @@ static int32_t SPI_Cmd_GetCnt (const char *cmd) {
 
   return ret;
 }
-

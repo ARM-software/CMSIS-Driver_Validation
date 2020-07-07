@@ -58,7 +58,6 @@ extern void cmsis_dv (void *argument);
 // Init/Uninit and testing functions
 extern void SPI_DV_Initialize (void);
 extern void SPI_DV_Uninitialize (void);
-extern void SPI_DriverManagement (void);
 extern void SPI_GetVersion (void);
 extern void SPI_GetCapabilities (void);
 extern void SPI_Initialize_Uninitialize (void);
@@ -112,6 +111,7 @@ extern void SPI_Bit_Order_LSB_MSB (void);
 extern void SPI_Bus_Speed_Min (void);
 extern void SPI_Bus_Speed_Max (void);
 extern void SPI_Number_Of_Items (void);
+extern void SPI_GetDataCount (void);
 extern void SPI_Abort (void);
 extern void SPI_DataLost (void);
 extern void SPI_ModeFault (void);

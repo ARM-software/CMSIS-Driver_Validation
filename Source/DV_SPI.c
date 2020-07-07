@@ -118,7 +118,6 @@
 #endif
 #endif
 
-
 typedef struct {                // SPI Server version structure
   uint8_t  major;               // Version major number
   uint8_t  minor;               // Version minor number
@@ -149,6 +148,7 @@ static SPI_SERV_CAP_t           spi_serv_cap;
 
 static volatile uint32_t        event;
 static volatile uint32_t        duration;
+static volatile uint32_t        data_count_sample;
 static uint32_t                 systick_freq;
 
 static char                     msg_buf     [256];
@@ -214,8 +214,8 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
 
 /*
   \fn            void SPI_DrvEvent (uint32_t evt)
-  \brief         Store event into global variable.
-  \detail        This is a callback function called by the driver upon an event.
+  \brief         Store event(s) into global variable.
+  \detail        This is a callback function called by the driver upon an event(s).
   \param[in]     evt            SPI event
   \return        none
 */
@@ -231,12 +231,11 @@ static void SPI_DrvEvent (uint32_t evt) {
 static uint32_t DataBitsToBytes (uint32_t data_bits) {
   uint32_t ret;
 
+  ret = 1U;
   if        (data_bits > 16U) {
     ret = 4U;
   } else if (data_bits > 8U) {
     ret = 2U;
-  } else {
-    ret = 1U;
   }
 
   return ret;
@@ -253,7 +252,7 @@ static int32_t InitDriver (void) {
 
   if (driver_ok == -1) {                // If -1, means it was not yet checked
     driver_ok = 0;
-    if (drv->Initialize  (SPI_DrvEvent)     == ARM_DRIVER_OK) {
+    if (drv->Initialize    (SPI_DrvEvent)   == ARM_DRIVER_OK) {
       if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
         driver_ok = 1;
       }
@@ -712,11 +711,21 @@ static int32_t CmdGetBufRx (uint32_t len) {
   \fn            static int32_t CmdSetCom (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed)
   \brief         Set communication parameters on SPI Server for next XFER command.
   \param[in]     mode           mode (0 = Master, 1 = slave)
-  \param[in]     format         clock / frame format (0 = clock polarity 0, phase 0 .. 5 = Microwire)
-  \param[in]     data_bits      data bits (1..32)
-  \param[in]     bit_order      bit order (0 = MSB to LSB, 1 = LSB to MSB)
-  \param[in]     ss_mode        Slave Select mode 
-                                (0 = not used, 1 = used (in Master mode driven, in Slave mode monitored as hw input))
+  \param[in]     format         clock / frame format:
+                                  - value 0 = clock polarity 0, phase 0
+                                  - value 1 = clock polarity 0, phase 1
+                                  - value 2 = clock polarity 1, phase 0
+                                  - value 3 = clock polarity 1, phase 1
+                                  - value 4 = Texas Instruments frame format
+                                  - value 5 = Microwire frame format
+  \param[in]     data_bits      data bits
+                                  - values 1 to 32
+  \param[in]     bit_order      bit order
+                                  - value 0 = MSB to LSB
+                                  - value 1 = LSB to MSB
+  \param[in]     ss_mode        Slave Select mode:
+                                  - value 0 = not used
+                                  - value 1 = used (in Master mode driven, in Slave mode monitored as hw input)
   \param[in]     bus_speed      bus speed in bits per second (bps)
   \return        execution status
                    - EXIT_SUCCESS: Operation successful
@@ -762,7 +771,7 @@ static int32_t CmdXfer (uint32_t num, uint32_t delay, uint32_t timeout, uint32_t
     (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i,%i", num, delay, timeout, num_ss);
   } else if ((delay != osWaitForever) && (timeout != 0U)) {
     (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i",    num, delay, timeout);
-  } else if  (delay != osWaitForever) {                          
+  } else if  (delay != osWaitForever) {
     (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i",       num, delay);
   } else {
     (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i",          num);
@@ -942,7 +951,7 @@ Required pin connection for the <b>Loopback</b> test mode:
  - data content sent by the Send function
  - clock / frame format and bit order settings
  - data bit settings other then: 8, 16, 24 and 32
- - error event generation
+ - error event signaling
 
 Test Mode : <b>SPI Server</b>
 -----------------------------
@@ -1094,7 +1103,7 @@ Testing sequence:
     - Call Transfer function and assert that it returned ARM_DRIVER_OK status
     - Call GetStatus function
     - Assert that GetStatus function returned status structure with busy flag 1
-    - Call Uninitialize function and assert that it returned ARM_DRIVER_OK status<br>
+    - Call Uninitialize function with transfer active and assert that it returned ARM_DRIVER_OK status<br>
       (this must unconditionally terminate active transfer, power-off the peripheral and uninitialize the driver)
   - Driver is uninitialized and peripheral is powered-off:
     - Call GetStatus function
@@ -1476,6 +1485,7 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
   volatile uint32_t       data_count;
            uint32_t       start_cnt, max_cnt;
            uint32_t       val, delay, i;
+           uint8_t        chk_data;
 
   // Prepare parameters for SPI Server and Driver configuration
   switch (mode) {
@@ -1627,22 +1637,35 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       return;
     }
 
-    // Set default Tx value to 'D' byte values
-    val = ((uint32_t)'D' << 24) | ((uint32_t)'D' << 16) | ((uint32_t)'D' << 8) | (uint32_t)'D';
-    stat = drv->Control (ARM_SPI_SET_DEFAULT_TX_VALUE, val);
-    def_tx_stat = stat;
-    if ((stat != ARM_DRIVER_OK) && (stat != ARM_DRIVER_ERROR_UNSUPPORTED)) {
-      // If set default Tx value has failed or is not supported
-      (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s %s", str_oper[operation], "Set default Tx value returned", str_ret[-stat]);
-    }
-    // Assert that Control function returned ARM_DRIVER_OK or ARM_DRIVER_ERROR_UNSUPPORTED
-    TEST_ASSERT_MESSAGE((stat == ARM_DRIVER_OK) || (stat == ARM_DRIVER_ERROR_UNSUPPORTED), msg_buf);
+    // Set default Tx value to 'D' byte values (only for master mode)
+    if (mode == MODE_MASTER) {
+      val = ((uint32_t)'D' << 24) | ((uint32_t)'D' << 16) | ((uint32_t)'D' << 8) | (uint32_t)'D';
+      stat = drv->Control (ARM_SPI_SET_DEFAULT_TX_VALUE, val);
+      def_tx_stat = stat;
+      if ((stat != ARM_DRIVER_OK) && (stat != ARM_DRIVER_ERROR_UNSUPPORTED)) {
+        // If set default Tx value has failed
+        (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s %s", str_oper[operation], "Set default Tx value returned", str_ret[-stat]);
+      }
+      // Assert that Control function returned ARM_DRIVER_OK or ARM_DRIVER_ERROR_UNSUPPORTED
+      TEST_ASSERT_MESSAGE((stat == ARM_DRIVER_OK) || (stat == ARM_DRIVER_ERROR_UNSUPPORTED), msg_buf);
 
-    event       = 0U;
-    duration    = 0xFFFFFFFFUL;
-    data_count  = 0U;
-    max_cnt     = (systick_freq /1024U) * (SPI_CFG_XFER_TIMEOUT + 10U);
-    start_cnt   = osKernelGetSysTimerCount();
+      if (stat == ARM_DRIVER_ERROR_UNSUPPORTED) {
+        // If set default Tx value is not supported
+        (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] %s: %s", str_oper[operation], "Set default Tx value is not supported");
+        TEST_MESSAGE(msg_buf);
+      }
+    } else {
+      // For slave mode default Tx is not tested
+      def_tx_stat = ARM_DRIVER_ERROR_UNSUPPORTED;
+    }
+
+    event             = 0U;
+    duration          = 0xFFFFFFFFUL;
+    data_count        = 0U;
+    data_count_sample = 0U;
+    chk_data          = 1U;
+    max_cnt           = (systick_freq /1024U) * (SPI_CFG_XFER_TIMEOUT + 10U);
+    start_cnt         = osKernelGetSysTimerCount();
 
     if (((mode == MODE_MASTER) && (ss_mode == SS_MODE_MASTER_SW)) || 
         ((mode == MODE_SLAVE)  && (ss_mode == SS_MODE_SLAVE_SW)))  {
@@ -1738,6 +1761,10 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
 
     // Wait for operation to finish (status busy is 0 and event complete signaled, or timeout)
     do {
+      if (data_count_sample == 0U) {
+        // Store first data count different than 0
+        data_count_sample = drv->GetDataCount();  // Get data count
+      }
       if ((drv->GetStatus().busy == 0U) && ((event & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U)) {
         duration = osKernelGetSysTimerCount() - start_cnt;
         break;
@@ -1766,6 +1793,7 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     if ((event & ARM_SPI_EVENT_TRANSFER_COMPLETE) == 0U) {
       // If transfer complete event was not signaled
       (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "ARM_SPI_EVENT_TRANSFER_COMPLETE was not signaled");
+      chk_data = 0U;                            // Do not check transferred content
     }
     // Assert that ARM_SPI_EVENT_TRANSFER_COMPLETE was signaled
     TEST_ASSERT_MESSAGE((event & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U, msg_buf);
@@ -1774,14 +1802,24 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     if (spi_stat.busy != 0U) {
       // If busy flag is still active
       (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "Busy still active after operation");
+      chk_data = 0U;                            // Do not check transferred content
     }
     // Assert that busy flag is not active
     TEST_ASSERT_MESSAGE(spi_stat.busy == 0U, msg_buf);
+
+    if ((event & ARM_SPI_EVENT_DATA_LOST) != 0U) {
+      // If data lost was signaled during the transfer
+      (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "ARM_SPI_EVENT_DATA_LOST was signaled");
+      chk_data = 0U;                            // Do not check transferred content
+    }
+    // Assert that ARM_SPI_EVENT_DATA_LOST was not signaled
+    TEST_ASSERT_MESSAGE((event & ARM_SPI_EVENT_DATA_LOST) == 0U, msg_buf);
 
     data_count = drv->GetDataCount();           // Get data count
     if (data_count != num) {
       // If data count is different then number of items, then operation has failed
       (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s %i %s %i %s", str_oper[operation], "GetDataCount returned", data_count, "expected was", num, "items");
+      chk_data = 0U;                            // Do not check transferred content
     }
     // Assert that data count is equal to number of items requested for exchange
     TEST_ASSERT_MESSAGE(data_count == num, msg_buf);
@@ -1792,76 +1830,82 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);  // Wait for SPI Server to timeout aborted operation
     }
 
-    // Check received content for receive and transfer operations
+    if (chk_data != 0U) {               // If transferred content should be checked
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
-    if ((operation == OP_RECEIVE) || (operation == OP_TRANSFER)) {
-      memset(ptr_cmp_buf, (int32_t)'S', num * DataBitsToBytes(data_bits));
-      stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
-      if (stat != 0) {
-        // If data received mismatches
-        // Find on which byte mismatch starts
-        for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
-          if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
-            break;
+      // Check received content for receive and transfer operations
+      if ((operation == OP_RECEIVE) || (operation == OP_TRANSFER)) {
+        memset(ptr_cmp_buf, (int32_t)'S', num * DataBitsToBytes(data_bits));
+        stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
+        if (stat != 0) {
+          // If data received mismatches
+          // Find on which byte mismatch starts
+          for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
+            if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
+              break;
+            }
+          }
+          (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, received was 0x%02X, expected was 0x%02X", str_oper[operation], "Received data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
+        }
+        // Assert that data received is same as expected
+        TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
+      }
+
+      // Check sent content (by checking SPI Server's received buffer content)
+      if ((mode == MODE_MASTER) || (operation != OP_RECEIVE) || (def_tx_stat == ARM_DRIVER_OK)) {
+        // Check sent data in all cases except Slave mode Receive operation
+        // with Default Tx not working or unsupported
+        if (ComConfigDefault()       != EXIT_SUCCESS) { break; }
+        if (CmdGetBufRx(SPI_BUF_MAX) != EXIT_SUCCESS) { break; }
+
+        if ((operation == OP_RECEIVE) && (def_tx_stat == ARM_DRIVER_OK)) {
+          // Expected data received by SPI Server should be default Tx value
+          memset(ptr_cmp_buf, (int32_t)'D', num * DataBitsToBytes(data_bits));
+        }
+        if ((operation == OP_SEND) || (operation == OP_TRANSFER)) {
+          // Expected data received by SPI Server should be what was sent
+          memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
+        }
+
+        stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
+        if (stat != 0) {
+          // If data sent mismatches
+          // Find on which byte mismatch starts
+          for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
+            if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
+              break;
+            }
+          }
+          if (operation == OP_RECEIVE) {
+            // If sent was default Tx value, 'D' bytes
+            (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, SPI Server received 0x%02X, sent was 0x%02X", str_oper[operation], "Default Tx data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
+          } else {
+            // If sent was 'T' bytes
+            (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, SPI Server received 0x%02X, sent was 0x%02X", str_oper[operation], "Sent data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
           }
         }
-        (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, received was 0x%02X, expected was 0x%02X", str_oper[operation], "Received data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
+        // Assert data sent is same as expected
+        TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
       }
-      // Assert that data received is same as expected
-      TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
-    }
-
-    // Check sent content (by checking SPI Server's received buffer content)
-    if (ComConfigDefault()       != EXIT_SUCCESS) { break; }
-    if (CmdGetBufRx(SPI_BUF_MAX) != EXIT_SUCCESS) { break; }
-
-    if ((operation == OP_RECEIVE) && (def_tx_stat == ARM_DRIVER_OK)) {
-      // Expected data received by SPI Server should be default Tx value
-      memset(ptr_cmp_buf, (int32_t)'D', num * DataBitsToBytes(data_bits));
-    }
-    if ((operation == OP_SEND) || (operation == OP_TRANSFER)) {
-      // Expected data received by SPI Server should be what was sent
-      memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
-    }
-
-    stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
-    if (stat != 0) {
-      // If data sent mismatches
-      // Find on which byte mismatch starts
-      for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
-        if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
-          break;
-        }
-      }
-      if (operation == OP_RECEIVE) {
-        // If sent was default Tx value, 'D' bytes
-        (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, SPI Server received 0x%02X, sent was 0x%02X", str_oper[operation], "Default Tx data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
-      } else {
-        // If sent was 'T' bytes
-        (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, SPI Server received 0x%02X, sent was 0x%02X", str_oper[operation], "Sent data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
-      }
-    }
-    // Assert data sent is same as expected
-    TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
 
 #else                                   // If Test Mode Loopback is selected
-    if (operation == OP_TRANSFER) {
-      memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
-      stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
-      if (stat != 0) {
-        // If data received mismatches
-        // Find on which byte mismatch starts
-        for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
-          if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
-            break;
+      if (operation == OP_TRANSFER) {
+        memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
+        stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
+        if (stat != 0) {
+          // If data received mismatches
+          // Find on which byte mismatch starts
+          for (i = 0U; i < (num * DataBitsToBytes(data_bits)); i++) {
+            if (ptr_rx_buf[i] != ptr_cmp_buf[i]) {
+              break;
+            }
           }
+          (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, received was 0x%02X, expected was 0x%02X", str_oper[operation], "Received data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
         }
-        (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s byte %i, received was 0x%02X, expected was 0x%02X", str_oper[operation], "Received data mismatches on", i, ptr_rx_buf[i], ptr_cmp_buf[i]);
+        // Assert that data received is same as expected
+        TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
       }
-      // Assert that data received is same as expected
-      TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
-    }
 #endif
+    }
 
     return;
   } while (false);
@@ -3571,41 +3615,70 @@ void SPI_Number_Of_Items (void) {
 #endif
 
 #if (SPI_CFG_NUM1 != 0U)
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM1);
 #endif
 
 #if (SPI_CFG_NUM2 != 0U)
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM2);
 #endif
 
 #if (SPI_CFG_NUM3 != 0U)
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM3);
 #endif
 
 #if (SPI_CFG_NUM4 != 0U)
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM4);
 #endif
 
 #if (SPI_CFG_NUM5 != 0U)
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_NUM5);
 #endif
+}
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\brief Function: Function SPI_GetDataCount
+\details
+The function \b SPI_GetDataCount verifies \b GetDataCount function (count changing) during data exchange:
+ - in Master Mode with default Slave Select mode
+ - with default clock / frame format
+ - with default data bits
+ - with default bit order
+ - at default bus speed
+*/
+void SPI_GetDataCount (void) {
+
+  if (InitDriver()   != EXIT_SUCCESS) { return; }
+  if (CheckBuffers() != EXIT_SUCCESS) { return; }
+#if (SPI_SERVER_USED != 0)
+  if (CheckServer()  != EXIT_SUCCESS) { return; }
+#endif
+
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  TEST_ASSERT_MESSAGE((data_count_sample != 0U) && (data_count_sample != SPI_CFG_DEF_NUM), "[FAILED] GetDataCount was not changing during the Send!");
+
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  TEST_ASSERT_MESSAGE((data_count_sample != 0U) && (data_count_sample != SPI_CFG_DEF_NUM), "[FAILED] GetDataCount was not changing during the Receive!");
+
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  TEST_ASSERT_MESSAGE((data_count_sample != 0U) && (data_count_sample != SPI_CFG_DEF_NUM), "[FAILED] GetDataCount was not changing during the Transfer!");
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \brief Function: Function SPI_Abort
 \details
-The function \b SPI_Abort verifies data exchange Abort:
+The function \b SPI_Abort verifies \b Abort function abort of data exchange:
  - in Master Mode with default Slave Select mode
  - with default clock / frame format
  - with default data bits

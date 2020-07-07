@@ -61,17 +61,15 @@ Revision History
       <th>Description</th>
     </tr>
     <tr>
-      <td>V2.0.0-dev3</td>
+      <td>V2.0.0</td>
       <td>
-        - Removed bundle
-        - Changed configuration from single config file to a config file per component
-        - Updated framework allowing linker to remove unused test functions
-        - Reworked SPI Driver testing (major)
-        - Added SPI_Server application for Keil MCBSTM32F400 evaluation board
-        - Added requirements for CMSIS driver API versions
-        - Updated WiFi Driver tests (WiFi Driver API V1.1)
-        - Updated all examples
-        - Deprecated CMSIS-RTOS1
+        - Remove bundle
+        - Change configuration from single file to a file per component
+        - Rework SPI Driver testing (introduced SPI_Server)
+        - Add SPI_Server application for Keil MCBSTM32F400 evaluation board
+        - Update WiFi Driver tests (support for WiFi Driver API V1.1.0)
+        - Update all examples
+        - Deprecate CMSIS-RTOS1
       </td>
     </tr>
     <tr>
@@ -314,7 +312,7 @@ The <b>XML</b> selection instructs the CMSIS-Driver Validation framework to gene
 which is meant to be used as a final report and can be viewed nicely in any Web browser.<br>
 
 The report file can be written into a <b>TestReport.xml</b> file directly by the uVision with an additional debugger script 
-called <b>SaveXML.ini</b> which needs to specified as <b>Initialization File:</b> for the <b>Debugger</b> in the 
+called <b>SaveXML.ini</b> which needs to be specified as <b>Initialization File:</b> for the <b>Debugger</b> in the 
 <b>Options for target</b> dialog, or it can be copy-pasted manually from the <b>Debug (printf) Viewer</b> window to 
 the TestReport.xml file.<br>
 The SaveXML.ini script can be found in <c>\<pack root directory\></c><b>\\Scripts</b> directory.
@@ -364,7 +362,7 @@ Test Summary: 56 Tests, 24 Passed, 1 Failed.
 Test Result: FAILED
 \endverbatim
 
-From previous report it is clear that there was one test function has failed.<br>
+From previous report it is clear that one test function has failed.<br>
 By Inspecting the details in previous report it is clear that <c>TEST 03: SPI_Initialize_Uninitialize</c> has failed 
 on multiple assertions.<br>
 Each failed assertion is recorded as a single  line in the test report.<br>

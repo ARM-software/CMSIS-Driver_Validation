@@ -9,7 +9,7 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="2.0.0-dev0">
+    <release version="2.0.0-rc0">
       - Remove bundle
       - Change configuration from single file to a file per component
       - Rework SPI Driver testing (introduced SPI_Server)

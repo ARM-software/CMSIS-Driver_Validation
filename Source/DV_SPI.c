@@ -1209,7 +1209,7 @@ void SPI_Initialize_Uninitialize (void) {
   TEST_ASSERT(stat.busy == 0U);
 
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
-  // Insure that SPI Server (if used) is ready for command reception
+  // Ensure that SPI Server (if used) is ready for command reception
   (void)osDelay(SPI_CFG_XFER_TIMEOUT + 10U);
 #endif
 }
@@ -1355,7 +1355,7 @@ void SPI_PowerControl (void) {
   (void)drv->Uninitialize ();
 
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
-  // Insure that SPI Server (if used) is ready for command reception
+  // Ensure that SPI Server (if used) is ready for command reception
   (void)osDelay(SPI_CFG_XFER_TIMEOUT + 10U);
 #endif
 }

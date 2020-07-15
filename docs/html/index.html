@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,43 +112,51 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Introduction </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This manual explains the scope and the usage of the Software Pack for <b>CMSIS-Driver</b> <b>Validation</b>. <a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> are standard peripheral API interfaces that connect microcontroller peripherals with middleware or the user application.</p>
-<p>The Software Pack for CMSIS-Driver validation provides:</p>
+<div class="textblock"><p>This manual explains the scope and the usage of the Software Pack for <b>CMSIS-Driver Validation</b>.<br/>
+ <a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> specifies the software API for peripheral driver interfaces that connect microcontroller peripherals with middleware or the user application.</p>
+<p>The CMSIS-Driver Validation is used to validate the driver implementation compliance to the CMSIS-Driver specification.</p>
+<p>The CMSIS-Driver Validation provides:</p>
 <ul>
-<li>Configurable validation tests for several CMSIS-Driver interfaces</li>
-<li>Example projects that show the usage of the CMSIS-Driver validation</li>
+<li>Configurable validation tests for various CMSIS-Driver interfaces</li>
+<li>Example projects that show the usage of the CMSIS-Driver Validation</li>
 </ul>
 <p>The CMSIS-Driver Validation tests and verifies:</p>
 <ul>
-<li><b>API</b> <b>interface</b> <b>interaction</b> using the driver capabilities as well as valid and invalid parameters.</li>
-<li><b>Data</b> <b>communication</b> with various transfer sizes and communication parameters (i.e. baudrate).</li>
-<li><b>Loopback</b> <b>communication</b> (for some interfaces) for testing the underlying hardware.</li>
-<li><b>Transfer</b> <b>speed</b> of the data communication with time measurement of data transfers.</li>
+<li><b>API interface</b> using the driver capabilities as well as valid and invalid parameters</li>
+<li><b>Data communication</b> with various transfer sizes and communication parameters:<ul>
+<li><b>Loopback testing</b> (for some interfaces) for testing of the underlying hardware with usage of a local loopback</li>
+<li><b>Server testing</b> (for some interfaces) for extensive testing of the underlying hardware with usage of a dedicated Server</li>
 </ul>
-<p>The CMSIS-Driver Validation requires <a href="http://www.keil.com/pack/doc/CMSIS/RTOS/html/index.html" target="_blank">CMSIS-RTOS</a> or <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system. It is also used to validate implementation of a CMSIS-Driver interface.</p>
-<p>The diagram below is an overview of the configuration for CMSIS-Driver validation.</p>
+</li>
+<li><b>Transfer speed</b> of the data communication with time measurement of data transfer duration</li>
+<li><b>Error event</b> signaling in error conditions</li>
+</ul>
+<p>The CMSIS-Driver Validation requires <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.<br/>
+</p>
+<p>The diagram below shows an overview of the CMSIS-Driver Validation configuration.</p>
 <div class="image">
-<img src="DVSuite.png" alt="DVSuite.png"/>
+<img src="cmsis_dv.png" alt="cmsis_dv.png"/>
 </div>
 <p>This manual contains the following chapters:</p>
 <ul>
-<li><a class="el" href="test_setup.html">Test Setup</a> - Describes the general setup of the CMSIS-Driver validation test and how to generate test output.</li>
-<li><a class="el" href="test_results.html">Reading Test Results</a> - Explains how to interpret the test results from loopback tests.</li>
-<li><a class="el" href="examples.html">Examples</a> - Contains information of several example projects including the required hardware setup.</li>
-<li><a class="el" href="resource_requirements.html">Resource Requirements</a> - Lists memory and CMSIS-RTOS requirements.</li>
-<li><a href="./modules.html" class="el">Reference</a> - explains the individual tests for the various CMSIS-Driver interfaces.</li>
+<li><a class="el" href="setup.html">Setup</a> - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.</li>
+<li><a class="el" href="report.html">Report</a> - Describes the reports produced by the CMSIS-Driver Validation.</li>
+<li><a class="el" href="debugging.html">Debugging</a> - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.</li>
+<li><a class="el" href="resource_requirements.html">Resource Requirements</a> - Lists memory and CMSIS-RTOS2 requirements.</li>
+<li><a class="el" href="examples.html">Examples</a> - Contains information about several example projects including the required hardware setup.</li>
+<li><a href="./modules.html" class="el">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.</li>
 </ul>
-<p>The Software Pack for CMSIS-Driver validation current tests the following interfaces:</p>
+<p>The CMSIS-Driver Validation provides validation for the following interfaces:</p>
 <ul>
-<li><a class="el" href="group__can__funcs.html">CAN Validation</a> - Controller Area Network (CAN) peripheral.</li>
-<li><a class="el" href="group__eth__funcs.html">Ethernet Validation</a> - Interface to Ethernet MAC and PHY peripheral.</li>
-<li><a class="el" href="group__i2c__funcs.html">I2C Validation</a> - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.</li>
-<li><a class="el" href="group__mci__funcs.html">MCI Validation</a> - Memory card interface for SD/MMC memory.</li>
-<li><a class="el" href="group__spi__funcs.html">SPI Validation</a> - Serial Peripheral Interface (SPI) driver.</li>
-<li><a class="el" href="group__usart__funcs.html">USART Validation</a> - Universal Synchronous and Asynchronous Receiver/Transmitter (USART) interface driver.</li>
-<li><a class="el" href="group__usbd__funcs.html">USB Device Validation</a> - Universal Serial Bus (USB) Device interface driver.</li>
-<li><a class="el" href="group__usbh__funcs.html">USB Host Validation</a> - Universal Serial Bus (USB) Host interface driver.</li>
-<li><a class="el" href="group__wifi__funcs.html">WiFi Validation</a> - WiFi (Wireless Fidelity Interface) module driver.</li>
+<li><a class="el" href="group__dv__can.html">CAN</a> - Controller Area Network (CAN) interface driver.</li>
+<li><a class="el" href="group__dv__eth.html">Ethernet</a> - Ethernet MAC and PHY peripheral interface driver.</li>
+<li><a class="el" href="group__dv__i2c.html">I2C</a> - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.</li>
+<li><a class="el" href="group__dv__mci.html">MCI</a> - Memory Card Interface driver for SD/MMC memory.</li>
+<li><a class="el" href="group__dv__spi.html">SPI</a> - Serial Peripheral Interface (SPI) driver.</li>
+<li><a class="el" href="group__dv__usart.html">USART</a> - Universal Synchronous and Asynchronous Receiver/Transmitter (USART) interface driver.</li>
+<li><a class="el" href="group__dv__usbd.html">USB Device</a> - Universal Serial Bus (USB) Device interface driver.</li>
+<li><a class="el" href="group__dv__usbh.html">USB Host</a> - Universal Serial Bus (USB) Host interface driver.</li>
+<li><a class="el" href="group__dv__wifi.html">WiFi</a> - WiFi (Wireless Fidelity Interface) module/shield driver.</li>
 </ul>
 <p>This manual assumes that you are familiar with MDK. Refer to <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.</p>
 <hr/>
@@ -156,6 +164,17 @@ $(document).ready(function(){initNavTree('index.html','');});
 <table  class="cmtable" summary="Revision History">
 <tr>
 <th>Version </th><th>Description  </th></tr>
+<tr>
+<td>V2.0.0 </td><td><ul>
+<li>Remove bundle from components</li>
+<li>Change configuration from single file to a file per component</li>
+<li>Rework SPI Driver testing (introduced SPI_Server)</li>
+<li>Add SPI_Server application for Keil MCBSTM32F400 evaluation board</li>
+<li>Update WiFi Driver tests (support for WiFi Driver API V1.1.0)</li>
+<li>Update all examples</li>
+<li>Deprecate CMSIS-RTOS1   </li>
+</ul>
+</td></tr>
 <tr>
 <td>V1.4.0 </td><td><ul>
 <li>Updated conditions to support all Cortex-M devices</li>
@@ -197,7 +216,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

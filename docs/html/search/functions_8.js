@@ -3,7 +3,7 @@ var searchData=
   ['tc_5fdetail',['tc_Detail',['../_d_v___report_8c.html#a1cf006de7d00d8a4034356ae48fc88eb',1,'DV_Report.c']]],
   ['tc_5finit',['tc_Init',['../_d_v___report_8c.html#abec2ba7807bd47ac66e092f7785cc94e',1,'DV_Report.c']]],
   ['tc_5funinit',['tc_Uninit',['../_d_v___report_8c.html#a62cb20775b2ecbe203da397b2eb72869',1,'DV_Report.c']]],
-  ['tg_5finit',['tg_Init',['../_d_v___report_8c.html#af97d6a1707820827db7936e8e6214572',1,'DV_Report.c']]],
+  ['tg_5finit',['tg_Init',['../_d_v___report_8c.html#a54008ac3a5b60d6b04a520902b4af559',1,'DV_Report.c']]],
   ['tg_5funinit',['tg_Uninit',['../_d_v___report_8c.html#a61f4e871cbec7aa6f401d1389956eff8',1,'DV_Report.c']]],
   ['th_5faccept',['Th_Accept',['../_d_v___w_i_f_i_8c.html#ab41b5213080414bf0d070cdd98e358bb',1,'DV_WIFI.c']]],
   ['th_5fassert2_5fmsg',['th_assert2_msg',['../_d_v___w_i_f_i_8c.html#a28bfb37f406d6e8b936e285ba41c63ba',1,'DV_WIFI.c']]],

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>WiFi Configuration</title>
-<title>CMSIS-Driver Validation: WiFi Configuration</title>
+<title>Configuration</title>
+<title>CMSIS-Driver Validation: Configuration</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="drv.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="jquery.js"></script>
@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__wifi__config.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -109,15 +109,16 @@ $(document).ready(function(){initNavTree('group__wifi__config.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">WiFi Configuration<div class="ingroups"><a class="el" href="group__wifi__funcs.html">WiFi Validation</a></div></div>  </div>
+<div class="title">Configuration<div class="ingroups"><a class="el" href="group__dv__wifi.html">WiFi Validation</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The WiFi driver validation settings are available in the <code>DV_Config.h</code> file.</p>
-<p>Some settings depend on the test environment and need to be changed for proper operation of WiFi driver validation. These settings can be found under WiFi <b>Configuration</b> settings in the <code>DV_Config.h</code> file and need to be set as follows:</p>
+<p>The WiFi driver validation settings are available in the <b>DV_WiFi_Config.h</b> configuration file.</p>
+<p>Some settings depend on the test environment and need to be changed for proper operation of the WiFi driver validation.<br/>
+ These settings can be found under <b>Configuration</b> settings in the <b>DV_WiFi_Config.h</b> configuration file and need to be set as follows:</p>
 <div class="image">
-<img src="dv_config_h_wifi_config.png" alt="dv_config_h_wifi_config.png"/>
+<img src="dv_wifi_config_h.png" alt="dv_wifi_config_h.png"/>
 <div class="caption">
-DV_Config.h header file in Configuration Wizard view mode</div></div>
+DV_WiFi_Config.h configuration file in Configuration Wizard view mode</div></div>
 <p> <b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:</p>
 <ul>
 <li>SSID</li>
@@ -126,9 +127,9 @@ DV_Config.h header file in Configuration Wizard view mode</div></div>
 <li>Channel: use 0 for auto-detect channel</li>
 <li>WPS PIN: PIN used for WPS tests (the Access Point has to have the same PIN enabled and WPS service running)</li>
 </ul>
-<p><b>Access Point</b> related settings needed for testing Access Point functionality of the WiFi module:</p>
+<p><b>Access Point</b> related settings needed for testing Access Point functionality (network creation) of the WiFi module:</p>
 <ul>
-<li>SSID: SSID created by the WiFi module</li>
+<li>SSID</li>
 <li>Password</li>
 <li>Security Type</li>
 <li>Channel: use 0 for auto-detect channel</li>
@@ -137,17 +138,19 @@ DV_Config.h header file in Configuration Wizard view mode</div></div>
 <p><b>Socket</b> related setting needed for Socket API and Socket Operation tests:</p>
 <ul>
 <li>SockServer IP: IP address assigned to the SockServer on your local network</li>
+<li>Number of sockets: Number of sockets that the driver supports and that will be tested</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).</dd></dl>
-<p>Under <b>Test Cases</b> select testing functionality as required.</p>
+<p>Under <b>Tests</b> select testing functionality as required. For details on tests performed by each test function please refer to <a class="el" href="group__wifi__tests.html">WiFi Tests</a>.</p>
 <p><b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable WiFi Driver API function tests respectively.</p>
-<p><b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests are used for more complex operational test of the WiFi driver. A brief description of each test functionality can be viewed by using <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a> view of the DV_Config.h file and clicking on the test or hovering a mouse pointer over it. </p>
+<p><b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests are used for more complex operational test of the WiFi driver.<br/>
+ A brief description of each test functionality can be viewed by using <a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a> view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a mouse pointer over it. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

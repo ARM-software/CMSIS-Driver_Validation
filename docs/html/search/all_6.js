@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['framework',['Framework',['../group__dv__framework.html',1,'']]],
   ['f_5faccept',['F_ACCEPT',['../_d_v___w_i_f_i_8c.html#ab7c48441a4bc63a910c63551f9b2efbf',1,'DV_WIFI.c']]],
   ['f_5fall',['F_ALL',['../_d_v___w_i_f_i_8c.html#a9b92d492fec016066f9d4359a66d62e0',1,'DV_WIFI.c']]],
   ['f_5fbind',['F_BIND',['../_d_v___w_i_f_i_8c.html#a7e13806bfebaabf09bb740219be7a471',1,'DV_WIFI.c']]],
@@ -28,5 +29,5 @@ var searchData=
   ['f_5fxfer_5fincr',['F_XFER_INCR',['../_d_v___w_i_f_i_8c.html#a1b7b10d08c05cf2527e573c2baa4b31d',1,'DV_WIFI.c']]],
   ['failed',['Failed',['../_d_v___report_8c.html#acf2bcee204aecffa708d9ab081f7d6a7',1,'DV_Report.c']]],
   ['flush',['FLUSH',['../_d_v___report_8c.html#ad7ca11d555f526a6c553f150b898c0d8',1,'DV_Report.c']]],
-  ['framework_20functions',['Framework Functions',['../group__framework__funcs.html',1,'']]]
+  ['functions',['Functions',['../group__framework__funcs.html',1,'']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['af',['af',['../struct_i_o___c_r_e_a_t_e.html#ae55c6102fa864606b93f25346c135b66',1,'IO_CREATE::af()'],['../struct_i_o___g_e_t_h_o_s_t.html#aadbc743fc0d6b3af1ae8758efbd10cfe',1,'IO_GETHOST::af()']]],
   ['arg_5faccept',['ARG_ACCEPT',['../_d_v___w_i_f_i_8c.html#a1bd2d95a9b9431cf350b46eb9c65fc10',1,'DV_WIFI.c']]],
   ['arg_5fbind',['ARG_BIND',['../_d_v___w_i_f_i_8c.html#a0fd027ac6d6fb7c2032c034818288bc7',1,'DV_WIFI.c']]],
   ['arg_5fclose',['ARG_CLOSE',['../_d_v___w_i_f_i_8c.html#a1e6e86bdbe637300a87ecbec4d402ae5',1,'DV_WIFI.c']]],

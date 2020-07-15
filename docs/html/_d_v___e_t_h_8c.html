@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('_d_v___e_t_h_8c.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('_d_v___e_t_h_8c.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;cmsis_dv.h&quot;</code><br/>
-<code>#include &quot;DV_Config.h&quot;</code><br/>
+<code>#include &quot;DV_ETH_Config.h&quot;</code><br/>
 <code>#include &quot;DV_Framework.h&quot;</code><br/>
 <code>#include &quot;Driver_ETH_MAC.h&quot;</code><br/>
 <code>#include &quot;Driver_ETH_PHY.h&quot;</code><br/>
@@ -140,51 +140,51 @@ Functions</h2></td></tr>
 <tr class="separator:aee22ac2de38029ff43570fc72fe233d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad61589eb7b214a338e95ed9d4b881a6a"><td class="memItemLeft" align="right" valign="top">ARM_DRIVER_ETH_PHY&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___e_t_h_8c.html#ad61589eb7b214a338e95ed9d4b881a6a">CREATE_SYMBOL</a> (Driver_ETH_PHY, DRV_ETH)</td></tr>
 <tr class="separator:ad61589eb7b214a338e95ed9d4b881a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8782eff22ac4b092e58b8ba0839c9ab0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___e_t_h_8c.html#a8782eff22ac4b092e58b8ba0839c9ab0">ETH_DrvEvent</a> (uint32_t <a class="el" href="_d_v___w_i_f_i_8c.html#aa2c7fd10fd2226b63e2c79622ada0432">event</a>)</td></tr>
+<tr class="memitem:a8782eff22ac4b092e58b8ba0839c9ab0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___e_t_h_8c.html#a8782eff22ac4b092e58b8ba0839c9ab0">ETH_DrvEvent</a> (uint32_t event)</td></tr>
 <tr class="separator:a8782eff22ac4b092e58b8ba0839c9ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab878f325259b7b7d11ea13556986aec0"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___e_t_h_8c.html#ab878f325259b7b7d11ea13556986aec0">ETH_RunTransfer</a> (uint8_t *out, uint8_t *in, uint32_t cnt)</td></tr>
 <tr class="separator:ab878f325259b7b7d11ea13556986aec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7c156694d17ba1f8043e6788bc146232"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga7c156694d17ba1f8043e6788bc146232">ETH_MAC_GetCapabilities</a> (void)</td></tr>
-<tr class="memdesc:ga7c156694d17ba1f8043e6788bc146232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_GetCapabilities.  <a href="group__eth__funcs.html#ga7c156694d17ba1f8043e6788bc146232">More...</a><br/></td></tr>
+<tr class="memitem:ga7c156694d17ba1f8043e6788bc146232"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga7c156694d17ba1f8043e6788bc146232">ETH_MAC_GetCapabilities</a> (void)</td></tr>
+<tr class="memdesc:ga7c156694d17ba1f8043e6788bc146232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_GetCapabilities.  <a href="group__eth__tests.html#ga7c156694d17ba1f8043e6788bc146232">More...</a><br/></td></tr>
 <tr class="separator:ga7c156694d17ba1f8043e6788bc146232"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3a2ada14e6cec67e582af5f5fee0069b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga3a2ada14e6cec67e582af5f5fee0069b">ETH_MAC_Initialization</a> (void)</td></tr>
-<tr class="memdesc:ga3a2ada14e6cec67e582af5f5fee0069b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_Initialization.  <a href="group__eth__funcs.html#ga3a2ada14e6cec67e582af5f5fee0069b">More...</a><br/></td></tr>
+<tr class="memitem:ga3a2ada14e6cec67e582af5f5fee0069b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga3a2ada14e6cec67e582af5f5fee0069b">ETH_MAC_Initialization</a> (void)</td></tr>
+<tr class="memdesc:ga3a2ada14e6cec67e582af5f5fee0069b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_Initialization.  <a href="group__eth__tests.html#ga3a2ada14e6cec67e582af5f5fee0069b">More...</a><br/></td></tr>
 <tr class="separator:ga3a2ada14e6cec67e582af5f5fee0069b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3292704097c31ebf84ecf3b6e31f97a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga3292704097c31ebf84ecf3b6e31f97a9">ETH_MAC_CheckInvalidInit</a> (void)</td></tr>
-<tr class="memdesc:ga3292704097c31ebf84ecf3b6e31f97a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_CheckInvalidInit.  <a href="group__eth__funcs.html#ga3292704097c31ebf84ecf3b6e31f97a9">More...</a><br/></td></tr>
+<tr class="memitem:ga3292704097c31ebf84ecf3b6e31f97a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga3292704097c31ebf84ecf3b6e31f97a9">ETH_MAC_CheckInvalidInit</a> (void)</td></tr>
+<tr class="memdesc:ga3292704097c31ebf84ecf3b6e31f97a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_CheckInvalidInit.  <a href="group__eth__tests.html#ga3292704097c31ebf84ecf3b6e31f97a9">More...</a><br/></td></tr>
 <tr class="separator:ga3292704097c31ebf84ecf3b6e31f97a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf1c783ffbc081ced418f87e8e865cef0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#gaf1c783ffbc081ced418f87e8e865cef0">ETH_MAC_PowerControl</a> (void)</td></tr>
-<tr class="memdesc:gaf1c783ffbc081ced418f87e8e865cef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_PowerControl.  <a href="group__eth__funcs.html#gaf1c783ffbc081ced418f87e8e865cef0">More...</a><br/></td></tr>
+<tr class="memitem:gaf1c783ffbc081ced418f87e8e865cef0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#gaf1c783ffbc081ced418f87e8e865cef0">ETH_MAC_PowerControl</a> (void)</td></tr>
+<tr class="memdesc:gaf1c783ffbc081ced418f87e8e865cef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_PowerControl.  <a href="group__eth__tests.html#gaf1c783ffbc081ced418f87e8e865cef0">More...</a><br/></td></tr>
 <tr class="separator:gaf1c783ffbc081ced418f87e8e865cef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga31b9ceedaa57f0283360616a3ad1385f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga31b9ceedaa57f0283360616a3ad1385f">ETH_MAC_SetBusSpeed</a> (void)</td></tr>
-<tr class="memdesc:ga31b9ceedaa57f0283360616a3ad1385f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_SetBusSpeed.  <a href="group__eth__funcs.html#ga31b9ceedaa57f0283360616a3ad1385f">More...</a><br/></td></tr>
+<tr class="memitem:ga31b9ceedaa57f0283360616a3ad1385f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga31b9ceedaa57f0283360616a3ad1385f">ETH_MAC_SetBusSpeed</a> (void)</td></tr>
+<tr class="memdesc:ga31b9ceedaa57f0283360616a3ad1385f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_SetBusSpeed.  <a href="group__eth__tests.html#ga31b9ceedaa57f0283360616a3ad1385f">More...</a><br/></td></tr>
 <tr class="separator:ga31b9ceedaa57f0283360616a3ad1385f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf66e2e204207cd16da8d88b70a4e7dee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#gaf66e2e204207cd16da8d88b70a4e7dee">ETH_MAC_Config_Mode</a> (void)</td></tr>
-<tr class="memdesc:gaf66e2e204207cd16da8d88b70a4e7dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_Config_Mode.  <a href="group__eth__funcs.html#gaf66e2e204207cd16da8d88b70a4e7dee">More...</a><br/></td></tr>
+<tr class="memitem:gaf66e2e204207cd16da8d88b70a4e7dee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#gaf66e2e204207cd16da8d88b70a4e7dee">ETH_MAC_Config_Mode</a> (void)</td></tr>
+<tr class="memdesc:gaf66e2e204207cd16da8d88b70a4e7dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_Config_Mode.  <a href="group__eth__tests.html#gaf66e2e204207cd16da8d88b70a4e7dee">More...</a><br/></td></tr>
 <tr class="separator:gaf66e2e204207cd16da8d88b70a4e7dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga46ab478d3e074e1e2d23430e37583bbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga46ab478d3e074e1e2d23430e37583bbc">ETH_MAC_Config_CommonParams</a> (void)</td></tr>
-<tr class="memdesc:ga46ab478d3e074e1e2d23430e37583bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_Config_CommonParams.  <a href="group__eth__funcs.html#ga46ab478d3e074e1e2d23430e37583bbc">More...</a><br/></td></tr>
+<tr class="memitem:ga46ab478d3e074e1e2d23430e37583bbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga46ab478d3e074e1e2d23430e37583bbc">ETH_MAC_Config_CommonParams</a> (void)</td></tr>
+<tr class="memdesc:ga46ab478d3e074e1e2d23430e37583bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_Config_CommonParams.  <a href="group__eth__tests.html#ga46ab478d3e074e1e2d23430e37583bbc">More...</a><br/></td></tr>
 <tr class="separator:ga46ab478d3e074e1e2d23430e37583bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3ed7bdec67ded66d0a0e7d809ef40a32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga3ed7bdec67ded66d0a0e7d809ef40a32">ETH_PHY_Initialization</a> (void)</td></tr>
-<tr class="memdesc:ga3ed7bdec67ded66d0a0e7d809ef40a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_PHY_Initialization.  <a href="group__eth__funcs.html#ga3ed7bdec67ded66d0a0e7d809ef40a32">More...</a><br/></td></tr>
+<tr class="memitem:ga3ed7bdec67ded66d0a0e7d809ef40a32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga3ed7bdec67ded66d0a0e7d809ef40a32">ETH_PHY_Initialization</a> (void)</td></tr>
+<tr class="memdesc:ga3ed7bdec67ded66d0a0e7d809ef40a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_PHY_Initialization.  <a href="group__eth__tests.html#ga3ed7bdec67ded66d0a0e7d809ef40a32">More...</a><br/></td></tr>
 <tr class="separator:ga3ed7bdec67ded66d0a0e7d809ef40a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1fa494c698956cc2d69bcee4152752cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga1fa494c698956cc2d69bcee4152752cb">ETH_PHY_CheckInvalidInit</a> (void)</td></tr>
-<tr class="memdesc:ga1fa494c698956cc2d69bcee4152752cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_PHY_CheckInvalidInit.  <a href="group__eth__funcs.html#ga1fa494c698956cc2d69bcee4152752cb">More...</a><br/></td></tr>
+<tr class="memitem:ga1fa494c698956cc2d69bcee4152752cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga1fa494c698956cc2d69bcee4152752cb">ETH_PHY_CheckInvalidInit</a> (void)</td></tr>
+<tr class="memdesc:ga1fa494c698956cc2d69bcee4152752cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_PHY_CheckInvalidInit.  <a href="group__eth__tests.html#ga1fa494c698956cc2d69bcee4152752cb">More...</a><br/></td></tr>
 <tr class="separator:ga1fa494c698956cc2d69bcee4152752cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga070d572e482b1b3a619d42f2cda413af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga070d572e482b1b3a619d42f2cda413af">ETH_PHY_PowerControl</a> (void)</td></tr>
-<tr class="memdesc:ga070d572e482b1b3a619d42f2cda413af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_PHY_PowerControl.  <a href="group__eth__funcs.html#ga070d572e482b1b3a619d42f2cda413af">More...</a><br/></td></tr>
+<tr class="memitem:ga070d572e482b1b3a619d42f2cda413af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga070d572e482b1b3a619d42f2cda413af">ETH_PHY_PowerControl</a> (void)</td></tr>
+<tr class="memdesc:ga070d572e482b1b3a619d42f2cda413af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_PHY_PowerControl.  <a href="group__eth__tests.html#ga070d572e482b1b3a619d42f2cda413af">More...</a><br/></td></tr>
 <tr class="separator:ga070d572e482b1b3a619d42f2cda413af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga03d53d90c6b551f0e72ab1df179e29b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#ga03d53d90c6b551f0e72ab1df179e29b4">ETH_PHY_Config</a> (void)</td></tr>
-<tr class="memdesc:ga03d53d90c6b551f0e72ab1df179e29b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_PHY_Config.  <a href="group__eth__funcs.html#ga03d53d90c6b551f0e72ab1df179e29b4">More...</a><br/></td></tr>
+<tr class="memitem:ga03d53d90c6b551f0e72ab1df179e29b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga03d53d90c6b551f0e72ab1df179e29b4">ETH_PHY_Config</a> (void)</td></tr>
+<tr class="memdesc:ga03d53d90c6b551f0e72ab1df179e29b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_PHY_Config.  <a href="group__eth__tests.html#ga03d53d90c6b551f0e72ab1df179e29b4">More...</a><br/></td></tr>
 <tr class="separator:ga03d53d90c6b551f0e72ab1df179e29b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacf7d6939bdcebee02896b0e37c96b507"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#gacf7d6939bdcebee02896b0e37c96b507">ETH_Loopback_Transfer</a> (void)</td></tr>
-<tr class="memdesc:gacf7d6939bdcebee02896b0e37c96b507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_Loopback_Transfer.  <a href="group__eth__funcs.html#gacf7d6939bdcebee02896b0e37c96b507">More...</a><br/></td></tr>
+<tr class="memitem:gacf7d6939bdcebee02896b0e37c96b507"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#gacf7d6939bdcebee02896b0e37c96b507">ETH_Loopback_Transfer</a> (void)</td></tr>
+<tr class="memdesc:gacf7d6939bdcebee02896b0e37c96b507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_Loopback_Transfer.  <a href="group__eth__tests.html#gacf7d6939bdcebee02896b0e37c96b507">More...</a><br/></td></tr>
 <tr class="separator:gacf7d6939bdcebee02896b0e37c96b507"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad515d00e707fed770179761d957f0e85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#gad515d00e707fed770179761d957f0e85">ETH_MAC_PTP_ControlTimer</a> (void)</td></tr>
-<tr class="memdesc:gad515d00e707fed770179761d957f0e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_MAC_PTP_ControlTimer.  <a href="group__eth__funcs.html#gad515d00e707fed770179761d957f0e85">More...</a><br/></td></tr>
+<tr class="memitem:gad515d00e707fed770179761d957f0e85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#gad515d00e707fed770179761d957f0e85">ETH_MAC_PTP_ControlTimer</a> (void)</td></tr>
+<tr class="memdesc:gad515d00e707fed770179761d957f0e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_PTP_ControlTimer.  <a href="group__eth__tests.html#gad515d00e707fed770179761d957f0e85">More...</a><br/></td></tr>
 <tr class="separator:gad515d00e707fed770179761d957f0e85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae5f84ed13e947020911e651523fb23c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__funcs.html#gae5f84ed13e947020911e651523fb23c1">ETH_Loopback_PTP</a> (void)</td></tr>
-<tr class="memdesc:gae5f84ed13e947020911e651523fb23c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: ETH_Loopback_PTP.  <a href="group__eth__funcs.html#gae5f84ed13e947020911e651523fb23c1">More...</a><br/></td></tr>
+<tr class="memitem:gae5f84ed13e947020911e651523fb23c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#gae5f84ed13e947020911e651523fb23c1">ETH_Loopback_PTP</a> (void)</td></tr>
+<tr class="memdesc:gae5f84ed13e947020911e651523fb23c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_Loopback_PTP.  <a href="group__eth__tests.html#gae5f84ed13e947020911e651523fb23c1">More...</a><br/></td></tr>
 <tr class="separator:gae5f84ed13e947020911e651523fb23c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -351,26 +351,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ac14f0a356acfadc3410b1a3121a05423"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t* buffer_in</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="aafb2b93e2fdfe9864fc6988e29c9a345"></a>
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +371,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7b4156dfaedbfc7e66588db68c4ea53d"></a>
+<a class="anchor" id="ac14f0a356acfadc3410b1a3121a05423"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -399,7 +379,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ARM_ETH_MAC_CAPABILITIES capab</td>
+          <td class="memname">uint8_t* buffer_in</td>
         </tr>
       </table>
   </td>
@@ -451,7 +431,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab5135011ec160c4988c8469051a56838"></a>
+<a class="anchor" id="a7b4156dfaedbfc7e66588db68c4ea53d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -459,7 +439,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t volatile Event</td>
+          <td class="memname">ARM_ETH_MAC_CAPABILITIES capab</td>
         </tr>
       </table>
   </td>
@@ -491,13 +471,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab5135011ec160c4988c8469051a56838"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t volatile Event</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="_d_v___e_t_h_8c.html">DV_ETH.c</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('resource_requirements.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,53 +113,49 @@ $(document).ready(function(){initNavTree('resource_requirements.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="heap_req"></a>
-Heap Requirements</h1>
-<p>Heap is used by memory allocation functions. It is configured in the <a href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" class="el" target="_blank">startup_device.s</a> file located under the <b>Device</b> component class.</p>
-<p>Additional memory is allocated for the validation framework and for the buffers that are used in the driver tests.</p>
-<p>For the validation framework add 1024 bytes of heap. Then, double the amount of the largest buffer size specified in the <a class="el" href="test_setup.html#step4">DV_Config.h</a> file and add this as well.</p>
+Heap Memory</h1>
+<p>Heap memory is used by the memory allocation functions.<br/>
+ It is usually configured in the <a href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" class="el" target="_blank">startup_device.s</a> file located under the <b>Device</b> component class but it can also, in some cases, be configured by a <b>linker script</b> instead.</p>
+<p>Some interface test functions allocate additional buffers from the heap memory.</p>
+<p>The CMSIS-Driver Validation framework does not impose heap requirements because it does not use heap memory.</p>
+<p>Each interface test module has specific requirements for the heap memory, default requirements are listed below:</p>
 <table class="doxtable">
 <tr>
-<th align="left">Option (under section Heap Configuration) </th><th align="left">Increase Value by  </th></tr>
+<th align="center">Interface test module </th><th align="center">Heap memory requirement (in bytes)  </th></tr>
 <tr>
-<td align="left">Heap Size (in Bytes) </td><td align="left">+ (1024 + 2 x maximum buffer size) </td></tr>
+<td align="center">CAN </td><td align="center">128 </td></tr>
+<tr>
+<td align="center">Ethernet </td><td align="center">1024 </td></tr>
+<tr>
+<td align="center">SPI </td><td align="center">12288 </td></tr>
+<tr>
+<td align="center">USART </td><td align="center">2048 </td></tr>
 </table>
-<p><b>Calculation</b> <b>Example</b> </p>
-<p>Let's assume that the default heap size in your device's startup file is <code>0x400</code> (which is 1024 bytes). Add 1024 for the framework and for example another 2048 bytes if you are using the default <b>Buffer</b> <b>Size</b> of 512 bytes but you have set the <b>Buffer size for baudrate tests</b> to 1024 bytes. This computes to a total heap of 3584 bytes which is equivalent to <code>0xE00</code>. Set this number in the startup file.</p>
+<p>Interface test modules that are not listed in the previous table do not use heap memory.</p>
+<p>The system heap memory size must support the largest heap requirement of any used interface test module.<br/>
+ For example, if SPI driver testing is selected heap memory size should be set to at least 12 kB.</p>
+<p>Suggested value for heap memory size is <b>16384</b> bytes.</p>
+<dl class="section note"><dt>Note</dt><dd>Each module contains additional settings in related configuration file which are not exposed through Configuration Wizard and impact the heap memory requirement.<br/>
+ If these values are changed please adjust heap memory size accordingly.</dd></dl>
 <h1><a class="anchor" id="rtos2_req"></a>
-CMSIS-RTOS2 Requirements</h1>
+CMSIS-RTOS2</h1>
 <p>The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the <a href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/index.html" class="el" target="_blank">CMSIS-RTOS2 Reference</a> for further details.</p>
 <p>For <a href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/rtx5_impl.html" class="el" target="_blank">CMSIS-RTOS2 RTX5</a>, thread requirements are configured in the <a href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/config_rtx5.html" class="el" target="_blank">RTX_Config.h</a> file located under the <b>CMSIS</b> component class:</p>
-<table  class="doxtable" summary="CMSIS-RTOS2 Configuration">
+<table class="doxtable">
 <tr>
-<th align="left">Option (under section Thread Configuration) </th><th>Set Value to  </th></tr>
+<th align="left">Option </th><th align="center">Value  </th></tr>
 <tr>
-<td>Default Thread stack size [bytes] </td><td>2048  </td></tr>
+<td align="left">System Configuration: Global Dynamic Memory size [bytes] (Note 1) </td><td align="center">16384 </td></tr>
 <tr>
-<td>Global Dynamic Memory size [bytes] (Note 1) </td><td>8192  </td></tr>
+<td align="left">Thread Configuration: Default Thread Stack size [bytes] </td><td align="center">3072 </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>Note 1: This setting is only necessary for WiFi driver testing, for other tests default setting of 4096 is sufficient.</dd></dl>
-<h1><a class="anchor" id="rtos_req"></a>
-CMSIS-RTOS Requirements</h1>
-<p>Instead of CMSIS-RTOS2 you can use CMSIS-RTOS. In this case the <code>main</code> thread is implicitly created. For proper operation, you need to add a certain amount of thread stack size to the <code>main</code> thread.</p>
-<p>The thread requirements need to be reflected in the CMSIS-RTOS configuration. Refer to the <a href="http://www.keil.com/pack/doc/cmsis/RTOS/html/index.html" class="el" target="_blank">CMSIS-RTOS Reference</a> for further details.</p>
-<p>For <a href="http://www.keil.com/pack/doc/cmsis/RTOS/html/rtxImplementation.html" class="el" target="_blank">CMSIS-RTOS RTX</a>, thread requirements are configured in the <a href="http://www.keil.com/pack/doc/cmsis/RTOS/html/configure.html" class="el" target="_blank">RTX_Conf_CM.c</a> file located under the <b>CMSIS</b> component class:</p>
-<table  class="doxtable" summary="CMSIS-RTOS Configuration">
-<tr>
-<th align="left">Option (under section Thread Configuration) </th><th>Set Value to  </th></tr>
-<tr>
-<td>Default Thread stack size [bytes] </td><td>2048  </td></tr>
-<tr>
-<td>Main Thread stack size [bytes] </td><td>2048  </td></tr>
-</table>
-<dl class="section note"><dt>Note</dt><dd>Do not forget to set the correct <b>RTOS Kernel Timer input clock frequency [Hz]</b> otherwise the tests will not run properly on the device.</dd>
-<dd>
-Only WiFi tests create one additional thread for socket testing and usually WiFi drivers have a thread for processing messages. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Note 1: This setting is only necessary for WiFi driver testing, for other driver testing value of 4096 bytes is sufficient. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

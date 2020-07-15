@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('examples_wizfi360.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,15 +113,15 @@ $(document).ready(function(){initNavTree('examples_wizfi360.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Software Setup </h2>
-<p>Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project <b>CMSIS-Driver WiFi WIZnet WizFi360 Validation (EVK-MIMXRT1064)</b> to your machine.</p>
+<p>Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project <b>CMSIS-Driver WiFi WIZnet WizFi360 Validation (EVK-MIMXRT1064)</b> to your machine.</p>
 <ol type="1">
-<li>Choose one of the available <a class="el" href="examples.html#example_targets">example_targets</a> and build the project.</li>
-<li>Run the test on the target hardware using the on-board CMSIS-DAP Debugger.</li>
+<li>Choose one of the available <a class="el" href="examples.html#example_targets">Targets</a> and build the project.</li>
+<li>Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.</li>
 </ol>
-<p>This example is prepared for testing of the WiFi driver and it requires <a class="el" href="group__wifi__requirements.html">WiFi Requirements</a>, as well as, proper configuration described in <a class="el" href="group__wifi__config.html">WiFi Configuration</a>.</p>
-<p>For details on WiFi driver tests please refer to <a class="el" href="group__wifi__funcs.html">WiFi Validation</a>.</p>
+<p>This example is prepared for verification of the WiFi driver and it requires <a class="el" href="group__wifi__requirements.html">WiFi equirements</a>, as well as, proper configuration described in <a class="el" href="group__wifi__config.html">WiFi Configuration</a>.</p>
+<p>For details on WiFi driver tests please refer to <a class="el" href="group__dv__wifi.html">WiFi Validation</a>.</p>
 <div class="image">
-<img src="MIMXRT1064EVK.png" alt="MIMXRT1064EVK.png"/>
+<img src="mimxrt1064evk.png" alt="mimxrt1064evk.png"/>
 <div class="caption">
 NXP MIMXRT1064-EVK with</div></div>
 <div class="image">
@@ -134,7 +134,7 @@ WIZnet WizFi360-EVB WiFi Shield</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="examples.html">Examples</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

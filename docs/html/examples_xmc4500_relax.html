@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('examples_xmc4500_relax.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,30 +113,30 @@ $(document).ready(function(){initNavTree('examples_xmc4500_relax.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Software Setup </h2>
-<p>Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest <b>Infineon::XMC4000_DFP</b> pack and copy the example project <b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.</p>
+<p>Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest <b>Infineon::XMC4000_DFP</b> pack and copy the example project <b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.</p>
 <ol type="1">
-<li>Choose one of the available <a class="el" href="examples.html#example_targets">example_targets</a> and build the project.</li>
+<li>Choose one of the available <a class="el" href="examples.html#example_targets">Targets</a> and build the project.</li>
 <li>If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board configuration.</li>
-<li>Run the test on the target hardware using the on-board JLink-Lite debug adapter.</li>
+<li>Run the validation on the target hardware using the on-board JLink-Lite debugger.</li>
 </ol>
 <h2>Hardware Setup </h2>
 <p>The following picture shows the necessary external loopback connections for the Infineon XMC4500 Relax Kit evaluation board:</p>
 <ul>
-<li>UART2: <b>P0.4</b> (UART2_RX) and <b>P0.5</b> (UART2_TX) (Header X2)</li>
-<li>SPI0: <b>P5.0</b> (SPI0_MOSI) and <b>P5.1</b> (SPI0_MISO) (Header X2)</li>
-<li>For Ethernet use a loopback plug as described in <a class="el" href="group__eth__funcs.html#eth_loopback">Loopback Communication Setup</a>.</li>
+<li><b>UART2</b>: <b>P0.4</b> (UART2_RX) and <b>P0.5</b> (UART2_TX) (Header X2)</li>
+<li><b>SPI0</b>: <b>P5.0</b> (SPI0_MOSI) and <b>P5.1</b> (SPI0_MISO) (Header X2)</li>
+<li>For <b>Ethernet</b> use a loopback plug as described in <a class="el" href="group__dv__eth.html#eth_loopback">Loopback Communication Setup</a>.</li>
 </ul>
 <div class="image">
 <img src="xmc4500.png" alt="xmc4500.png"/>
 <div class="caption">
-Connections for Loop Back Communication Tests on Infineon XMC4500 Relax Kit</div></div>
+Connections for Loopback Communication Tests on the Infineon XMC4500 Relax Kit</div></div>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="examples.html">Examples</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

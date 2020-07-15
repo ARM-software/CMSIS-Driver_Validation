@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('examples_mcbstm32f200.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,31 +113,31 @@ $(document).ready(function(){initNavTree('examples_mcbstm32f200.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Software Setup </h2>
-<p>Using <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install latest <b>Keil::STM32F2xx_DFP</b> pack and copy the example project <b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.</p>
+<p>Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest <b>Keil::STM32F2xx_DFP</b> pack and copy the example project <b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.</p>
 <ol type="1">
-<li>Choose one of the available <a class="el" href="examples.html#example_targets">example_targets</a> and build the project.</li>
+<li>Choose one of the available <a class="el" href="examples.html#example_targets">Targets</a> and build the project.</li>
 <li>If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board configuration.</li>
-<li>Run the test on the target hardware.</li>
+<li>Run the validation on the target hardware.</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>To communicate with the development board, a debug adapter from the <a href="http://www2.keil.com/mdk5/ulink/" target="_blank">ULINK</a> family is required.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The example is preconfigured to use an <a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.</dd></dl>
 <h2>Hardware Setup </h2>
-<p>The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:</p>
+<p>The following picture shows the necessary external loopback connections for the Keil MCBSTM32F200 evaluation board:</p>
 <ul>
-<li>SPI2: <b>PB14</b> (SPI2_MISO) and <b>PB15</b> (SPI2_MOSI)</li>
-<li>USART1: <b>PB6</b> (USART1_TX) and <b>PB7</b> (USART1_RX)</li>
-<li>For Ethernet use a loopback plug as described in <a class="el" href="group__eth__funcs.html#eth_loopback">Loopback Communication Setup</a>.</li>
+<li><b>SPI2</b>: <b>PB14</b> (SPI2_MISO) and <b>PB15</b> (SPI2_MOSI) (for Loopback Test Mode)</li>
+<li><b>USART1</b>: <b>PB6</b> (USART1_TX) and <b>PB7</b> (USART1_RX)</li>
+<li>For <b>Ethernet</b> use a loopback plug as described in <a class="el" href="group__dv__eth.html#eth_loopback">Loopback Communication Setup</a>.</li>
 </ul>
 <div class="image">
 <img src="mcbstm32f400.png" alt="mcbstm32f400.png"/>
 <div class="caption">
-Connections for Loop Back Communication Tests on Keil MCBSTM32F200</div></div>
+Connections for Loopback Communication Tests on the Keil MCBSTM32F200</div></div>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="examples.html">Examples</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

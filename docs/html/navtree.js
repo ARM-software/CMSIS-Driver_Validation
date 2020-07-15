@@ -2,38 +2,32 @@ var NAVTREE =
 [
   [ "CMSIS-Driver Validation", "index.html", [
     [ "Introduction", "index.html", null ],
-    [ "Test Setup", "test_setup.html", [
-      [ "Step 1: Create an MDK project with your target microcontroller device", "test_setup.html#step1", null ],
-      [ "Step 2: Add required software components", "test_setup.html#step2", null ],
-      [ "Step 3: Add main.c", "test_setup.html#step3", null ],
-      [ "Step 4: Configure DV_Config.h", "test_setup.html#step4", null ],
-      [ "Step 5: Configure Keil RTX5", "test_setup.html#step5", null ],
-      [ "Step 6: Configure Heap", "test_setup.html#step6", null ],
-      [ "Step 7: Configure the Device", "test_setup.html#step7", null ],
-      [ "Step 8: Setup Additional Hardware", "test_setup.html#step8", null ],
-      [ "Step 9: Download and Run the Project", "test_setup.html#step9", null ]
+    [ "Setup", "setup.html", [
+      [ "Step 1: Create an MDK project for your target microcontroller device", "setup.html#step1", null ],
+      [ "Step 2: Add the required software components", "setup.html#step2", null ],
+      [ "Step 3: Add the application's main file (main.c)", "setup.html#step3", null ],
+      [ "Step 4: Configure the CMSIS-Driver Validation framework in DV_Config.h file", "setup.html#step4", null ],
+      [ "Step 5: Configure the interface settings and tests in related DV_interface_Config.h files", "setup.html#step5", null ],
+      [ "Step 6: Configure the Heap memory", "setup.html#step6", null ],
+      [ "Step 7: Configure the CMSIS-RTOS2 (Keil RTX5)", "setup.html#step7", null ],
+      [ "Step 8: Configure the Device", "setup.html#step8", null ],
+      [ "Step 9: Setup the required hardware", "setup.html#step9", null ],
+      [ "Step 10: Download and Run the Project", "setup.html#step10", null ]
     ] ],
-    [ "Reading Test Results", "test_results.html", null ],
-    [ "Examples", "examples.html", "examples" ],
+    [ "Report", "report.html", null ],
+    [ "Debugging", "debugging.html", null ],
     [ "Resource Requirements", "resource_requirements.html", [
-      [ "Heap Requirements", "resource_requirements.html#heap_req", null ],
-      [ "CMSIS-RTOS2 Requirements", "resource_requirements.html#rtos2_req", null ],
-      [ "CMSIS-RTOS Requirements", "resource_requirements.html#rtos_req", null ]
+      [ "Heap Memory", "resource_requirements.html#heap_req", null ],
+      [ "CMSIS-RTOS2", "resource_requirements.html#rtos2_req", null ]
     ] ],
-    [ "Reference", "modules.html", "modules" ],
-    [ "Data Structures", "annotated.html", "annotated" ],
-    [ "Data Structure Index", "classes.html", null ],
-    [ "Data Fields", "functions.html", [
-      [ "All", "functions.html", null ],
-      [ "Variables", "functions_vars.html", null ]
-    ] ]
+    [ "Examples", "examples.html", "examples" ],
+    [ "Reference", "modules.html", "modules" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html",
-"struct_i_o___r_e_c_v_f_r_o_m.html#a0565ebb8f00075cbc5fab80560a9a37c"
+"debugging.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

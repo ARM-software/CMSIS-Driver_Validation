@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['framework_20functions',['Framework Functions',['../group__framework__funcs.html',1,'']]]
+  ['ethernet_20validation',['Ethernet Validation',['../group__dv__eth.html',1,'']]],
+  ['error_20event',['Error Event',['../group__spi__tests__err__evt.html',1,'']]]
 ];

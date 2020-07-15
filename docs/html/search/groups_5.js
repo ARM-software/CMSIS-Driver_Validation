@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['spi_20validation',['SPI Validation',['../group__spi__funcs.html',1,'']]]
+  ['mci_20validation',['MCI Validation',['../group__dv__mci.html',1,'']]],
+  ['management',['Management',['../group__wifi__mgmt.html',1,'']]]
 ];

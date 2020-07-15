@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('_d_v___c_a_n_8c.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('_d_v___c_a_n_8c.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;cmsis_dv.h&quot;</code><br/>
-<code>#include &quot;DV_Config.h&quot;</code><br/>
+<code>#include &quot;DV_CAN_Config.h&quot;</code><br/>
 <code>#include &quot;DV_Framework.h&quot;</code><br/>
 <code>#include &quot;Driver_CAN.h&quot;</code><br/>
 <code>#include &lt;stdio.h&gt;</code><br/>
@@ -141,35 +141,35 @@ Macros</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a841a48f0cda879d7aa97ff84260625c5"><td class="memItemLeft" align="right" valign="top">ARM_DRIVER_CAN&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#a841a48f0cda879d7aa97ff84260625c5">CREATE_SYMBOL</a> (Driver_CAN, DRV_CAN)</td></tr>
 <tr class="separator:a841a48f0cda879d7aa97ff84260625c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1094c8db6d805f7713dfef952dd81bc3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#a1094c8db6d805f7713dfef952dd81bc3">CAN_SignalUnitEvent</a> (uint32_t <a class="el" href="_d_v___w_i_f_i_8c.html#aa2c7fd10fd2226b63e2c79622ada0432">event</a>)</td></tr>
+<tr class="memitem:a1094c8db6d805f7713dfef952dd81bc3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#a1094c8db6d805f7713dfef952dd81bc3">CAN_SignalUnitEvent</a> (uint32_t event)</td></tr>
 <tr class="separator:a1094c8db6d805f7713dfef952dd81bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab26ab8f4922a4efa015a880486a996bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#ab26ab8f4922a4efa015a880486a996bf">CAN_SignalObjectEvent</a> (uint32_t obj_idx, uint32_t <a class="el" href="_d_v___w_i_f_i_8c.html#aa2c7fd10fd2226b63e2c79622ada0432">event</a>)</td></tr>
+<tr class="memitem:ab26ab8f4922a4efa015a880486a996bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#ab26ab8f4922a4efa015a880486a996bf">CAN_SignalObjectEvent</a> (uint32_t obj_idx, uint32_t event)</td></tr>
 <tr class="separator:ab26ab8f4922a4efa015a880486a996bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f9d8d6cecbbbe3e75dcc87832069f71"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___c_a_n_8c.html#a6f9d8d6cecbbbe3e75dcc87832069f71">CAN_RunTransfer</a> (uint32_t tx_obj_idx, ARM_CAN_MSG_INFO *tx_msg_info, const uint8_t *tx_data, uint32_t rx_obj_idx, ARM_CAN_MSG_INFO *rx_msg_info, uint8_t *rx_data, uint8_t size)</td></tr>
 <tr class="separator:a6f9d8d6cecbbbe3e75dcc87832069f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4d770ed38d9ceffea0efa93647ae3bd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga4d770ed38d9ceffea0efa93647ae3bd5">CAN_GetCapabilities</a> (void)</td></tr>
-<tr class="memdesc:ga4d770ed38d9ceffea0efa93647ae3bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_GetCapabilities.  <a href="group__can__funcs.html#ga4d770ed38d9ceffea0efa93647ae3bd5">More...</a><br/></td></tr>
+<tr class="memitem:ga4d770ed38d9ceffea0efa93647ae3bd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga4d770ed38d9ceffea0efa93647ae3bd5">CAN_GetCapabilities</a> (void)</td></tr>
+<tr class="memdesc:ga4d770ed38d9ceffea0efa93647ae3bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_GetCapabilities.  <a href="group__can__tests.html#ga4d770ed38d9ceffea0efa93647ae3bd5">More...</a><br/></td></tr>
 <tr class="separator:ga4d770ed38d9ceffea0efa93647ae3bd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4c93a718e622e8dd98ecdd6f892b793f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga4c93a718e622e8dd98ecdd6f892b793f">CAN_Initialization</a> (void)</td></tr>
-<tr class="memdesc:ga4c93a718e622e8dd98ecdd6f892b793f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_Initialization.  <a href="group__can__funcs.html#ga4c93a718e622e8dd98ecdd6f892b793f">More...</a><br/></td></tr>
+<tr class="memitem:ga4c93a718e622e8dd98ecdd6f892b793f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga4c93a718e622e8dd98ecdd6f892b793f">CAN_Initialization</a> (void)</td></tr>
+<tr class="memdesc:ga4c93a718e622e8dd98ecdd6f892b793f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_Initialization.  <a href="group__can__tests.html#ga4c93a718e622e8dd98ecdd6f892b793f">More...</a><br/></td></tr>
 <tr class="separator:ga4c93a718e622e8dd98ecdd6f892b793f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9eb648cf67e1004f73cbd8222a7fe870"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga9eb648cf67e1004f73cbd8222a7fe870">CAN_CheckInvalidInit</a> (void)</td></tr>
-<tr class="memdesc:ga9eb648cf67e1004f73cbd8222a7fe870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_CheckInvalidInit.  <a href="group__can__funcs.html#ga9eb648cf67e1004f73cbd8222a7fe870">More...</a><br/></td></tr>
+<tr class="memitem:ga9eb648cf67e1004f73cbd8222a7fe870"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga9eb648cf67e1004f73cbd8222a7fe870">CAN_CheckInvalidInit</a> (void)</td></tr>
+<tr class="memdesc:ga9eb648cf67e1004f73cbd8222a7fe870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_CheckInvalidInit.  <a href="group__can__tests.html#ga9eb648cf67e1004f73cbd8222a7fe870">More...</a><br/></td></tr>
 <tr class="separator:ga9eb648cf67e1004f73cbd8222a7fe870"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga24ea6e524e87e05af02b52f5896f0db7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga24ea6e524e87e05af02b52f5896f0db7">CAN_PowerControl</a> (void)</td></tr>
-<tr class="memdesc:ga24ea6e524e87e05af02b52f5896f0db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_PowerControl.  <a href="group__can__funcs.html#ga24ea6e524e87e05af02b52f5896f0db7">More...</a><br/></td></tr>
+<tr class="memitem:ga24ea6e524e87e05af02b52f5896f0db7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga24ea6e524e87e05af02b52f5896f0db7">CAN_PowerControl</a> (void)</td></tr>
+<tr class="memdesc:ga24ea6e524e87e05af02b52f5896f0db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_PowerControl.  <a href="group__can__tests.html#ga24ea6e524e87e05af02b52f5896f0db7">More...</a><br/></td></tr>
 <tr class="separator:ga24ea6e524e87e05af02b52f5896f0db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga495f70c896f1720d5ebb7cc716cf06a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga495f70c896f1720d5ebb7cc716cf06a3">CAN_Loopback_CheckBitrate</a> (void)</td></tr>
-<tr class="memdesc:ga495f70c896f1720d5ebb7cc716cf06a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_Loopback_CheckBitrate.  <a href="group__can__funcs.html#ga495f70c896f1720d5ebb7cc716cf06a3">More...</a><br/></td></tr>
+<tr class="memitem:ga495f70c896f1720d5ebb7cc716cf06a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga495f70c896f1720d5ebb7cc716cf06a3">CAN_Loopback_CheckBitrate</a> (void)</td></tr>
+<tr class="memdesc:ga495f70c896f1720d5ebb7cc716cf06a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_Loopback_CheckBitrate.  <a href="group__can__tests.html#ga495f70c896f1720d5ebb7cc716cf06a3">More...</a><br/></td></tr>
 <tr class="separator:ga495f70c896f1720d5ebb7cc716cf06a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf76073c1c77f6633296c33750dac77d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#gaf76073c1c77f6633296c33750dac77d1">CAN_Loopback_CheckBitrateFD</a> (void)</td></tr>
-<tr class="memdesc:gaf76073c1c77f6633296c33750dac77d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_Loopback_CheckBitrateFD.  <a href="group__can__funcs.html#gaf76073c1c77f6633296c33750dac77d1">More...</a><br/></td></tr>
+<tr class="memitem:gaf76073c1c77f6633296c33750dac77d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#gaf76073c1c77f6633296c33750dac77d1">CAN_Loopback_CheckBitrateFD</a> (void)</td></tr>
+<tr class="memdesc:gaf76073c1c77f6633296c33750dac77d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_Loopback_CheckBitrateFD.  <a href="group__can__tests.html#gaf76073c1c77f6633296c33750dac77d1">More...</a><br/></td></tr>
 <tr class="separator:gaf76073c1c77f6633296c33750dac77d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e4d206b95ce1b46d37c246f20ff9390"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#ga4e4d206b95ce1b46d37c246f20ff9390">CAN_Loopback_Transfer</a> (void)</td></tr>
-<tr class="memdesc:ga4e4d206b95ce1b46d37c246f20ff9390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_Loopback_Transfer.  <a href="group__can__funcs.html#ga4e4d206b95ce1b46d37c246f20ff9390">More...</a><br/></td></tr>
+<tr class="memitem:ga4e4d206b95ce1b46d37c246f20ff9390"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#ga4e4d206b95ce1b46d37c246f20ff9390">CAN_Loopback_Transfer</a> (void)</td></tr>
+<tr class="memdesc:ga4e4d206b95ce1b46d37c246f20ff9390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_Loopback_Transfer.  <a href="group__can__tests.html#ga4e4d206b95ce1b46d37c246f20ff9390">More...</a><br/></td></tr>
 <tr class="separator:ga4e4d206b95ce1b46d37c246f20ff9390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad619f0a6a779d4a069d381b95ef60521"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__funcs.html#gad619f0a6a779d4a069d381b95ef60521">CAN_Loopback_TransferFD</a> (void)</td></tr>
-<tr class="memdesc:gad619f0a6a779d4a069d381b95ef60521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: CAN_Loopback_TransferFD.  <a href="group__can__funcs.html#gad619f0a6a779d4a069d381b95ef60521">More...</a><br/></td></tr>
+<tr class="memitem:gad619f0a6a779d4a069d381b95ef60521"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__can__tests.html#gad619f0a6a779d4a069d381b95ef60521">CAN_Loopback_TransferFD</a> (void)</td></tr>
+<tr class="memdesc:gad619f0a6a779d4a069d381b95ef60521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: CAN_Loopback_TransferFD.  <a href="group__can__tests.html#gad619f0a6a779d4a069d381b95ef60521">More...</a><br/></td></tr>
 <tr class="separator:gad619f0a6a779d4a069d381b95ef60521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -196,42 +196,6 @@ Variables</h2></td></tr>
 <tr class="separator:a407ea7b7136a46b1f1de38d148b6ef4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a185de51f6c5fae173bf2468c71933001"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CAN_EXT_FRAME_BITS&#160;&#160;&#160;(    1    +11  +1  +1   +18  +1 +1     +1          +4      +21     +1  +2  +7 )</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6706dd7e69b88f6a393a45e1b24932e8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CAN_EXT_FRAME_BITS_FD_DATA&#160;&#160;&#160;(                                              +1  +4      +21     +1         )</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ade680461996331c71e1cecd2f2f2b31f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CAN_EXT_FRAME_BITS_NOMINAL&#160;&#160;&#160;(    1    +11  +1  +1   +18     +1  +1 +1  +1                          +2  +7 )</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="adf3649a7d6ec5318f772534e8481dc92"></a>
 <div class="memitem">
 <div class="memproto">
@@ -256,7 +220,111 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a185de51f6c5fae173bf2468c71933001"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CAN_EXT_FRAME_BITS&#160;&#160;&#160;(    1    +11  +1  +1   +18  +1 +1     +1          +4      +21     +1  +2  +7 )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ade680461996331c71e1cecd2f2f2b31f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CAN_EXT_FRAME_BITS_NOMINAL&#160;&#160;&#160;(    1    +11  +1  +1   +18     +1  +1 +1  +1                          +2  +7 )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6706dd7e69b88f6a393a45e1b24932e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CAN_EXT_FRAME_BITS_FD_DATA&#160;&#160;&#160;(                                              +1  +4      +21     +1         )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a841a48f0cda879d7aa97ff84260625c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ARM_DRIVER_CAN CREATE_SYMBOL </td>
+          <td>(</td>
+          <td class="paramtype">Driver_CAN&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DRV_CAN&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1094c8db6d805f7713dfef952dd81bc3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN_SignalUnitEvent </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab26ab8f4922a4efa015a880486a996bf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN_SignalObjectEvent </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>obj_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a6f9d8d6cecbbbe3e75dcc87832069f71"></a>
 <div class="memitem">
 <div class="memproto">
@@ -313,76 +381,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab26ab8f4922a4efa015a880486a996bf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CAN_SignalObjectEvent </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>obj_idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>event</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a1094c8db6d805f7713dfef952dd81bc3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CAN_SignalUnitEvent </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>event</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a841a48f0cda879d7aa97ff84260625c5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ARM_DRIVER_CAN CREATE_SYMBOL </td>
-          <td>(</td>
-          <td class="paramtype">Driver_CAN&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DRV_CAN&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ac14f0a356acfadc3410b1a3121a05423"></a>
+<a class="anchor" id="aafb2b93e2fdfe9864fc6988e29c9a345"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -390,7 +390,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t* buffer_in</td>
+          <td class="memname">uint8_t* buffer_out</td>
         </tr>
       </table>
   </td>
@@ -402,7 +402,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aafb2b93e2fdfe9864fc6988e29c9a345"></a>
+<a class="anchor" id="ac14f0a356acfadc3410b1a3121a05423"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -410,7 +410,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t* buffer_out</td>
+          <td class="memname">uint8_t* buffer_in</td>
         </tr>
       </table>
   </td>
@@ -466,26 +466,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a23c4b8278f273cabab99443d204e4cb5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ARM_CAN_CAPABILITIES capab</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a470e2e6a49656a1b0a23c700d4c8be4a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -506,7 +486,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a71d16e9ad8373fa07961d6de824338cc"></a>
+<a class="anchor" id="a23c4b8278f273cabab99443d204e4cb5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -514,7 +494,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t volatile Event</td>
+          <td class="memname">ARM_CAN_CAPABILITIES capab</td>
         </tr>
       </table>
   </td>
@@ -546,18 +526,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a407ea7b7136a46b1f1de38d148b6ef4b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t Obj_idx</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a549fe09c81875b8f32e305dc573e6929"></a>
 <div class="memitem">
 <div class="memproto">
@@ -578,13 +546,45 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a71d16e9ad8373fa07961d6de824338cc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t volatile Event</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a407ea7b7136a46b1f1de38d148b6ef4b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Obj_idx</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="_d_v___c_a_n_8c.html">DV_CAN.c</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

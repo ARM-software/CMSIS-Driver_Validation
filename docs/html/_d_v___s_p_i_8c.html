@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('_d_v___s_p_i_8c.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -109,492 +109,193 @@ $(document).ready(function(){initNavTree('_d_v___s_p_i_8c.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">DV_SPI.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;cmsis_dv.h&quot;</code><br/>
-<code>#include &quot;DV_Config.h&quot;</code><br/>
-<code>#include &quot;DV_Framework.h&quot;</code><br/>
-<code>#include &quot;Driver_SPI.h&quot;</code><br/>
-<code>#include &lt;stdio.h&gt;</code><br/>
-<code>#include &lt;stdlib.h&gt;</code><br/>
-<code>#include &lt;string.h&gt;</code><br/>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:aa8189083f7b0155f28e74c3326553341"><td class="memItemLeft" align="right" valign="top">typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a></td></tr>
-<tr class="separator:aa8189083f7b0155f28e74c3326553341"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a76b5b64ba74fa90a680bfe2339716f58"><td class="memItemLeft" align="right" valign="top">ARM_DRIVER_SPI&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a76b5b64ba74fa90a680bfe2339716f58">CREATE_SYMBOL</a> (Driver_SPI, DRV_SPI)</td></tr>
-<tr class="separator:a76b5b64ba74fa90a680bfe2339716f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a073b367e9462899c0883d2f1422f2f23"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a073b367e9462899c0883d2f1422f2f23">SPI_DrvEvent</a> (uint32_t <a class="el" href="_d_v___w_i_f_i_8c.html#aa2c7fd10fd2226b63e2c79622ada0432">event</a>)</td></tr>
-<tr class="separator:a073b367e9462899c0883d2f1422f2f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a609bec4fde4ca996644121423ecda8f2"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a609bec4fde4ca996644121423ecda8f2">SPI_RunTransfer</a> (void *out, void *in, uint32_t cnt)</td></tr>
-<tr class="separator:a609bec4fde4ca996644121423ecda8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6092a03174ab47a21b32aa9087a95e2"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#aa6092a03174ab47a21b32aa9087a95e2">SPI_RunSend</a> (void *out, uint32_t cnt)</td></tr>
-<tr class="separator:aa6092a03174ab47a21b32aa9087a95e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1ca5a4dc09710e197e2ce96646ff09"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a6f1ca5a4dc09710e197e2ce96646ff09">SPI_RunSend_NoCallback</a> (void *out, uint32_t cnt)</td></tr>
-<tr class="separator:a6f1ca5a4dc09710e197e2ce96646ff09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb2b6ab93e6e07bdc89319e69be7d93e"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#afb2b6ab93e6e07bdc89319e69be7d93e">SPI_RunReceive</a> (void *in, uint32_t cnt)</td></tr>
-<tr class="separator:afb2b6ab93e6e07bdc89319e69be7d93e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa50b4a31380b00c1f9f020863109da0c"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#aa50b4a31380b00c1f9f020863109da0c">SPI_RunReceiveNoCallback</a> (void *in, uint32_t cnt)</td></tr>
-<tr class="separator:aa50b4a31380b00c1f9f020863109da0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga73d306b64a92cb27421a5142042c823c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#ga73d306b64a92cb27421a5142042c823c">SPI_GetCapabilities</a> (void)</td></tr>
-<tr class="memdesc:ga73d306b64a92cb27421a5142042c823c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_GetCapabilities.  <a href="group__spi__funcs.html#ga73d306b64a92cb27421a5142042c823c">More...</a><br/></td></tr>
+<tr class="memitem:ga4a67b9fbf625ac278c06011ea4dc225a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__drv__mgmt.html#ga4a67b9fbf625ac278c06011ea4dc225a">SPI_GetVersion</a> (void)</td></tr>
+<tr class="memdesc:ga4a67b9fbf625ac278c06011ea4dc225a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_GetVersion.  <a href="group__spi__tests__drv__mgmt.html#ga4a67b9fbf625ac278c06011ea4dc225a">More...</a><br/></td></tr>
+<tr class="separator:ga4a67b9fbf625ac278c06011ea4dc225a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73d306b64a92cb27421a5142042c823c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__drv__mgmt.html#ga73d306b64a92cb27421a5142042c823c">SPI_GetCapabilities</a> (void)</td></tr>
+<tr class="memdesc:ga73d306b64a92cb27421a5142042c823c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_GetCapabilities.  <a href="group__spi__tests__drv__mgmt.html#ga73d306b64a92cb27421a5142042c823c">More...</a><br/></td></tr>
 <tr class="separator:ga73d306b64a92cb27421a5142042c823c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae4a0ac618ed63a8f50edf0bd8695d32f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gae4a0ac618ed63a8f50edf0bd8695d32f">SPI_Initialization</a> (void)</td></tr>
-<tr class="memdesc:gae4a0ac618ed63a8f50edf0bd8695d32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Initialization.  <a href="group__spi__funcs.html#gae4a0ac618ed63a8f50edf0bd8695d32f">More...</a><br/></td></tr>
-<tr class="separator:gae4a0ac618ed63a8f50edf0bd8695d32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaea97b1c1f0eb01125cd3fbd7b4c3c17e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gaea97b1c1f0eb01125cd3fbd7b4c3c17e">SPI_CheckInvalidInit</a> (void)</td></tr>
-<tr class="memdesc:gaea97b1c1f0eb01125cd3fbd7b4c3c17e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_CheckInvalidInit.  <a href="group__spi__funcs.html#gaea97b1c1f0eb01125cd3fbd7b4c3c17e">More...</a><br/></td></tr>
-<tr class="separator:gaea97b1c1f0eb01125cd3fbd7b4c3c17e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf9277686b4b32b538df354e2b2c5a6b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gaf9277686b4b32b538df354e2b2c5a6b6">SPI_PowerControl</a> (void)</td></tr>
-<tr class="memdesc:gaf9277686b4b32b538df354e2b2c5a6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_PowerControl.  <a href="group__spi__funcs.html#gaf9277686b4b32b538df354e2b2c5a6b6">More...</a><br/></td></tr>
+<tr class="memitem:ga1f84a363466cd780fcbc4cc0747cefec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__drv__mgmt.html#ga1f84a363466cd780fcbc4cc0747cefec">SPI_Initialize_Uninitialize</a> (void)</td></tr>
+<tr class="memdesc:ga1f84a363466cd780fcbc4cc0747cefec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Initialize_Uninitialize.  <a href="group__spi__tests__drv__mgmt.html#ga1f84a363466cd780fcbc4cc0747cefec">More...</a><br/></td></tr>
+<tr class="separator:ga1f84a363466cd780fcbc4cc0747cefec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf9277686b4b32b538df354e2b2c5a6b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__drv__mgmt.html#gaf9277686b4b32b538df354e2b2c5a6b6">SPI_PowerControl</a> (void)</td></tr>
+<tr class="memdesc:gaf9277686b4b32b538df354e2b2c5a6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_PowerControl.  <a href="group__spi__tests__drv__mgmt.html#gaf9277686b4b32b538df354e2b2c5a6b6">More...</a><br/></td></tr>
 <tr class="separator:gaf9277686b4b32b538df354e2b2c5a6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadcb4b87071f9a0a36f4ecf2e50bf6c55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gadcb4b87071f9a0a36f4ecf2e50bf6c55">SPI_Config_PolarityPhase</a> (void)</td></tr>
-<tr class="memdesc:gadcb4b87071f9a0a36f4ecf2e50bf6c55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_PolarityPhase.  <a href="group__spi__funcs.html#gadcb4b87071f9a0a36f4ecf2e50bf6c55">More...</a><br/></td></tr>
-<tr class="separator:gadcb4b87071f9a0a36f4ecf2e50bf6c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga89e584382590e47a988d45601cde0618"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#ga89e584382590e47a988d45601cde0618">SPI_Config_DataBits</a> (void)</td></tr>
-<tr class="memdesc:ga89e584382590e47a988d45601cde0618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_DataBits.  <a href="group__spi__funcs.html#ga89e584382590e47a988d45601cde0618">More...</a><br/></td></tr>
-<tr class="separator:ga89e584382590e47a988d45601cde0618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga799f263fe9df0f9042e82e7aa07efe5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#ga799f263fe9df0f9042e82e7aa07efe5b">SPI_Config_BitOrder</a> (void)</td></tr>
-<tr class="memdesc:ga799f263fe9df0f9042e82e7aa07efe5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_BitOrder.  <a href="group__spi__funcs.html#ga799f263fe9df0f9042e82e7aa07efe5b">More...</a><br/></td></tr>
-<tr class="separator:ga799f263fe9df0f9042e82e7aa07efe5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac86e68ee47bb5fd0a07473fac97c575f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gac86e68ee47bb5fd0a07473fac97c575f">SPI_Config_SSMode</a> (void)</td></tr>
-<tr class="memdesc:gac86e68ee47bb5fd0a07473fac97c575f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_SSMode.  <a href="group__spi__funcs.html#gac86e68ee47bb5fd0a07473fac97c575f">More...</a><br/></td></tr>
-<tr class="separator:gac86e68ee47bb5fd0a07473fac97c575f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa483804e6aad12f9f78021fdfb171e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gaa483804e6aad12f9f78021fdfb171e38">SPI_Config_CommonParams</a> (void)</td></tr>
-<tr class="memdesc:gaa483804e6aad12f9f78021fdfb171e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_CommonParams.  <a href="group__spi__funcs.html#gaa483804e6aad12f9f78021fdfb171e38">More...</a><br/></td></tr>
-<tr class="separator:gaa483804e6aad12f9f78021fdfb171e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga058587832c4ffc3afb60203d5b1d4a72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#ga058587832c4ffc3afb60203d5b1d4a72">SPI_Config_BusSpeed</a> (void)</td></tr>
-<tr class="memdesc:ga058587832c4ffc3afb60203d5b1d4a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Config_BusSpeed.  <a href="group__spi__funcs.html#ga058587832c4ffc3afb60203d5b1d4a72">More...</a><br/></td></tr>
-<tr class="separator:ga058587832c4ffc3afb60203d5b1d4a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa17002cf53acef9aff6085a33900414b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gaa17002cf53acef9aff6085a33900414b">SPI_Send</a> (void)</td></tr>
-<tr class="memdesc:gaa17002cf53acef9aff6085a33900414b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Send.  <a href="group__spi__funcs.html#gaa17002cf53acef9aff6085a33900414b">More...</a><br/></td></tr>
-<tr class="separator:gaa17002cf53acef9aff6085a33900414b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab46280a4600b1bdcdb0dcdda89fc255f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gab46280a4600b1bdcdb0dcdda89fc255f">SPI_Receive</a> (void)</td></tr>
-<tr class="memdesc:gab46280a4600b1bdcdb0dcdda89fc255f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Receive.  <a href="group__spi__funcs.html#gab46280a4600b1bdcdb0dcdda89fc255f">More...</a><br/></td></tr>
-<tr class="separator:gab46280a4600b1bdcdb0dcdda89fc255f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga20fdfd0f18a99ed6657b11bf41027e8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#ga20fdfd0f18a99ed6657b11bf41027e8f">SPI_Loopback_CheckBusSpeed</a> (void)</td></tr>
-<tr class="memdesc:ga20fdfd0f18a99ed6657b11bf41027e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Loopback_CheckBusSpeed.  <a href="group__spi__funcs.html#ga20fdfd0f18a99ed6657b11bf41027e8f">More...</a><br/></td></tr>
-<tr class="separator:ga20fdfd0f18a99ed6657b11bf41027e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa5e25bf35251cd57c795d8b7b32c965e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__funcs.html#gaa5e25bf35251cd57c795d8b7b32c965e">SPI_Loopback_Transfer</a> (void)</td></tr>
-<tr class="memdesc:gaa5e25bf35251cd57c795d8b7b32c965e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: SPI_Loopback_Transfer.  <a href="group__spi__funcs.html#gaa5e25bf35251cd57c795d8b7b32c965e">More...</a><br/></td></tr>
-<tr class="separator:gaa5e25bf35251cd57c795d8b7b32c965e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a65b511a972d6aacfb71bb97f7c6480a0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a65b511a972d6aacfb71bb97f7c6480a0">buffer_out</a></td></tr>
-<tr class="separator:a65b511a972d6aacfb71bb97f7c6480a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a339cfe6a8f6f1e3d52f8fb835c4c4380"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a339cfe6a8f6f1e3d52f8fb835c4c4380">buffer_in</a></td></tr>
-<tr class="separator:a339cfe6a8f6f1e3d52f8fb835c4c4380"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43230f73e49aed59e179915f0707e0bf"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a43230f73e49aed59e179915f0707e0bf">SPI_BR</a> []</td></tr>
-<tr class="separator:a43230f73e49aed59e179915f0707e0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cc61d51147195a66e5d8a63cf22c3c9"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a9cc61d51147195a66e5d8a63cf22c3c9">SPI_BR_NUM</a> = ARRAY_SIZE(<a class="el" href="_d_v___s_p_i_8c.html#a43230f73e49aed59e179915f0707e0bf">SPI_BR</a>)</td></tr>
-<tr class="separator:a9cc61d51147195a66e5d8a63cf22c3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6abd5f21fae2a362ed75ab51bcaff736"><td class="memItemLeft" align="right" valign="top">static ARM_DRIVER_SPI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a6abd5f21fae2a362ed75ab51bcaff736">drv</a> = &amp;<a class="el" href="_d_v___u_s_b_h_8c.html#ad61f68c22694705aea6cc26b439e9358">CREATE_SYMBOL</a>(Driver_SPI, DRV_SPI)</td></tr>
-<tr class="separator:a6abd5f21fae2a362ed75ab51bcaff736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7470eb473c9d100342e79c703be38455"><td class="memItemLeft" align="right" valign="top">static ARM_SPI_CAPABILITIES&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a7470eb473c9d100342e79c703be38455">capab</a></td></tr>
-<tr class="separator:a7470eb473c9d100342e79c703be38455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549fe09c81875b8f32e305dc573e6929"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#a549fe09c81875b8f32e305dc573e6929">str</a> [128]</td></tr>
-<tr class="separator:a549fe09c81875b8f32e305dc573e6929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5135011ec160c4988c8469051a56838"><td class="memItemLeft" align="right" valign="top">static uint8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_v___s_p_i_8c.html#ab5135011ec160c4988c8469051a56838">Event</a></td></tr>
-<tr class="separator:ab5135011ec160c4988c8469051a56838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab28276ff9dd12525cfcb201b565702e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gab28276ff9dd12525cfcb201b565702e1">SPI_Mode_Master_SS_Unused</a> (void)</td></tr>
+<tr class="memdesc:gab28276ff9dd12525cfcb201b565702e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Master_SS_Unused.  <a href="group__spi__tests__data__xchg.html#gab28276ff9dd12525cfcb201b565702e1">More...</a><br/></td></tr>
+<tr class="separator:gab28276ff9dd12525cfcb201b565702e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74020e308fb573c77f1a6dabcb6f4ac2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga74020e308fb573c77f1a6dabcb6f4ac2">SPI_Mode_Master_SS_Sw_Ctrl</a> (void)</td></tr>
+<tr class="memdesc:ga74020e308fb573c77f1a6dabcb6f4ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Master_SS_Sw_Ctrl.  <a href="group__spi__tests__data__xchg.html#ga74020e308fb573c77f1a6dabcb6f4ac2">More...</a><br/></td></tr>
+<tr class="separator:ga74020e308fb573c77f1a6dabcb6f4ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacafe34f57c4584464674424892d4a3a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gacafe34f57c4584464674424892d4a3a5">SPI_Mode_Master_SS_Hw_Ctrl_Out</a> (void)</td></tr>
+<tr class="memdesc:gacafe34f57c4584464674424892d4a3a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Master_SS_Hw_Ctrl_Out.  <a href="group__spi__tests__data__xchg.html#gacafe34f57c4584464674424892d4a3a5">More...</a><br/></td></tr>
+<tr class="separator:gacafe34f57c4584464674424892d4a3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaccec5a9bf0b820a9082812295b0172be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaccec5a9bf0b820a9082812295b0172be">SPI_Mode_Master_SS_Hw_Mon_In</a> (void)</td></tr>
+<tr class="memdesc:gaccec5a9bf0b820a9082812295b0172be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Master_SS_Hw_Mon_In.  <a href="group__spi__tests__data__xchg.html#gaccec5a9bf0b820a9082812295b0172be">More...</a><br/></td></tr>
+<tr class="separator:gaccec5a9bf0b820a9082812295b0172be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b9b374e226df2783db5212aaaa021ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga7b9b374e226df2783db5212aaaa021ce">SPI_Mode_Slave_SS_Hw_Mon</a> (void)</td></tr>
+<tr class="memdesc:ga7b9b374e226df2783db5212aaaa021ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Slave_SS_Hw_Mon.  <a href="group__spi__tests__data__xchg.html#ga7b9b374e226df2783db5212aaaa021ce">More...</a><br/></td></tr>
+<tr class="separator:ga7b9b374e226df2783db5212aaaa021ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48d57b7f86c0db71ea670339b901faa4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga48d57b7f86c0db71ea670339b901faa4">SPI_Mode_Slave_SS_Sw_Ctrl</a> (void)</td></tr>
+<tr class="memdesc:ga48d57b7f86c0db71ea670339b901faa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Mode_Slave_SS_Sw_Ctrl.  <a href="group__spi__tests__data__xchg.html#ga48d57b7f86c0db71ea670339b901faa4">More...</a><br/></td></tr>
+<tr class="separator:ga48d57b7f86c0db71ea670339b901faa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98012bbc5113086b8cc9251c83de040b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga98012bbc5113086b8cc9251c83de040b">SPI_Format_Clock_Pol0_Pha0</a> (void)</td></tr>
+<tr class="memdesc:ga98012bbc5113086b8cc9251c83de040b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol0_Pha0.  <a href="group__spi__tests__data__xchg.html#ga98012bbc5113086b8cc9251c83de040b">More...</a><br/></td></tr>
+<tr class="separator:ga98012bbc5113086b8cc9251c83de040b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9da070254972d1305df57f632d558274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga9da070254972d1305df57f632d558274">SPI_Format_Clock_Pol0_Pha1</a> (void)</td></tr>
+<tr class="memdesc:ga9da070254972d1305df57f632d558274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol0_Pha1.  <a href="group__spi__tests__data__xchg.html#ga9da070254972d1305df57f632d558274">More...</a><br/></td></tr>
+<tr class="separator:ga9da070254972d1305df57f632d558274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4cae787814b6fc5687c970d23c4d0ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaf4cae787814b6fc5687c970d23c4d0ec">SPI_Format_Clock_Pol1_Pha0</a> (void)</td></tr>
+<tr class="memdesc:gaf4cae787814b6fc5687c970d23c4d0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol1_Pha0.  <a href="group__spi__tests__data__xchg.html#gaf4cae787814b6fc5687c970d23c4d0ec">More...</a><br/></td></tr>
+<tr class="separator:gaf4cae787814b6fc5687c970d23c4d0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71f510e5cd4a4787372687529fcc48c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga71f510e5cd4a4787372687529fcc48c7">SPI_Format_Clock_Pol1_Pha1</a> (void)</td></tr>
+<tr class="memdesc:ga71f510e5cd4a4787372687529fcc48c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol0_Pha0.  <a href="group__spi__tests__data__xchg.html#ga71f510e5cd4a4787372687529fcc48c7">More...</a><br/></td></tr>
+<tr class="separator:ga71f510e5cd4a4787372687529fcc48c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d667f45f42c07f90e6faec7fc0ef3d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga3d667f45f42c07f90e6faec7fc0ef3d8">SPI_Format_Frame_TI</a> (void)</td></tr>
+<tr class="memdesc:ga3d667f45f42c07f90e6faec7fc0ef3d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Frame_TI.  <a href="group__spi__tests__data__xchg.html#ga3d667f45f42c07f90e6faec7fc0ef3d8">More...</a><br/></td></tr>
+<tr class="separator:ga3d667f45f42c07f90e6faec7fc0ef3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8a0e8e5cc76de4f4004ff446f433c90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gae8a0e8e5cc76de4f4004ff446f433c90">SPI_Format_Clock_Microwire</a> (void)</td></tr>
+<tr class="memdesc:gae8a0e8e5cc76de4f4004ff446f433c90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Microwire.  <a href="group__spi__tests__data__xchg.html#gae8a0e8e5cc76de4f4004ff446f433c90">More...</a><br/></td></tr>
+<tr class="separator:gae8a0e8e5cc76de4f4004ff446f433c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab1550a28044524088366e6ba02375191"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gab1550a28044524088366e6ba02375191">SPI_Data_Bits_1</a> (void)</td></tr>
+<tr class="memdesc:gab1550a28044524088366e6ba02375191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_1.  <a href="group__spi__tests__data__xchg.html#gab1550a28044524088366e6ba02375191">More...</a><br/></td></tr>
+<tr class="separator:gab1550a28044524088366e6ba02375191"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad28934e971f1102397a400d5fd618978"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gad28934e971f1102397a400d5fd618978">SPI_Data_Bits_2</a> (void)</td></tr>
+<tr class="memdesc:gad28934e971f1102397a400d5fd618978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_2.  <a href="group__spi__tests__data__xchg.html#gad28934e971f1102397a400d5fd618978">More...</a><br/></td></tr>
+<tr class="separator:gad28934e971f1102397a400d5fd618978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga519bb7a6ebaed0857dcd51f9158bb23f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga519bb7a6ebaed0857dcd51f9158bb23f">SPI_Data_Bits_3</a> (void)</td></tr>
+<tr class="memdesc:ga519bb7a6ebaed0857dcd51f9158bb23f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_3.  <a href="group__spi__tests__data__xchg.html#ga519bb7a6ebaed0857dcd51f9158bb23f">More...</a><br/></td></tr>
+<tr class="separator:ga519bb7a6ebaed0857dcd51f9158bb23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga032cc7adf25f0724176a5ea45a219d32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga032cc7adf25f0724176a5ea45a219d32">SPI_Data_Bits_4</a> (void)</td></tr>
+<tr class="memdesc:ga032cc7adf25f0724176a5ea45a219d32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_4.  <a href="group__spi__tests__data__xchg.html#ga032cc7adf25f0724176a5ea45a219d32">More...</a><br/></td></tr>
+<tr class="separator:ga032cc7adf25f0724176a5ea45a219d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3bbe5c19e98256b0ca7343f1661855f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga3bbe5c19e98256b0ca7343f1661855f1">SPI_Data_Bits_5</a> (void)</td></tr>
+<tr class="memdesc:ga3bbe5c19e98256b0ca7343f1661855f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_5.  <a href="group__spi__tests__data__xchg.html#ga3bbe5c19e98256b0ca7343f1661855f1">More...</a><br/></td></tr>
+<tr class="separator:ga3bbe5c19e98256b0ca7343f1661855f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae34bbf98df73086e213b0ed8191db946"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gae34bbf98df73086e213b0ed8191db946">SPI_Data_Bits_6</a> (void)</td></tr>
+<tr class="memdesc:gae34bbf98df73086e213b0ed8191db946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_6.  <a href="group__spi__tests__data__xchg.html#gae34bbf98df73086e213b0ed8191db946">More...</a><br/></td></tr>
+<tr class="separator:gae34bbf98df73086e213b0ed8191db946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaafef76e664c988dae1839b158c065ea0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaafef76e664c988dae1839b158c065ea0">SPI_Data_Bits_7</a> (void)</td></tr>
+<tr class="memdesc:gaafef76e664c988dae1839b158c065ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_7.  <a href="group__spi__tests__data__xchg.html#gaafef76e664c988dae1839b158c065ea0">More...</a><br/></td></tr>
+<tr class="separator:gaafef76e664c988dae1839b158c065ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeccc297625d6c4bf07a98d75d5a65e1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaeccc297625d6c4bf07a98d75d5a65e1b">SPI_Data_Bits_8</a> (void)</td></tr>
+<tr class="memdesc:gaeccc297625d6c4bf07a98d75d5a65e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_8.  <a href="group__spi__tests__data__xchg.html#gaeccc297625d6c4bf07a98d75d5a65e1b">More...</a><br/></td></tr>
+<tr class="separator:gaeccc297625d6c4bf07a98d75d5a65e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60eddb6fe42cbd348ee0957b53c9efa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga60eddb6fe42cbd348ee0957b53c9efa3">SPI_Data_Bits_9</a> (void)</td></tr>
+<tr class="memdesc:ga60eddb6fe42cbd348ee0957b53c9efa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_9.  <a href="group__spi__tests__data__xchg.html#ga60eddb6fe42cbd348ee0957b53c9efa3">More...</a><br/></td></tr>
+<tr class="separator:ga60eddb6fe42cbd348ee0957b53c9efa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d9112bd7592e3ad304620e8a022ee0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga1d9112bd7592e3ad304620e8a022ee0e">SPI_Data_Bits_10</a> (void)</td></tr>
+<tr class="memdesc:ga1d9112bd7592e3ad304620e8a022ee0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_10.  <a href="group__spi__tests__data__xchg.html#ga1d9112bd7592e3ad304620e8a022ee0e">More...</a><br/></td></tr>
+<tr class="separator:ga1d9112bd7592e3ad304620e8a022ee0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf3b43ce48b35c329ba625c09ddec0703"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaf3b43ce48b35c329ba625c09ddec0703">SPI_Data_Bits_11</a> (void)</td></tr>
+<tr class="memdesc:gaf3b43ce48b35c329ba625c09ddec0703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_11.  <a href="group__spi__tests__data__xchg.html#gaf3b43ce48b35c329ba625c09ddec0703">More...</a><br/></td></tr>
+<tr class="separator:gaf3b43ce48b35c329ba625c09ddec0703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06743778e3a917a327aba608818942c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga06743778e3a917a327aba608818942c8">SPI_Data_Bits_12</a> (void)</td></tr>
+<tr class="memdesc:ga06743778e3a917a327aba608818942c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_12.  <a href="group__spi__tests__data__xchg.html#ga06743778e3a917a327aba608818942c8">More...</a><br/></td></tr>
+<tr class="separator:ga06743778e3a917a327aba608818942c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga05024118a4f599b0d34f90aca615169c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga05024118a4f599b0d34f90aca615169c">SPI_Data_Bits_13</a> (void)</td></tr>
+<tr class="memdesc:ga05024118a4f599b0d34f90aca615169c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_13.  <a href="group__spi__tests__data__xchg.html#ga05024118a4f599b0d34f90aca615169c">More...</a><br/></td></tr>
+<tr class="separator:ga05024118a4f599b0d34f90aca615169c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadf0adabba9f80c2a82a5abda67852ea4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gadf0adabba9f80c2a82a5abda67852ea4">SPI_Data_Bits_14</a> (void)</td></tr>
+<tr class="memdesc:gadf0adabba9f80c2a82a5abda67852ea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_14.  <a href="group__spi__tests__data__xchg.html#gadf0adabba9f80c2a82a5abda67852ea4">More...</a><br/></td></tr>
+<tr class="separator:gadf0adabba9f80c2a82a5abda67852ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga16799360df76c05ada80fbc0b635332a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga16799360df76c05ada80fbc0b635332a">SPI_Data_Bits_15</a> (void)</td></tr>
+<tr class="memdesc:ga16799360df76c05ada80fbc0b635332a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_15.  <a href="group__spi__tests__data__xchg.html#ga16799360df76c05ada80fbc0b635332a">More...</a><br/></td></tr>
+<tr class="separator:ga16799360df76c05ada80fbc0b635332a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga57f139687587a52a1fcb8f84df0befd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga57f139687587a52a1fcb8f84df0befd6">SPI_Data_Bits_16</a> (void)</td></tr>
+<tr class="memdesc:ga57f139687587a52a1fcb8f84df0befd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_16.  <a href="group__spi__tests__data__xchg.html#ga57f139687587a52a1fcb8f84df0befd6">More...</a><br/></td></tr>
+<tr class="separator:ga57f139687587a52a1fcb8f84df0befd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae93a6aaf286fc331ad55e941378e6921"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gae93a6aaf286fc331ad55e941378e6921">SPI_Data_Bits_17</a> (void)</td></tr>
+<tr class="memdesc:gae93a6aaf286fc331ad55e941378e6921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_17.  <a href="group__spi__tests__data__xchg.html#gae93a6aaf286fc331ad55e941378e6921">More...</a><br/></td></tr>
+<tr class="separator:gae93a6aaf286fc331ad55e941378e6921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5e663251596fff3b527526d99418a159"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga5e663251596fff3b527526d99418a159">SPI_Data_Bits_18</a> (void)</td></tr>
+<tr class="memdesc:ga5e663251596fff3b527526d99418a159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_18.  <a href="group__spi__tests__data__xchg.html#ga5e663251596fff3b527526d99418a159">More...</a><br/></td></tr>
+<tr class="separator:ga5e663251596fff3b527526d99418a159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b78e73354143fe81b7282bc9f83e3cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga8b78e73354143fe81b7282bc9f83e3cc">SPI_Data_Bits_19</a> (void)</td></tr>
+<tr class="memdesc:ga8b78e73354143fe81b7282bc9f83e3cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_19.  <a href="group__spi__tests__data__xchg.html#ga8b78e73354143fe81b7282bc9f83e3cc">More...</a><br/></td></tr>
+<tr class="separator:ga8b78e73354143fe81b7282bc9f83e3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc558e99d83d169263c67eaa593c27ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gacc558e99d83d169263c67eaa593c27ec">SPI_Data_Bits_20</a> (void)</td></tr>
+<tr class="memdesc:gacc558e99d83d169263c67eaa593c27ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_20.  <a href="group__spi__tests__data__xchg.html#gacc558e99d83d169263c67eaa593c27ec">More...</a><br/></td></tr>
+<tr class="separator:gacc558e99d83d169263c67eaa593c27ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga006c7f7858899799675e6f5a8551d888"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga006c7f7858899799675e6f5a8551d888">SPI_Data_Bits_21</a> (void)</td></tr>
+<tr class="memdesc:ga006c7f7858899799675e6f5a8551d888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_21.  <a href="group__spi__tests__data__xchg.html#ga006c7f7858899799675e6f5a8551d888">More...</a><br/></td></tr>
+<tr class="separator:ga006c7f7858899799675e6f5a8551d888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga383b6b3b052eb74c4b63130546861deb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga383b6b3b052eb74c4b63130546861deb">SPI_Data_Bits_22</a> (void)</td></tr>
+<tr class="memdesc:ga383b6b3b052eb74c4b63130546861deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_22.  <a href="group__spi__tests__data__xchg.html#ga383b6b3b052eb74c4b63130546861deb">More...</a><br/></td></tr>
+<tr class="separator:ga383b6b3b052eb74c4b63130546861deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7f0c00218eacd9d64b3794f668bb9bd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga7f0c00218eacd9d64b3794f668bb9bd4">SPI_Data_Bits_23</a> (void)</td></tr>
+<tr class="memdesc:ga7f0c00218eacd9d64b3794f668bb9bd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_23.  <a href="group__spi__tests__data__xchg.html#ga7f0c00218eacd9d64b3794f668bb9bd4">More...</a><br/></td></tr>
+<tr class="separator:ga7f0c00218eacd9d64b3794f668bb9bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac4dca76d086f526420cc41b01dd82b8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gac4dca76d086f526420cc41b01dd82b8b">SPI_Data_Bits_24</a> (void)</td></tr>
+<tr class="memdesc:gac4dca76d086f526420cc41b01dd82b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_24.  <a href="group__spi__tests__data__xchg.html#gac4dca76d086f526420cc41b01dd82b8b">More...</a><br/></td></tr>
+<tr class="separator:gac4dca76d086f526420cc41b01dd82b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga72dcc458a32193581ac1098a7a34daa0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga72dcc458a32193581ac1098a7a34daa0">SPI_Data_Bits_25</a> (void)</td></tr>
+<tr class="memdesc:ga72dcc458a32193581ac1098a7a34daa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_25.  <a href="group__spi__tests__data__xchg.html#ga72dcc458a32193581ac1098a7a34daa0">More...</a><br/></td></tr>
+<tr class="separator:ga72dcc458a32193581ac1098a7a34daa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ce3da54a6cfe9faafbc9fa889f0b85a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga8ce3da54a6cfe9faafbc9fa889f0b85a">SPI_Data_Bits_26</a> (void)</td></tr>
+<tr class="memdesc:ga8ce3da54a6cfe9faafbc9fa889f0b85a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_26.  <a href="group__spi__tests__data__xchg.html#ga8ce3da54a6cfe9faafbc9fa889f0b85a">More...</a><br/></td></tr>
+<tr class="separator:ga8ce3da54a6cfe9faafbc9fa889f0b85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1c1e1bf4f25ef739e11560c0faf8ca2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gae1c1e1bf4f25ef739e11560c0faf8ca2">SPI_Data_Bits_27</a> (void)</td></tr>
+<tr class="memdesc:gae1c1e1bf4f25ef739e11560c0faf8ca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_27.  <a href="group__spi__tests__data__xchg.html#gae1c1e1bf4f25ef739e11560c0faf8ca2">More...</a><br/></td></tr>
+<tr class="separator:gae1c1e1bf4f25ef739e11560c0faf8ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a7055dbe76f27f7ff1bdfaf88afbe4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga8a7055dbe76f27f7ff1bdfaf88afbe4f">SPI_Data_Bits_28</a> (void)</td></tr>
+<tr class="memdesc:ga8a7055dbe76f27f7ff1bdfaf88afbe4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_28.  <a href="group__spi__tests__data__xchg.html#ga8a7055dbe76f27f7ff1bdfaf88afbe4f">More...</a><br/></td></tr>
+<tr class="separator:ga8a7055dbe76f27f7ff1bdfaf88afbe4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0302c9f1a8267add853c8c58caf3038"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gab0302c9f1a8267add853c8c58caf3038">SPI_Data_Bits_29</a> (void)</td></tr>
+<tr class="memdesc:gab0302c9f1a8267add853c8c58caf3038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_29.  <a href="group__spi__tests__data__xchg.html#gab0302c9f1a8267add853c8c58caf3038">More...</a><br/></td></tr>
+<tr class="separator:gab0302c9f1a8267add853c8c58caf3038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d9f6139bc69d89bc3f392139c51f0a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga1d9f6139bc69d89bc3f392139c51f0a7">SPI_Data_Bits_30</a> (void)</td></tr>
+<tr class="memdesc:ga1d9f6139bc69d89bc3f392139c51f0a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_30.  <a href="group__spi__tests__data__xchg.html#ga1d9f6139bc69d89bc3f392139c51f0a7">More...</a><br/></td></tr>
+<tr class="separator:ga1d9f6139bc69d89bc3f392139c51f0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d723bdaab45a60fbb356fd3424b876a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga1d723bdaab45a60fbb356fd3424b876a">SPI_Data_Bits_31</a> (void)</td></tr>
+<tr class="memdesc:ga1d723bdaab45a60fbb356fd3424b876a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_31.  <a href="group__spi__tests__data__xchg.html#ga1d723bdaab45a60fbb356fd3424b876a">More...</a><br/></td></tr>
+<tr class="separator:ga1d723bdaab45a60fbb356fd3424b876a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaccf953e09301fb8aa89f58e68de7194"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gaaccf953e09301fb8aa89f58e68de7194">SPI_Data_Bits_32</a> (void)</td></tr>
+<tr class="memdesc:gaaccf953e09301fb8aa89f58e68de7194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Data_Bits_32.  <a href="group__spi__tests__data__xchg.html#gaaccf953e09301fb8aa89f58e68de7194">More...</a><br/></td></tr>
+<tr class="separator:gaaccf953e09301fb8aa89f58e68de7194"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1773bf3dce35c76518768d5c1ec1eca1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga1773bf3dce35c76518768d5c1ec1eca1">SPI_Bit_Order_MSB_LSB</a> (void)</td></tr>
+<tr class="memdesc:ga1773bf3dce35c76518768d5c1ec1eca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Bit_Order_MSB_LSB.  <a href="group__spi__tests__data__xchg.html#ga1773bf3dce35c76518768d5c1ec1eca1">More...</a><br/></td></tr>
+<tr class="separator:ga1773bf3dce35c76518768d5c1ec1eca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacbe95a7604dd638fc03bac1d8d647c57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#gacbe95a7604dd638fc03bac1d8d647c57">SPI_Bit_Order_LSB_MSB</a> (void)</td></tr>
+<tr class="memdesc:gacbe95a7604dd638fc03bac1d8d647c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Bit_Order_LSB_MSB.  <a href="group__spi__tests__data__xchg.html#gacbe95a7604dd638fc03bac1d8d647c57">More...</a><br/></td></tr>
+<tr class="separator:gacbe95a7604dd638fc03bac1d8d647c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d68e121dd548586e9dfb745d4f66edc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga3d68e121dd548586e9dfb745d4f66edc">SPI_Bus_Speed_Min</a> (void)</td></tr>
+<tr class="memdesc:ga3d68e121dd548586e9dfb745d4f66edc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Bus_Speed_Min.  <a href="group__spi__tests__data__xchg.html#ga3d68e121dd548586e9dfb745d4f66edc">More...</a><br/></td></tr>
+<tr class="separator:ga3d68e121dd548586e9dfb745d4f66edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga949c26229d70ecd51c7e94d0db794ff2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga949c26229d70ecd51c7e94d0db794ff2">SPI_Bus_Speed_Max</a> (void)</td></tr>
+<tr class="memdesc:ga949c26229d70ecd51c7e94d0db794ff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Bus_Speed_Max.  <a href="group__spi__tests__data__xchg.html#ga949c26229d70ecd51c7e94d0db794ff2">More...</a><br/></td></tr>
+<tr class="separator:ga949c26229d70ecd51c7e94d0db794ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60177cabd2ede8ad3ab7ce591cfa567d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga60177cabd2ede8ad3ab7ce591cfa567d">SPI_Number_Of_Items</a> (void)</td></tr>
+<tr class="memdesc:ga60177cabd2ede8ad3ab7ce591cfa567d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Number_Of_Items.  <a href="group__spi__tests__data__xchg.html#ga60177cabd2ede8ad3ab7ce591cfa567d">More...</a><br/></td></tr>
+<tr class="separator:ga60177cabd2ede8ad3ab7ce591cfa567d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga52d421c71253abdb24010d1fe468490b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga52d421c71253abdb24010d1fe468490b">SPI_GetDataCount</a> (void)</td></tr>
+<tr class="memdesc:ga52d421c71253abdb24010d1fe468490b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_GetDataCount.  <a href="group__spi__tests__data__xchg.html#ga52d421c71253abdb24010d1fe468490b">More...</a><br/></td></tr>
+<tr class="separator:ga52d421c71253abdb24010d1fe468490b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78979d4cce4cdabcb859ea053f99faf0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga78979d4cce4cdabcb859ea053f99faf0">SPI_Abort</a> (void)</td></tr>
+<tr class="memdesc:ga78979d4cce4cdabcb859ea053f99faf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Abort.  <a href="group__spi__tests__data__xchg.html#ga78979d4cce4cdabcb859ea053f99faf0">More...</a><br/></td></tr>
+<tr class="separator:ga78979d4cce4cdabcb859ea053f99faf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ee8300df96447854b4bd435e2cd1bd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__err__evt.html#ga8ee8300df96447854b4bd435e2cd1bd9">SPI_DataLost</a> (void)</td></tr>
+<tr class="memdesc:ga8ee8300df96447854b4bd435e2cd1bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_DataLost.  <a href="group__spi__tests__err__evt.html#ga8ee8300df96447854b4bd435e2cd1bd9">More...</a><br/></td></tr>
+<tr class="separator:ga8ee8300df96447854b4bd435e2cd1bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5aa9107a73024bd68d883b638960f8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__err__evt.html#gae5aa9107a73024bd68d883b638960f8f">SPI_ModeFault</a> (void)</td></tr>
+<tr class="memdesc:gae5aa9107a73024bd68d883b638960f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_ModeFault.  <a href="group__spi__tests__err__evt.html#gae5aa9107a73024bd68d883b638960f8f">More...</a><br/></td></tr>
+<tr class="separator:gae5aa9107a73024bd68d883b638960f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="aa8189083f7b0155f28e74c3326553341"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef uint8_t <a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a76b5b64ba74fa90a680bfe2339716f58"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ARM_DRIVER_SPI CREATE_SYMBOL </td>
-          <td>(</td>
-          <td class="paramtype">Driver_SPI&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DRV_SPI&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a073b367e9462899c0883d2f1422f2f23"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void SPI_DrvEvent </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>event</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="afb2b6ab93e6e07bdc89319e69be7d93e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t SPI_RunReceive </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>in</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cnt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa50b4a31380b00c1f9f020863109da0c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t SPI_RunReceiveNoCallback </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>in</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cnt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa6092a03174ab47a21b32aa9087a95e2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t SPI_RunSend </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cnt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6f1ca5a4dc09710e197e2ce96646ff09"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t SPI_RunSend_NoCallback </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cnt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a609bec4fde4ca996644121423ecda8f2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t SPI_RunTransfer </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>in</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>cnt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a339cfe6a8f6f1e3d52f8fb835c4c4380"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a>* buffer_in</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a65b511a972d6aacfb71bb97f7c6480a0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="_d_v___s_p_i_8c.html#aa8189083f7b0155f28e74c3326553341">buf_t</a>* buffer_out</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7470eb473c9d100342e79c703be38455"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ARM_SPI_CAPABILITIES capab</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6abd5f21fae2a362ed75ab51bcaff736"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ARM_DRIVER_SPI* drv = &amp;<a class="el" href="_d_v___u_s_b_h_8c.html#ad61f68c22694705aea6cc26b439e9358">CREATE_SYMBOL</a>(Driver_SPI, DRV_SPI)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab5135011ec160c4988c8469051a56838"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t volatile Event</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a43230f73e49aed59e179915f0707e0bf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint32_t SPI_BR[]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=  {</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">  </div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"> </div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"> </div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"> </div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"> </div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"> </div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="a9cc61d51147195a66e5d8a63cf22c3c9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint32_t SPI_BR_NUM = ARRAY_SIZE(<a class="el" href="_d_v___s_p_i_8c.html#a43230f73e49aed59e179915f0707e0bf">SPI_BR</a>)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a549fe09c81875b8f32e305dc573e6929"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">char str[128]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="_d_v___s_p_i_8c.html">DV_SPI.c</a></li>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:22 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mci_20validation',['MCI Validation',['../group__mci__funcs.html',1,'']]]
+  ['i2c_20validation',['I2C Validation',['../group__dv__i2c.html',1,'']]]
 ];

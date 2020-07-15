@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>WiFi Management</title>
-<title>CMSIS-Driver Validation: WiFi Management</title>
+<title>Management</title>
+<title>CMSIS-Driver Validation: Management</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="drv.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="jquery.js"></script>
@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 1.4.0</span>
+   &#160;<span id="projectnumber">Version 2.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__wifi__mgmt.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,214 +111,46 @@ $(document).ready(function(){initNavTree('group__wifi__mgmt.html','');});
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">WiFi Management<div class="ingroups"><a class="el" href="group__wifi__funcs.html">WiFi Validation</a></div></div>  </div>
+<div class="title">Management<div class="ingroups"><a class="el" href="group__wifi__tests.html">Tests</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gab3e92900df96e1c48b068d2a4f7b04b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#gab3e92900df96e1c48b068d2a4f7b04b9">WIFI_SetOption_GetOption</a> (void)</td></tr>
-<tr class="memdesc:gab3e92900df96e1c48b068d2a4f7b04b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_SetOption_GetOption.  <a href="#gab3e92900df96e1c48b068d2a4f7b04b9">More...</a><br/></td></tr>
+<tr class="memdesc:gab3e92900df96e1c48b068d2a4f7b04b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_SetOption_GetOption.  <a href="#gab3e92900df96e1c48b068d2a4f7b04b9">More...</a><br/></td></tr>
 <tr class="separator:gab3e92900df96e1c48b068d2a4f7b04b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga80774e115994cbc7936dc0e095f82d8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga80774e115994cbc7936dc0e095f82d8a">WIFI_Scan</a> (void)</td></tr>
-<tr class="memdesc:ga80774e115994cbc7936dc0e095f82d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Scan.  <a href="#ga80774e115994cbc7936dc0e095f82d8a">More...</a><br/></td></tr>
+<tr class="memdesc:ga80774e115994cbc7936dc0e095f82d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Scan.  <a href="#ga80774e115994cbc7936dc0e095f82d8a">More...</a><br/></td></tr>
 <tr class="separator:ga80774e115994cbc7936dc0e095f82d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga70d31d264d171b2dea9d4ddab1b7077b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga70d31d264d171b2dea9d4ddab1b7077b">WIFI_Activate_Deactivate</a> (void)</td></tr>
-<tr class="memdesc:ga70d31d264d171b2dea9d4ddab1b7077b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_Deactivate.  <a href="#ga70d31d264d171b2dea9d4ddab1b7077b">More...</a><br/></td></tr>
+<tr class="memdesc:ga70d31d264d171b2dea9d4ddab1b7077b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_Deactivate.  <a href="#ga70d31d264d171b2dea9d4ddab1b7077b">More...</a><br/></td></tr>
 <tr class="separator:ga70d31d264d171b2dea9d4ddab1b7077b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga00d1e2f0a45e674d0ee01ec8a572dec5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga00d1e2f0a45e674d0ee01ec8a572dec5">WIFI_IsConnected</a> (void)</td></tr>
-<tr class="memdesc:ga00d1e2f0a45e674d0ee01ec8a572dec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_IsConnected.  <a href="#ga00d1e2f0a45e674d0ee01ec8a572dec5">More...</a><br/></td></tr>
+<tr class="memdesc:ga00d1e2f0a45e674d0ee01ec8a572dec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_IsConnected.  <a href="#ga00d1e2f0a45e674d0ee01ec8a572dec5">More...</a><br/></td></tr>
 <tr class="separator:ga00d1e2f0a45e674d0ee01ec8a572dec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa2f22c021bf9695a0b542e46704f28c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#gaa2f22c021bf9695a0b542e46704f28c8">WIFI_GetNetInfo</a> (void)</td></tr>
-<tr class="memdesc:gaa2f22c021bf9695a0b542e46704f28c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_GetNetInfo.  <a href="#gaa2f22c021bf9695a0b542e46704f28c8">More...</a><br/></td></tr>
+<tr class="memdesc:gaa2f22c021bf9695a0b542e46704f28c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_GetNetInfo.  <a href="#gaa2f22c021bf9695a0b542e46704f28c8">More...</a><br/></td></tr>
 <tr class="separator:gaa2f22c021bf9695a0b542e46704f28c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5598b2b107b947e1d3060c48323c7f06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga5598b2b107b947e1d3060c48323c7f06">WIFI_Activate_AP</a> (void)</td></tr>
-<tr class="memdesc:ga5598b2b107b947e1d3060c48323c7f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_AP.  <a href="#ga5598b2b107b947e1d3060c48323c7f06">More...</a><br/></td></tr>
+<tr class="memdesc:ga5598b2b107b947e1d3060c48323c7f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_AP.  <a href="#ga5598b2b107b947e1d3060c48323c7f06">More...</a><br/></td></tr>
 <tr class="separator:ga5598b2b107b947e1d3060c48323c7f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga248aa213a4b49ac0384feb9051829139"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga248aa213a4b49ac0384feb9051829139">WIFI_Activate_Station_WPS_PBC</a> (void)</td></tr>
-<tr class="memdesc:ga248aa213a4b49ac0384feb9051829139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_Station_WPS_PBC.  <a href="#ga248aa213a4b49ac0384feb9051829139">More...</a><br/></td></tr>
+<tr class="memdesc:ga248aa213a4b49ac0384feb9051829139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_Station_WPS_PBC.  <a href="#ga248aa213a4b49ac0384feb9051829139">More...</a><br/></td></tr>
 <tr class="separator:ga248aa213a4b49ac0384feb9051829139"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga20a27097854981b1538491cd57546cf7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga20a27097854981b1538491cd57546cf7">WIFI_Activate_Station_WPS_PIN</a> (void)</td></tr>
-<tr class="memdesc:ga20a27097854981b1538491cd57546cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_Station_WPS_PIN.  <a href="#ga20a27097854981b1538491cd57546cf7">More...</a><br/></td></tr>
+<tr class="memdesc:ga20a27097854981b1538491cd57546cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_Station_WPS_PIN.  <a href="#ga20a27097854981b1538491cd57546cf7">More...</a><br/></td></tr>
 <tr class="separator:ga20a27097854981b1538491cd57546cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga282423f64284804a460395bcbf33e98b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#ga282423f64284804a460395bcbf33e98b">WIFI_Activate_AP_WPS_PBC</a> (void)</td></tr>
-<tr class="memdesc:ga282423f64284804a460395bcbf33e98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_AP_WPS_PBC.  <a href="#ga282423f64284804a460395bcbf33e98b">More...</a><br/></td></tr>
+<tr class="memdesc:ga282423f64284804a460395bcbf33e98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_AP_WPS_PBC.  <a href="#ga282423f64284804a460395bcbf33e98b">More...</a><br/></td></tr>
 <tr class="separator:ga282423f64284804a460395bcbf33e98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad4b541a11ee85b12340ef1f72fe7494b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__wifi__mgmt.html#gad4b541a11ee85b12340ef1f72fe7494b">WIFI_Activate_AP_WPS_PIN</a> (void)</td></tr>
-<tr class="memdesc:gad4b541a11ee85b12340ef1f72fe7494b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: WIFI_Activate_AP_WPS_PIN.  <a href="#gad4b541a11ee85b12340ef1f72fe7494b">More...</a><br/></td></tr>
+<tr class="memdesc:gad4b541a11ee85b12340ef1f72fe7494b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: WIFI_Activate_AP_WPS_PIN.  <a href="#gad4b541a11ee85b12340ef1f72fe7494b">More...</a><br/></td></tr>
 <tr class="separator:gad4b541a11ee85b12340ef1f72fe7494b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <p>These tests verify API and operation of the WiFi management functions. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga5598b2b107b947e1d3060c48323c7f06"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_AP </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_AP</b> verifies the WiFi Driver <b>Activate</b> function AP operation. Test result is checked by connecting WiFi client to AP. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga282423f64284804a460395bcbf33e98b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_AP_WPS_PBC </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_AP_WPS_PBC</b> verifies the WiFi Driver <b>Activate</b> function AP WPS and Push-Button Configuration method functionality. Test result is checked by connecting the WiFi client to AP with WPS Push-Button Configuration method. </p>
-
-</div>
-</div>
-<a class="anchor" id="gad4b541a11ee85b12340ef1f72fe7494b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_AP_WPS_PIN </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_AP_WPS_PIN</b> verifies the WiFi Driver <b>Activate</b> function AP WPS PIN method functionality. Test result is checked by connecting the WiFi client to AP with WPS PIN method. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga70d31d264d171b2dea9d4ddab1b7077b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_Deactivate </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_Deactivate</b> verifies the WiFi Driver <b>Activate</b> and <b>Deactivate</b> functions. </p>
-<div class="fragment"><div class="line">int32_t (*Activate) (uint32_t interface, <span class="keyword">const</span> ARM_WIFI_CONFIG_t *<a class="code" href="_d_v___w_i_f_i_8c.html#abd851433cffb636da62b2a37da823342">config</a>);</div>
-</div><!-- fragment --><p> and </p>
-<div class="fragment"><div class="line">int32_t (*Deactivate) (uint32_t interface);</div>
-</div><!-- fragment --><p> Testing sequence (for Station and Access Point):</p>
-<ul>
-<li>if not initialized and powered initialize and power on</li>
-<li>Deactivate</li>
-<li>Activate (with invalid parameters)</li>
-<li>Activate (with valid parameters)</li>
-<li>Deactivate</li>
-<li>Activate (with invalid WPS parameters) </li>
-</ul>
-
-</div>
-</div>
-<a class="anchor" id="ga248aa213a4b49ac0384feb9051829139"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_Station_WPS_PBC </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_Station_WPS_PBC</b> verifies the WiFi Driver <b>Activate</b> function Station connection with WPS and Push-Button Configuration method. This test case requires that test Access Point has active Push-button WPS method when test is started. Usually started on the WiFi AP (router) by pressing the WPS button. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga20a27097854981b1538491cd57546cf7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Activate_Station_WPS_PIN </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Activate_Station_WPS_PIN</b> verifies the WiFi Driver <b>Activate</b> function Station connection with WPS and PIN method. This test case requires that test Access Point has active PIN WPS method when test is started. Usually needs to be configured on the WiFi AP (router). </p>
-
-</div>
-</div>
-<a class="anchor" id="gaa2f22c021bf9695a0b542e46704f28c8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_GetNetInfo </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_GetNetInfo</b> verifies the WiFi Driver <b>GetNetInfo</b> function. </p>
-<div class="fragment"><div class="line">int32_t (*GetNetInfo) (ARM_WIFI_NET_INFO_t *<a class="code" href="_d_v___w_i_f_i_8c.html#a506da30f09d9291e191bbe329ee5244c">net_info</a>);</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="ga00d1e2f0a45e674d0ee01ec8a572dec5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_IsConnected </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_IsConnected</b> verifies the WiFi Driver <b>IsConnected</b> function. </p>
-<div class="fragment"><div class="line">uint32_t (*IsConnected) (void);</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="ga80774e115994cbc7936dc0e095f82d8a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WIFI_Scan </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The test case <b>WIFI_Scan</b> verifies the WiFi Driver <b>Scan</b> function. </p>
-<div class="fragment"><div class="line">int32_t (*Scan) (ARM_WIFI_SCAN_INFO_t <a class="code" href="_d_v___w_i_f_i_8c.html#af0d4978b7b321777eb53b50d06ed7f4d">scan_info</a>[], uint32_t max_num);</div>
-</div><!-- fragment --> 
-</div>
-</div>
 <a class="anchor" id="gab3e92900df96e1c48b068d2a4f7b04b9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -332,8 +164,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The test case <b>WIFI_SetOption_GetOption</b> verifies the WiFi Driver <b>SetOption</b> and <b>GetOption</b> functions. (Options: ARM_WIFI_BSSID, ARM_WIFI_MAC, ARM_WIFI_IP, ARM_WIFI_IP_SUBNET_MASK, ARM_WIFI_IP_GATEWAY, ARM_WIFI_IP_DNS1, ARM_WIFI_IP_DNS2, ARM_WIFI_IP_DHCP_POOL_BEGIN, ARM_WIFI_IP_DHCP_POOL_END are checked with buffer not aligned to 4 bytes).<br/>
- Tests for each option is conditionally executed depending on WIFI_SETGETOPTION_... settings in DV_Config.h file. </p>
+<p>The test function <b>WIFI_SetOption_GetOption</b> verifies the WiFi Driver <b>SetOption</b> and <b>GetOption</b> functions. (Options: ARM_WIFI_BSSID, ARM_WIFI_MAC, ARM_WIFI_IP, ARM_WIFI_IP_SUBNET_MASK, ARM_WIFI_IP_GATEWAY, ARM_WIFI_IP_DNS1, ARM_WIFI_IP_DNS2, ARM_WIFI_IP_DHCP_POOL_BEGIN, ARM_WIFI_IP_DHCP_POOL_END are checked with buffer not aligned to 4 bytes).<br/>
+ Tests for each option is conditionally executed depending on WIFI_SETGETOPTION_... settings in DV_WiFi_Config.h file. </p>
 <div class="fragment"><div class="line">int32_t (*SetOption) (uint32_t interface, uint32_t option, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, uint32_t len);</div>
 </div><!-- fragment --><p> and </p>
 <div class="fragment"><div class="line">int32_t (*GetOption) (uint32_t interface, uint32_t option, <span class="keywordtype">void</span> *data, uint32_t *len);</div>
@@ -355,12 +187,180 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga80774e115994cbc7936dc0e095f82d8a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Scan </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Scan</b> verifies the WiFi Driver <b>Scan</b> function. </p>
+<div class="fragment"><div class="line">int32_t (*Scan) (ARM_WIFI_SCAN_INFO_t <a class="code" href="_d_v___w_i_f_i_8c.html#af0d4978b7b321777eb53b50d06ed7f4d">scan_info</a>[], uint32_t max_num);</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="ga70d31d264d171b2dea9d4ddab1b7077b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_Deactivate </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_Deactivate</b> verifies the WiFi Driver <b>Activate</b> and <b>Deactivate</b> functions. </p>
+<div class="fragment"><div class="line">int32_t (*Activate) (uint32_t interface, <span class="keyword">const</span> ARM_WIFI_CONFIG_t *<a class="code" href="_d_v___w_i_f_i_8c.html#abd851433cffb636da62b2a37da823342">config</a>);</div>
+</div><!-- fragment --><p> and </p>
+<div class="fragment"><div class="line">int32_t (*Deactivate) (uint32_t interface);</div>
+</div><!-- fragment --><p> Testing sequence (for Station and Access Point):</p>
+<ul>
+<li>if not initialized and powered initialize and power on</li>
+<li>Deactivate</li>
+<li>Activate (with invalid parameters)</li>
+<li>Activate (with valid parameters)</li>
+<li>Deactivate</li>
+<li>Activate (with invalid WPS parameters) </li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ga00d1e2f0a45e674d0ee01ec8a572dec5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_IsConnected </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_IsConnected</b> verifies the WiFi Driver <b>IsConnected</b> function. </p>
+<div class="fragment"><div class="line">uint32_t (*IsConnected) (void);</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="gaa2f22c021bf9695a0b542e46704f28c8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_GetNetInfo </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_GetNetInfo</b> verifies the WiFi Driver <b>GetNetInfo</b> function. </p>
+<div class="fragment"><div class="line">int32_t (*GetNetInfo) (ARM_WIFI_NET_INFO_t *<a class="code" href="_d_v___w_i_f_i_8c.html#a506da30f09d9291e191bbe329ee5244c">net_info</a>);</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="ga5598b2b107b947e1d3060c48323c7f06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_AP </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_AP</b> verifies the WiFi Driver <b>Activate</b> function AP operation. Test result is checked by connecting WiFi client to AP. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga248aa213a4b49ac0384feb9051829139"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_Station_WPS_PBC </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_Station_WPS_PBC</b> verifies the WiFi Driver <b>Activate</b> function Station connection with WPS and Push-Button Configuration method. This test function requires that test Access Point has active Push-button WPS method when test is started. Usually started on the WiFi AP (router) by pressing the WPS button. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga20a27097854981b1538491cd57546cf7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_Station_WPS_PIN </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_Station_WPS_PIN</b> verifies the WiFi Driver <b>Activate</b> function Station connection with WPS and PIN method. This test function requires that test Access Point has active PIN WPS method when test is started. Usually needs to be configured on the WiFi AP (router). </p>
+
+</div>
+</div>
+<a class="anchor" id="ga282423f64284804a460395bcbf33e98b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_AP_WPS_PBC </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_AP_WPS_PBC</b> verifies the WiFi Driver <b>Activate</b> function AP WPS and Push-Button Configuration method functionality. Test result is checked by connecting the WiFi client to AP with WPS Push-Button Configuration method. </p>
+
+</div>
+</div>
+<a class="anchor" id="gad4b541a11ee85b12340ef1f72fe7494b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WIFI_Activate_AP_WPS_PIN </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The test function <b>WIFI_Activate_AP_WPS_PIN</b> verifies the WiFi Driver <b>Activate</b> function AP WPS PIN method functionality. Test result is checked by connecting the WiFi client to AP with WPS PIN method. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Dec 2 2019 12:02:23 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

@@ -8,14 +8,14 @@ against the driver specification. Configure the tests as follows:
 
   - Main function cmsis_dv() can be found in DV_Framework.c, where test cases
     are executed
-  - Test configuration options can be set with the Configuration Wizard in
+  - Test configuration options can be set with the Configuration Wizard in:
     DV_Config.h:
     - Test result output format (plain text/XML)
-    - Buffer sizes and patterns
-    - Driver numbers
+    DV_WiFi_Config.h:
+    - Driver number
     - Specific peripheral parameters
     - Enable/disable test cases
-  
+
 --------------------------------------------------------------------------------
 The following targets are available:
 
@@ -31,5 +31,5 @@ The following targets are available:
 Debugger : STLink
 
 IMORTANT NOTE:
-  - Configure parameters in DV_Config.h under WiFi - Configuration to suit
+  - Configure parameters in DV_WiFi_Config.h under WiFi - Configuration to suit
     your testing environment

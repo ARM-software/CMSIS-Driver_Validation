@@ -896,7 +896,7 @@
 #endif
 
 //   <o> SPI1_NSS Pin <0=>Not Used <1=>PA4 <2=>PA15
-#define RTE_SPI1_NSS_PORT_ID            2
+#define RTE_SPI1_NSS_PORT_ID            0
 #if    (RTE_SPI1_NSS_PORT_ID == 0)
 #define RTE_SPI1_NSS_PIN                0
 #elif  (RTE_SPI1_NSS_PORT_ID == 1)
@@ -991,7 +991,7 @@
 #endif
 
 //   <o> SPI2_SCK Pin <0=>PB10 <1=>PB13 <2=>PI1
-#define RTE_SPI2_SCL_PORT_ID            1
+#define RTE_SPI2_SCL_PORT_ID            0
 #if    (RTE_SPI2_SCL_PORT_ID == 0)
 #define RTE_SPI2_SCL_PORT               GPIOB
 #define RTE_SPI2_SCL_BIT                10
@@ -1006,7 +1006,7 @@
 #endif
 
 //   <o> SPI2_NSS Pin <0=>Not Used <1=>PB9 <2=>PB12 <3=>PI0
-#define RTE_SPI2_NSS_PORT_ID            2
+#define RTE_SPI2_NSS_PORT_ID            3
 #if    (RTE_SPI2_NSS_PORT_ID == 0)
 #define RTE_SPI2_NSS_PIN                0
 #elif  (RTE_SPI2_NSS_PORT_ID == 1)
@@ -1035,7 +1035,7 @@
 //     <o4> Priority <0=>Low <1=>Medium <2=>High <3=>Very High
 //     <i>  Selects DMA Priority
 //   </e>
-#define RTE_SPI2_RX_DMA                 0
+#define RTE_SPI2_RX_DMA                 1
 #define RTE_SPI2_RX_DMA_NUMBER          1
 #define RTE_SPI2_RX_DMA_STREAM          3
 #define RTE_SPI2_RX_DMA_CHANNEL         0
@@ -1051,7 +1051,7 @@
 //     <o4> Priority <0=>Low <1=>Medium <2=>High <3=>Very High
 //     <i>  Selects DMA Priority
 //   </e>
-#define RTE_SPI2_TX_DMA                 0
+#define RTE_SPI2_TX_DMA                 1
 #define RTE_SPI2_TX_DMA_NUMBER          1
 #define RTE_SPI2_TX_DMA_STREAM          4
 #define RTE_SPI2_TX_DMA_CHANNEL         0

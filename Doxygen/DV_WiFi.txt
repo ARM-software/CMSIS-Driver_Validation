@@ -1,0 +1,387 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_requirements Requirements
+\ingroup dv_wifi
+
+The WiFi driver validation requires the following hardware:
+- WiFi Access Point connected to the local network
+- Hardware running SockServer (can be \ref sockserver_pc "PC running Microsoft Windows" or an 
+  \ref sockserver_embedded "embedded system")
+
+The WiFi driver validation requires the following software:
+- \ref wifi_sock_setup "SockServer" application running in the same network as WiFi Access Point used for testing
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_config Configuration
+\ingroup dv_wifi
+
+The WiFi driver validation settings are available in the <b>DV_WiFi_Config.h</b> configuration file.
+
+Some settings depend on the test environment and need to be changed for proper operation of the WiFi driver validation.<br>
+These settings can be found under <b>Configuration</b> settings in the <b>DV_WiFi_Config.h</b> configuration file and need to 
+be set as follows:
+
+\image html dv_wifi_config_h.png "DV_WiFi_Config.h configuration file in Configuration Wizard view mode"
+
+<b>Station</b> related settings needed for WiFi module to connect to the WiFi Access Point in the local network:
+- SSID
+- Password
+- Security Type
+- Channel: use 0 for auto-detect channel
+- WPS PIN: PIN used for WPS tests (the Access Point has to have the same PIN enabled and WPS service running)
+
+<b>Access Point</b> related settings needed for testing Access Point functionality (network creation) of the WiFi module:
+- SSID
+- Password
+- Security Type
+- Channel: use 0 for auto-detect channel
+- WPS PIN: PIN used for WPS tests (auxiliary station has to have the same PIN enabled)
+
+<b>Socket</b> related setting needed for Socket API and Socket Operation tests:
+- SockServer IP: IP address assigned to the SockServer on your local network
+- Number of sockets: Number of sockets that the driver supports and that will be tested
+
+\note IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).
+
+Under <b>Tests</b> select testing functionality as required.
+For details on tests performed by each test function please refer to \ref wifi_tests "WiFi Tests".
+
+<b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable 
+WiFi Driver API function tests respectively.
+
+<b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
+are used for more complex operational test of the WiFi driver.<br>
+A brief description of each test functionality can be viewed by using 
+<a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
+view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a mouse pointer over it.
+
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_sock_setup SockServer 
+\ingroup dv_wifi
+
+The \b SockServer is an application providing a set of services used by the WiFi CMSIS-Driver Validation suite to test the
+Socket interface of the WiFi driver. It is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
+The SockServer is available for different target systems. It runs several standard network services.
+
+The SockServer is available for following target systems:
+ - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win</b>)
+ - <b>Keil MCB4300</b> evaluation board (µVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCB4300</b>)
+ - <b>Keil MCBSTM32F400</b> evaluation board (µVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCBSTM32F400</b>)
+
+\note To run SockServer in an embedded system, you need a license for MDK-Professional (for the MDK-Middleware Network component).
+
+The following services are available by SockServer:
+- \b Echo service on port \token{7}, TCP and UDP
+  \n (two instances of TCP service, one instance of UDP service)
+- \b Discard service on port \token{9}, TCP and UDP
+  \n (one instance of TCP service, one instance of UDP service)
+- \b Chargen service on port \token{19}, TCP and UDP
+  \n (two instances of TCP service, one instance of UDP service)
+- \b Assistant service on port \token{5000}
+  \n (helper service used to test WiFi sockets in server mode (socket accept functionality))
+- \b Telnet service on port \token{23}
+  \n (SockServer status monitoring service)
+
+\note SockServer provides the Telnet service only in embedded systems.
+
+\section sockserver_pc SockServer for PC running Microsoft Windows
+
+\b Requirements:
+ - Personal Computer running Microsoft Windows
+ - PC connection to local network
+
+SockServer is already built and can be executed by running the SockServer.exe file in <b>.\\Tools\\SockServer\\PC\\Win</b>
+
+If you need to change the functionality of SockServer, source files and a batch script for building the executable are
+available in <b>.\\Tools\\SockServer\\PC\\Win</b>.
+
+\note
+- SockServer build process requires Minimalist GNU for Windows (MinGW).
+- To build the SockServer executable for Windows, follow these steps:
+  - Download and install MinGW from https://osdn.net/projects/mingw/releases/
+  - Set environment path in Microsoft Windows as explained under Environment Settings heading on http://www.mingw.org/wiki/Getting_Started
+  - Run <b>Build.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win</b> which will result in an executable that is located in
+    <b>.\\Tools\\SockServer\\PC\\Win</b>
+
+\subsection sockserver_pc_win_troubleshooting Troubleshooting
+
+Problems and solutions:
+ 1. SockServer not responding to requests
+    - Open Windows firewall -> Advanced settings
+      - select inbound rules
+    - create a new custom rule (New Rule...)
+      - Rule type:     Program
+      - Program:       This program path (select path to SockServer.exe)
+      - Action:        Allow the connection
+      - Profile:       Domain, Private (Public not advised)
+      - Name:          SockServer  
+ 2. Test computer not responding to ping
+    - Open Windows firewall -> Advanced settings
+      - select inbound rules, enable rule
+        File and Printer sharing (Echo request - ICMPv4-In)
+      
+    - If rule does not exist, create a new custom rule (New Rule...)
+      - Rule type:     Custom
+      - Program:       All programs
+      - Protocol type: ICMPv4
+      - ICMP Settings: Customize - Specific ICMP types: Echo Request
+      - Scope:         Any IP address
+      - Action:        Allow the connection
+      - Profile:       Domain, Private (Public not advised)
+      - Name:          Ping Echo  
+
+
+\section sockserver_embedded SockServer for embedded systems
+
+\b Requirements:
+ - Keil MCB4300 or Keil MCBSTM32F400 evaluation board
+ - Wired Ethernet connection to local network
+
+\subsection sockserver_embedded_telnet Using the Telnet service
+
+The Telnet service provides information about received and sent data. This can help to resolve driver problems when WiFi 
+socket sending and receiving does not work. For example, when the transfer test fails, either \b SocketSend or
+\b SocketRecv functions may have failed or both.
+
+For the Telnet connection from the PC, open a CMD window. At the prompt, type the following command or use another Telnet
+client application:
+\code
+c:\>telnet sockserver
+\endcode
+
+The initial page opens:
+  \image html SockServer.png "Initial telnet connection"
+
+You can view the remote IP address, port number, receiving and transmitting counters with the \b stat command:
+  \image html SockMonitor.png "Status monitoring"
+
+Status monitor constantly updates the SockServer status on the screen. To stop the screen update, press any
+telnet client key.
+
+\note You might need to enable the Telnet service in Windows 10 first. Here's a
+<a href="https://www.technipages.com/windows-10-enable-telnet" target="_blank">tutorial</a> on how to do this.
+
+\subsection sockserver_embedded_porting Porting SockServer to other targets
+
+Currently, the \b SockServer application is available for the \b MCB4300 and \b MCBSTM32F400 evaluation boards. 
+To create SockServer application for a different target device, follow the steps below:
+-# Create new network project in µVision
+-# Select and configure the following software components:
+ - \b Network:Core and configure the host name and pool size in \b Net_Config.c
+\code
+#define NET_HOST_NAME               "SockServer"
+#define NET_MEM_POOL_SIZE           16384
+\endcode
+ - \b Network:Interface:Ethernet and configure the MAC address in \b Net_Config_ETH0.h to avoid collisions
+\code
+#define ETH0_MAC_ADDR               "1E-30-6C-A2-45-5A"
+\endcode
+ - \b Network:Socket:BSD and configure number of sockets in \b Net_Config_BSD.h
+\code
+#define BSD_NUM_SOCKS               8
+#define BSD_SERVER_SOCKS            4
+\endcode
+ - \b Network:Socket:TCP and configure number of sockets in \b Net_Config_TCP.h
+\code
+#define TCP_NUM_SOCKS               9
+\endcode
+ - \b Network:Socket:UDP and configure number of sockets in \b Net_Config_UDP.h
+\code
+#define UDP_NUM_SOCKS               10
+\endcode
+ - \b Network:Service:Telnet server and disable authentication in \b Net_Config_Telnet_Server.h
+\code
+#define TELNET_SERVER_AUTH_ENABLE   0
+\endcode
+ - \b CMSIS \b Driver:Ethernet/MAC/PHY(API) depending on your hardware
+-# Configure device specific hardware:
+ - Configure the CMSIS-Driver for Ethernet and other device specific components (clock system, I/O, ...)
+   as required. Please consult your device's/board's documentation for more information.
+-# Copy and add \b SockServer.c and \b SockServer.h files to the project
+-# Copy and add \b Telnet_Server_UIF.c to the project
+-# Add the code to start the services in \b main.c
+\code
+// Application main thread
+static void app_main (void *argument) {
+ 
+  netInitialize ();
+  osDelay (500);
+ 
+  osThreadNew(DgramServer,   NULL, NULL);
+  osThreadNew(StreamServer,  NULL, NULL);
+  osThreadNew(TestAssistant, NULL, NULL);
+}
+\endcode
+-# Increase the default RTX stack size to 400 bytes in <b>RTX_Config.h</b>
+\code
+#define OS_STACK_SIZE           400
+\endcode
+-# Set the default global stack to 1024 bytes and heap to 6144 bytes in your device's \b startup \b file
+\code
+Stack_Size      EQU     0x00000400
+Heap_Size       EQU     0x00001800
+\endcode
+
+\subsection sockserver_embedded_troubleshooting Troubleshooting
+
+Problems and solutions:
+ 1. SockServer on multiple embedded systems on the same local network
+    - Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project
+
+*/
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup wifi_sock_testing Socket testing
+\ingroup dv_wifi
+
+Due to limitations of WiFi modules and their Software Development Kits (SDK), often it is not possible to comply with
+CMSIS-Driver BSD rules regarding function behavior or function return codes. Hence, the WiFi Driver tests accept alternative
+error codes and report them as Warnings and considers certain error codes as acceptable for certain functions.
+Exceptions to BSD-strict error codes and functionality are written below: 
+
+WiFi socket deviations from the BSD-strict specification
+========================================================
+
+-# \b SocketBind
+ - bind socket to same address again<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
+
+ - bind another socket to used address<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EADDRINUSE<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - bind on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketListen
+ - listen on already listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
+
+ - listen on unbound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - listen on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - listen on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketAccept
+ - receive on disconnected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - accept on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - listen on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - accept on datagram socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTSUP<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketConnect
+ - connect socket to same address again<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EISCONN<br>non BSD-strict accepted return codes: \token{0} or \token{ARM_SOCKET_ERROR}
+
+ - bind on connected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EISCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - connect on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - connect to non-existent port<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNREFUSED<br>non BSD-strict accepted return codes: \token{ARM_SOCKET_ETIMEDOUT} or \token{ARM_SOCKET_ERROR}
+
+ - connect to non-existent stream server<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ETIMEDOUT<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - connect on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - connect datagram socket to unspecified address (0.0.0.0)<br>
+   <b>BSD-strict</b> expected return code \b 0<br>non BSD-strict accepted return codes: \token{ARM_SOCKET_EINVAL} or \token{ARM_SOCKET_ERROR}
+   (special case that deletes the socket destination & filtering address)
+
+-# \b SocketRecv
+ - recv on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - recv on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - recv on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - recv on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketRecvFrom
+ - recvfrom on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketSend
+ - send on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on disconnected socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - send on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketSendTo
+ - sendto on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketGetSockName
+ - getsockname on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - getsockname on unbound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EINVAL<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketGetPeerName
+ - getpeername on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - getpeername on created socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - getpeername on bound socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+ - getpeername on listening socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketGetOpt
+ - getsockopt on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketSetOpt
+ - setsockopt on closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+
+-# \b SocketClose
+ - close already closed socket<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{0}
+
+-# \b SocketGetHostByName
+ - gethostbyname for non-existing host<br>
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_EHOSTNOTFOUND<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+*/

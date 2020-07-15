@@ -42,7 +42,7 @@
 //                               <921600=>921600
 // <i> Defines the serial interface baudrate.
 // <i> Default: 115200
-#define WIFI_WIZ360_SERIAL_BAUDRATE         115200
+#define WIFI_WIZ360_SERIAL_BAUDRATE         921600
 
 // <o> WiFi thread priority <0=>osPriorityLow
 //                          <1=>osPriorityBelowNormal
@@ -64,7 +64,7 @@
 // <i> Defines the size of one memory block used for socket data buffering.
 // <i> Socket buffering consists of multiple blocks which are distributed across multiple sockets.
 // <i> Default: 512
-#define WIFI_WIZ360_SOCKET_BLOCK_SIZE       512
+#define WIFI_WIZ360_SOCKET_BLOCK_SIZE       1024
 
 // <o> Socket buffer block count <5-256>
 // <i> Defines the total number of memory blocks used for socket data buffering.

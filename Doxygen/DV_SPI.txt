@@ -1,0 +1,202 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup spi_config Configuration
+\ingroup  dv_spi
+
+The SPI driver validation settings are available in the <b>DV_SPI_Config.h</b> configuration file.
+
+\image html dv_spi_config_h.png "DV_SPI_Config.h configuration file in Configuration Wizard view mode"
+
+Some settings depend on the test environment and need to be changed for proper operation of the SPI driver validation.<br>
+
+\section spi_config_detail Configuration settings
+
+<b>Driver_SPI#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_SPI2</c> then this setting would be set to <c>2</c>.
+
+<b>Configuration</b> section contains configuration of: Test Mode, SPI Server and Tests settings:
+- <b>Test Mode</b> can be set to <b>Loopback</b> or <b>SPI Server</b>.<br>
+  Loopback mode should be used for initial validation.<br>
+  Loopback mode requires that MOSI and MISO pins are connected together thus driver validation can test basic 
+  functionality in the Master mode.<br>
+  <b>For full compliance of the SPI driver with the CMSIS-Driver SPI specification the SPI Server Test Mode has to be used.</b>
+- <b>SPI Server</b> settings are relevant if <b>Test Mode: SPI Server</b> is selected.
+  These settings specify communication settings at which Driver Validation communicates with the SPI Server.<br>
+  <b>These settings must be same as configured on the SPI Server.</b><br>
+  Settings available for the SPI Server are:
+  - <b>Slave Select</b> setting specifies the way that Slave Select line will be handled by the driver under test.<br>
+    SPI Server requires that commands are exchanged with Slave Select line used, so driver being tested must support 
+    Slave Select line handling.<br>
+    <b>Software Controlled</b> selection means that driver will use software controlled driving of the Slave Select line by 
+    calling driver <c>Control</c> function with <c>ARM_SPI_CONTROL_SS</c> control code to activate Slave Select Line 
+    before the transfer and deactivate it after the transfer.<br>
+    <b>Hardware Controlled</b> selection means that driver will use hardware controlled driving of the Slave Select line.
+  - <b>Clock / Frame Format</b> setting specifies the clock or frame format used for command exchange with the SPI Server.<br>
+    Both the SPI Server and the driver being tested must use the same clock / frame format setting.
+  - <b>Data Bits</b> setting specifies the number of data bits per item used for command exchange with the SPI Server.<br>
+    Both the SPI Server and the driver being tested must use the same data bits setting.
+  - <b>Bit Order</b> setting specifies the bit order used for command exchange with the SPI Server.<br>
+    Both the SPI Server and the driver being tested must use the same bit order setting.
+  - <b>Bus Speed</b> setting specifies the nominal bus speed used to exchange commands with the SPI Server.<br>
+    This setting should be set to a speed guaranteeing reliable command exchange with the SPI Server.
+- <b>Tests</b> settings specifies tests configuration:
+  - <b>Default settings</b> specifies the default settings used in the data exchange tests.<br>
+    Usually, one feature is tested by executing the data exchange while all other parameters are used as default.<br>
+    For details on which parameters are used as default in each test function please refer to \ref spi_tests_data_xchg
+    functions documentation.
+  - <b>Bus Speed</b> settings specifies minimum and maximum bus speeds at which data transfer will be executed.<br>
+    These settings are used by the \ref SPI_Bus_Speed_Min and \ref SPI_Bus_Speed_Max test functions.
+  - <b>Number of Items</b> settings specifies a few different number of items to be tested.<br>
+    These settings are used by the \ref SPI_Number_Of_Items test function which tests that odd and unusual number of items 
+    are transferred correctly according to the CMSIS-Driver specification.
+
+<b>Tests</b> section contains selections of tests to be executed:
+- <b>Driver Management</b> allows enabling or disabling of the whole driver management group of test functions.<br>
+  Each test function in this group can be enabled or disabled individually, for details on tests performed 
+  by each test function please refer to \ref spi_tests_drv_mgmt documentation.
+- <b>Data Exchange</b> allows enabling or disabling of the whole data exchange group of test functions.<br>
+  Each test function in this group can be enabled or disabled individually, for details on tests performed 
+  by each test function please refer to \ref spi_tests_data_xchg documentation.
+- <b>Error Event</b> allows enabling or disabling of the whole error event group of test functions.<br>
+  Each test function in this group can be enabled or disabled individually, for details on tests performed 
+  by each test function please refer to \ref spi_tests_err_evt documentation.
+
+*/
+
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup spi_server SPI Server
+\ingroup  dv_spi
+
+The <b>SPI Server</b> is an application providing a set of features used by the CMSIS-Driver Validation suite to test the
+physical operation of the SPI driver.<br>
+It is located in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server</b> directory.
+
+The SPI Server offers the following features:
+- read of the <b>version</b> information
+- read of the <b>capabilities</b> information
+- set and read of the <b>data buffers content</b>
+- read of the last <b>transfer count</b>
+- <b>transfer</b> in Slave or Master mode
+- <b>generation of mode fault</b> by activation of the Slave Select line during Slave transfer
+
+\section spi_server_oper Operation
+
+The SPI Server is continuously waiting on a command from the SPI Client (Driver Validation), 
+after the command is received it is executed, and the process repeats.<br>
+Most commands do not have any additional related data phase, but some do have additional input or output 
+data exchange phase following the command.
+
+The SPI Server behaves as an SPI Slave except when command for Master transfer was requested, in which case it 
+executes the requested Master transfer and reverts to Slave mode.
+
+\section spi_server_config Configuration
+
+Communication interface settings used during command exchange are set in the <b>SPI_Server_Config.h</b> configuration file. 
+\image html spi_server_config_h.png "SPI_Server_Config.h configuration file in Configuration Wizard view mode"
+
+\subsection spi_server_config_detail Configuration settings
+
+<b>Driver_SPI#</b> selects the driver instance used by the SPI Server.<br>
+<b>Communication settings</b> specify the communication parameters for command exchange with the SPI Client:
+  - <b>Clock / Frame Format</b> setting specifies the clock or frame format used for command exchange.
+  - <b>Data Bits</b> setting specifies the number of data bits per item used for command exchange.
+  - <b>Bit Order</b> setting specifies the bit order used for command exchange.
+
+\note The SPI Server is receiving commands operating in SPI Slave mode with usage of the Slave Select line
+
+\section spi_server_commands Commands
+
+Commands are encoded in human readable format (ASCII strings) so they can be viewed by the SPI bus analyzer 
+and analyzed more easily.
+
+Supported commands:
+ - <b>GET VER</b>: used to retrieve version of the SPI Server application
+ - <b>GET CAP</b>: used to retrieve capabilities of the SPI Server 
+                   (the Server auto-detects capabilities upon reception of this command)
+ - <b>SET BUF</b>: used to initialize receive or transmit buffer content of the SPI Server
+ - <b>GET BUF</b>: used to retrieve receive or transmit buffer content of the SPI Server
+ - <b>SET COM</b>: used to specify transfer configuration for the next transfer
+ - <b>XFER</b>:    used to trigger a transfer
+ - <b>GET CNT</b>: used to retrieve number of transferred items in the last transfer
+
+\note For details about commands please refer to <b>Abstract.txt</b> file in the 
+<c>\<pack root directory\></c>\\Tools\\SPI_Server\\Board\\MCBSTM32F400 directory.
+
+Picture below shows a capture of SPI Driver Validation validating functionality of the Master transfer with Slave Select 
+line not used \image html spi_bus_master_ss_unused.png
+
+\section spi_server_porting Porting SPI Server to other targets
+
+To create SPI Server application for a different target device, follow the steps below:
+-# Create a new project in µVision for your target device
+-# In the RTE window enable and configure the following software components:
+ - <b>CMSIS: CORE</b>
+ - <b>CMSIS: RTOS2 (API): Keil RTX5</b> any variant
+ - <b>CMSIS Driver: SPI (API)</b>
+ - <b>CMSIS Driver: VIO (API)</b> select <b>Virtual</b> implementation if implementation for your target system is not available
+ - Generic device specific components (startup, clock system, I/O, ...) as required 
+   (please consult device's documentation for more information)
+ - Resolve any unresolved dependencies between components
+-# Copy the <b>SPI_Server.c</b> file from the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Source</b> directory 
+   to the project root and add it to µVision project
+-# Copy the <b>SPI_Server.h</b> and <b>SPI_Server_HW.h</b> files from the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Include</b> 
+   directory to the project root
+-# Copy the files specified below from the directory <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Config</b> 
+   to the project root and add them to µVision project:
+ - <b>SPI_Server_Config.h</b>: also adapt this file as required by your device
+ - <b>SPI_Server_HW.c</b>:     also adapt this file for your device's specific handling of the SPI Slave Select line
+-# Add root of the project to include path (<b>Options for Target</b> -> <b>C/C++</b> -> <b>Include Paths: .\\</b>)
+-# Add the <b>main.c</b> file from a template 
+   (Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the
+   <b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>)
+   and update with code snippet below (replace <c>app_main</c> function):
+\code
+#include "SPI_Server.h"
+ 
+/*----------------------------------------------------------------------------
+ * Application main thread
+ *---------------------------------------------------------------------------*/
+__NO_RETURN static void app_main (void *argument) {
+  (void)argument;
+  SPI_Server_Start();
+  for (;;) {}
+}
+\endcode
+-# Build and download the ported SPI Server application to the target device
+
+\section spi_server_troubleshooting Troubleshooting
+
+Problems and solutions:
+ 1. SPI Server is not responding to commands
+    - reset the SPI Server
+    - check that communication settings between SPI Server and SPI Driver Validation 
+      are the same,<br>
+      if they are not, correct them, rebuild the application and 
+      download to the hardware
+
+
+\section spi_server_MCBSTM32F400 SPI Server on the Keil MCBSTM32F400
+
+SPI Server is currently available for the <b>Keil MCBSTM32F400</b> evaluation board.
+
+uVision project and source files are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\MCBSTM32F400</b> directory.
+
+On the Keil MCBSTM32F400 the <b>SPI2</b> interface is used, with the following pinout:
+
+| SPI function                     | Pin    |
+| :------------------------------- | :----: |
+| SPI Clock                        | PB10   |
+| Master Output Slave Input (MOSI) | PB15   |
+| Master Input Slave Output (MISO) | PB14   |
+| Slave Select                     | PI0    |
+
+\note IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test 
+so that SPI signals have same ground potential.
+
+For more information please consult <b>Abstract.txt</b> file in the project root.
+
+\note SPI Server on the Keil MCBSTM32F400 does not support National Semiconductor Microwire Frame Format.
+
+*/

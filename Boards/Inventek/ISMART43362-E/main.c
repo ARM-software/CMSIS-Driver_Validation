@@ -76,16 +76,12 @@ int main (void) {
 
   SystemCoreClockUpdate();
 
-  SDK_DelayAtLeastUs(5000);             // 5 seconds for debugger connect
+  SDK_DelayAtLeastUs(5000000);          // 5 seconds for debugger connect
 
-  // CMSIS RTOS2 initialization and start
-  osKernelInitialize();                 // Initialize CMSIS-RTOS
-#if defined(RTE_CMSIS_RTOS2)
-  osThreadNew(cmsis_dv, NULL, NULL);    // Create validation main thread
-#else
-  cmsis_dv(NULL);
-#endif
-  osKernelStart();                      // Start thread execution
+  osKernelInitialize ();                // Initialize CMSIS-RTOS2
+  osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread
+  osKernelStart ();                     // Start thread execution
+
   for (;;) {}
 }
 

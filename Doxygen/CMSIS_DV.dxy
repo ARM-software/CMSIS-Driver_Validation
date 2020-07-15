@@ -38,7 +38,7 @@ PROJECT_NAME           = "CMSIS-Driver Validation"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = "Version 1.4.0"
+PROJECT_NUMBER         = "Version 2.0.0"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -536,7 +536,7 @@ INLINE_INFO            = YES
 # name. If set to NO the members will appear in declaration order.
 # The default value is: YES.
 
-SORT_MEMBER_DOCS       = YES
+SORT_MEMBER_DOCS       = NO
 
 # If the SORT_BRIEF_DOCS tag is set to YES then doxygen will sort the brief
 # descriptions of file, namespace and class members alphabetically by member
@@ -754,8 +754,16 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = DriverValidation.txt \
-                         USB_DV_test.txt \
-                         WiFi_DV_test.txt \
+                         DV_Framework.txt     \
+                         DV_CAN.txt           \
+                         DV_ETH.txt           \
+                         DV_I2C.txt           \
+                         DV_MCI.txt           \
+                         DV_SPI.txt           \
+                         DV_USART.txt         \
+                         DV_USBD.txt          \
+                         DV_USBH.txt          \
+                         DV_WiFi.txt          \
                          ../Source
 
 # This tag can be used to specify the character encoding of the source files
@@ -819,7 +827,7 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        =
+EXCLUDE_SYMBOLS        = event
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include

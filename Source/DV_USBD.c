@@ -1,11 +1,31 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_USBD.c
- *      Purpose:      USB Device test cases
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Universal Serial Bus (USB) Device Driver Validation tests
+ *
+ * -----------------------------------------------------------------------------
+ */
+
+
 #include "cmsis_dv.h" 
-#include "DV_Config.h"
+#include "DV_USBD_Config.h"
 #include "DV_Framework.h"
 #include "Driver_USBD.h"
 #include <stdio.h>
@@ -34,25 +54,29 @@ static void USB_EndpointEvent (uint8_t endpoint, uint32_t event) {
 
 
 /*-----------------------------------------------------------------------------
- *      Test cases
+ *      Tests
  *----------------------------------------------------------------------------*/
  
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup usbd_funcs USB Device Validation
-\brief USB Device test cases
+\defgroup dv_usbd USB Device Validation
+\brief USB Device driver validation
 \details
-The USB Device validation test checks the API interface compliance only. The section \ref usbd_comp_test explains how to run
-the USB compliance tests. These tests check USB devices for conformance to the USB Device Framework which is required in
-order to gain USB certification.
+The USB Device validation test checks the API interface compliance only.<br>
+The section \ref usbd_comp_test explains how to run the USB compliance tests.<br>
+These tests check USB device for conformance to the USB specification which is required in order to gain USB certification.
+
+\defgroup usbd_tests Tests
+\ingroup dv_usbd
+
 @{
 */
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: USBD_GetCapabilities
+\brief Function: USBD_GetCapabilities
 \details
-The test case \b USBD_GetCapabilities verifies the function \b GetCapabilities.
+The test function \b USBD_GetCapabilities verifies the function \b GetCapabilities.
 */
 void USBD_GetCapabilities (void) {                    
   /* Get USBD capabilities */
@@ -62,16 +86,16 @@ void USBD_GetCapabilities (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USBD_Initialization
+\brief  Function: USBD_Initialization
 \details
-The test case \b USBD_Initialization verifies the USBD functions with the sequence:
+The test function \b USBD_Initialization verifies the USBD functions with the sequence:
   - \b Initialize without callback
   - \b Uninitialize
   - \b Initialize with callback
   - \b Uninitialize
 */
 void USBD_Initialization (void) { 
-    
+
   /* Initialize without callback */
   TEST_ASSERT(drv->Initialize(NULL, NULL) == ARM_DRIVER_OK); 
     
@@ -87,9 +111,9 @@ void USBD_Initialization (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USBD_CheckInvalidInit
+\brief  Function: USBD_CheckInvalidInit
 \details
-The test case \b USBD_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The test function \b USBD_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -116,9 +140,9 @@ void USBD_CheckInvalidInit (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief  Test case: USBD_PowerControl
+\brief  Function: USBD_PowerControl
 \details
-The test case \b USBD_PowerControl verifies the \b PowerControl function with the sequence:
+The test function \b USBD_PowerControl verifies the \b PowerControl function with the sequence:
  - Initialize
  - Power on
  - Power low
@@ -149,4 +173,4 @@ void USBD_PowerControl (void) {
 /**
 @}
 */ 
-// end of group usbd_funcs
+// end of group dv_usbd

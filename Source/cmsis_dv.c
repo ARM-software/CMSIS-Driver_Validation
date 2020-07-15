@@ -1,18 +1,64 @@
-/*-----------------------------------------------------------------------------
- *      Name:         cmsis_dv.c
- *      Purpose:      Driver validation test cases entry point
- *----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Tests definitions
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 #include "cmsis_dv.h"
-#include "RTE_Components.h"
+#ifdef  RTE_CMSIS_DV_SPI
+#include "DV_SPI_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_USART
+#include "DV_USART_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_ETH
+#include "DV_ETH_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_I2C
+#include "DV_I2C_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_MCI
+#include "DV_MCI_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_USBD
+#include "DV_USBD_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_USBH
+#include "DV_USBH_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_CAN
+#include "DV_CAN_Config.h"
+#endif
+#ifdef  RTE_CMSIS_DV_WIFI
+#include "DV_WiFi_Config.h"
+#endif
 #include "DV_Framework.h"
-#include "DV_Config.h"
 
 /*-----------------------------------------------------------------------------
  *      Variables declarations
  *----------------------------------------------------------------------------*/
 // Buffer list sizes
+
+#if (defined(RTE_CMSIS_DV_ETH) || defined(RTE_CMSIS_DV_USART))
 const uint32_t BUFFER[] =  {
 #if (BUFFER_ELEM_1_32!=0)
   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,
@@ -31,11 +77,20 @@ const uint32_t BUFFER[] =  {
 #endif 
 };
 const uint32_t BUFFER_NUM = ARRAY_SIZE(BUFFER);
+#endif
 
-#ifdef  RTE_CMSIS_DV_WIFI
 /*-----------------------------------------------------------------------------
- *      Init/Uninit test suite: WiFi
+ *      Init/Uninit test suite
  *----------------------------------------------------------------------------*/
+#ifdef  RTE_CMSIS_DV_SPI
+static void TS_Init_SPI (void) {
+  SPI_DV_Initialize ();
+}
+static void TS_Uninit_SPI (void) {
+  SPI_DV_Uninitialize ();
+}
+#endif
+#ifdef  RTE_CMSIS_DV_WIFI
 static void TS_Init_WiFi (void) {
   WIFI_DV_Initialize ();
 }
@@ -45,24 +100,85 @@ static void TS_Uninit_WiFi (void) {
 #endif
 
 /*-----------------------------------------------------------------------------
- *      Test cases list
+ *      Tests list
  *----------------------------------------------------------------------------*/
 #ifdef  RTE_CMSIS_DV_SPI
 static TEST_CASE TC_List_SPI[] = {
-  TCD ( SPI_GetCapabilities,            SPI_GETCAPABILITIES_EN          ),
-  TCD ( SPI_Initialization,             SPI_INITIALIZATION_EN           ),
-  TCD ( SPI_PowerControl,               SPI_POWERCONTROL_EN             ),
-  TCD ( SPI_Config_PolarityPhase,       SPI_CONFIG_POLARITYPHASE_EN     ),
-  TCD ( SPI_Config_DataBits,            SPI_CONFIG_DATABITS_EN          ),
-  TCD ( SPI_Config_BitOrder,            SPI_CONFIG_BITORDER_EN          ),
-  TCD ( SPI_Config_SSMode,              SPI_CONFIG_SSMODE_EN            ),
-  TCD ( SPI_Config_BusSpeed,            SPI_CONFIG_BUSSPEED_EN          ),
-  TCD ( SPI_Config_CommonParams,        SPI_CONFIG_COMMONPARAMS_EN      ),
-  TCD ( SPI_Send,                       SPI_SEND_EN                     ),
-  TCD ( SPI_Receive,                    SPI_RECEIVE_EN                  ),
-  TCD ( SPI_Loopback_CheckBusSpeed,     SPI_LOOPBACK_CHECKBUSSPEED_EN   ),
-  TCD ( SPI_Loopback_Transfer,          SPI_LOOPBACK_TRANSFER_EN        ),
-  TCD ( SPI_CheckInvalidInit,           SPI_CHECKINVALIDINIT_EN         ),
+  #if ( SPI_TG_DRIVER_MANAGEMENT_EN != 0 )
+  TCD ( SPI_GetVersion,                 SPI_TC_GET_VERSION_EN           ),
+  TCD ( SPI_GetCapabilities,            SPI_TC_GET_CAPABILITIES_EN      ),
+  TCD ( SPI_Initialize_Uninitialize,    SPI_TC_INIT_UNINIT_EN           ),
+  TCD ( SPI_PowerControl,               SPI_TC_POWER_CONTROL_EN         ),
+  #endif
+  #if ( SPI_TG_DATA_EXCHANGE_EN != 0 )
+  #if ( SPI_TG_MODE_EN != 0 )
+  TCD ( SPI_Mode_Master_SS_Unused,      SPI_TC_MASTER_UNUSED_EN         ),
+  TCD ( SPI_Mode_Master_SS_Sw_Ctrl,     SPI_TC_MASTER_SW_EN             ),
+  TCD ( SPI_Mode_Master_SS_Hw_Ctrl_Out, SPI_TC_MASTER_HW_OUT_EN         ),
+  TCD ( SPI_Mode_Master_SS_Hw_Mon_In,   SPI_TC_MASTER_HW_IN_EN          ),
+  TCD ( SPI_Mode_Slave_SS_Hw_Mon,       SPI_TC_SLAVE_HW_EN              ),
+  TCD ( SPI_Mode_Slave_SS_Sw_Ctrl,      SPI_TC_SLAVE_SW_EN              ),
+  #endif
+  #if ( SPI_TG_FORMAT_EN != 0 )
+  TCD ( SPI_Format_Clock_Pol0_Pha0,     SPI_TC_FORMAT_POL0_PHA0_EN      ),
+  TCD ( SPI_Format_Clock_Pol0_Pha1,     SPI_TC_FORMAT_POL0_PHA1_EN      ),
+  TCD ( SPI_Format_Clock_Pol1_Pha0,     SPI_TC_FORMAT_POL1_PHA0_EN      ),
+  TCD ( SPI_Format_Clock_Pol1_Pha1,     SPI_TC_FORMAT_POL1_PHA1_EN      ),
+  TCD ( SPI_Format_Frame_TI,            SPI_TC_FORMAT_TI_EN             ),
+  TCD ( SPI_Format_Clock_Microwire,     SPI_TC_FORMAT_MICROWIRE_EN      ),
+  #endif
+  #if ( SPI_TG_DATA_BIT_EN != 0 )
+  TCD ( SPI_Data_Bits_1,               (SPI_TC_DATA_BIT_EN_MASK      )&1),
+  TCD ( SPI_Data_Bits_2,               (SPI_TC_DATA_BIT_EN_MASK >>  1)&1),
+  TCD ( SPI_Data_Bits_3,               (SPI_TC_DATA_BIT_EN_MASK >>  2)&1),
+  TCD ( SPI_Data_Bits_4,               (SPI_TC_DATA_BIT_EN_MASK >>  3)&1),
+  TCD ( SPI_Data_Bits_5,               (SPI_TC_DATA_BIT_EN_MASK >>  4)&1),
+  TCD ( SPI_Data_Bits_6,               (SPI_TC_DATA_BIT_EN_MASK >>  5)&1),
+  TCD ( SPI_Data_Bits_7,               (SPI_TC_DATA_BIT_EN_MASK >>  6)&1),
+  TCD ( SPI_Data_Bits_8,               (SPI_TC_DATA_BIT_EN_MASK >>  7)&1),
+  TCD ( SPI_Data_Bits_9,               (SPI_TC_DATA_BIT_EN_MASK >>  8)&1),
+  TCD ( SPI_Data_Bits_10,              (SPI_TC_DATA_BIT_EN_MASK >>  9)&1),
+  TCD ( SPI_Data_Bits_11,              (SPI_TC_DATA_BIT_EN_MASK >> 10)&1),
+  TCD ( SPI_Data_Bits_12,              (SPI_TC_DATA_BIT_EN_MASK >> 11)&1),
+  TCD ( SPI_Data_Bits_13,              (SPI_TC_DATA_BIT_EN_MASK >> 12)&1),
+  TCD ( SPI_Data_Bits_14,              (SPI_TC_DATA_BIT_EN_MASK >> 13)&1),
+  TCD ( SPI_Data_Bits_15,              (SPI_TC_DATA_BIT_EN_MASK >> 14)&1),
+  TCD ( SPI_Data_Bits_16,              (SPI_TC_DATA_BIT_EN_MASK >> 15)&1),
+  TCD ( SPI_Data_Bits_17,              (SPI_TC_DATA_BIT_EN_MASK >> 16)&1),
+  TCD ( SPI_Data_Bits_18,              (SPI_TC_DATA_BIT_EN_MASK >> 17)&1),
+  TCD ( SPI_Data_Bits_19,              (SPI_TC_DATA_BIT_EN_MASK >> 18)&1),
+  TCD ( SPI_Data_Bits_20,              (SPI_TC_DATA_BIT_EN_MASK >> 19)&1),
+  TCD ( SPI_Data_Bits_21,              (SPI_TC_DATA_BIT_EN_MASK >> 20)&1),
+  TCD ( SPI_Data_Bits_22,              (SPI_TC_DATA_BIT_EN_MASK >> 21)&1),
+  TCD ( SPI_Data_Bits_23,              (SPI_TC_DATA_BIT_EN_MASK >> 22)&1),
+  TCD ( SPI_Data_Bits_24,              (SPI_TC_DATA_BIT_EN_MASK >> 23)&1),
+  TCD ( SPI_Data_Bits_25,              (SPI_TC_DATA_BIT_EN_MASK >> 24)&1),
+  TCD ( SPI_Data_Bits_26,              (SPI_TC_DATA_BIT_EN_MASK >> 25)&1),
+  TCD ( SPI_Data_Bits_27,              (SPI_TC_DATA_BIT_EN_MASK >> 26)&1),
+  TCD ( SPI_Data_Bits_28,              (SPI_TC_DATA_BIT_EN_MASK >> 27)&1),
+  TCD ( SPI_Data_Bits_29,              (SPI_TC_DATA_BIT_EN_MASK >> 28)&1),
+  TCD ( SPI_Data_Bits_30,              (SPI_TC_DATA_BIT_EN_MASK >> 29)&1),
+  TCD ( SPI_Data_Bits_31,              (SPI_TC_DATA_BIT_EN_MASK >> 30)&1),
+  TCD ( SPI_Data_Bits_32,              (SPI_TC_DATA_BIT_EN_MASK >> 31)&1),
+  #endif
+  #if ( SPI_TG_BIT_ORDER_EN != 0 )
+  TCD ( SPI_Bit_Order_MSB_LSB,          SPI_TC_BIT_ORDER_MSB_LSB_EN     ),
+  TCD ( SPI_Bit_Order_LSB_MSB,          SPI_TC_BIT_ORDER_LSB_MSB_EN     ),
+  #endif
+  #if ( SPI_TG_BUS_SPEED_EN != 0 )
+  TCD ( SPI_Bus_Speed_Min,              SPI_TC_BUS_SPEED_MIN_EN         ),
+  TCD ( SPI_Bus_Speed_Max,              SPI_TC_BUS_SPEED_MAX_EN         ),
+  #endif
+  #if ( SPI_TG_OTHER_EN != 0 )
+  TCD ( SPI_Number_Of_Items,            SPI_TC_NUMBER_OF_ITEMS_EN       ),
+  TCD ( SPI_GetDataCount,               SPI_TC_GET_DATA_COUNT_EN        ),
+  TCD ( SPI_Abort,                      SPI_TC_ABORT_EN                 ),
+  #endif
+  #endif
+  #if ( SPI_TG_ERROR_EVENT_EN != 0 )
+  TCD ( SPI_DataLost,                   SPI_TC_DATA_LOST_EN             ),
+  TCD ( SPI_ModeFault,                  SPI_TC_MODE_FAULT_EN            ),
+  #endif
 };
 #endif
 
@@ -78,6 +194,7 @@ static TEST_CASE TC_List_USART[] = {
   TCD ( USART_Config_Baudrate,          USART_CONFIG_BAUDRATE_EN        ),
   TCD ( USART_Config_CommonParams,      USART_CONFIG_COMMONPARAMS_EN    ),
   TCD ( USART_Send,                     USART_SEND_EN                   ),
+  TCD ( USART_AsynchronousReceive,      USART_ASYNCHRONOUSRECEIVE_EN    ),
   TCD ( USART_Loopback_CheckBaudrate,   USART_LOOPBACK_CHECKBAUDRATE_EN ),
   TCD ( USART_Loopback_Transfer,        USART_LOOPBACK_TRANSFER_EN      ),
   TCD ( USART_CheckInvalidInit,         USART_CHECKINVALIDINIT_EN       ),
@@ -232,9 +349,8 @@ TEST_GROUP ts[] = {
 {
   __FILE__, __DATE__, __TIME__,
   "CMSIS-Driver SPI Test Report",
-  NULL,
-  NULL,
-  1,
+  TS_Init_SPI,
+  TS_Uninit_SPI,
   TC_List_SPI,
   ARRAY_SIZE (TC_List_SPI),
 },
@@ -246,7 +362,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver USART Test Report",
   NULL,
   NULL,
-  1,
   TC_List_USART,
   ARRAY_SIZE (TC_List_USART),
 },
@@ -258,7 +373,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver ETH Test Report",
   NULL,
   NULL,
-  1,
   TC_List_ETH,
   ARRAY_SIZE (TC_List_ETH),
 },
@@ -270,7 +384,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver I2C (API v2.3) Test Report",
   NULL,
   NULL,
-  1,
   TC_List_I2C,
   ARRAY_SIZE (TC_List_I2C),
 },
@@ -282,7 +395,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver MCI Test Report",
   NULL,
   NULL,
-  1,
   TC_List_MCI,
   ARRAY_SIZE (TC_List_MCI),
 },
@@ -294,7 +406,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver USBD Test Report",
   NULL,
   NULL,
-  1,
   TC_List_USBD,
   ARRAY_SIZE (TC_List_USBD),
 },
@@ -306,7 +417,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver USBH Test Report",
   NULL,
   NULL,
-  1,
   TC_List_USBH,
   ARRAY_SIZE (TC_List_USBH),
 },
@@ -318,7 +428,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver CAN Test Report",
   NULL,
   NULL,
-  1,
   TC_List_CAN,
   ARRAY_SIZE (TC_List_CAN),
 },
@@ -330,7 +439,6 @@ TEST_GROUP ts[] = {
   "CMSIS-Driver WiFi Test Report",
   TS_Init_WiFi,
   TS_Uninit_WiFi,
-  1,
   TC_List_WiFi,
   ARRAY_SIZE (TC_List_WiFi),
 },

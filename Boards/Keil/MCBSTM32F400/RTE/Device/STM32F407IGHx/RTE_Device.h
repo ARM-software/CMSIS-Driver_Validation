@@ -1372,7 +1372,7 @@
 #endif
 
 //   <o> SPI2_SCK Pin <0=>PB10 <1=>PB13 <2=>PC7 <3=>PD3 <4=>PI1 <5=>PA9
-#define RTE_SPI2_SCL_PORT_ID            1
+#define RTE_SPI2_SCL_PORT_ID            0
 #if    (RTE_SPI2_SCL_PORT_ID == 0)
 #define RTE_SPI2_SCL_PORT               GPIOB
 #define RTE_SPI2_SCL_BIT                10
@@ -1396,7 +1396,7 @@
 #endif
 
 //   <o> SPI2_NSS Pin <0=>Not Used <1=>PB9 <2=>PB12 <3=>PI0 <4=>PA11
-#define RTE_SPI2_NSS_PORT_ID            2
+#define RTE_SPI2_NSS_PORT_ID            3
 #if    (RTE_SPI2_NSS_PORT_ID == 0)
 #define RTE_SPI2_NSS_PIN                0
 #elif  (RTE_SPI2_NSS_PORT_ID == 1)

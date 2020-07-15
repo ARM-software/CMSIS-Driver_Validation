@@ -17,7 +17,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * $Revision:   V5.5.0
+ * $Revision:   V5.5.1
  *
  * Project:     CMSIS-RTOS RTX
  * Title:       RTX Configuration definitions
@@ -34,7 +34,11 @@
 #include  RTE_RTX_CONFIG_H
 #endif
 #endif
- 
+
+#ifndef RTE_Compiler_EventRecorder
+#define OS_EVR_INIT                 0
+#endif
+
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
  
 // <h>System Configuration
@@ -397,7 +401,7 @@
 //         <o.3>Detailed operation events
 //       </h>
 #ifndef OS_EVR_THREAD_LEVEL 
-#define OS_EVR_THREAD_LEVEL         0x05U
+#define OS_EVR_THREAD_LEVEL         0x01U
 #endif
  
 //       <h>Generic Wait
@@ -568,7 +572,9 @@
 // Number of Threads which use standard C/C++ library libspace
 // (when thread specific memory allocation is not used).
 #if (OS_THREAD_OBJ_MEM == 0)
+#ifndef OS_THREAD_LIBSPACE_NUM
 #define OS_THREAD_LIBSPACE_NUM      4
+#endif
 #else
 #define OS_THREAD_LIBSPACE_NUM      OS_THREAD_NUM
 #endif

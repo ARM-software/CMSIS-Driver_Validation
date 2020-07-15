@@ -1,9 +1,28 @@
-/*-----------------------------------------------------------------------------
- *      Name:         DV_Report.c 
- *      Purpose:      Report statistics and layout implementation
- *-----------------------------------------------------------------------------
- *      Copyright(c) KEIL - An ARM Company
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     CMSIS-Driver Validation
+ * Title:       Report statistics and layout implementation
+ *
+ * -----------------------------------------------------------------------------
+ */
+
 
 #include "DV_Report.h"
 
@@ -12,14 +31,10 @@
 #define PRINT(x) MsgPrint x
 #define FLUSH()  MsgFlush()
 
-/* Global functions */
-void __set_result  (const char *module, uint32_t line, const char *message, TC_RES res);
-void __set_message (const char *module, uint32_t line, const char *message);
-
 /* Local functions */
 static void tr_Init  (void);
 static void tr_Uninit(void);
-static void tg_Init  (const char *title, const char *date, const char *time, const char *file);
+static void tg_Init  (const char *title, const char *date, const char *time, const char *fn);
 static void tg_Uninit(void);
 static void tc_Init  (uint32_t num, const char *fn);
 static void tc_Uninit(void);
@@ -44,9 +59,9 @@ REPORT_ITF ritf = {                     /* Structure for report interface     */
 /* Local variables */
 static TEST_GROUP_RESULTS test_group_result;    /* Test group results         */
 
-static uint32_t   as_passed = 0;        /* Assertions passed                  */
-static uint32_t   as_failed = 0;        /* Assertions failed                  */
-static uint32_t   as_detail = 0;        /* Assertions details available       */
+static uint32_t   as_passed = 0U;       /* Assertions passed                  */
+static uint32_t   as_failed = 0U;       /* Assertions failed                  */
+static uint32_t   as_detail = 0U;       /* Assertions details available       */
 static const char Passed[] = "PASSED";
 static const char Failed[] = "FAILED";
 static const char NotExe[] = "NOT EXECUTED";
@@ -58,12 +73,16 @@ static const char NotExe[] = "NOT EXECUTED";
 static const char *no_path (const char *fn) {
   const char *cp;
 #if defined(__CC_ARM)
-  cp = strrchr(fn, '\\');
+  cp = strrchr(fn, (int32_t)'\\');
 #else
-  cp = strrchr(fn, '/');
+  cp = strrchr(fn, (int32_t)'/');
 #endif
-  if (cp) return (cp + 1);
-  return (fn);
+  if (cp != NULL) {
+    cp = &cp[1];
+  } else {
+    cp = fn;
+  }
+  return (cp);
 }
 
 /*-----------------------------------------------------------------------------
@@ -97,9 +116,9 @@ static void tr_Uninit (void) {
 static void tg_Init (const char *title, const char *date, const char *time, const char *fn) {
 
   test_group_result.idx++;
-  test_group_result.tests  = 0;
-  test_group_result.passed = 0;
-  test_group_result.failed = 0;
+  test_group_result.tests  = 0U;
+  test_group_result.passed = 0U;
+  test_group_result.failed = 0U;
 
 #if (PRINT_XML_REPORT==1)
   PRINT(("<test>\n"));
@@ -121,9 +140,9 @@ static void tg_Init (const char *title, const char *date, const char *time, cons
 static void tg_Uninit (void) {
   const char *tres;
 
-  if (test_group_result.failed > 0) {   /* If any test failed => Failed       */
+  if (test_group_result.failed > 0U) {  /* If any test failed => Failed       */
     tres = Failed;
-  } else if (test_group_result.passed > 0) {    /* If 1 passed => Passed      */
+  } else if (test_group_result.passed > 0U) {   /* If 1 passed => Passed      */
     tres = Passed;
   } else {                              /* If no tests exec => Not-executed   */
     tres = NotExe;
@@ -149,13 +168,13 @@ static void tg_Uninit (void) {
 }
 
 /*-----------------------------------------------------------------------------
- * Init test case
+ * Init test
  *----------------------------------------------------------------------------*/
 static void tc_Init (uint32_t num, const char *fn) {
 
-  as_passed = 0;
-  as_failed = 0;
-  as_detail = 0;
+  as_passed = 0U;
+  as_failed = 0U;
+  as_detail = 0U;
 
 #if (PRINT_XML_REPORT==1)   
   PRINT(("<tc>\n"));
@@ -168,17 +187,17 @@ static void tc_Init (uint32_t num, const char *fn) {
 }
 
 /*-----------------------------------------------------------------------------
- * Uninit test case
+ * Uninit test
  *----------------------------------------------------------------------------*/
 static void tc_Uninit (void) {
   const char *res;
 
   test_group_result.tests++;
 
-  if (as_failed > 0) {                  /* If any assertion failed => Failed  */
+  if (as_failed > 0U) {                 /* If any assertion failed => Failed  */
     test_group_result.failed++;
     res = Failed;
-  } else if (as_passed > 0) {           /* If 1 assertion passed => Passed    */
+  } else if (as_passed > 0U) {          /* If 1 assertion passed => Passed    */
     test_group_result.passed++;
     res = Passed;
   } else {                              /* If no assertions => Not-executed   */
@@ -191,7 +210,7 @@ static void tc_Uninit (void) {
   PRINT(("</tc>\n"));
   (void)as_detail;
 #else
-  if (as_detail != 0) {
+  if (as_detail != 0U) {
     PRINT(("\n                                          "));
   }
   PRINT(("%s\n", res));
@@ -199,24 +218,25 @@ static void tc_Uninit (void) {
 }
 
 /*-----------------------------------------------------------------------------
- * Write test case detail
+ * Write test detail
  *----------------------------------------------------------------------------*/
 static void tc_Detail (const char *module, uint32_t line, const char *message) {
+  const char *module_no_path;
 
-  module = no_path (module);
+  module_no_path = no_path (module);
 
-  as_detail = 1;
+  as_detail = 1U;
 
 #if (PRINT_XML_REPORT==1) 
   PRINT(("<detail>\n"));
-  PRINT(("<module>%s</module>\n", module));
+  PRINT(("<module>%s</module>\n", module_no_path));
   PRINT(("<line>%d</line>\n",     line));
   if (message != NULL) {
     PRINT(("<message>%s</message>\n", message));
   }
   PRINT(("</detail>\n"));
 #else
-  PRINT(("\n  %s (%d)", module, line));
+  PRINT(("\n  %s (%d)", module_no_path, line));
   if (message != NULL) {
     PRINT((": %s", message));
   }
@@ -232,6 +252,8 @@ static void as_Result (TC_RES res) {
     as_passed++;
   } else if (res == FAILED) {
     as_failed++;
+  } else {
+    // Do nothing
   }
 }
 
@@ -266,10 +288,10 @@ void __set_message (const char *module, uint32_t line, const char *message) {
 /*-----------------------------------------------------------------------------
  *       MsgPrint:  Print a message to the standard output
  *----------------------------------------------------------------------------*/
-void MsgPrint (const char *msg, ...) {
+static void MsgPrint (const char *msg, ...) {
   va_list args;
   va_start(args, msg);
-  vprintf(msg, args);
+  (void)vprintf(msg, args);
   va_end(args);
 }
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
@@ -279,8 +301,8 @@ void MsgPrint (const char *msg, ...) {
 /*-----------------------------------------------------------------------------
  *       SER_MsgFlush:  Flush the standard output
  *----------------------------------------------------------------------------*/
-void MsgFlush(void) {
-  fflush(stdout);
+static void MsgFlush(void) {
+  (void)fflush(stdout);
 }
 
 /*-----------------------------------------------------------------------------

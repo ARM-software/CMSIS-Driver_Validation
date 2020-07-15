@@ -1,14 +1,31 @@
-/*------------------------------------------------------------------------------
- * MDK Middleware - Component ::Network
- * Copyright (c) 2019 ARM Germany GmbH. All rights reserved.
- *------------------------------------------------------------------------------
- * Name:    SockServer.c
- * Purpose: Implements ECHO, DISCARD and CHARGEN services
- *          - Echo Protocol service                [RFC 862]
- *          - Discard Protocol service             [RFC 863]
- *          - Character Generator Protocol service [RFC 864]
- * Rev.:    V1.1
- *----------------------------------------------------------------------------*/
+/*
+ * Copyright (c) 2019-2020 Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Project:     SockServer
+ * Title:       SockServer embedded system application
+ * Purpose:     Implements ECHO, DISCARD and CHARGEN services
+ *               - Echo Protocol service                [RFC 862]
+ *               - Discard Protocol service             [RFC 863]
+ *               - Character Generator Protocol service [RFC 864]
+ *
+ * -----------------------------------------------------------------------------
+ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -347,7 +364,7 @@ void TestAssistant (void *argument) {
       continue;
     }
 
-    /* Syntax:  SEND <proto>,<blocksz>,<time_ms>
+    /* Syntax:  SEND <proto>,<bsize>,<time_ms>
        Param:   <proto>   = protocol (TCP, UDP)
                 <bsize>   = size of data block in bytes 
                 <time_ms> = test duration in ms
@@ -390,7 +407,7 @@ void TestAssistant (void *argument) {
       continue;
     }
 
-    /* Syntax:  RECV <proto>,<blocksz>
+    /* Syntax:  RECV <proto>,<bsize>
        Param:   <proto> = protocol (TCP, UDP)
                 <bsize> = size of data block in bytes 
     */

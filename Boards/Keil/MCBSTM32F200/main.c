@@ -73,26 +73,13 @@ void SystemClock_Config(void) {
 int main(void)
 {
 
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelInitialize ();
-#endif
+  HAL_Init();                           // Initialize the HAL Library
 
-  HAL_Init();                           /* Initialize the HAL Library         */
+  SystemClock_Config();                 // Configure the System Clock
 
-  SystemClock_Config();                 /* Configure the System Clock         */
+  osKernelInitialize ();                // Initialize CMSIS-RTOS2
+  osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread
+  osKernelStart ();                     // Start thread execution
 
-#if defined(RTE_CMSIS_RTOS2)
-  osThreadNew(cmsis_dv, NULL, NULL);
-#else
-  cmsis_dv(NULL);
-#endif
-
-#if defined(RTE_CMSIS_RTOS) || defined(RTE_CMSIS_RTOS2)
-  osKernelStart ();
-#endif
-
-  /* Infinite loop */
-  while (1)
-  {
-  }
+  for (;;) {}
 }

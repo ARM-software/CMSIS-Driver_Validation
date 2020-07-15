@@ -133,13 +133,9 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 
-  osKernelInitialize ();                        /* Initialize CMSIS-RTOS2 */
-#if defined(RTE_CMSIS_RTOS2)
-  osThreadNew(cmsis_dv, NULL, NULL);            /* Create validation main thread */
-#else
-  cmsis_dv(NULL);
-#endif
-  osKernelStart();                              /* Start thread execution */
+  osKernelInitialize ();                /* Initialize CMSIS-RTOS2 */
+  osThreadNew(cmsis_dv, NULL, NULL);    /* Create validation main thread */
+  osKernelStart();                      /* Start thread execution */
 
   /* USER CODE END 2 */
 

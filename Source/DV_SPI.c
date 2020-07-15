@@ -1744,7 +1744,7 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
         (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "Busy still active after Abort");
       }
       // Assert that busy flag is not active
-      TEST_ASSERT_MESSAGE(stat == ARM_DRIVER_OK, msg_buf);
+      TEST_ASSERT_MESSAGE(spi_stat.busy == 0U, msg_buf);
 
       data_count = drv->GetDataCount();         // Get data count
       if (data_count >= num) {

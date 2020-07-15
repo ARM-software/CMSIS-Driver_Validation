@@ -63,7 +63,7 @@ Revision History
     <tr>
       <td>V2.0.0</td>
       <td>
-        - Remove bundle
+        - Remove bundle from components
         - Change configuration from single file to a file per component
         - Rework SPI Driver testing (introduced SPI_Server)
         - Add SPI_Server application for Keil MCBSTM32F400 evaluation board
@@ -411,7 +411,7 @@ Test Summary: 56 Tests, 25 Passed, 0 Failed.
 Test Result: PASSED
 \endverbatim
 
-The fix for the assertion failing in line 1106 was has also fixed subsequent assertions 
+The fix for the assertion failing in line 1106 has also fixed subsequent assertions 
 in lines 1109 and 1112 thus the driver now reports no failed tests and reports that all 
 of the 25 executed tests have passed.
 
@@ -554,7 +554,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 Hardware Setup
 --------------
 
-The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
+The following picture shows the necessary external loopback connections for the Keil MCBSTM32F200 evaluation board:
  - <b>SPI2</b>: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI) (for Loopback Test Mode)
  - <b>USART1</b>: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
  - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup". 
@@ -607,7 +607,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 -# Choose one of the available \ref example_targets "Targets" and build the project.
 -# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
 
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements", 
 as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
 For details on WiFi driver validation please refer to \ref dv_wifi.

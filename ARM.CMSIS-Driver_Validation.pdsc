@@ -9,8 +9,8 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="2.0.0-rc0">
-      - Remove bundle
+    <release version="2.0.0" date="2020-07-15">
+      - Remove bundle from components
       - Change configuration from single file to a file per component
       - Rework SPI Driver testing (introduced SPI_Server)
       - Add SPI_Server application for Keil MCBSTM32F400 evaluation board

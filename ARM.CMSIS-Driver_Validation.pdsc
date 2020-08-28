@@ -9,6 +9,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="2.0.1-dev0">
+      - Minor update to SPI Driver testing
+    </release>
     <release version="2.0.0" date="2020-07-15">
       - Remove bundle from components
       - Change configuration from single file to a file per component
@@ -172,7 +175,7 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.0.0" condition="CMSIS Driver Validation SPI">
+    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.0.1" condition="CMSIS Driver Validation SPI">
       <description>SPI driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */

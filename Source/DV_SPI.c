@@ -1593,9 +1593,11 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
   if (spi_stat.busy != 0U) {
     // If busy flag is still active
     (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "Busy active before operation! Data exchange operation aborted!");
-    return;
   }
   TEST_ASSERT_MESSAGE(spi_stat.busy == 0U, msg_buf);
+  if (spi_stat.busy != 0U) {
+    return;                             // Busy is still active so abort data exchange operation
+  }
 
   do {
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
@@ -1620,7 +1622,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     // Configure required communication settings
     if (mode == MODE_MASTER) {
       stat = drv->Control (drv_mode | drv_format | drv_data_bits | drv_bit_order | drv_ss_mode, bus_speed);
+#if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
       (void)osDelay(10U);               // Give time to SPI Server to prepare Slave transfer
+#endif
     } else {
       // For Slave mode bus speed argument is not used
       stat = drv->Control (drv_mode | drv_format | drv_data_bits | drv_bit_order | drv_ss_mode, 0U);
@@ -1633,7 +1637,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     TEST_ASSERT_MESSAGE(stat == ARM_DRIVER_OK, msg_buf);
     if (stat != ARM_DRIVER_OK) {
       // If Control function has failed there is no sense to try to execute the data exchange
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);  // Wait for SPI Server to timeout the XFER command
+#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
+      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
+#endif
       return;
     }
 
@@ -1717,7 +1723,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     }
     if (stat != ARM_DRIVER_OK) {
       // If Send/Receive/Transfer start has failed there is no sense to try to continue with the data exchange
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);  // Wait for SPI Server to timeout the XFER command
+#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
+      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
+#endif
       return;
     }
 
@@ -1754,7 +1762,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       // Assert data count is less then number of items requested for exchange
       TEST_ASSERT_MESSAGE(data_count < num, msg_buf);
 
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);  // Wait for SPI Server to timeout aborted operation
+#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
+      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
+#endif
 
       return;                                   // Here Abort test is finished, exit
     }
@@ -1827,7 +1837,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     if ((drv->GetStatus().busy != 0U) || ((event & ARM_SPI_EVENT_TRANSFER_COMPLETE) == 0U)) {
       // If transfer did not finish in time, abort it
       (void)drv->Control(ARM_SPI_ABORT_TRANSFER, 0U);
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);  // Wait for SPI Server to timeout aborted operation
+#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
+      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
+#endif
     }
 
     if (chk_data != 0U) {               // If transferred content should be checked
@@ -3754,7 +3766,7 @@ void SPI_DataLost (void) {
                         SPI_CFG_DEF_BUS_SPEED);
 
     event = 0U;
-    (void)osDelay(SPI_CFG_XFER_TIMEOUT+20U);    // Wait for SPI Server to timeout
+    (void)osDelay(SPI_CFG_XFER_TIMEOUT+30U);    // Wait for SPI Server to timeout
 
     // Assert that event ARM_SPI_EVENT_DATA_LOST was signaled
     TEST_ASSERT_MESSAGE((event & ARM_SPI_EVENT_DATA_LOST) != 0U, "[FAILED] Event ARM_SPI_EVENT_DATA_LOST was not signaled!");

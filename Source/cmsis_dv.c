@@ -175,7 +175,7 @@ static TEST_CASE TC_List_SPI[] = {
   TCD ( SPI_Abort,                      SPI_TC_ABORT_EN                 ),
   #endif
   #endif
-  #if ( SPI_TG_ERROR_EVENT_EN != 0 )
+  #if ( SPI_TG_EVENT_EN != 0 )
   TCD ( SPI_DataLost,                   SPI_TC_DATA_LOST_EN             ),
   TCD ( SPI_ModeFault,                  SPI_TC_MODE_FAULT_EN            ),
   #endif

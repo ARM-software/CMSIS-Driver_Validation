@@ -10,7 +10,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2017-2018 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017-2020 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -119,6 +119,9 @@
 #endif
 #ifdef RTE_DEVICE_HAL_I2C
 #define HAL_I2C_MODULE_ENABLED
+#endif
+#ifdef RTE_DEVICE_HAL_SMBUS
+#define HAL_SMBUS_MODULE_ENABLED
 #endif
 #ifdef RTE_DEVICE_HAL_I2S
 #define HAL_I2S_MODULE_ENABLED
@@ -260,10 +263,10 @@
   */     
 #define  VDD_VALUE                    (3300U) /*!< Value of VDD in mv */
 #define  TICK_INT_PRIORITY            (0x0FU) /*!< tick interrupt priority */
-#define  USE_RTOS                     0U
-#define  PREFETCH_ENABLE              0U /* The prefetch will be enabled in SystemClock_Config(), depending on the used 
+#define  USE_RTOS                     0
+#define  PREFETCH_ENABLE              0 /* The prefetch will be enabled in SystemClock_Config(), depending on the used 
                                            STM32F405/415/07/417 device: RevA (prefetch must be off) or RevZ (prefetch can be on/off) */
-#define  INSTRUCTION_CACHE_ENABLE     1U
+#define  INSTRUCTION_CACHE_ENABLE     1
 #define  DATA_CACHE_ENABLE            1U
 
 #define  USE_HAL_ADC_REGISTER_CALLBACKS         0U /* ADC register callback disabled       */
@@ -310,7 +313,7 @@
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 
   *        HAL drivers code
   */
-/* #define USE_FULL_ASSERT    1U */
+/* #define USE_FULL_ASSERT    1 */
 
 /* ################## Ethernet peripheral configuration ##################### */
 
@@ -480,6 +483,10 @@
  #include "stm32f4xx_hal_i2c.h"
 #endif /* HAL_I2C_MODULE_ENABLED */
 
+#ifdef HAL_SMBUS_MODULE_ENABLED
+ #include "stm32f4xx_hal_smbus.h"
+#endif /* HAL_SMBUS_MODULE_ENABLED */
+
 #ifdef HAL_I2S_MODULE_ENABLED
  #include "stm32f4xx_hal_i2s.h"
 #endif /* HAL_I2S_MODULE_ENABLED */
@@ -590,7 +597,7 @@
   *         If expr is true, it returns no value.
   * @retval None
   */
-  #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
+  #define assert_param(expr) ((expr) ? (void)0 : assert_failed((uint8_t *)__FILE__, __LINE__))
 /* Exported functions ------------------------------------------------------- */
   void assert_failed(uint8_t* file, uint32_t line);
 #else

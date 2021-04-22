@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -30,31 +30,17 @@
 
 // <h> SPI Server
 //   <i> SPI Server configuration.
+//   <i> Fixed settings used by the SPI Server for command exchange are:
+//   <i> Mode: Slave with Slave Select Hardware monitored
+//   <i> Clock / Frame Format: Clock Polarity 0, Clock Phase 0
+//   <i> Data Bits: 8
+//   <i> Bit Order: MSB to LSB
 //   <o0> Driver_SPI# <0-255>
 //     <i> Choose the Driver_SPI# instance.
 //     <i> For example to use Driver_SPI0 select 0.
-//   <h> Communication settings
-//     <i> These settings specify SPI communication interface configuration of the SPI Server 
-//     <i> used for command / response exchange with the SPI Client.
-//     <o1> Clock / Frame Format
-//       <i> Select clock / frame format setting used by the SPI Server.
-//       <0=> Clock Polarity 0, Clock Phase 0
-//       <1=> Clock Polarity 0, Clock Phase 1
-//       <2=> Clock Polarity 1, Clock Phase 0
-//       <3=> Clock Polarity 1, Clock Phase 1
-//       <4=> Texas Instruments Frame Format
-//       <5=> National Semiconductor Microwire Frame Format
-//     <o2> Data Bits <8=> 8 <16=> 16
-//       <i> Select data bit setting used by the SPI Server.
-//     <o3> Bit Order <0=> MSB to LSB <1=> LSB to MSB
-//       <i> Select bit order setting used by the SPI Server.
-//   </h>
 // </h>
 
 #define  SPI_SERVER_DRV_NUM             2
-#define  SPI_SERVER_FORMAT              0
-#define  SPI_SERVER_DATA_BITS           8
-#define  SPI_SERVER_BIT_ORDER           0
 #define  SPI_SERVER_BUF_SIZE            4096
 #define  SPI_SERVER_CMD_TIMEOUT         100
 

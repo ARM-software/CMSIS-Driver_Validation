@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -31,7 +31,6 @@
 
 #include "SPI_Server_Config.h"
 #include "SPI_Server.h"
-#include "SPI_Server_HW.h"
 
 #include "cmsis_os2.h"
 #include "cmsis_compiler.h"
@@ -39,8 +38,15 @@
 
 #include "Driver_SPI.h"                 // ::CMSIS Driver:SPI
 
+// Fixed SPI Server settings (not available through SPI_Server_Config.h)
+#define  SPI_SERVER_SS_MODE     2       // Slave Select Hardware monitored
+#define  SPI_SERVER_FORMAT      0       // Clock Polarity 0 / Clock Phase 0
+#define  SPI_SERVER_DATA_BITS   8       // 8 data bits
+#define  SPI_SERVER_BIT_ORDER   0       // MSB to LSB bit order
+
+
 #ifndef  SPI_SERVER_DEBUG
-#define  SPI_SERVER_DEBUG               0
+#define  SPI_SERVER_DEBUG       0
 #endif
 
 #define  SPI_EVENTS_MASK       (ARM_SPI_EVENT_TRANSFER_COMPLETE | \
@@ -84,6 +90,7 @@ static int32_t  SPI_Com_Uninitialize (void);
 static int32_t  SPI_Com_PowerOn      (void);
 static int32_t  SPI_Com_PowerOff     (void);
 static int32_t  SPI_Com_Configure    (const SPI_COM_CONFIG_t *config);
+static uint32_t SPI_Com_SS           (uint32_t active);
 static int32_t  SPI_Com_Receive      (                      void *data_in, uint32_t num, uint32_t timeout);
 static int32_t  SPI_Com_Send         (const void *data_out,                uint32_t num, uint32_t timeout);
 static int32_t  SPI_Com_Transfer     (const void *data_out, void *data_in, uint32_t num, uint32_t timeout);
@@ -115,7 +122,7 @@ static const SPI_CMD_DESC_t spi_cmd_desc[] = {
 static       osThreadId_t       spi_server_thread_id   =   NULL;
 static       osThreadAttr_t     thread_attr = {
   .name       = "SPI_Server_Thread",
-  .stack_size = 1024U
+  .stack_size = 512U
 };
 
 static       uint8_t            spi_server_state       =   SPI_SERVER_STATE_RECEPTION;
@@ -130,6 +137,7 @@ static const SPI_COM_CONFIG_t   spi_com_config_default = { ARM_SPI_MODE_SLAVE,
                                                            ARM_SPI_SS_SLAVE_HW,
                                                            0U   // Bus speed for Slave mode is unused
                                                          };
+static const SPI_COM_CONFIG_t   spi_com_config_inactive= { ARM_SPI_MODE_INACTIVE, 0U, 0U, 0U, 0U, 0U };
 static       SPI_COM_CONFIG_t   spi_com_config_xfer;
 static       uint8_t            spi_bytes_per_item        = 1U;
 static       uint8_t            spi_cmd_buf_rx[32]        __ALIGNED(4);
@@ -138,6 +146,7 @@ static       uint8_t           *ptr_spi_xfer_buf_rx       = NULL;
 static       uint8_t           *ptr_spi_xfer_buf_tx       = NULL;
 static       void              *ptr_spi_xfer_buf_rx_alloc = NULL;
 static       void              *ptr_spi_xfer_buf_tx_alloc = NULL;
+
 // Global functions
 
 /**
@@ -151,7 +160,7 @@ int32_t SPI_Server_Start (void) {
   int32_t ret;
 
   vioInit();
-  (void)vioPrint(vioLevelHeading, " SPI Server v1.0.0 ");
+  (void)vioPrint(vioLevelHeading, " SPI Server v%s", SPI_SERVER_VER);
 
   // Initialize local variables
   spi_server_state   = SPI_SERVER_STATE_RECEPTION;
@@ -291,7 +300,6 @@ static void SPI_Server_Thread (void *argument) {
     switch (spi_server_state) {
 
       case SPI_SERVER_STATE_RECEPTION:  // Receive a command
-        vioPrint(vioLevelMessage, "Status: Receiving");
         if (SPI_Com_Receive(spi_cmd_buf_rx, BYTES_TO_ITEMS(sizeof(spi_cmd_buf_rx),SPI_SERVER_DATA_BITS), osWaitForever) == EXIT_SUCCESS) {
           spi_server_state = SPI_SERVER_STATE_EXECUTION;
         }
@@ -299,7 +307,6 @@ static void SPI_Server_Thread (void *argument) {
         break;
 
       case SPI_SERVER_STATE_EXECUTION:  // Execute a command
-        vioPrint(vioLevelMessage, "Status: Executing\r\n%.20s                    ", spi_cmd_buf_rx);
         // Find the command and call handling function
         for (i = 0U; i < (sizeof(spi_cmd_desc) / sizeof(SPI_CMD_DESC_t)); i++) {
           if (memcmp(spi_cmd_buf_rx, spi_cmd_desc[i].command, strlen(spi_cmd_desc[i].command)) == 0) {
@@ -307,6 +314,7 @@ static void SPI_Server_Thread (void *argument) {
             break;
           }
         }
+        vioPrint(vioLevelMessage, "%.20s                    ", spi_cmd_buf_rx);
         spi_server_state = SPI_SERVER_STATE_RECEPTION;
         break;
 
@@ -436,14 +444,28 @@ static int32_t SPI_Com_Configure (const SPI_COM_CONFIG_t *config) {
     ret = EXIT_SUCCESS;
   }
 
-  if (((config->mode == ARM_SPI_MODE_MASTER) && (config->ss_mode == ARM_SPI_SS_MASTER_UNUSED)) || 
-      ((config->mode == ARM_SPI_MODE_SLAVE)  && (config->ss_mode == ARM_SPI_SS_SLAVE_SW)))      {
-    // For Master mode with unused Slave Select and for Slave mode with software Slave Select handling 
-    // configure Slave Select line to GPIO mode and drive it inactive because usually when 
-    // Slave Select pin is deinitialized it results in pin having low logical state which could 
-    // interfere with testing
-    SPI_Server_Pin_SS_Initialize();
-    SPI_Server_Pin_SS_SetState(ARM_SPI_SS_INACTIVE);
+  return ret;
+}
+
+/**
+  \fn            static uint32_t SPI_Com_SS (void)
+  \brief         Drive Slave Select line with Control function.
+  \return        number of data items transferred
+*/
+static uint32_t SPI_Com_SS (uint32_t active) {
+   int32_t ret;
+  uint32_t arg;
+
+  ret = EXIT_FAILURE;
+
+  if (active != 0U) {
+    arg = ARM_SPI_SS_ACTIVE;
+  } else {
+    arg = ARM_SPI_SS_INACTIVE;
+  }
+
+  if (drvSPI->Control(ARM_SPI_CONTROL_SS, arg) == ARM_DRIVER_OK) {
+    ret = EXIT_SUCCESS;
   }
 
   return ret;
@@ -585,6 +607,7 @@ static int32_t SPI_Com_Transfer (const void *data_out, void *data_in, uint32_t n
     vioSetSignal (vioLED2, vioLEDon);
     if (drvSPI->Transfer(data_out, data_in, num) == ARM_DRIVER_OK) {
       flags = osThreadFlagsWait(SPI_EVENTS_MASK, osFlagsWaitAny, timeout);
+      spi_xfer_cnt = drvSPI->GetDataCount();
       vioSetSignal (vioLED2, vioLEDoff);
       if ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U) {
         // If completed event was signaled
@@ -1203,13 +1226,12 @@ static int32_t SPI_Cmd_SetCom (const char *cmd) {
 
 /**
   \fn            static int32_t SPI_Cmd_Xfer (const char *cmd)
-  \brief         Handle command "XFER num[,delay][,timeout][,num_ss]".
+  \brief         Handle command "XFER num[,delay_c][,delay_t][,timeout]".
   \detail        Send data from SPI TX buffer and receive data to SPI RX buffer 
                  (buffers must be set with "SET BUF" command before this command).
-                 Transfer start is delayed by optional parameter 'delay' in milliseconds.
-                 Optional parameter 'num_ss' specifies number of items that should be transferred 
-                 before GPIO driving Slave Select line of SPI Client is activated, this situation 
-                 is used to force mode fault error in multi-master setting.
+                 Control function is delayed by optional parameter 'delay_c' in milliseconds.
+                 Transfer function is delayed by optional parameter 'delay_t' in milliseconds, 
+                 starting after delay specified with 'delay_c' parameter.
   \param[in]     cmd            Pointer to null-terminated command string
   \return        execution status
                    - EXIT_SUCCESS: Operation successful
@@ -1217,16 +1239,14 @@ static int32_t SPI_Cmd_SetCom (const char *cmd) {
 */
 static int32_t SPI_Cmd_Xfer (const char *cmd) {
   const char    *ptr_str;
-        uint32_t val, num, delay, num_ss;
+        uint32_t val, num, delay_c, delay_t, start_tick, curr_tick;
          int32_t ret;
-        uint8_t  num_ss_provided;
 
   ret             = EXIT_SUCCESS;
   val             = 0U;
   num             = 0U;
-  delay           = 0U;
-  num_ss          = 0U;
-  num_ss_provided = 0U;
+  delay_c         = 0U;
+  delay_t         = 0U;
 
   ptr_str = &cmd[4];                    // Skip "XFER"
   while (*ptr_str == ' ') {             // Skip whitespaces
@@ -1245,7 +1265,7 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
   }
 
   if ((ret == EXIT_SUCCESS) && (ptr_str != NULL)) {
-    // Parse optional 'delay'
+    // Parse optional 'delay_c'
     ptr_str = strstr(ptr_str, ",");     // Find ','
     if (ptr_str != NULL) {              // If ',' was found
       ptr_str++;                        // Skip ','
@@ -1254,7 +1274,27 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
       }
       if (sscanf(ptr_str, "%u", &val) == 1) {
         if (val != osWaitForever) {
-          delay = val;
+          delay_c = val;
+        } else {
+          ret = EXIT_FAILURE;
+        }
+      } else {
+        ret = EXIT_FAILURE;
+      }
+    }
+  }
+
+  if ((ret == EXIT_SUCCESS) && (ptr_str != NULL)) {
+    // Parse optional 'delay_t'
+    ptr_str = strstr(ptr_str, ",");     // Find ','
+    if (ptr_str != NULL) {              // If ',' was found
+      ptr_str++;                        // Skip ','
+      while (*ptr_str == ' ') {         // Skip whitespaces after ','
+        ptr_str++;
+      }
+      if (sscanf(ptr_str, "%u", &val) == 1) {
+        if (val != osWaitForever) {
+          delay_t = val;
         } else {
           ret = EXIT_FAILURE;
         }
@@ -1284,60 +1324,60 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
     }
   }
 
-  if ((ret == EXIT_SUCCESS) && (ptr_str != NULL)) {
-    // Parse optional 'num_ss'
-    ptr_str = strstr(ptr_str, ",");     // Find ','
-    if (ptr_str != NULL) {              // If ',' was found
-      ptr_str++;                        // Skip ','
-      while (*ptr_str == ' ') {         // Skip whitespaces after ','
-        ptr_str++;
-      }
-      if (sscanf(ptr_str, "%u", &val) == 1) {
-        if (val <= num) {
-          num_ss = val;
-          num_ss_provided = 1U;
-        } else {
-          ret = EXIT_FAILURE;
-        }
-      } else {
-        ret = EXIT_FAILURE;
-      }
-    }
+  start_tick = osKernelGetTickCount();
+
+  if (ret == EXIT_SUCCESS) {
+    // Deactivate SPI
+    ret = SPI_Com_Configure(&spi_com_config_inactive);
   }
 
-  if ((ret == EXIT_SUCCESS) && (delay != 0U)) {
-    (void)osDelay(delay);
+  if ((ret == EXIT_SUCCESS) && (delay_c != 0U)) {
+    // Delay before Control function is called
+    (void)osDelay(delay_c);
   }
 
   if (ret == EXIT_SUCCESS) {
     // Configure communication settings before transfer
     ret = SPI_Com_Configure(&spi_com_config_xfer);
-
-    if (ret == EXIT_SUCCESS) {
-      if (num_ss_provided == 0U) {      // Normal transfer (in Slave or Master mode)
-        // Transfer data
-        ret = SPI_Com_Transfer(ptr_spi_xfer_buf_tx, ptr_spi_xfer_buf_rx, num, spi_xfer_timeout);
-        spi_xfer_cnt = drvSPI->GetDataCount();
-      } else {                          // Special handling for generation of master mode fault
-        if (num_ss != 0U) {
-          // Transfer num_ss number of items if num_ss != 0
-          ret = SPI_Com_Transfer(ptr_spi_xfer_buf_tx, ptr_spi_xfer_buf_rx, num_ss, spi_xfer_timeout);
-          spi_xfer_cnt = drvSPI->GetDataCount();
-        }
-
-        if (ret == EXIT_SUCCESS) {
-          // Activate GPIO driving Slave Select line of SPI Client
-          SPI_Server_Pin_SS_Initialize();
-          SPI_Server_Pin_SS_SetState(ARM_SPI_SS_ACTIVE);
-          (void)osDelay(2U);
-          SPI_Server_Pin_SS_SetState(ARM_SPI_SS_INACTIVE);
-          SPI_Server_Pin_SS_Uninitialize();
-          (void)osDelay(2U);
-          SPI_Com_Abort();
-        }
-      }
-    }
   }
+
+  if ((ret == EXIT_SUCCESS) && (delay_t != 0U)) {
+    // Delay before Transfer function is called
+    (void)osDelay(delay_t);
+  }
+
+  if ((ret == EXIT_SUCCESS) && 
+      (spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE) && 
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW)) {
+    // Only for Slave transfer with Slave Select unused, 
+    // use Software Slave Select and drive it to active state
+    ret = SPI_Com_SS(1U);
+  }
+
+  if (ret == EXIT_SUCCESS) {
+    // Transfer data
+    ret = SPI_Com_Transfer(ptr_spi_xfer_buf_tx, ptr_spi_xfer_buf_rx, num, spi_xfer_timeout);
+  }
+
+  if ((ret == EXIT_SUCCESS) && 
+      (spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE) && 
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW)) {
+    // Only for Slave transfer with Slave Select unused, 
+    // use Software Slave Select and drive it to inactive state
+    ret = SPI_Com_SS(0U);
+  }
+
+  // Deactivate SPI
+  (void)SPI_Com_Configure(&spi_com_config_inactive);
+
+  // Wait until timeout expires
+  curr_tick = osKernelGetTickCount();
+  if ((curr_tick - start_tick) < spi_xfer_timeout) {
+    (void)osDelay(spi_xfer_timeout - (curr_tick - start_tick));
+  }
+
+  // Wait additional 10 ms to insure that Client has deactivated
+  (void)osDelay(10U);
 
   // Revert communication settings to default
   (void)SPI_Com_Configure(&spi_com_config_default);

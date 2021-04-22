@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -33,6 +33,11 @@
 #include "DV_SPI_Config.h"
 #include "DV_Framework.h"
 
+// Fixed settings for communication with SPI Server (not available through DV_SPI_Config.h)
+#define SPI_CFG_SRV_FORMAT        0     // Clock Polarity 0 / Clock Phase 0
+#define SPI_CFG_SRV_DATA_BITS     8     // 8 data bits
+#define SPI_CFG_SRV_BIT_ORDER     0     // MSB to LSB bit order
+
 #include "Driver_SPI.h"
 
 #define CMD_LEN                   32UL  // Length of command to SPI Server
@@ -51,11 +56,11 @@
 #define MODE_MASTER               1UL   // Master mode
 #define MODE_SLAVE                2UL   // Slave  mode
 #define SS_MODE_MASTER_UNUSED     0UL   // Master mode Slave Select unused
-#define SS_MODE_MASTER_SW         1UL   // Master mode Slave Select software controlled
-#define SS_MODE_MASTER_HW_OUTPUT  2UL   // Master mode Slave Select hardware controlled output
-#define SS_MODE_MASTER_HW_INPUT   3UL   // Master mode Slave Select hardware monitored input
-#define SS_MODE_SLAVE_HW          0UL   // Slave mode Slave Select hardware monitored
-#define SS_MODE_SLAVE_SW          1UL   // Slave mode Slave Select software controlled
+#define SS_MODE_MASTER_SW         1UL   // Master mode Slave Select Software controlled
+#define SS_MODE_MASTER_HW_OUTPUT  2UL   // Master mode Slave Select Hardware controlled Output
+#define SS_MODE_MASTER_HW_INPUT   3UL   // Master mode Slave Select Hardware monitored Input
+#define SS_MODE_SLAVE_HW          0UL   // Slave mode Slave Select Hardware monitored
+#define SS_MODE_SLAVE_SW          1UL   // Slave mode Slave Select Software controlled
 #define FORMAT_CPOL0_CPHA0        0UL   // Clock Format: Polarity 0, Phase 0
 #define FORMAT_CPOL0_CPHA1        1UL   // Clock Format: Polarity 0, Phase 1
 #define FORMAT_CPOL1_CPHA0        2UL   // Clock Format: Polarity 1, Phase 0
@@ -74,7 +79,7 @@
 
 // Determine maximum number of items used for testing
 #if    (SPI_CFG_DEF_NUM == 0)
-#error  Default number of items to test must not be 0!
+#error  Default number of items must not be 0!
 #endif
 
 #define SPI_NUM_MAX                     SPI_CFG_DEF_NUM
@@ -141,9 +146,10 @@ static   ARM_DRIVER_SPI *drv = &ARM_Driver_SPI_(DRV_SPI);
 
 // Global variables (used in this module only)
 static int8_t                   buffers_ok;
-static int8_t                   server_ok;
 static int8_t                   driver_ok;
+static int8_t                   server_ok;
 
+static SPI_SERV_VER_t           spi_serv_ver;
 static SPI_SERV_CAP_t           spi_serv_cap;
 
 static volatile uint32_t        event;
@@ -151,7 +157,9 @@ static volatile uint32_t        duration;
 static volatile uint32_t        data_count_sample;
 static uint32_t                 systick_freq;
 
-static char                     msg_buf     [256];
+static osEventFlagsId_t         event_flags;
+
+static char                     msg_buf[256];
 
 // Allocated buffer pointers
 static void                    *ptr_tx_buf_alloc;
@@ -163,7 +171,17 @@ static uint8_t                 *ptr_tx_buf;
 static uint8_t                 *ptr_rx_buf;
 static uint8_t                 *ptr_cmp_buf;
 
-// String representation of Driver codes
+// String representation of various codes
+static const char *str_srv_status[] = {
+  "Ok",
+  "Failed"
+};
+
+static const char *str_test_mode[] = {
+  "Loopback",
+  "SPI Server"
+};
+
 static const char *str_oper[] = {
   "Send    ",
   "Receive ",
@@ -173,6 +191,31 @@ static const char *str_oper[] = {
   "Abort Transfer"
 };
 
+static const char *str_ss_mode[] = {
+  "Unused",
+  "Software controlled",
+  "Hardware controlled"
+};
+
+static const char *str_mode[] = {
+  "Master",
+  "Slave"
+};
+
+static const char *str_format[] = {
+  "Clock Polarity 0, Clock Phase 0",
+  "Clock Polarity 0, Clock Phase 1",
+  "Clock Polarity 1, Clock Phase 0",
+  "Clock Polarity 1, Clock Phase 1",
+  "Texas Instruments",
+  "National Semiconductor Microwire"
+};
+
+static const char *str_bit_order[] = {
+  "MSB to LSB",
+  "LSB to MSB"
+};
+
 static const char *str_ret[] = {
   "ARM_DRIVER_OK",
   "ARM_DRIVER_ERROR",
@@ -180,7 +223,7 @@ static const char *str_ret[] = {
   "ARM_DRIVER_ERROR_TIMEOUT",
   "ARM_DRIVER_ERROR_UNSUPPORTED",
   "ARM_DRIVER_ERROR_PARAMETER",
-  "ARM_DRIVER_ERROR_SPECIFIC"
+  "ARM_DRIVER_ERROR_SPECIFIC",
   "ARM_SPI_ERROR_MODE",
   "ARM_SPI_ERROR_FRAME_FORMAT",
   "ARM_SPI_ERROR_DATA_BITS",
@@ -196,17 +239,26 @@ static int32_t  ComReceiveResponse     (      void *data_in,  uint32_t len);
 
 static int32_t  CmdGetVer              (void);
 static int32_t  CmdGetCap              (void);
+
 static int32_t  CmdSetBufTx            (char pattern);
 static int32_t  CmdSetBufRx            (char pattern);
 static int32_t  CmdGetBufRx            (uint32_t len);
 static int32_t  CmdSetCom              (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed);
-static int32_t  CmdXfer                (uint32_t num,  uint32_t delay,  uint32_t timeout,   uint32_t num_ss);
-static int32_t  CheckServer            (void);
+static int32_t  CmdXfer                (uint32_t num,  uint32_t delay_c, uint32_t delay_t,  uint32_t timeout);
+static int32_t  ServerInit             (void);
+static int32_t  ServerCheck            (void);
+static int32_t  ServerCheckSupport     (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t bus_speed);
 #endif
 
+static int32_t  IsNotLoopback          (void);
+static int32_t  IsNotFrameTI           (void);
+static int32_t  IsNotFrameMw           (void);
+static int32_t  IsFormatValid          (void);
+static int32_t  IsBitOrderValid        (void);
+
 static uint32_t DataBitsToBytes        (uint32_t data_bits);
-static int32_t  InitDriver             (void);
-static int32_t  CheckBuffers           (void);
+static int32_t  DriverInit             (void);
+static int32_t  BuffersCheck           (void);
 
 static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed, uint32_t num);
 
@@ -221,6 +273,8 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
 */
 static void SPI_DrvEvent (uint32_t evt) {
   event |= evt;
+
+  (void)osEventFlagsSet(event_flags, evt);
 }
 
 /*
@@ -242,51 +296,36 @@ static uint32_t DataBitsToBytes (uint32_t data_bits) {
 }
 
 /*
-  \fn            static int32_t InitDriver (void)
+  \fn            static int32_t DriverInit (void)
   \brief         Initialize and power-on the driver.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Driver initialized and powered-up successfully
+                   - EXIT_FAILURE: Driver initialization or power-up failed
 */
-static int32_t InitDriver (void) {
+static int32_t DriverInit (void) {
 
-  if (driver_ok == -1) {                // If -1, means it was not yet checked
-    driver_ok = 0;
-    if (drv->Initialize    (SPI_DrvEvent)   == ARM_DRIVER_OK) {
-      if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
-        driver_ok = 1;
-      }
+  if (drv->Initialize    (SPI_DrvEvent)   == ARM_DRIVER_OK) {
+    if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
+      return EXIT_SUCCESS;
     }
   }
 
-  if (driver_ok == 1) {
-    return EXIT_SUCCESS;
-  }
-
-  TEST_FAIL_MESSAGE("[FAILED] SPI driver initialization or power-up failed. Test aborted!");
+  TEST_FAIL_MESSAGE("[FAILED] SPI driver initialize or power-up. Check driver Initialize and PowerControl functions! Test aborted!");
   return EXIT_FAILURE;
 }
 
 /*
-  \fn            static int32_t CheckBuffers (void)
+  \fn            static int32_t BuffersCheck (void)
   \brief         Check if buffers are valid.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Buffers are valid
+                   - EXIT_FAILURE: Buffers are not valid
 */
-static int32_t CheckBuffers (void) {
+static int32_t BuffersCheck (void) {
 
-  if (buffers_ok == -1) {               // If -1, means it was not yet checked
-    if ((ptr_tx_buf  != NULL) &&
-        (ptr_rx_buf  != NULL) && 
-        (ptr_cmp_buf != NULL)) {
-      buffers_ok = 1;
-    } else {
-      buffers_ok = 0;
-    }
-  }
-
-  if (buffers_ok == 1) {
+  if ((ptr_tx_buf  != NULL) &&
+      (ptr_rx_buf  != NULL) && 
+      (ptr_cmp_buf != NULL)) {
     return EXIT_SUCCESS;
   }
 
@@ -300,8 +339,8 @@ static int32_t CheckBuffers (void) {
   \fn            static int32_t ComConfigDefault (void)
   \brief         Configure SPI Communication Interface to SPI Server default communication configuration.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Default configuration successfully
+                   - EXIT_FAILURE: Default configuration failed
 */
 static int32_t ComConfigDefault (void) {
   int32_t ret;
@@ -324,11 +363,8 @@ static int32_t ComConfigDefault (void) {
   }
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("Failed to configure communication interface to SPI Server default settings. Testing aborted!");
+    TEST_FAIL_MESSAGE("[FAILED] Configure communication interface to SPI Server default settings. Check driver Control function! Test aborted!");
   }
-
-  // Give SPI Server 10 ms to prepare for reception of the command
-  (void)osDelay(10U);
 
   return ret;
 }
@@ -339,45 +375,42 @@ static int32_t ComConfigDefault (void) {
   \param[out]    data_out       Pointer to memory containing data to be sent
   \param[in]     len            Number of bytes to be sent
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent successfully
+                   - EXIT_FAILURE: Command send failed
 */
 static int32_t ComSendCommand (const void *data_out, uint32_t len) {
    int32_t ret;
-  uint32_t num, tout;
+  uint32_t flags, num, tout;
 
   ret = EXIT_SUCCESS;
   num = (len + DataBitsToBytes(SPI_CFG_SRV_DATA_BITS) - 1U) / DataBitsToBytes(SPI_CFG_SRV_DATA_BITS);
 
-  if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
-    if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE) != ARM_DRIVER_OK) {
-      ret = EXIT_FAILURE;
-    }
-  }
+  ret = ComConfigDefault();
+
   if (ret == EXIT_SUCCESS) {
-    if (drv->Send(data_out, num) == ARM_DRIVER_OK) {
-      for (tout = SPI_CFG_SRV_CMD_TOUT; tout != 0U; tout--) {
-        if ((drv->GetDataCount() == num) && (drv->GetStatus().busy == 0U)) { 
-          break;
-        }
-        (void)osDelay(1U);
-      }
-      if (tout == 0U) {                 // If send has timed out
+    if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
+      if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE) != ARM_DRIVER_OK) {
         ret = EXIT_FAILURE;
       }
-    } else {
-      ret = EXIT_FAILURE;
+    }
+    if (ret == EXIT_SUCCESS) {
+      (void)osEventFlagsClear(event_flags,	0x7FFFFFFFU); 	
+      if (drv->Send(data_out, num) == ARM_DRIVER_OK) {
+        flags = osEventFlagsWait(event_flags, ARM_SPI_EVENT_TRANSFER_COMPLETE, osFlagsWaitAny, SPI_CFG_SRV_CMD_TOUT);
+        if (((flags & 0x80000000U) != 0U) ||
+            ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) == 0U)) {
+          ret = EXIT_FAILURE;
+          (void)drv->Control (ARM_SPI_ABORT_TRANSFER, 0U);
+        }
+      }
+    }
+    if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
+      if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_INACTIVE) != ARM_DRIVER_OK) {
+        ret = EXIT_FAILURE;
+      }
     }
   }
-  if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
-    if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_INACTIVE) != ARM_DRIVER_OK) {
-      ret = EXIT_FAILURE;
-    }
-  }
-
-  // Give SPI Server 10 ms to prepare for reception of the next command or to 
-  // prepare the answer to this command, if it requires response
-  (void)osDelay(10U);
+  (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
 
   return ret;
 }
@@ -388,44 +421,42 @@ static int32_t ComSendCommand (const void *data_out, uint32_t len) {
   \param[out]    data_in     Pointer to memory where data will be received
   \param[in]     len         Number of data bytes to be received
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command received successfully
+                   - EXIT_FAILURE: Command reception failed
 */
 static int32_t ComReceiveResponse (void *data_in, uint32_t len) {
    int32_t ret;
-  uint32_t num, tout;
+  uint32_t flags, num, tout;
 
   ret = EXIT_SUCCESS;
   num = (len + DataBitsToBytes(SPI_CFG_SRV_DATA_BITS) - 1U) / DataBitsToBytes(SPI_CFG_SRV_DATA_BITS);
 
-  if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
-    if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE) != ARM_DRIVER_OK) {
-      ret = EXIT_FAILURE;
-    }
-  }
+  ret = ComConfigDefault();
+
   if (ret == EXIT_SUCCESS) {
-    if (drv->Receive(data_in, num) == ARM_DRIVER_OK) {
-      for (tout = SPI_CFG_SRV_CMD_TOUT; tout != 0U; tout--) {
-        if ((drv->GetDataCount() == num) && (drv->GetStatus().busy == 0U)) { 
-          break;
-        }
-        (void)osDelay(1U);
-      }
-      if (tout == 0U) {                 // If send has timed out
+    if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
+      if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE) != ARM_DRIVER_OK) {
         ret = EXIT_FAILURE;
       }
-    } else {
-      ret = EXIT_FAILURE;
+    }
+    if (ret == EXIT_SUCCESS) {
+      (void)osEventFlagsClear(event_flags, 0x7FFFFFFFU); 	
+      if (drv->Receive(data_in, num) == ARM_DRIVER_OK) {
+        flags = osEventFlagsWait(event_flags, ARM_SPI_EVENT_TRANSFER_COMPLETE, osFlagsWaitAny, SPI_CFG_SRV_CMD_TOUT);
+        if (((flags & 0x80000000U) != 0U) ||
+            ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) == 0U)) {
+          ret = EXIT_FAILURE;
+          (void)drv->Control (ARM_SPI_ABORT_TRANSFER, 0U);
+        }
+      }
+    }
+    if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
+      if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_INACTIVE) != ARM_DRIVER_OK) {
+        ret = EXIT_FAILURE;
+      }
     }
   }
-  if (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW) {
-    if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_INACTIVE) != ARM_DRIVER_OK) {
-      ret = EXIT_FAILURE;
-    }
-  }
-
-  // Give SPI Server 10 ms to prepare for reception of the next command
-  (void)osDelay(10U);
+  (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
 
   return ret;
 }
@@ -434,15 +465,14 @@ static int32_t ComReceiveResponse (void *data_in, uint32_t len) {
   \fn            static int32_t CmdGetVer (void)
   \brief         Get version from SPI Server and check that it is valid.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Version retrieved successfully
+                   - EXIT_FAILURE: Version retreival failed
 */
 static int32_t CmdGetVer (void) {
-  int32_t        ret;
-  SPI_SERV_VER_t spi_serv_ver;
-  const char    *ptr_str;
-  uint16_t       val16;
-  uint8_t        val8;
+  int32_t     ret;
+  const char *ptr_str;
+  uint16_t    val16;
+  uint8_t     val8;
 
   ptr_str = NULL;
 
@@ -452,11 +482,13 @@ static int32_t CmdGetVer (void) {
   memset(ptr_tx_buf, 0, CMD_LEN);
   memcpy(ptr_tx_buf, "GET VER", 7);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
 
   if (ret == EXIT_SUCCESS) {
     // Receive response to "GET VER" command from SPI Server
     memset(ptr_rx_buf, (int32_t)'?', RESP_GET_VER_LEN);
     ret = ComReceiveResponse(ptr_rx_buf, RESP_GET_VER_LEN);
+    (void)osDelay(10U);
   }
 
   // Parse version
@@ -498,19 +530,6 @@ static int32_t CmdGetVer (void) {
     }
   }
 
-  if (ret == EXIT_SUCCESS) {
-    // Only supported version is v1.0.0
-    if ((spi_serv_ver.major != 1U) || 
-        (spi_serv_ver.minor != 0U) || 
-        (spi_serv_ver.patch != 0U)) { 
-      ret = EXIT_FAILURE;
-    }
-  }
-
-  if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Get version from SPI Server.");
-  }
-
   return ret;
 }
 
@@ -518,8 +537,8 @@ static int32_t CmdGetVer (void) {
   \fn            static int32_t CmdGetCap (void)
   \brief         Get capabilities from SPI Server.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Capabilities retrieved successfully
+                   - EXIT_FAILURE: Capabilities retreival failed
 */
 static int32_t CmdGetCap (void) {
   int32_t     ret;
@@ -532,16 +551,18 @@ static int32_t CmdGetCap (void) {
   memset(&spi_serv_cap, 0, sizeof(spi_serv_cap));
 
   // Send "GET CAP" command to SPI Server
-  memset(ptr_tx_buf, 0, RESP_GET_CAP_LEN);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   memcpy(ptr_tx_buf, "GET CAP", 7);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
 
   if (ret == EXIT_SUCCESS) {
-    (void)osDelay(10U);                 // Give SPI Server 10 ms to auto-detect capabilities
+    (void)osDelay(20U);                 // Give SPI Server 20 ms to auto-detect capabilities
 
     // Receive response to "GET CAP" command from SPI Server
     memset(ptr_rx_buf, (int32_t)'?', RESP_GET_CAP_LEN);
     ret = ComReceiveResponse(ptr_rx_buf, RESP_GET_CAP_LEN);
+    (void)osDelay(10U);
   }
 
   // Parse capabilities
@@ -625,10 +646,6 @@ static int32_t CmdGetCap (void) {
     }
   }
 
-  if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Get capabilities from SPI Server.");
-  }
-
   return ret;
 }
 
@@ -637,8 +654,8 @@ static int32_t CmdGetCap (void) {
   \brief         Set Tx buffer of SPI Server to pattern.
   \param[in]     pattern        Pattern to fill the buffer with
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent successfully
+                   - EXIT_FAILURE: Command send failed
 */
 static int32_t CmdSetBufTx (char pattern) {
   int32_t ret;
@@ -647,9 +664,10 @@ static int32_t CmdSetBufTx (char pattern) {
   memset(ptr_tx_buf, 0, 32);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "SET BUF TX,0,%02X", (int32_t)pattern);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Set Tx buffer on SPI Server.");
+    TEST_FAIL_MESSAGE("[FAILED] Set Tx buffer on SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
@@ -660,8 +678,8 @@ static int32_t CmdSetBufTx (char pattern) {
   \brief         Set Rx buffer of SPI Server to pattern.
   \param[in]     pattern        Pattern to fill the buffer with
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent successfully
+                   - EXIT_FAILURE: Command send failed
 */
 static int32_t CmdSetBufRx (char pattern) {
   int32_t ret;
@@ -670,9 +688,10 @@ static int32_t CmdSetBufRx (char pattern) {
   memset(ptr_tx_buf, 0, 32);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "SET BUF RX,0,%02X", (int32_t)pattern);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Set Rx buffer on SPI Server.");
+    TEST_FAIL_MESSAGE("[FAILED] Set Rx buffer on SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
@@ -683,8 +702,8 @@ static int32_t CmdSetBufRx (char pattern) {
   \brief         Get Rx buffer from SPI Server (into global array pointed to by ptr_rx_buf).
   \param[in]     len            Number of bytes to read from Rx buffer
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent and response received successfully
+                   - EXIT_FAILURE: Command send or response reception failed
 */
 static int32_t CmdGetBufRx (uint32_t len) {
   int32_t ret;
@@ -693,15 +712,17 @@ static int32_t CmdGetBufRx (uint32_t len) {
   memset(ptr_tx_buf, 0, 32);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "GET BUF RX,%i", len);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
 
   if (ret == EXIT_SUCCESS) {
     // Receive response to "GET BUF RX" command from SPI Server
-    memset(ptr_rx_buf, (int32_t)'U', len);
+    memset(ptr_rx_buf, (int32_t)'?', len);
     ret = ComReceiveResponse(ptr_rx_buf, len);
+    (void)osDelay(10U);
   }
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Get Rx buffer from SPI Server.");
+    TEST_FAIL_MESSAGE("[FAILED] Get Rx buffer from SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
@@ -728,8 +749,8 @@ static int32_t CmdGetBufRx (uint32_t len) {
                                   - value 1 = used (in Master mode driven, in Slave mode monitored as hw input)
   \param[in]     bus_speed      bus speed in bits per second (bps)
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent successfully
+                   - EXIT_FAILURE: Command send failed
 */
 static int32_t CmdSetCom (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed) {
   int32_t ret, stat;
@@ -739,97 +760,102 @@ static int32_t CmdSetCom (uint32_t mode, uint32_t format, uint32_t data_bits, ui
   stat = snprintf((char *)ptr_tx_buf, CMD_LEN, "SET COM %i,%i,%i,%i,%i,%i", mode, format, data_bits, bit_order, ss_mode, bus_speed);
   if ((stat > 0) && (stat < CMD_LEN)) {
     ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+    (void)osDelay(10U);
   } else {
     ret = EXIT_FAILURE;
   }
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Set communication settings on SPI Server.");
+    TEST_FAIL_MESSAGE("[FAILED] Set communication settings on SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
 }
 
 /**
-  \fn            static int32_t CmdXfer (uint32_t num, uint32_t delay, uint32_t timeout, uint32_t num_ss)
+  \fn            static int32_t CmdXfer (uint32_t num, uint32_t delay_c, uint32_t delay_t, uint32_t timeout)
   \brief         Activate transfer on SPI Server.
   \param[in]     num            number of items (according CMSIS SPI driver specification)
-  \param[in]     delay          initial delay, in milliseconds, before starting requested operation 
+  \param[in]     delay_c        delay before control function is called, in milliseconds
+                                (0xFFFFFFFF = delay not used)
+  \param[in]     delay_t        delay after control function is called but before transfer function is called, in milliseconds
                                 (0xFFFFFFFF = delay not used)
   \param[in]     timeout        timeout in milliseconds, after delay, if delay is specified
-  \param[in]     num_ss         number of items after which Slave Select line should be activated
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: Command sent successfully
+                   - EXIT_FAILURE: Command send failed
 */
-static int32_t CmdXfer (uint32_t num, uint32_t delay, uint32_t timeout, uint32_t num_ss) {
+static int32_t CmdXfer (uint32_t num, uint32_t delay_c, uint32_t delay_t, uint32_t timeout) {
   int32_t ret;
 
   // Send "XFER" command to SPI Server
   memset(ptr_tx_buf, 0, 32);
-  if (num_ss != 0U) {
-    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i,%i", num, delay, timeout, num_ss);
-  } else if ((delay != osWaitForever) && (timeout != 0U)) {
-    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i",    num, delay, timeout);
-  } else if  (delay != osWaitForever) {
-    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i",       num, delay);
+  if        ((delay_c != osWaitForever) && (delay_t != osWaitForever) && (timeout != 0U)) {
+    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i,%i",    num, delay_c, delay_t, timeout);
+  } else if ((delay_c != osWaitForever) && (delay_t != osWaitForever)) {
+    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i",       num, delay_c, delay_t);
+  } else if  (delay_c != osWaitForever)                                {
+    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i",          num, delay_c);
   } else {
-    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i",          num);
+    (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i",             num);
   }
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
 
   if (ret != EXIT_SUCCESS) {
-    TEST_FAIL_MESSAGE("[FAILED] Activate transfer on SPI Server.");
+    TEST_FAIL_MESSAGE("[FAILED] Activate transfer on SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
 }
 
 /*
-  \fn            static int32_t CheckServer (void)
-  \brief         Check if communication with SPI Server is working and get capabilities.
+  \fn            static int32_t ServerInit (void)
+  \brief         Initialize communication with SPI Server, get version and capabilities.
   \return        execution status
-                   - EXIT_SUCCESS: Operation successful
-                   - EXIT_FAILURE: Operation failed
+                   - EXIT_SUCCESS: SPI Server initialized successfully
+                   - EXIT_FAILURE: SPI Server initialization failed
 */
-static int32_t CheckServer (void) {
+static int32_t ServerInit (void) {
 
   if (server_ok == -1) {                // If -1, means it was not yet checked
     server_ok = 1;
-    if (ComConfigDefault() != EXIT_SUCCESS) {
+
+    if (drv->Control(ARM_SPI_MODE_MASTER                                                                | 
+                   ((SPI_CFG_SRV_FORMAT    << ARM_SPI_FRAME_FORMAT_Pos)   & ARM_SPI_FRAME_FORMAT_Msk)   | 
+                   ((SPI_CFG_SRV_DATA_BITS << ARM_SPI_DATA_BITS_Pos)      & ARM_SPI_DATA_BITS_Msk)      | 
+                   ((SPI_CFG_SRV_BIT_ORDER << ARM_SPI_BIT_ORDER_Pos)      & ARM_SPI_BIT_ORDER_Msk)      | 
+                   ((SPI_CFG_SRV_SS_MODE   << ARM_SPI_SS_MASTER_MODE_Pos) & ARM_SPI_SS_MASTER_MODE_Msk) , 
+                     SPI_CFG_SRV_BUS_SPEED) != ARM_DRIVER_OK) {
       server_ok = 0;
     }
-    if (server_ok == 1) {
-      if (CmdGetVer() != EXIT_SUCCESS) {
+    if ((server_ok == 1) && (SPI_CFG_SRV_SS_MODE == SS_MODE_MASTER_SW)) {
+      if (drv->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_INACTIVE) != ARM_DRIVER_OK) {
         server_ok = 0;
       }
     }
+    if (server_ok == 0) {
+      TEST_GROUP_INFO("Failed to configure communication interface to SPI Server default settings.\n"\
+                      "Driver must support basic settings used for communication with SPI Server!");
+    }
+
+    if (server_ok == 1) {
+      (void)osDelay(10U);
+      if (CmdGetVer() != EXIT_SUCCESS) {
+        TEST_GROUP_INFO("Failed to Get version from SPI Server.\nCheck SPI Server!\n");
+        server_ok = 0;
+      }
+    }
+
+    if (server_ok == 1) {
+      if ((spi_serv_ver.major <= 1U) && (spi_serv_ver.minor < 1U)) { 
+        TEST_GROUP_INFO("SPI Server version must be 1.1.0. or higher.\nUpdate SPI Server to newer version!\n");
+        server_ok = 0;
+      }
+    }
+
     if (server_ok == 1) {
       if (CmdGetCap() != EXIT_SUCCESS) {
-        server_ok = 0;
-      }
-    }
-    if (server_ok == 1) {
-      // Check if all default settings are supported by SPI Server
-      if ((spi_serv_cap.fmt_mask & (1UL << SPI_CFG_SRV_FORMAT)) == 0U) {
-        // If SPI Server does not support default clock / frame format
-        TEST_MESSAGE("[FAILED] Default clock / frame format setting in not supported by SPI Server!");
-        server_ok = 0;
-      }
-      if ((spi_serv_cap.db_mask & (1UL << (SPI_CFG_SRV_DATA_BITS - 1U))) == 0U) {
-        // If SPI Server does not support default data bits
-        TEST_MESSAGE("[FAILED] Default data bits setting in not supported by SPI Server!");
-        server_ok = 0;
-      }
-      if ((spi_serv_cap.bo_mask & (1UL << SPI_CFG_SRV_BIT_ORDER)) == 0U) {
-        // If SPI Server does not support default bit order
-        TEST_MESSAGE("[FAILED] Default bit order setting in not supported by SPI Server!");
-        server_ok = 0;
-      }
-      if ((spi_serv_cap.bs_min > SPI_CFG_SRV_BUS_SPEED) ||
-          (spi_serv_cap.bs_max < SPI_CFG_SRV_BUS_SPEED)) {
-        // If SPI Server does not support default bus speed
-        TEST_MESSAGE("[FAILED] Default bus speed setting in not supported by SPI Server!");
+        TEST_GROUP_INFO("Failed to Get capabilities from SPI Server.\nCheck SPI Server!\n");
         server_ok = 0;
       }
     }
@@ -839,11 +865,187 @@ static int32_t CheckServer (void) {
     return EXIT_SUCCESS;
   }
 
-  TEST_FAIL_MESSAGE("[FAILED] Communication with SPI Server is not working. Test aborted!");
   return EXIT_FAILURE;
 }
 
+/*
+  \fn            static int32_t ServerCheck (void)
+  \brief         Check if communication with SPI Server is working.
+  \return        execution status
+                   - EXIT_SUCCESS: If SPI Server status is ok
+                   - EXIT_FAILURE: If SPI Server status is fail
+*/
+static int32_t ServerCheck (void) {
+
+  if (server_ok == 1) {
+    return EXIT_SUCCESS;
+  }
+
+  TEST_FAIL_MESSAGE("[FAILED] SPI Server status. Check SPI Server! Test aborted!");
+  return EXIT_FAILURE;
+}
+
+/*
+  \fn            static int32_t ServerCheckSupport (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t bus_speed)
+  \brief         Check if SPI Server supports desired settings.
+  \param[in]     mode           mode (0 = Master, 1 = slave)
+  \param[in]     format         clock / frame format:
+                                  - value 0 = clock polarity 0, phase 0
+                                  - value 1 = clock polarity 0, phase 1
+                                  - value 2 = clock polarity 1, phase 0
+                                  - value 3 = clock polarity 1, phase 1
+                                  - value 4 = Texas Instruments frame format
+                                  - value 5 = Microwire frame format
+  \param[in]     data_bits      data bits
+                                  - values 1 to 32
+  \param[in]     bit_order      bit order
+                                  - value 0 = MSB to LSB
+                                  - value 1 = LSB to MSB
+  \param[in]     bus_speed      bus speed in bits per second (bps)
+  \return        execution status
+                   - EXIT_SUCCESS: SPI Server supports desired settings
+                   - EXIT_FAILURE: SPI Server does not support desired settings
+*/
+static int32_t ServerCheckSupport (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t bus_speed) {
+
+  if ((spi_serv_cap.mode_mask & (1UL << (mode - 1U))) == 0U) {
+    // If SPI Server does not support desired mode
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] SPI Server does not support %s mode! Test aborted!", str_mode[mode - 1U]);
+    TEST_MESSAGE(msg_buf);
+    return EXIT_FAILURE;
+  }
+  if ((spi_serv_cap.fmt_mask & (1UL << format)) == 0U) {
+    // If SPI Server does not support desired clock / frame format
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] SPI Server does not support %s clock / frame format! Test aborted!", str_format[format]);
+    TEST_MESSAGE(msg_buf);
+    return EXIT_FAILURE;
+  }
+  if ((spi_serv_cap.db_mask & (1UL << (data_bits - 1U))) == 0U) {
+    // If SPI Server does not support desired data bits
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] SPI Server does not support %i data bits! Test aborted!", data_bits);
+    TEST_MESSAGE(msg_buf);
+    return EXIT_FAILURE;
+  }
+  if ((spi_serv_cap.bo_mask & (1UL << bit_order)) == 0U) {
+    // If SPI Server does not support desired bit order
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] SPI Server does not support %s bit order! Test aborted!", str_bit_order[bit_order]);
+    TEST_MESSAGE(msg_buf);
+    return EXIT_FAILURE;
+  }
+  if ((spi_serv_cap.bs_min > bus_speed) ||
+      (spi_serv_cap.bs_max < bus_speed)) {
+    // If SPI Server does not support desired bus speed
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] SPI Server does not support %i bps bus speed! Test aborted!", bus_speed);
+    TEST_MESSAGE(msg_buf);
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+
 #endif                                  // If Test Mode SPI Server is selected
+
+/*
+  \fn            static int32_t IsNotLoopback (void)
+  \brief         Check if loopback is not selected.
+  \detail        This function is used to skip executing a test if it is not supported 
+                 in Loopback mode.
+  \return        execution status
+                   - EXIT_SUCCESS: Loopback is not selected
+                   - EXIT_FAILURE: Loopback is selected
+*/
+static int32_t IsNotLoopback (void) {
+
+#if (SPI_SERVER_USED == 1)
+  return EXIT_SUCCESS;
+#else
+  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test not executed!");
+  return EXIT_FAILURE;
+#endif
+}
+
+/*
+  \fn            static int32_t IsNotFrameTI (void)
+  \brief         Check if Default Clock / Frame Format selected is not Texas Instruments.
+  \detail        This function is used to skip executing a test if it is not supported 
+                 for Texas Instruments Frame Format.
+  \return        execution status
+                   - EXIT_SUCCESS: Texas Instruments Frame Format is not selected
+                   - EXIT_FAILURE: Texas Instruments Frame Format is selected
+*/
+static int32_t IsNotFrameTI (void) {
+
+#if (SPI_CFG_DEF_FORMAT != FORMAT_TI)
+  return EXIT_SUCCESS;
+#else
+  TEST_MESSAGE("[WARNING] Test not supported for Texas Instruments Frame Format! Test not executed!");
+  return EXIT_FAILURE;
+#endif
+}
+
+/*
+  \fn            static int32_t IsNotFrameMw (void)
+  \brief         Check if Default Clock / Frame Format selected is not National Semiconductor Microwire.
+  \detail        This function is used to skip executing a test if it is not supported 
+                 for National Semiconductor Microwire Frame Format.
+  \return        execution status
+                   - EXIT_SUCCESS: National Semiconductor Microwire Frame Format is not selected
+                   - EXIT_FAILURE: National Semiconductor Microwire Frame Format is selected
+*/
+static int32_t IsNotFrameMw (void) {
+
+#if (SPI_CFG_DEF_FORMAT != FORMAT_MICROWIRE)
+  return EXIT_SUCCESS;
+#else
+  TEST_MESSAGE("[WARNING] Test not supported for National Semiconductor Microwire Frame Format! Test not executed!");
+  return EXIT_FAILURE;
+#endif
+}
+
+/*
+  \fn            static int32_t IsFormatValid (void)
+  \brief         Check if default format settings are valid.
+  \detail        This function is used to abort executing a test if Default settings 
+                 specify TI or Microwire Frame Format and Slave Select handling 
+                 other than Hardware controlled. 
+  \return        execution status
+                   - EXIT_SUCCESS: Format is valid
+                   - EXIT_FAILURE: Format is not valid
+*/
+static int32_t IsFormatValid (void) {
+
+#if   ((SPI_CFG_DEF_FORMAT == FORMAT_TI) && (SPI_CFG_DEF_SS_MODE != SS_MODE_MASTER_HW_OUTPUT))
+  TEST_MESSAGE("[WARNING] TI Frame Format works only with Hardware controlled Slave Select! Test not executed!");
+  return EXIT_FAILURE;
+#elif ((SPI_CFG_DEF_FORMAT == FORMAT_MICROWIRE) && (SPI_CFG_DEF_SS_MODE != SS_MODE_MASTER_HW_OUTPUT))
+  TEST_MESSAGE("[WARNING] Microwire Frame Format works only with Hardware controlled Slave Select! Test not executed!");
+  return EXIT_FAILURE;
+#else
+  return EXIT_SUCCESS;
+#endif
+}
+
+/*
+  \fn            static int32_t IsBitOrderValid (void)
+  \brief         Check if default bit order settings valid.
+  \detail        This function is used to abort executing a test if Default settings 
+                 specify TI or Microwire Frame Format and bit order is not MSB to LSB. 
+  \return        execution status
+                   - EXIT_SUCCESS: bit order
+                   - EXIT_FAILURE: bit order
+*/
+static int32_t IsBitOrderValid (void) {
+
+#if   ((SPI_CFG_DEF_FORMAT == FORMAT_TI) && (SPI_CFG_DEF_BIT_ORDER != BO_MSB_TO_LSB))
+  TEST_MESSAGE("[WARNING] TI Frame Format works only with MSB to LSB bit order! Test not executed!");
+  return EXIT_FAILURE;
+#elif ((SPI_CFG_DEF_FORMAT == FORMAT_MICROWIRE) && (SPI_CFG_DEF_BIT_ORDER != BO_MSB_TO_LSB))
+  TEST_MESSAGE("[WARNING] Microwire Frame Format works only with MSB to LSB bit order! Test not executed!");
+  return EXIT_FAILURE;
+#else
+  return EXIT_SUCCESS;
+#endif
+}
 
 /*
   \fn            void SPI_DV_Initialize (void)
@@ -888,6 +1090,46 @@ void SPI_DV_Initialize (void) {
   } else {
     ptr_cmp_buf = (uint8_t *)ptr_cmp_buf_alloc;
   }
+
+  event_flags = osEventFlagsNew(NULL);
+
+  // Output configuration settings
+  (void)snprintf(msg_buf, 
+                 sizeof(msg_buf),
+                 "Test Mode:          %s\n"\
+                 "Default settings:\n"\
+                 " - Slave Select:    %s\n"\
+                 " - Format:          %s\n"\
+                 " - Data bits:       %i\n"\
+                 " - Bit order:       %s\n"\
+                 " - Bus speed:       %i bps\n"\
+                 " - Number of Items: %i",
+                 str_test_mode[SPI_CFG_TEST_MODE],
+                 str_ss_mode  [SPI_CFG_DEF_SS_MODE],
+                 str_format   [SPI_CFG_DEF_FORMAT],
+                 SPI_CFG_DEF_DATA_BITS,
+                 str_bit_order[SPI_CFG_DEF_BIT_ORDER],
+                 SPI_CFG_DEF_BUS_SPEED,
+                 SPI_CFG_DEF_NUM);
+  TEST_GROUP_INFO(msg_buf);
+
+#if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
+  // Test communication with SPI Server
+  int32_t  server_status;
+  uint32_t str_len;
+
+  // Test communication with SPI Server
+  if (drv->Initialize    (SPI_DrvEvent)   == ARM_DRIVER_OK) {
+    if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
+      server_status = ServerInit();
+    }
+  }
+  (void)drv->PowerControl(ARM_POWER_OFF);
+  (void)drv->Uninitialize();
+
+//(void)snprintf(msg_buf, sizeof(msg_buf), "Server status:    %s\n", str_srv_status[server_status]);
+//TEST_GROUP_INFO(msg_buf);
+#endif
 }
 
 /*
@@ -898,6 +1140,8 @@ void SPI_DV_Initialize (void) {
   \return        none
 */
 void SPI_DV_Uninitialize (void) {
+
+  (void)osEventFlagsDelete(event_flags);
 
   if (ptr_tx_buf_alloc != NULL) {
     free(ptr_tx_buf_alloc);
@@ -924,9 +1168,9 @@ void SPI_DV_Uninitialize (void) {
 \brief SPI driver validation
 \details
 The SPI validation performs the following tests:
-- API interface compliance.
-- Data exchange with various speeds, transfer sizes and communication settings.
-- Error event signaling.
+- API interface compliance
+- Data exchange with various speeds, transfer sizes and communication settings
+- Event signaling
 
 Two Test Modes are available: <b>Loopback</b> and <b>SPI Server</b>.
 
@@ -937,8 +1181,16 @@ This test mode allows only limited validation of the SPI Driver.<br>
 It is recommended that this test mode is used only as a proof that driver is 
 good enough to be tested with the <b>SPI Server</b>.
 
-To enable this mode of testing in the <b>DV_SPI_Config.h</b> configuration file select 
-the <b>Configuration: Test Mode: Loopback</b> setting.
+For this purpose following <b>Default settings</b> should be used:
+ - Slave Select: Not used
+ - Clock / Frame Format: Clock Polarity 0, Clock Phase 0
+ - Data Bits: 8
+ - Bit Order: MSB to LSB
+ - Bus Speed: same as setting for the SPI Server
+ - Number of Items: 32
+
+To enable this mode of testing in the <b>DV_SPI_Config.h</b> configuration file select the 
+<b>Configuration: Test Mode: Loopback</b> setting.
 
 Required pin connection for the <b>Loopback</b> test mode:
 
@@ -951,23 +1203,33 @@ Required pin connection for the <b>Loopback</b> test mode:
  - data content sent by the Send function
  - clock / frame format and bit order settings
  - data bit settings other then: 8, 16, 24 and 32
- - error event signaling
+ - event signaling
 
 Test Mode : <b>SPI Server</b>
 -----------------------------
 
 This test mode allows extensive validation of the SPI Driver.<br>
-Results of the Driver Validation in this test mode are relevant as a proof of driver compliance to the CMSIS-Driver specification.
+Results of the Driver Validation in this test mode are relevant as a proof of driver compliance 
+to the CMSIS-Driver specification.
 
 To perform extensive communication tests, it is required to use an 
 \ref spi_server "SPI Server" running on a dedicated hardware.
 
-To enable this mode of testing in the <b>DV_SPI_Config.h</b> configuration file select 
-the <b>Configuration: Test Mode: SPI Server</b> setting.
+To enable this mode of testing in the <b>DV_SPI_Config.h</b> configuration file select the 
+<b>Configuration: Test Mode: SPI Server</b> setting.
 
 Required pin connections for the <b>SPI Server</b> test mode:
 
 \image html spi_server_pin_connections.png
+
+\note Slave Select line has to be pulled to Vcc by an external pull-up (for example 10 kOhm).
+\note To insure proper signal quality:
+       - keep the connecting wires as short as possible
+       - if possible have SCK and GND wires as a twisted pair and MISO, MOSI and Slave Select 
+         wires separate from each other
+       - insure a good Ground (GND) connection between SPI Server and DUT
+\note If you experience issues with corrupt data content try reducing bus speed.
+      
 
 \defgroup spi_tests Tests
 \ingroup dv_spi
@@ -1210,7 +1472,7 @@ void SPI_Initialize_Uninitialize (void) {
 
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
   // Ensure that SPI Server (if used) is ready for command reception
-  (void)osDelay(SPI_CFG_XFER_TIMEOUT + 10U);
+  (void)osDelay(20U);
 #endif
 }
 
@@ -1356,7 +1618,7 @@ void SPI_PowerControl (void) {
 
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
   // Ensure that SPI Server (if used) is ready for command reception
-  (void)osDelay(SPI_CFG_XFER_TIMEOUT + 10U);
+  (void)osDelay(20U);
 #endif
 }
 
@@ -1411,11 +1673,11 @@ Data exchange test procedure when Test Mode <b>SPI Server</b> is selected:
   - send command "SET BUF TX,.." to the SPI Server: Set Tx buffer
   - send command "SET BUF RX,.." to the SPI Server: Set Rx buffer
   - send command "SET COM .."    to the SPI Server: Set communication settings for the next XFER command
-  - send command "XFER .."       to the SPI Server: Activate transfer
+  - send command "XFER .."       to the SPI Server: Specify transfer
   - driver Control: Configure the SPI interface
   - driver Control: Set the default Tx value
   - driver Send/Receive/Transfer: Start the requested operation
-  - driver GetStatus/SignalEvent: Wait for the current operation to finish or time out<br>
+  - driver GetStatus/SignalEvent: Wait for the current operation to finish or time-out<br>
     (operation is finished when busy flag is 0 and completed event was signaled)
   - assert that operation has finished in expected time
   - assert that ARM_SPI_EVENT_TRANSFER_COMPLETE event was signaled
@@ -1431,7 +1693,7 @@ Data exchange <b>Abort</b> test procedure when Test Mode <b>SPI Server</b> is se
   - send command "SET BUF TX,.." to the SPI Server: Set Tx buffer
   - send command "SET BUF RX,.." to the SPI Server: Set Rx buffer
   - send command "SET COM .."    to the SPI Server: Set communication settings for the next XFER command
-  - send command "XFER .."       to the SPI Server: Activate transfer
+  - send command "XFER .."       to the SPI Server: Specify transfer
   - driver Control: Configure the SPI interface
   - driver Control: Set the default Tx value
   - driver Send/Receive/Transfer: Start the requested operation
@@ -1444,7 +1706,7 @@ Data exchange test procedure when Test Mode <b>Loopback</b> is selected:
   - driver Control: Configure the SPI interface
   - driver Control: Set the default Tx value
   - driver Send/Transfer: Start the requested operation
-  - driver GetStatus/SignalEvent: Wait for the current operation to finish or time out<br>
+  - driver GetStatus/SignalEvent: Wait for the current operation to finish or time-out<br>
     (operation is finished when busy flag is 0 and completed event was signaled)
   - assert that operation has finished in expected time
   - assert that ARM_SPI_EVENT_TRANSFER_COMPLETE event was signaled
@@ -1464,7 +1726,7 @@ Data exchange test procedure when Test Mode <b>Loopback</b> is selected:
 
 #ifndef __DOXYGEN__                     // Exclude form the documentation
 /*
-  \brief         Execute SPI data exchange or data exchange abort operation.
+  \brief         Execute SPI data exchange or abort operation.
   \param[in]     operation      operation (OP_SEND.. OP_ABORT_TRANSFER)
   \param[in]     mode           mode (MODE_MASTER or MODE_SLAVE)
   \param[in]     format         clock/frame format (0 = polarity0/phase0 .. 5 = Microwire)
@@ -1477,14 +1739,17 @@ Data exchange test procedure when Test Mode <b>Loopback</b> is selected:
 */
 static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed, uint32_t num) {
   // volatile specifier is used to prevent compiler from optimizing variables 
-  // in a way that they cannot be seen with debugger
+  // in a way that they cannot be seen with a debugger
   volatile  int32_t       stat, def_tx_stat;
   volatile uint32_t       drv_mode, drv_format, drv_data_bits, drv_bit_order, drv_ss_mode;
   volatile uint32_t       srv_mode, srv_ss_mode;
   volatile ARM_SPI_STATUS spi_stat;
   volatile uint32_t       data_count;
-           uint32_t       start_cnt, max_cnt;
-           uint32_t       val, delay, i;
+           uint32_t       start_cnt;
+           uint32_t       val, i;
+  volatile uint32_t       srv_delay_c, srv_delay_t;
+  volatile uint32_t       drv_delay_c, drv_delay_t;
+           uint32_t       timeout, start_tick, curr_tick;
            uint8_t        chk_data;
 
   // Prepare parameters for SPI Server and Driver configuration
@@ -1493,19 +1758,50 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       TEST_FAIL_MESSAGE("[FAILED] Inactive mode! Data exchange operation aborted!");
       return;
     case MODE_MASTER:
-      drv_mode = ARM_SPI_MODE_MASTER;
-      srv_mode = 1U;
-      delay    = 0U;
+      // When Master mode is tested, time diagram is as follows:
+      // XFER                                                ¯|¯
+      // ... 4 ms                                             .
+      // Slave Control (SPI Server)                           .
+      // ... 4 ms                                             .
+      // Master Control (SPI Client (DUT))                    .
+      // ... 4 ms                                    SPI_CFG_XFER_TIMEOUT
+      // Slave Transfer (SPI Server)                          .
+      // ... 4 ms                                             .
+      // Master Send/Receive/Transfer (SPI Client (DUT))      .
+      // ... data exchange                                   _|_
+      drv_mode    = ARM_SPI_MODE_MASTER;
+      srv_mode    = 1U;
+      srv_delay_c = 4U;
+      srv_delay_t = 8U;
+      drv_delay_c = 8U;
+      drv_delay_t = 8U;
       break;
     case MODE_SLAVE:
-      drv_mode = ARM_SPI_MODE_SLAVE;
-      srv_mode = 0U;
-      delay    = 20U;
+      // When Slave mode is tested, time diagram is as follows:
+      // XFER                                                ¯|¯
+      // ... 4 ms                                             .
+      // Slave Control (SPI Client (DUT))                     .
+      // ... 4 ms                                             .
+      // Master Control (SPI Server)                          .
+      // ... 4 ms                                    SPI_CFG_XFER_TIMEOUT
+      // Slave Transfer (SPI Client (DUT))                    .
+      // ... 4 ms                                             .
+      // Master Send/Receive/Transfer (SPI Server)            .
+      // ... data exchange                                   _|_
+      drv_mode    = ARM_SPI_MODE_SLAVE;
+      srv_mode    = 0U;
+      srv_delay_c = 8U;
+      srv_delay_t = 8U;
+      drv_delay_c = 4U;
+      drv_delay_t = 8U;
       break;
     default:
       TEST_FAIL_MESSAGE("[FAILED] Unknown mode! Data exchange operation aborted!");
       return;
   }
+
+  // Total transfer timeout (16 ms is overhead before transfer starts)
+  timeout = SPI_CFG_XFER_TIMEOUT + 16U;
 
   switch (format) {
     case FORMAT_CPOL0_CPHA0:
@@ -1595,23 +1891,24 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "Busy active before operation! Data exchange operation aborted!");
   }
   TEST_ASSERT_MESSAGE(spi_stat.busy == 0U, msg_buf);
-  if (spi_stat.busy != 0U) {
-    return;                             // Busy is still active so abort data exchange operation
-  }
 
   do {
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
-    if (ComConfigDefault() != EXIT_SUCCESS) { break; }
     if (CmdSetBufTx('S')   != EXIT_SUCCESS) { break; }
     if (CmdSetBufRx('?')   != EXIT_SUCCESS) { break; }
     if (CmdSetCom  (srv_mode, format, data_bits, bit_order, srv_ss_mode, bus_speed) != EXIT_SUCCESS) { break; }
-    if (CmdXfer    (num, delay, SPI_CFG_XFER_TIMEOUT, 0U) != EXIT_SUCCESS) { break; }
+    if (CmdXfer    (num, srv_delay_c, srv_delay_t, SPI_CFG_XFER_TIMEOUT) != EXIT_SUCCESS)            { break; }
+    (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
 #else                                   // If Test Mode Loopback is selected
     // Remove warnings for unused variables
     (void)srv_mode;
     (void)srv_ss_mode;
-    (void)delay;
+    (void)srv_delay_c;
+    (void)srv_delay_t;
+    (void)drv_delay_c;
+    (void)drv_delay_t;
 #endif
+    start_tick = osKernelGetTickCount();
 
     // Initialize buffers
     memset(ptr_tx_buf,  (int32_t)'!' , SPI_BUF_MAX);
@@ -1620,11 +1917,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     memset(ptr_cmp_buf, (int32_t)'?' , SPI_BUF_MAX);
 
     // Configure required communication settings
+    (void)osDelay(drv_delay_c);         // Wait specified time before calling Control function
     if (mode == MODE_MASTER) {
       stat = drv->Control (drv_mode | drv_format | drv_data_bits | drv_bit_order | drv_ss_mode, bus_speed);
-#if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
-      (void)osDelay(10U);               // Give time to SPI Server to prepare Slave transfer
-#endif
     } else {
       // For Slave mode bus speed argument is not used
       stat = drv->Control (drv_mode | drv_format | drv_data_bits | drv_bit_order | drv_ss_mode, 0U);
@@ -1635,13 +1930,6 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     }
     // Assert that Control function returned ARM_DRIVER_OK
     TEST_ASSERT_MESSAGE(stat == ARM_DRIVER_OK, msg_buf);
-    if (stat != ARM_DRIVER_OK) {
-      // If Control function has failed there is no sense to try to execute the data exchange
-#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
-#endif
-      return;
-    }
 
     // Set default Tx value to 'D' byte values (only for master mode)
     if (mode == MODE_MASTER) {
@@ -1664,13 +1952,14 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       // For slave mode default Tx is not tested
       def_tx_stat = ARM_DRIVER_ERROR_UNSUPPORTED;
     }
+    (void)osDelay(drv_delay_t);         // Wait specified time before calling Send/Receive/Transfer function
 
+    // Prepare local variables
     event             = 0U;
     duration          = 0xFFFFFFFFUL;
     data_count        = 0U;
     data_count_sample = 0U;
     chk_data          = 1U;
-    max_cnt           = (systick_freq /1024U) * (SPI_CFG_XFER_TIMEOUT + 10U);
     start_cnt         = osKernelGetSysTimerCount();
 
     if (((mode == MODE_MASTER) && (ss_mode == SS_MODE_MASTER_SW)) || 
@@ -1722,11 +2011,8 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
         return;
     }
     if (stat != ARM_DRIVER_OK) {
-      // If Send/Receive/Transfer start has failed there is no sense to try to continue with the data exchange
-#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
-#endif
-      return;
+      // If Send/Receive/Transfer start has failed
+      (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
     }
 
     if ((operation == OP_ABORT_SEND)     ||     // This IF block tests only abort functionality
@@ -1762,8 +2048,16 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       // Assert data count is less then number of items requested for exchange
       TEST_ASSERT_MESSAGE(data_count < num, msg_buf);
 
-#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
+#if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
+      // Deactivate SPI
+      (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
+
+      // Wait until timeout expires
+      curr_tick = osKernelGetTickCount();
+      if ((curr_tick - start_tick) < timeout) {
+        (void)osDelay(timeout - (curr_tick - start_tick));
+      }
+      (void)osDelay(20U);                       // Wait for SPI Server to start reception of next command
 #endif
 
       return;                                   // Here Abort test is finished, exit
@@ -1779,7 +2073,7 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
         duration = osKernelGetSysTimerCount() - start_cnt;
         break;
       }
-    } while ((osKernelGetSysTimerCount() - start_cnt) < max_cnt);
+    } while ((osKernelGetTickCount() - start_tick) < timeout);
 
     if (duration == 0xFFFFFFFFUL) {
       // If operation has timed out
@@ -1837,13 +2131,20 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     if ((drv->GetStatus().busy != 0U) || ((event & ARM_SPI_EVENT_TRANSFER_COMPLETE) == 0U)) {
       // If transfer did not finish in time, abort it
       (void)drv->Control(ARM_SPI_ABORT_TRANSFER, 0U);
-#if (SPI_SERVER_USED == 1)                              // If Test Mode SPI Server is selected
-      (void)osDelay(SPI_CFG_XFER_TIMEOUT+delay+10U);    // Wait for SPI Server to timeout the XFER command
-#endif
     }
 
-    if (chk_data != 0U) {               // If transferred content should be checked
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
+    // Deactivate SPI
+    (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
+
+    // Wait until timeout expires
+    curr_tick = osKernelGetTickCount();
+    if ((curr_tick - start_tick) < timeout) {
+      (void)osDelay(timeout - (curr_tick - start_tick));
+    }
+    (void)osDelay(20U);                 // Wait for SPI Server to start reception of next command
+
+    if (chk_data != 0U) {               // If transferred content should be checked
       // Check received content for receive and transfer operations
       if ((operation == OP_RECEIVE) || (operation == OP_TRANSFER)) {
         memset(ptr_cmp_buf, (int32_t)'S', num * DataBitsToBytes(data_bits));
@@ -1866,7 +2167,6 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       if ((mode == MODE_MASTER) || (operation != OP_RECEIVE) || (def_tx_stat == ARM_DRIVER_OK)) {
         // Check sent data in all cases except Slave mode Receive operation
         // with Default Tx not working or unsupported
-        if (ComConfigDefault()       != EXIT_SUCCESS) { break; }
         if (CmdGetBufRx(SPI_BUF_MAX) != EXIT_SUCCESS) { break; }
 
         if ((operation == OP_RECEIVE) && (def_tx_stat == ARM_DRIVER_OK)) {
@@ -1898,8 +2198,9 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
         // Assert data sent is same as expected
         TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
       }
-
+    }
 #else                                   // If Test Mode Loopback is selected
+    if (chk_data != 0U) {               // If transferred content should be checked
       if (operation == OP_TRANSFER) {
         memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
         stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
@@ -1916,8 +2217,8 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
         // Assert that data received is same as expected
         TEST_ASSERT_MESSAGE(stat == 0, msg_buf);
       }
-#endif
     }
+#endif
 
     return;
   } while (false);
@@ -1945,18 +2246,17 @@ The function \b SPI_Mode_Master_SS_Unused verifies data exchange:
 */
 void SPI_Mode_Master_SS_Unused (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 2U) == 0U) {    // If SPI Server does not support Slave mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_UNUSED, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-#if (SPI_SERVER_USED != 0)
+#if (SPI_SERVER_USED == 1)
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_UNUSED, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
 #endif
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_UNUSED, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -1967,33 +2267,30 @@ void SPI_Mode_Master_SS_Unused (void) {
 \brief Function: Function SPI_Mode_Master_SS_Sw_Ctrl
 \details
 The function \b SPI_Mode_Master_SS_Sw_Ctrl verifies data exchange:
- - in <b>Master Mode</b> with <b>Slave Select line Software Controlled</b>
+ - in <b>Master Mode</b> with <b>Slave Select line Software controlled</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Mode_Master_SS_Sw_Ctrl (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 2U) == 0U) {    // If SPI Server does not support Slave mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2001,33 +2298,28 @@ void SPI_Mode_Master_SS_Sw_Ctrl (void) {
 \brief Function: Function SPI_Mode_Master_SS_Hw_Ctrl_Out
 \details
 The function \b SPI_Mode_Master_SS_Hw_Ctrl_Out verifies data exchange:
- - in <b>Master Mode</b> with <b>Slave Select line Hardware Controlled Output</b>
+ - in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Mode_Master_SS_Hw_Ctrl_Out (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 2U) == 0U) {    // If SPI Server does not support Slave mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2035,33 +2327,30 @@ void SPI_Mode_Master_SS_Hw_Ctrl_Out (void) {
 \brief Function: Function SPI_Mode_Master_SS_Hw_Mon_In
 \details
 The function \b SPI_Mode_Master_SS_Hw_Mon_In verifies data exchange:
- - in <b>Master Mode</b> with <b>Slave Select line Hardware Monitored Input</b>
+ - in <b>Master Mode</b> with <b>Slave Select line Hardware monitored Input</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Mode_Master_SS_Hw_Mon_In (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 2U) == 0U) {    // If SPI Server does not support Slave mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_INPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_INPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_INPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2069,33 +2358,28 @@ void SPI_Mode_Master_SS_Hw_Mon_In (void) {
 \brief Function: Function SPI_Mode_Slave_SS_Hw_Mon
 \details
 The function \b SPI_Mode_Slave_SS_Hw_Mon verifies data exchange:
- - in <b>Slave Mode</b> with <b>Slave Select line Hardware Monitored</b>
+ - in <b>Slave Mode</b> with <b>Slave Select line Hardware monitored</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Mode_Slave_SS_Hw_Mon (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 1U) == 0U) {    // If SPI Server does not support Master mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_HW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_HW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_HW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2103,33 +2387,30 @@ void SPI_Mode_Slave_SS_Hw_Mon (void) {
 \brief Function: Function SPI_Mode_Slave_SS_Sw_Ctrl
 \details
 The function \b SPI_Mode_Slave_SS_Sw_Ctrl verifies data exchange:
- - in <b>Slave Mode</b> with <b>Slave Select line Software Controlled</b>
+ - in <b>Slave Mode</b> with <b>Slave Select line Software controlled</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Mode_Slave_SS_Sw_Ctrl (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 1U) == 0U) {    // If SPI Server does not support Master mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_SLAVE_SW, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2144,26 +2425,21 @@ The function \b SPI_Format_Clock_Pol0_Pha0 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Clock_Pol0_Pha0 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 1U) == 0U) {     // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()       != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_CPOL0_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_CPOL0_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_CPOL0_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_CPOL0_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2178,26 +2454,21 @@ The function \b SPI_Format_Clock_Pol0_Pha1 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Clock_Pol0_Pha1 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 2U) == 0U) {     // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_CPOL0_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_CPOL0_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_CPOL0_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_CPOL0_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2212,31 +2483,26 @@ The function \b SPI_Format_Clock_Pol1_Pha0 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Clock_Pol1_Pha0 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 4U) == 0U) {     // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_CPOL1_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_CPOL1_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_CPOL1_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_CPOL1_CPHA0, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Function: Function SPI_Format_Clock_Pol0_Pha0
+\brief Function: Function SPI_Format_Clock_Pol1_Pha1
 \details
 The function \b SPI_Format_Clock_Pol1_Pha1 verifies data exchange:
  - in Master Mode with default Slave Select mode
@@ -2246,26 +2512,21 @@ The function \b SPI_Format_Clock_Pol1_Pha1 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Clock_Pol1_Pha1 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 8U) == 0U) {     // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_CPOL1_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_CPOL1_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_CPOL1_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_CPOL1_CPHA1, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2273,33 +2534,29 @@ void SPI_Format_Clock_Pol1_Pha1 (void) {
 \brief Function: Function SPI_Format_Frame_TI
 \details
 The function \b SPI_Format_Frame_TI verifies data exchange:
- - in Master Mode with default Slave Select mode
+ - in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b>
  - with <b>Texas Instruments frame format</b>
  - with default data bits
- - with default bit order
+ - with bit order <b>from MSB to LSB</b>
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Frame_TI (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 16U) == 0U) {    // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
-
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
+
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_TI, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2307,33 +2564,29 @@ void SPI_Format_Frame_TI (void) {
 \brief Function: Function SPI_Format_Clock_Microwire
 \details
 The function \b SPI_Format_Clock_Microwire verifies data exchange:
- - in Master Mode with default Slave Select mode
+ - in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b>
  - with <b>National Semiconductor Microwire frame format</b>
  - with default data bits
- - with default bit order
+ - with bit order <b>from MSB to LSB</b>
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Format_Clock_Microwire (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.fmt_mask & 32U) == 0U) {    // If SPI Server does not support format
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
-
-  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
+
+  SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
+  SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, FORMAT_MICROWIRE, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SS_MODE_MASTER_HW_OUTPUT, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2348,26 +2601,23 @@ The function \b SPI_Data_Bits_1 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_1 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & 1U) == 0U) {      // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 1U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 1U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 1U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 1U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2382,26 +2632,23 @@ The function \b SPI_Data_Bits_2 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_2 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 1)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 2U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 2U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 2U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 2U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2416,26 +2663,23 @@ The function \b SPI_Data_Bits_3 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_3 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 2)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 3U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 3U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 3U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 3U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2450,26 +2694,23 @@ The function \b SPI_Data_Bits_4 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_4 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 3)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 4U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 4U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 4U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 4U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2484,26 +2725,23 @@ The function \b SPI_Data_Bits_5 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_5 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 4)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 5U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 5U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 5U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 5U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2518,26 +2756,23 @@ The function \b SPI_Data_Bits_6 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_6 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 5)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 6U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 6U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 6U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 6U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2552,26 +2787,23 @@ The function \b SPI_Data_Bits_7 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_7 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 6)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 7U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 7U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 7U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 7U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2588,14 +2820,14 @@ The function \b SPI_Data_Bits_8 verifies data exchange:
 */
 void SPI_Data_Bits_8 (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 7)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 8U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 8U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -2615,26 +2847,23 @@ The function \b SPI_Data_Bits_9 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_9 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 8)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 9U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 9U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 9U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 9U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2649,26 +2878,23 @@ The function \b SPI_Data_Bits_10 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_10 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 9)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 10U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 10U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 10U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 10U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2683,26 +2909,23 @@ The function \b SPI_Data_Bits_11 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_11 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 10)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 11U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 11U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 11U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 11U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2717,26 +2940,23 @@ The function \b SPI_Data_Bits_12 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_12 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 11)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 12U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 12U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 12U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 12U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2751,26 +2971,23 @@ The function \b SPI_Data_Bits_13 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_13 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 12)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 13U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 13U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 13U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 13U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2785,26 +3002,23 @@ The function \b SPI_Data_Bits_14 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_14 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 13)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 14U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 14U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 14U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 14U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2819,26 +3033,23 @@ The function \b SPI_Data_Bits_15 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_15 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 14)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 15U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 15U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 15U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 15U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2855,14 +3066,14 @@ The function \b SPI_Data_Bits_16 verifies data exchange:
 */
 void SPI_Data_Bits_16 (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 15)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 16U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 16U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -2882,26 +3093,23 @@ The function \b SPI_Data_Bits_17 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_17 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 16)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 17U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 17U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 17U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 17U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2916,26 +3124,23 @@ The function \b SPI_Data_Bits_18 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_18 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 17)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 18U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 18U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 18U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 18U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2950,26 +3155,23 @@ The function \b SPI_Data_Bits_19 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_19 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 18)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 19U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 19U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 19U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 19U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -2984,26 +3186,23 @@ The function \b SPI_Data_Bits_20 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_20 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 19)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 20U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 20U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 20U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 20U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3018,26 +3217,23 @@ The function \b SPI_Data_Bits_21 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_21 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 20)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 21U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 21U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 21U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 21U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3052,26 +3248,23 @@ The function \b SPI_Data_Bits_22 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_22 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 21)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 22U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 22U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 22U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 22U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3086,26 +3279,23 @@ The function \b SPI_Data_Bits_23 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_23 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 22)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 23U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 23U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 23U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 23U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3122,14 +3312,13 @@ The function \b SPI_Data_Bits_24 verifies data exchange:
 */
 void SPI_Data_Bits_24 (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 23)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 24U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 24U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3149,26 +3338,23 @@ The function \b SPI_Data_Bits_25 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_25 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 24)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 25U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 25U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 25U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 25U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3183,26 +3369,23 @@ The function \b SPI_Data_Bits_26 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_26 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 25)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 26U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 26U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 26U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 26U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3217,26 +3400,23 @@ The function \b SPI_Data_Bits_27 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_27 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 26)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 27U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 27U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 27U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 27U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3251,26 +3431,23 @@ The function \b SPI_Data_Bits_28 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_28 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 27)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 28U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 28U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 28U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 28U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3285,26 +3462,23 @@ The function \b SPI_Data_Bits_29 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_29 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 28)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 29U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 29U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 29U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 29U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3319,26 +3493,23 @@ The function \b SPI_Data_Bits_30 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_30 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 29)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 30U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 30U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 30U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 30U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3353,26 +3524,23 @@ The function \b SPI_Data_Bits_31 verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_31 (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1U << 30)) == 0U) {       // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 31U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 31U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, 31U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, 31U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3389,14 +3557,13 @@ The function \b SPI_Data_Bits_32 verifies data exchange:
 */
 void SPI_Data_Bits_32 (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.db_mask & (1UL << 31)) == 0U) {      // If SPI Server does not support data bits setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, 32U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, 32U, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3416,26 +3583,22 @@ The function \b SPI_Bit_Order_MSB_LSB verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Bit_Order_MSB_LSB (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.bo_mask & 1U) == 0U) {      // If SPI Server does not support bit order setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_MSB_TO_LSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3450,26 +3613,23 @@ The function \b SPI_Bit_Order_LSB_MSB verifies data exchange:
  - at default bus speed
  - for default number of data items
 
-\note In Test Mode <b>Loopback</b> this test is skipped
+\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Bit_Order_LSB_MSB (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.bo_mask & 2U) == 0U) {      // If SPI Server does not support bit order setting
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_LSB_TO_MSB, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_LSB_TO_MSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_RECEIVE,  MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_LSB_TO_MSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
   SPI_DataExchange_Operation(OP_TRANSFER, MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, BO_LSB_TO_MSB, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
-#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -3492,16 +3652,15 @@ This test function checks the following requirements:
 */
 void SPI_Bus_Speed_Min (void) {
   volatile uint64_t bps;
-  volatile  int32_t got_bus_speed;
+  volatile  int32_t ret_bus_speed;
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if (spi_serv_cap.bs_min > SPI_CFG_MIN_BUS_SPEED) {    // If SPI Server does not support minimum bus speed
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_MIN_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_MIN_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3521,18 +3680,18 @@ void SPI_Bus_Speed_Min (void) {
   }
 
   drv->Control (ARM_SPI_SET_BUS_SPEED, SPI_CFG_MIN_BUS_SPEED);
-  got_bus_speed = drv->Control (ARM_SPI_GET_BUS_SPEED, 0U);
-  if (got_bus_speed < 0) {
+  ret_bus_speed = drv->Control (ARM_SPI_GET_BUS_SPEED, 0U);
+  if (ret_bus_speed < 0) {
     // If bus speed value returned by the driver is negative
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned negative value %i", got_bus_speed);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned negative value %i", ret_bus_speed);
     TEST_FAIL_MESSAGE(msg_buf);
-  } else if ((uint32_t)got_bus_speed > SPI_CFG_MIN_BUS_SPEED) {
+  } else if ((uint32_t)ret_bus_speed > SPI_CFG_MIN_BUS_SPEED) {
     // If bus speed value returned by the driver is higher then requested
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned %i bps instead of requested %i bps", got_bus_speed, SPI_CFG_MIN_BUS_SPEED);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned %i bps instead of requested %i bps", ret_bus_speed, SPI_CFG_MIN_BUS_SPEED);
     TEST_FAIL_MESSAGE(msg_buf);
-  } else if ((uint32_t)got_bus_speed < ((SPI_CFG_MIN_BUS_SPEED * 3) / 4)) {
+  } else if ((uint32_t)ret_bus_speed < ((SPI_CFG_MIN_BUS_SPEED * 3) / 4)) {
     // If bus speed value returned by the driver is lower then 75% of requested
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Get bus speed returned %i bps instead of requested %i bps", got_bus_speed, SPI_CFG_MIN_BUS_SPEED);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Get bus speed returned %i bps instead of requested %i bps", ret_bus_speed, SPI_CFG_MIN_BUS_SPEED);
     TEST_MESSAGE(msg_buf);
   }
 }
@@ -3557,16 +3716,15 @@ This test function checks the following requirements:
 */
 void SPI_Bus_Speed_Max (void) {
   volatile uint64_t bps;
-  volatile  int32_t got_bus_speed;
+  volatile  int32_t ret_bus_speed;
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if (spi_serv_cap.bs_max < SPI_CFG_MAX_BUS_SPEED) {    // If SPI Server does not support maximum bus speed
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_MAX_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_MAX_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3577,7 +3735,7 @@ void SPI_Bus_Speed_Max (void) {
     if (duration != 0U) {               // If duration of transfer was more than 0 SysTick counts
       bps = ((uint64_t)systick_freq * SPI_CFG_DEF_DATA_BITS * SPI_CFG_DEF_NUM) / duration;
       if ((bps < ((SPI_CFG_MAX_BUS_SPEED * 3) / 4)) ||
-          (bps >   SPI_CFG_MIN_BUS_SPEED)) {
+          (bps >   SPI_CFG_MAX_BUS_SPEED)) {
         // If measured bus speed is 25% lower, or higher than requested
         (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] At requested bus speed of %i bps, effective bus speed is %i bps", SPI_CFG_MAX_BUS_SPEED, (uint32_t)bps);
         TEST_MESSAGE(msg_buf);
@@ -3586,18 +3744,18 @@ void SPI_Bus_Speed_Max (void) {
   }
 
   drv->Control (ARM_SPI_SET_BUS_SPEED, SPI_CFG_MAX_BUS_SPEED);
-  got_bus_speed = drv->Control (ARM_SPI_GET_BUS_SPEED, 0U);
-  if (got_bus_speed < 0) {
+  ret_bus_speed = drv->Control (ARM_SPI_GET_BUS_SPEED, 0U);
+  if (ret_bus_speed < 0) {
     // If bus speed value returned by the driver is negative
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned negative value %i", got_bus_speed);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned negative value %i", ret_bus_speed);
     TEST_FAIL_MESSAGE(msg_buf);
-  } else if ((uint32_t)got_bus_speed > SPI_CFG_MAX_BUS_SPEED) {
+  } else if ((uint32_t)ret_bus_speed > SPI_CFG_MAX_BUS_SPEED) {
     // If bus speed value returned by the driver is higher then requested
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned %i bps instead of requested %i bps", got_bus_speed, SPI_CFG_MAX_BUS_SPEED);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] Get bus speed returned %i bps instead of requested %i bps", ret_bus_speed, SPI_CFG_MAX_BUS_SPEED);
     TEST_FAIL_MESSAGE(msg_buf);
-  } else if ((uint32_t)got_bus_speed < ((SPI_CFG_MAX_BUS_SPEED * 3) / 4)) {
+  } else if ((uint32_t)ret_bus_speed < ((SPI_CFG_MAX_BUS_SPEED * 3) / 4)) {
     // If bus speed value returned by the driver is lower then 75% of requested
-    (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Get bus speed returned %i bps instead of requested %i bps", got_bus_speed, SPI_CFG_MAX_BUS_SPEED);
+    (void)snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Get bus speed returned %i bps instead of requested %i bps", ret_bus_speed, SPI_CFG_MAX_BUS_SPEED);
     TEST_MESSAGE(msg_buf);
   }
 }
@@ -3616,14 +3774,13 @@ The function \b SPI_Number_Of_Items verifies data exchange:
 */
 void SPI_Number_Of_Items (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
-  if ((spi_serv_cap.mode_mask & 2U) == 0U) {    // If SPI Server does not support Slave mode
-    TEST_MESSAGE("[FAILED] Test not supported by SPI Server! Test aborted!");
-    return;
-  }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
 #if (SPI_CFG_NUM1 != 0U)
@@ -3670,10 +3827,13 @@ The function \b SPI_GetDataCount verifies \b GetDataCount function (count changi
 */
 void SPI_GetDataCount (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3699,10 +3859,13 @@ The function \b SPI_Abort verifies \b Abort function abort of data exchange:
 */
 void SPI_Abort (void) {
 
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-#if (SPI_SERVER_USED != 0)
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_SLAVE, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #endif
 
   SPI_DataExchange_Operation(OP_ABORT_SEND,     MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_SS_MODE, SPI_CFG_DEF_BUS_SPEED, SPI_CFG_DEF_NUM);
@@ -3716,22 +3879,23 @@ void SPI_Abort (void) {
 // End of spi_tests_data_xchg
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/* SPI Error Event tests                                                                                                    */
+/* SPI Event tests                                                                                                          */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\defgroup spi_tests_err_evt Error Event
+\defgroup spi_tests_evt Event
 \ingroup spi_tests
 \details
-These tests verify API and operation of the SPI error event signaling.
+These tests verify API and operation of the SPI event signaling, except ARM_SPI_EVENT_TRANSFER_COMPLETE
+signal which is tested in the Data Exchange tests.
 
-The error event tests verify the following driver function
+The event tests verify the following driver function
 (<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
  - \b SignalEvent
 \code
   void (*ARM_SPI_SignalEvent_t) (uint32_t event);
 \endcode
 
-\note In Test Mode <b>Loopback</b> these tests are skipped
+\note In Test Mode <b>Loopback</b> these tests are not executed
 @{
 */
 
@@ -3740,42 +3904,51 @@ The error event tests verify the following driver function
 \brief Function: Function SPI_DataLost
 \details
 The function \b SPI_DataLost verifies signaling of the <b>ARM_SPI_EVENT_DATA_LOST</b> event:
- - in <b>Slave Mode</b> with <b>Slave Select line Hardware Monitored</b>
+ - in <b>Slave Mode</b> with <b>Slave Select line Hardware monitored</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
+
+it also checks that status data_lost flag was activated.
 */
 void SPI_DataLost (void) {
 
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 
   do {
-    if (ComConfigDefault() != EXIT_SUCCESS) { break; }
     if (CmdSetCom  (0U, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, 1U, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { break; }
-    if (CmdXfer    (SPI_CFG_DEF_NUM, 20U, SPI_CFG_XFER_TIMEOUT, 0U) != EXIT_SUCCESS) { break; }
+    if (CmdXfer    (1U, 8U, 8U, SPI_CFG_XFER_TIMEOUT) != EXIT_SUCCESS) { break; }
+    drv->Control   (ARM_SPI_MODE_INACTIVE, 0U);
 
+    event = 0U;
+    (void)osDelay(4U);
     (void)drv->Control (ARM_SPI_MODE_SLAVE                                                                 | 
                       ((SPI_CFG_DEF_FORMAT    << ARM_SPI_FRAME_FORMAT_Pos)   & ARM_SPI_FRAME_FORMAT_Msk)   | 
                       ((SPI_CFG_DEF_DATA_BITS << ARM_SPI_DATA_BITS_Pos)      & ARM_SPI_DATA_BITS_Msk)      | 
                       ((SPI_CFG_DEF_BIT_ORDER << ARM_SPI_BIT_ORDER_Pos)      & ARM_SPI_BIT_ORDER_Msk)      | 
                         ARM_SPI_SS_SLAVE_HW                                                                , 
-                        SPI_CFG_DEF_BUS_SPEED);
+                        0U);
 
-    event = 0U;
-    (void)osDelay(SPI_CFG_XFER_TIMEOUT+30U);    // Wait for SPI Server to timeout
+    (void)osDelay(SPI_CFG_XFER_TIMEOUT+20U);    // Wait for SPI Server to timeout
+
+    (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
+    (void)osDelay(20U);                 // Wait for SPI Server to start reception of next command
 
     // Assert that event ARM_SPI_EVENT_DATA_LOST was signaled
     TEST_ASSERT_MESSAGE((event & ARM_SPI_EVENT_DATA_LOST) != 0U, "[FAILED] Event ARM_SPI_EVENT_DATA_LOST was not signaled!");
 
+    // Assert that status data_lost flag is active
+    TEST_ASSERT_MESSAGE(drv->GetStatus().data_lost != 0U, "[FAILED] Status data_lost flag was not activated!");
+
     return;
   } while (false);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
 #endif
 }
 
@@ -3784,29 +3957,32 @@ void SPI_DataLost (void) {
 \brief Function: Function SPI_ModeFault
 \details
 The function \b SPI_ModeFault verifies signaling of the <b>ARM_SPI_EVENT_MODE_FAULT</b> event:
- - in <b>Master Mode</b> with <b>Slave Select line Hardware Monitored Input</b>
+ - in <b>Master Mode</b> with <b>Slave Select line Hardware monitored Input</b>
  - with default clock / frame format
  - with default data bits
  - with default bit order
  - at default bus speed
+
+it also checks that status mode_fault flag was activated.
 */
 void SPI_ModeFault (void) {
 
-  if (drv->GetCapabilities().event_mode_fault == 0U) {
-    TEST_MESSAGE("[WARNING] This driver does not support ARM_SPI_EVENT_MODE_FAULT event signaling! Test skipped!");
-    return;
-  }
-
-#if (SPI_SERVER_USED != 0)
-  if (InitDriver()   != EXIT_SUCCESS) { return; }
-  if (CheckBuffers() != EXIT_SUCCESS) { return; }
-  if (CheckServer()  != EXIT_SUCCESS) { return; }
+  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
+  if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (BuffersCheck()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
+#if  (SPI_SERVER_USED == 1)
+  if (ServerCheck()     != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (ServerCheckSupport(MODE_MASTER, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 
   do {
-    if (ComConfigDefault() != EXIT_SUCCESS) { break; }
-    if (CmdSetCom  (1U, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, 0U, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { break; }
-    if (CmdXfer    (SPI_CFG_DEF_NUM, 0U, SPI_CFG_XFER_TIMEOUT, SPI_CFG_DEF_NUM / 2U) != EXIT_SUCCESS) { break; }
+    if (CmdSetCom  (0U, SPI_CFG_DEF_FORMAT, SPI_CFG_DEF_DATA_BITS, SPI_CFG_DEF_BIT_ORDER, 1U, SPI_CFG_DEF_BUS_SPEED) != EXIT_SUCCESS) { break; }
+    if (CmdXfer    (1U, 8U, 8U, SPI_CFG_XFER_TIMEOUT) != EXIT_SUCCESS) { break; }
+    drv->Control   (ARM_SPI_MODE_INACTIVE, 0U);
 
+    event = 0U;
+    (void)osDelay(4U);
     (void)drv->Control (ARM_SPI_MODE_MASTER                                                              | 
                       ((SPI_CFG_DEF_FORMAT    << ARM_SPI_FRAME_FORMAT_Pos)   & ARM_SPI_FRAME_FORMAT_Msk) | 
                       ((SPI_CFG_DEF_DATA_BITS << ARM_SPI_DATA_BITS_Pos)      & ARM_SPI_DATA_BITS_Msk)    | 
@@ -3814,24 +3990,23 @@ void SPI_ModeFault (void) {
                         ARM_SPI_SS_MASTER_HW_INPUT                                                       , 
                         SPI_CFG_DEF_BUS_SPEED);
 
-    event = 0U;
-    (void)osDelay(10U);
-    TEST_ASSERT(drv->Transfer(ptr_tx_buf, ptr_rx_buf, SPI_CFG_DEF_NUM) == ARM_DRIVER_OK);
+    (void)osDelay(SPI_CFG_XFER_TIMEOUT+20U);    // Wait for SPI Server to timeout
 
-    (void)osDelay(SPI_CFG_XFER_TIMEOUT+10U);    // Wait for SPI Server to timeout
+    (void)drv->Control(ARM_SPI_MODE_INACTIVE, 0U);
+    (void)osDelay(20U);                 // Wait for SPI Server to start reception of next command
 
     // Assert that event ARM_SPI_EVENT_MODE_FAULT was signaled
     TEST_ASSERT_MESSAGE((event & ARM_SPI_EVENT_MODE_FAULT) != 0U, "[FAILED] Event ARM_SPI_EVENT_MODE_FAULT was not signaled!");
 
+    // Assert that status mode_fault flag is active
+    TEST_ASSERT_MESSAGE(drv->GetStatus().mode_fault != 0U, "[FAILED] Status mode_fault flag was not activated!");
+
     return;
   } while (false);
-
-#else
-  TEST_MESSAGE("[WARNING] Test not supported in Loopback Test Mode! Test skipped!");
 #endif
 }
 
 /**
 @}
 */
-// End of spi_tests_err_evt
+// End of spi_tests_evt

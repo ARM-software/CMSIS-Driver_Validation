@@ -9,6 +9,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="2.0.1-dev1">
+      - Improved robustness of SPI Driver testing
+      - Improved robustness of SPI Server
+    </release>
     <release version="2.0.1-dev0">
       - Minor update to SPI Driver testing
     </release>
@@ -175,14 +179,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.0.1" condition="CMSIS Driver Validation SPI">
+    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.0" condition="CMSIS Driver Validation SPI">
       <description>SPI driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__spi.html" />
-        <file category="header" name="Config/DV_SPI_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_SPI_Config.h" attr="config" version = "1.1.0"/>
         <file category="source" name="Source/DV_SPI.c"/>
       </files>
     </component>

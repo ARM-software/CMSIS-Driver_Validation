@@ -10,14 +10,14 @@
       <TargetName>Create Report</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6130001::V6.13.1::.\ARMCLANG</pCCUsed>
+      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F207IGHx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev22</PackID>
-          <PackURL>https://www.keil.com/pack/</PackURL>
+          <PackID>Keil.STM32F2xx_DFP.2.9.0</PackID>
+          <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -185,6 +185,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -351,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -460,7 +461,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -541,7 +542,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -558,14 +559,14 @@
       <TargetName>Debug</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6130001::V6.13.1::.\ARMCLANG</pCCUsed>
+      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F207IGHx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev22</PackID>
-          <PackURL>https://www.keil.com/pack/</PackURL>
+          <PackID>Keil.STM32F2xx_DFP.2.9.0</PackID>
+          <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -733,6 +734,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -899,7 +901,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1008,7 +1010,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1089,7 +1091,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1199,8 +1201,8 @@
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation SPI">
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev0"/>
+      <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.0.1" condition="CMSIS Driver Validation SPI">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1395,7 +1397,7 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1404,7 +1406,7 @@
       <file attr="config" category="header" name="Config\DV_ETH_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_ETH_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation ETH"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1413,7 +1415,7 @@
       <file attr="config" category="header" name="Config\DV_I2C_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_I2C_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="I2C" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation I2C"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1422,16 +1424,16 @@
       <file attr="config" category="header" name="Config\DV_MCI_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_MCI_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="MCI" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation MCI"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Config\DV_SPI_Config.h" version="1.0.0">
+      <file attr="config" category="header" name="Config\DV_SPI_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_SPI_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation SPI"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.0.1" condition="CMSIS Driver Validation SPI"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1440,7 +1442,7 @@
       <file attr="config" category="header" name="Config\DV_USART_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USART_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USART"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1449,7 +1451,7 @@
       <file attr="config" category="header" name="Config\DV_USBD_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USBD_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USB Device" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USBD"/>
-        <package license="LICENSE.txt" name="CMSIS-Driver_Validation" schemaVersion="1.4.9" supportContact="http://silver.arm.com/support" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0-dev3"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1458,7 +1460,7 @@
       <file attr="config" category="header" name="CMSIS\Driver\Config\RTE_Device.h" version="2.3.1">
         <instance index="0">RTE\Device\STM32F207IGHx\RTE_Device.h</instance>
         <component Capiversion="1.0.0" Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.2.1" condition="STM32F2 Framework Classic"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="https://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev22"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1467,7 +1469,7 @@
       <file attr="config" category="source" condition="STM32F207xx_ARMCC" name="Drivers\CMSIS\Device\ST\STM32F2xx\Source\Templates\arm\startup_stm32f207xx.s" version="2.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\startup_stm32f207xx.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.1" condition="STM32F2 CMSIS HAL"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="https://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev22"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1476,7 +1478,7 @@
       <file attr="config" category="header" name="MDK\Templates\Inc\stm32f2xx_hal_conf.h" version="1.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\stm32f2xx_hal_conf.h</instance>
         <component Capiversion="1.0.0" Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.2.1" condition="STM32F2 Framework Classic"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="https://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev22"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1485,7 +1487,7 @@
       <file attr="config" category="source" name="Drivers\CMSIS\Device\ST\STM32F2xx\Source\Templates\system_stm32f2xx.c" version="2.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\system_stm32f2xx.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.1" condition="STM32F2 CMSIS HAL"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="https://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev22"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

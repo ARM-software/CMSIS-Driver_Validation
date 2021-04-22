@@ -11,6 +11,7 @@ The CMSIS-Driver Validation is used to validate the driver implementation compli
 The CMSIS-Driver Validation provides:
   - Configurable validation tests for various CMSIS-Driver interfaces
   - Example projects that show the usage of the CMSIS-Driver Validation
+  - Various Servers used for testing
 
 The CMSIS-Driver Validation tests and verifies:
   - <b>API interface</b> using the driver capabilities as well as valid and invalid parameters
@@ -18,7 +19,7 @@ The CMSIS-Driver Validation tests and verifies:
     - <b>Loopback testing</b> (for some interfaces) for testing of the underlying hardware with usage of a local loopback
     - <b>Server testing</b> (for some interfaces) for extensive testing of the underlying hardware with usage of a dedicated Server
   - <b>Transfer speed</b> of the data communication with time measurement of data transfer duration
-  - <b>Error event</b> signaling in error conditions
+  - <b>Event</b> signaling
 
 The CMSIS-Driver Validation requires
 <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
@@ -59,6 +60,19 @@ Revision History
     <tr>
       <th>Version</th>
       <th>Description</th>
+    </tr>
+    <tr>
+      <td>V2.0.1-dev1</td>
+      <td>
+        - Improved robustness of SPI Driver testing
+        - Improved robustness of SPI Server
+      </td>
+    </tr>
+    <tr>
+      <td>V2.0.1-dev0</td>
+      <td>
+        - Minor update to SPI Driver testing
+      </td>
     </tr>
     <tr>
       <td>V2.0.0</td>
@@ -367,13 +381,18 @@ By Inspecting the details in previous report it is clear that <c>TEST 03: SPI_In
 on multiple assertions.<br>
 Each failed assertion is recorded as a single  line in the test report.<br>
 The failed assert information in the output report contains additional information about the <b>source module</b> and <b>line</b> 
-in that module where the assertion is located as well as any optional additional debugging info.
+in that module where the assertion is located with additional debugging info if available.
 
 The documentation can be consulted regarding the failed function, for example in previous case 
 documentation on the \ref SPI_Initialize_Uninitialize can be consulted.
 
 Main way of fixing the driver consists of opening reported file mentioned as failed and inspecting the 
 line in which failure was reported.
+
+If there are many failures, it is recommended to deselect all tests except first failing one 
+so it is easier to focus on just that failure.
+Also, selecting only first failing test removes potential clutter from following failing tests that 
+are all failing due to same cause.
 
 In the previous report, opening <b>DV_SPI.c</b> module (available in the project) and inspecting the <b>1106</b> line 
 which states:
@@ -417,7 +436,7 @@ of the 25 executed tests have passed.
 
 This report could be used as an insurance that the SPI Driver on this device is compliant to the CMSIS-Driver specification.
 
-The TestReport.xml report created instead of Plain Text opened in a Web browser looks like on the picture below:
+The TestReport.xml report created instead of Plain Text opened in a Web browser looks similar to the the picture below:
 
 \image html xml_report.png "XML test report"
 

@@ -28,7 +28,7 @@
 
 #include <stdint.h>
 
-#define SPI_SERVER_VER                 "1.1.0"
+#define SPI_SERVER_VER                 "1.1.1"
 
 #define SPI_SERVER_STATE_RECEPTION      0
 #define SPI_SERVER_STATE_EXECUTION      1

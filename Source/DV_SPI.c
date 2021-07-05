@@ -33,12 +33,12 @@
 #include "DV_SPI_Config.h"
 #include "DV_Framework.h"
 
+#include "Driver_SPI.h"
+
 // Fixed settings for communication with SPI Server (not available through DV_SPI_Config.h)
 #define SPI_CFG_SRV_FORMAT        0     // Clock Polarity 0 / Clock Phase 0
 #define SPI_CFG_SRV_DATA_BITS     8     // 8 data bits
 #define SPI_CFG_SRV_BIT_ORDER     0     // MSB to LSB bit order
-
-#include "Driver_SPI.h"
 
 #define CMD_LEN                   32UL  // Length of command to SPI Server
 #define RESP_GET_VER_LEN          16UL  // Length of response from SPI Server to GET VER command
@@ -154,6 +154,7 @@ static SPI_SERV_CAP_t           spi_serv_cap;
 
 static volatile uint32_t        event;
 static volatile uint32_t        duration;
+static volatile uint32_t        xfer_count;
 static volatile uint32_t        data_count_sample;
 static uint32_t                 systick_freq;
 
@@ -239,12 +240,13 @@ static int32_t  ComReceiveResponse     (      void *data_in,  uint32_t len);
 
 static int32_t  CmdGetVer              (void);
 static int32_t  CmdGetCap              (void);
-
 static int32_t  CmdSetBufTx            (char pattern);
 static int32_t  CmdSetBufRx            (char pattern);
 static int32_t  CmdGetBufRx            (uint32_t len);
 static int32_t  CmdSetCom              (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t ss_mode, uint32_t bus_speed);
 static int32_t  CmdXfer                (uint32_t num,  uint32_t delay_c, uint32_t delay_t,  uint32_t timeout);
+static int32_t  CmdGetCnt              (void);
+
 static int32_t  ServerInit             (void);
 static int32_t  ServerCheck            (void);
 static int32_t  ServerCheckSupport     (uint32_t mode, uint32_t format, uint32_t data_bits, uint32_t bit_order, uint32_t bus_speed);
@@ -266,7 +268,7 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
 
 /*
   \fn            void SPI_DrvEvent (uint32_t evt)
-  \brief         Store event(s) into global variable.
+  \brief         Store event(s) into a global variable.
   \detail        This is a callback function called by the driver upon an event(s).
   \param[in]     evt            SPI event
   \return        none
@@ -311,6 +313,7 @@ static int32_t DriverInit (void) {
   }
 
   TEST_FAIL_MESSAGE("[FAILED] SPI driver initialize or power-up. Check driver Initialize and PowerControl functions! Test aborted!");
+
   return EXIT_FAILURE;
 }
 
@@ -330,6 +333,7 @@ static int32_t BuffersCheck (void) {
   }
 
   TEST_FAIL_MESSAGE("[FAILED] Invalid data buffers! Increase heap memory! Test aborted!");
+
   return EXIT_FAILURE;
 }
 
@@ -339,7 +343,7 @@ static int32_t BuffersCheck (void) {
   \fn            static int32_t ComConfigDefault (void)
   \brief         Configure SPI Communication Interface to SPI Server default communication configuration.
   \return        execution status
-                   - EXIT_SUCCESS: Default configuration successfully
+                   - EXIT_SUCCESS: Default configuration set successfully
                    - EXIT_FAILURE: Default configuration failed
 */
 static int32_t ComConfigDefault (void) {
@@ -394,7 +398,7 @@ static int32_t ComSendCommand (const void *data_out, uint32_t len) {
       }
     }
     if (ret == EXIT_SUCCESS) {
-      (void)osEventFlagsClear(event_flags,	0x7FFFFFFFU); 	
+      (void)osEventFlagsClear(event_flags, 0x7FFFFFFFU); 	
       if (drv->Send(data_out, num) == ARM_DRIVER_OK) {
         flags = osEventFlagsWait(event_flags, ARM_SPI_EVENT_TRANSFER_COMPLETE, osFlagsWaitAny, SPI_CFG_SRV_CMD_TOUT);
         if (((flags & 0x80000000U) != 0U) ||
@@ -661,7 +665,7 @@ static int32_t CmdSetBufTx (char pattern) {
   int32_t ret;
 
   // Send "SET BUF TX" command to SPI Server
-  memset(ptr_tx_buf, 0, 32);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "SET BUF TX,0,%02X", (int32_t)pattern);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
   (void)osDelay(10U);
@@ -685,7 +689,7 @@ static int32_t CmdSetBufRx (char pattern) {
   int32_t ret;
 
   // Send "SET BUF RX" command to SPI Server
-  memset(ptr_tx_buf, 0, 32);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "SET BUF RX,0,%02X", (int32_t)pattern);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
   (void)osDelay(10U);
@@ -698,7 +702,7 @@ static int32_t CmdSetBufRx (char pattern) {
 }
 
 /**
-  \fn            static int32_t CmdGetBufRx (void)
+  \fn            static int32_t CmdGetBufRx (uint32_t len)
   \brief         Get Rx buffer from SPI Server (into global array pointed to by ptr_rx_buf).
   \param[in]     len            Number of bytes to read from Rx buffer
   \return        execution status
@@ -709,7 +713,7 @@ static int32_t CmdGetBufRx (uint32_t len) {
   int32_t ret;
 
   // Send "GET BUF RX" command to SPI Server
-  memset(ptr_tx_buf, 0, 32);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "GET BUF RX,%i", len);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
   (void)osDelay(10U);
@@ -756,7 +760,7 @@ static int32_t CmdSetCom (uint32_t mode, uint32_t format, uint32_t data_bits, ui
   int32_t ret, stat;
 
   // Send "SET COM" command to SPI Server
-  memset(ptr_tx_buf, 0, 32);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   stat = snprintf((char *)ptr_tx_buf, CMD_LEN, "SET COM %i,%i,%i,%i,%i,%i", mode, format, data_bits, bit_order, ss_mode, bus_speed);
   if ((stat > 0) && (stat < CMD_LEN)) {
     ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
@@ -789,7 +793,7 @@ static int32_t CmdXfer (uint32_t num, uint32_t delay_c, uint32_t delay_t, uint32
   int32_t ret;
 
   // Send "XFER" command to SPI Server
-  memset(ptr_tx_buf, 0, 32);
+  memset(ptr_tx_buf, 0, CMD_LEN);
   if        ((delay_c != osWaitForever) && (delay_t != osWaitForever) && (timeout != 0U)) {
     (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "XFER %i,%i,%i,%i",    num, delay_c, delay_t, timeout);
   } else if ((delay_c != osWaitForever) && (delay_t != osWaitForever)) {
@@ -803,6 +807,50 @@ static int32_t CmdXfer (uint32_t num, uint32_t delay_c, uint32_t delay_t, uint32
 
   if (ret != EXIT_SUCCESS) {
     TEST_FAIL_MESSAGE("[FAILED] Activate transfer on SPI Server. Check SPI Server! Test aborted!");
+  }
+
+  return ret;
+}
+
+/*
+  \fn            static int32_t CmdGetCnt (void)
+  \brief         Get XFER command Tx/Rx count from SPI Server.
+  \return        execution status
+                   - EXIT_SUCCESS: Operation successful
+                   - EXIT_FAILURE: Operation failed
+*/
+static int32_t CmdGetCnt (void) {
+  int32_t     ret;
+  const char *ptr_str;
+  uint32_t    val32;
+
+  xfer_count = 0U;
+
+  // Send "GET CNT" command to SPI Server
+  memset(ptr_tx_buf, 0, CMD_LEN);
+  memcpy(ptr_tx_buf, "GET CNT", 7);
+  ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
+  (void)osDelay(10U);
+
+  if (ret == EXIT_SUCCESS) {
+    // Receive response to "GET CNT" command from SPI Server
+    memset(ptr_rx_buf, (int32_t)'?', RESP_GET_CNT_LEN);
+    ret = ComReceiveResponse(ptr_rx_buf, RESP_GET_CNT_LEN);
+    (void)osDelay(10U);
+  }
+
+  if (ret == EXIT_SUCCESS) {
+    // Parse count
+    ptr_str = (const char *)ptr_rx_buf;
+    if (sscanf(ptr_str, "%i", &val32) == 1) {
+      xfer_count = val32;
+    } else {
+      ret = EXIT_FAILURE;
+    }
+  }
+
+  if (ret != EXIT_SUCCESS) {
+    TEST_FAIL_MESSAGE("[FAILED] Get count from SPI Server. Check SPI Server! Test aborted!");
   }
 
   return ret;
@@ -1223,13 +1271,13 @@ Required pin connections for the <b>SPI Server</b> test mode:
 \image html spi_server_pin_connections.png
 
 \note Slave Select line has to be pulled to Vcc by an external pull-up (for example 10 kOhm).
-\note To insure proper signal quality:
+\note To ensure proper signal quality:
        - keep the connecting wires as short as possible
        - if possible have SCK and GND wires as a twisted pair and MISO, MOSI and Slave Select 
          wires separate from each other
-       - insure a good Ground (GND) connection between SPI Server and DUT
+       - ensure a good Ground (GND) connection between SPI Server and DUT
 \note If you experience issues with corrupt data content try reducing bus speed.
-      
+
 
 \defgroup spi_tests Tests
 \ingroup dv_spi
@@ -1727,7 +1775,7 @@ Data exchange test procedure when Test Mode <b>Loopback</b> is selected:
 #ifndef __DOXYGEN__                     // Exclude form the documentation
 /*
   \brief         Execute SPI data exchange or abort operation.
-  \param[in]     operation      operation (OP_SEND.. OP_ABORT_TRANSFER)
+  \param[in]     operation      operation (OP_SEND .. OP_ABORT_TRANSFER)
   \param[in]     mode           mode (MODE_MASTER or MODE_SLAVE)
   \param[in]     format         clock/frame format (0 = polarity0/phase0 .. 5 = Microwire)
   \param[in]     data_bits      data bits (1 .. 32)
@@ -1800,8 +1848,6 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
       return;
   }
 
-  // Total transfer timeout (16 ms is overhead before transfer starts)
-  timeout = SPI_CFG_XFER_TIMEOUT + 16U;
 
   switch (format) {
     case FORMAT_CPOL0_CPHA0:
@@ -1884,10 +1930,13 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     }
   }
 
+  // Total transfer timeout (16 ms is overhead before transfer starts)
+  timeout = SPI_CFG_XFER_TIMEOUT + 16U;
+
   // Check that SPI status is not busy before starting data exchange test
   spi_stat = drv->GetStatus();          // Get SPI status
   if (spi_stat.busy != 0U) {
-    // If busy flag is still active
+    // If busy flag is active
     (void)snprintf(msg_buf, sizeof(msg_buf), "[FAILED] %s: %s", str_oper[operation], "Busy active before operation! Data exchange operation aborted!");
   }
   TEST_ASSERT_MESSAGE(spi_stat.busy == 0U, msg_buf);
@@ -1905,8 +1954,6 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     (void)srv_ss_mode;
     (void)srv_delay_c;
     (void)srv_delay_t;
-    (void)drv_delay_c;
-    (void)drv_delay_t;
 #endif
     start_tick = osKernelGetTickCount();
 

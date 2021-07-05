@@ -944,26 +944,6 @@
   </Targets>
 
   <RTE>
-    <packages>
-      <filter>
-        <targetInfos/>
-      </filter>
-      <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0">
-        <targetInfos>
-          <targetInfo name="Debug" versionMatchMode="fixed"/>
-        </targetInfos>
-      </package>
-      <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.12.1-dev20">
-        <targetInfos>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </package>
-      <package name="STM32F4xx_DFP" schemaVersion="1.6.3" url="http://www.keil.com/pack/" vendor="Keil" version="2.15.0">
-        <targetInfos>
-          <targetInfo name="Debug" versionMatchMode="fixed"/>
-        </targetInfos>
-      </package>
-    </packages>
     <apis>
       <api Capiversion="1.0.0" Cclass="Board Support" Cgroup="Buttons" exclusive="0">
         <package license="license.rtf" name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.11.1-dev0"/>
@@ -1027,11 +1007,6 @@
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.2.1" condition="CM4">
-        <package name="FuSa_RTS_CM4" schemaVersion="1.6.3" url="" vendor="ARM" version="1.1.0-dev1"/>
-        <targetInfos>
           <targetInfo name="Release"/>
         </targetInfos>
       </component>

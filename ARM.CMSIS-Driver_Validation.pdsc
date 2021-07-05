@@ -9,6 +9,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="2.0.1-dev2">
+      - Minor update to SPI driver validation documentation
+      - Minor update to SPI_Server
+    </release>
     <release version="2.0.1-dev1">
       - Improved robustness of SPI Driver testing
       - Improved robustness of SPI Server

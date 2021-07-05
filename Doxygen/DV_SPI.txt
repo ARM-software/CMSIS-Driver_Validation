@@ -1,4 +1,4 @@
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+﻿/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \defgroup spi_config Configuration
 \ingroup  dv_spi
@@ -21,7 +21,7 @@ For example if we want to test <c>Driver_SPI2</c> then this setting would be set
   functionality in the Master mode.<br>
   <b>For full compliance of the SPI driver with the CMSIS-Driver SPI specification the SPI Server Test Mode has to be used.</b>
 - <b>SPI Server</b> settings are relevant if <b>Test Mode: SPI Server</b> is selected.<br>
-  These settings specify communication settings at which Driver Validation communicates with the SPI Server.<br>
+  These settings specify communication settings at which Driver Validation communicates with the SPI Server<br>
   and <b>must be same as configured on the SPI Server.</b>   
   - Some settings are fixed and cannot be changed, these are the following ones:
     - <b>Clock / Frame Format: Clock Polarity 0/ Clock Phase 0</b>
@@ -37,7 +37,7 @@ For example if we want to test <c>Driver_SPI2</c> then this setting would be set
       <b>Hardware Controlled</b> selection means that driver will use hardware controlled driving of the Slave Select line.
     - <b>Bus Speed</b> setting specifies the nominal bus speed used to exchange commands with the SPI Server.<br>
       This setting should be set to a speed guaranteeing reliable command exchange with the SPI Server.
-- <b>Tests</b> settings specifies tests configuration:
+- <b>Tests</b> settings specify tests configuration:
   - <b>Default settings</b> specifies the default settings used in the data exchange tests.<br>
     Usually, one feature is tested by executing the data exchange while all other parameters are used as default.<br>
     For details on which parameters are used as default in each test function please refer to \ref spi_tests_data_xchg
@@ -187,7 +187,7 @@ Problems and solutions:
 
 SPI Server is currently available for the <b>Keil MCBSTM32F400</b> evaluation board.
 
-uVision project and source files are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\MCBSTM32F400</b> directory.
+µVision project and source files are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\MCBSTM32F400</b> directory.
 
 On the Keil MCBSTM32F400 the <b>SPI2</b> interface is used, with the following pinout:
 

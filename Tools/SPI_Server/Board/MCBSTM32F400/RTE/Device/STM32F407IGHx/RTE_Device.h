@@ -48,7 +48,7 @@
 #define RTE_USART1                      0
 
 //   <o> USART1_TX Pin <0=>Not Used <1=>PA9 <2=>PA15 <3=>PB6
-#define RTE_USART1_TX_ID                0
+#define RTE_USART1_TX_ID                3
 #if    (RTE_USART1_TX_ID == 0)
 #define RTE_USART1_TX                   0
 #elif  (RTE_USART1_TX_ID == 1)
@@ -68,7 +68,7 @@
 #endif
 
 //   <o> USART1_RX Pin <0=>Not Used <1=>PA10 <2=>PB3 <3=>PB7
-#define RTE_USART1_RX_ID                0
+#define RTE_USART1_RX_ID                3
 #if    (RTE_USART1_RX_ID == 0)
 #define RTE_USART1_RX                   0
 #elif  (RTE_USART1_RX_ID == 1)
@@ -88,7 +88,7 @@
 #endif
 
 //   <o> USART1_CK Pin <0=>Not Used <1=>PA8
-#define RTE_USART1_CK_ID                0
+#define RTE_USART1_CK_ID                1
 #if    (RTE_USART1_CK_ID == 0)
 #define RTE_USART1_CK                   0
 #elif  (RTE_USART1_CK_ID == 1)
@@ -100,7 +100,7 @@
 #endif
 
 //   <o> USART1_CTS Pin <0=>Not Used <1=>PA11
-#define RTE_USART1_CTS_ID               0
+#define RTE_USART1_CTS_ID               1
 #if    (RTE_USART1_CTS_ID == 0)
 #define RTE_USART1_CTS                  0
 #elif  (RTE_USART1_CTS_ID == 1)
@@ -112,7 +112,7 @@
 #endif
 
 //   <o> USART1_RTS Pin <0=>Not Used <1=>PA12
-#define RTE_USART1_RTS_ID               0
+#define RTE_USART1_RTS_ID               1
 #if    (RTE_USART1_RTS_ID == 0)
 #define RTE_USART1_RTS                  0
 #elif  (RTE_USART1_RTS_ID == 1)
@@ -133,7 +133,7 @@
 //     <o4> Priority <0=>Low <1=>Medium <2=>High <3=>Very High
 //     <i>  Selects DMA Priority
 //   </e>
-#define RTE_USART1_RX_DMA               0
+#define RTE_USART1_RX_DMA               1
 #define RTE_USART1_RX_DMA_NUMBER        2
 #define RTE_USART1_RX_DMA_STREAM        2
 #define RTE_USART1_RX_DMA_CHANNEL       4
@@ -149,7 +149,7 @@
 //     <o4> Priority <0=>Low <1=>Medium <2=>High <3=>Very High
 //     <i>  Selects DMA Priority
 //   </e>
-#define RTE_USART1_TX_DMA               0
+#define RTE_USART1_TX_DMA               1
 #define RTE_USART1_TX_DMA_NUMBER        2
 #define RTE_USART1_TX_DMA_STREAM        7
 #define RTE_USART1_TX_DMA_CHANNEL       4

@@ -38,16 +38,15 @@
 
 #include "Driver_SPI.h"                 // ::CMSIS Driver:SPI
 
+#ifndef  SPI_SERVER_DEBUG
+#define  SPI_SERVER_DEBUG       0
+#endif
+
 // Fixed SPI Server settings (not available through SPI_Server_Config.h)
 #define  SPI_SERVER_SS_MODE     2       // Slave Select Hardware monitored
 #define  SPI_SERVER_FORMAT      0       // Clock Polarity 0 / Clock Phase 0
 #define  SPI_SERVER_DATA_BITS   8       // 8 data bits
 #define  SPI_SERVER_BIT_ORDER   0       // MSB to LSB bit order
-
-
-#ifndef  SPI_SERVER_DEBUG
-#define  SPI_SERVER_DEBUG       0
-#endif
 
 #define  SPI_EVENTS_MASK       (ARM_SPI_EVENT_TRANSFER_COMPLETE | \
                                 ARM_SPI_EVENT_DATA_LOST         | \
@@ -106,7 +105,7 @@ static int32_t  SPI_Cmd_SetCom       (const char *cmd);
 static int32_t  SPI_Cmd_Xfer         (const char *cmd);
 static int32_t  SPI_Cmd_GetCnt       (const char *cmd);
 
-// Global variables
+// Local variables
 
 // Command specification (command string, command handling function)
 static const SPI_CMD_DESC_t spi_cmd_desc[] = {
@@ -160,7 +159,7 @@ int32_t SPI_Server_Start (void) {
   int32_t ret;
 
   vioInit();
-  (void)vioPrint(vioLevelHeading, " SPI Server v%s", SPI_SERVER_VER);
+  (void)vioPrint(vioLevelHeading, "SPI Server v%s", SPI_SERVER_VER);
 
   // Initialize local variables
   spi_server_state   = SPI_SERVER_STATE_RECEPTION;
@@ -571,15 +570,15 @@ static int32_t SPI_Com_Send (const void *data_out, uint32_t num, uint32_t timeou
     vioSetSignal (vioLED1, vioLEDon);
     if (drvSPI->Send(data_out, num) == ARM_DRIVER_OK) {
       flags = osThreadFlagsWait(SPI_EVENTS_MASK, osFlagsWaitAny, timeout);
-      if ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U) {
+      if ((flags & (0x80000000U | ARM_SPI_EVENT_TRANSFER_COMPLETE)) == ARM_SPI_EVENT_TRANSFER_COMPLETE) {
         // If completed event was signaled
         ret = EXIT_SUCCESS;
       }
-      vioSetSignal (vioLED1, vioLEDoff);
       if (ret != EXIT_SUCCESS) {
-        // If error or timeout
+        // If send was activated but failed to send all of the expected data then abort the transfer
         (void)drvSPI->Control(ARM_SPI_ABORT_TRANSFER, 0U);
       }
+      vioSetSignal (vioLED1, vioLEDoff);
     }
   }
 
@@ -608,14 +607,14 @@ static int32_t SPI_Com_Transfer (const void *data_out, void *data_in, uint32_t n
     if (drvSPI->Transfer(data_out, data_in, num) == ARM_DRIVER_OK) {
       flags = osThreadFlagsWait(SPI_EVENTS_MASK, osFlagsWaitAny, timeout);
       spi_xfer_cnt = drvSPI->GetDataCount();
-      vioSetSignal (vioLED2, vioLEDoff);
-      if ((flags & ARM_SPI_EVENT_TRANSFER_COMPLETE) != 0U) {
+      if ((flags & (0x80000000U | ARM_SPI_EVENT_TRANSFER_COMPLETE)) == ARM_SPI_EVENT_TRANSFER_COMPLETE) {
         // If completed event was signaled
         ret = EXIT_SUCCESS;
       } else {
         // If error or timeout
         (void)drvSPI->Control(ARM_SPI_ABORT_TRANSFER, 0U);
       }
+      vioSetSignal (vioLED2, vioLEDoff);
     }
   }
 

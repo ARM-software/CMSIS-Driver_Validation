@@ -45,6 +45,12 @@ related Server are made:
     - SPI2_MOSI = PB15
     - SPI2_SCLK = PB10
     - SPI2_SS   = PI0
+  - USART: 
+    - USART1_TX = PB6
+    - USART1_RX = PB7
+
+If testing with a dedicated Server is used it is suggested to only enable 
+respective peripheral testing (SPI or USART at a time).
 
 Note: For usage with Server please connect GND between test board and Server 
       together.

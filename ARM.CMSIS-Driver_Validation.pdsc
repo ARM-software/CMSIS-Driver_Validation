@@ -9,6 +9,12 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev0">
+      - Rework USART driver validation (introduced USART_Server)
+      - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+      - Update examples
+      - Update documentation
+    </release>
     <release version="2.0.1-dev2">
       - Minor update to SPI driver validation documentation
       - Minor update to SPI_Server
@@ -207,14 +213,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cversion="1.4.0" condition="CMSIS Driver Validation USART">
+    <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cversion="2.0.0" condition="CMSIS Driver Validation USART">
       <description>USART driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_USART      /* Driver Validation USART enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__usart.html" />
-        <file category="header" name="Config/DV_USART_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_USART_Config.h" attr="config" version = "2.0.0"/>
         <file category="source" name="Source/DV_USART.c"/>
       </files>
     </component>

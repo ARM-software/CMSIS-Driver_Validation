@@ -895,13 +895,6 @@
           <targetInfo name="Debug"/>
         </targetInfos>
       </api>
-      <api Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="USART" exclusive="0">
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.4.0"/>
-        <targetInfos>
-          <targetInfo name="Create Report"/>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </api>
       <api Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="USB Device" exclusive="0">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.4.0"/>
         <targetInfos>
@@ -947,13 +940,6 @@
         </targetInfos>
       </component>
       <component Cclass="CMSIS Driver Validation" Cgroup="MCI" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation MCI">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
-        <targetInfos>
-          <targetInfo name="Create Report"/>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-      <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USART">
         <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
@@ -1015,13 +1001,6 @@
         </targetInfos>
       </component>
       <component Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="MCI" Cvendor="Keil" Cversion="1.8.0" condition="STM32F7 CMSIS_Driver MCI">
-        <package name="STM32F7xx_DFP" schemaVersion="1.6.3" url="http://www.keil.com/pack/" vendor="Keil" version="2.13.0"/>
-        <targetInfos>
-          <targetInfo name="Create Report"/>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-      <component Capiversion="2.1.0" Cclass="CMSIS Driver" Cgroup="USART" Cvendor="Keil" Cversion="1.14.0" condition="STM32F7 CMSIS_Driver USART">
         <package name="STM32F7xx_DFP" schemaVersion="1.6.3" url="http://www.keil.com/pack/" vendor="Keil" version="2.13.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
@@ -1155,15 +1134,6 @@
       <file attr="config" category="header" name="Config\DV_MCI_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_MCI_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="MCI" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation MCI"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
-        <targetInfos>
-          <targetInfo name="Create Report"/>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </file>
-      <file attr="config" category="header" name="Config\DV_USART_Config.h" version="1.0.0">
-        <instance index="0">RTE\CMSIS_Driver_Validation\DV_USART_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USART"/>
         <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
         <targetInfos>
           <targetInfo name="Create Report"/>

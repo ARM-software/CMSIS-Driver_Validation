@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -88,6 +88,14 @@ static void TS_Init_SPI (void) {
 }
 static void TS_Uninit_SPI (void) {
   SPI_DV_Uninitialize ();
+}
+#endif
+#ifdef  RTE_CMSIS_DV_USART
+static void TS_Init_USART (void) {
+  USART_DV_Initialize ();
+}
+static void TS_Uninit_USART (void) {
+  USART_DV_Uninitialize ();
 }
 #endif
 #ifdef  RTE_CMSIS_DV_WIFI
@@ -184,20 +192,85 @@ static TEST_CASE TC_List_SPI[] = {
 
 #ifdef  RTE_CMSIS_DV_USART
 static TEST_CASE TC_List_USART[] = {
-  TCD ( USART_GetCapabilities,          USART_GETCAPABILITIES_EN        ),
-  TCD ( USART_Initialization,           USART_INITIALIZATION_EN         ),
-  TCD ( USART_PowerControl,             USART_POWERCONTROL_EN           ),
-  TCD ( USART_Config_PolarityPhase,     USART_CONFIG_POLARITYPHASE_EN   ),
-  TCD ( USART_Config_DataBits,          USART_CONFIG_DATABITS_EN        ),
-  TCD ( USART_Config_StopBits,          USART_CONFIG_STOPBITS_EN        ),
-  TCD ( USART_Config_Parity,            USART_CONFIG_PARITY_EN          ),
-  TCD ( USART_Config_Baudrate,          USART_CONFIG_BAUDRATE_EN        ),
-  TCD ( USART_Config_CommonParams,      USART_CONFIG_COMMONPARAMS_EN    ),
-  TCD ( USART_Send,                     USART_SEND_EN                   ),
-  TCD ( USART_AsynchronousReceive,      USART_ASYNCHRONOUSRECEIVE_EN    ),
-  TCD ( USART_Loopback_CheckBaudrate,   USART_LOOPBACK_CHECKBAUDRATE_EN ),
-  TCD ( USART_Loopback_Transfer,        USART_LOOPBACK_TRANSFER_EN      ),
-  TCD ( USART_CheckInvalidInit,         USART_CHECKINVALIDINIT_EN       ),
+  #if ( USART_TG_DRIVER_MANAGEMENT_EN != 0 )
+  TCD ( USART_GetVersion,               USART_TC_GET_VERSION_EN         ),
+  TCD ( USART_GetCapabilities,          USART_TC_GET_CAPABILITIES_EN    ),
+  TCD ( USART_Initialize_Uninitialize,  USART_TC_INIT_UNINIT_EN         ),
+  TCD ( USART_PowerControl,             USART_TC_POWER_CONTROL_EN       ),
+  #endif
+  #if ( USART_TG_DATA_EXCHANGE_EN != 0 )
+  #if ( USART_TG_MODE_EN != 0 )
+  TCD ( USART_Mode_Asynchronous,        USART_TC_ASYNC_EN               ),
+  TCD ( USART_Mode_Synchronous_Master,  USART_TC_SYNC_MASTER_EN         ),
+  TCD ( USART_Mode_Synchronous_Slave,   USART_TC_SYNC_SLAVE_EN          ),
+  TCD ( USART_Mode_Single_Wire,         USART_TC_SINGLE_WIRE_EN         ),
+  TCD ( USART_Mode_IrDA,                USART_TC_IRDA_EN                ),
+  #endif
+  #if ( USART_TG_DATA_BITS_EN != 0 )
+  TCD ( USART_Data_Bits_5,              USART_TC_DATA_BITS_5_EN         ),
+  TCD ( USART_Data_Bits_6,              USART_TC_DATA_BITS_6_EN         ),
+  TCD ( USART_Data_Bits_7,              USART_TC_DATA_BITS_7_EN         ),
+  TCD ( USART_Data_Bits_8,              USART_TC_DATA_BITS_8_EN         ),
+  TCD ( USART_Data_Bits_9,              USART_TC_DATA_BITS_9_EN         ),
+  #endif
+  #if ( USART_TG_PARITY_EN != 0 )
+  TCD ( USART_Parity_None,              USART_TC_PARITY_NONE_EN         ),
+  TCD ( USART_Parity_Even,              USART_TC_PARITY_EVEN_EN         ),
+  TCD ( USART_Parity_Odd,               USART_TC_PARITY_ODD_EN          ),
+  #endif
+  #if ( USART_TG_STOP_BITS_EN != 0 )
+  TCD ( USART_Stop_Bits_1,              USART_TC_STOP_BITS_1_EN         ),
+  TCD ( USART_Stop_Bits_2,              USART_TC_STOP_BITS_2_EN         ),
+  TCD ( USART_Stop_Bits_1_5,            USART_TC_STOP_BITS_1_5_EN       ),
+  TCD ( USART_Stop_Bits_0_5,            USART_TC_STOP_BITS_0_5_EN       ),
+  #endif
+  #if ( USART_TG_FLOW_CTRL_EN != 0)
+  TCD ( USART_Flow_Control_None,        USART_TC_FLOW_CTRL_NONE_EN      ),
+  TCD ( USART_Flow_Control_RTS,         USART_TC_FLOW_CTRL_RTS_EN       ),
+  TCD ( USART_Flow_Control_CTS,         USART_TC_FLOW_CTRL_CTS_EN       ),
+  TCD ( USART_Flow_Control_RTS_CTS,     USART_TC_FLOW_CTRL_RTS_CTS_EN   ),
+  #endif
+  #if ( USART_TG_CLOCK_EN != 0)
+  TCD ( USART_Clock_Pol0_Pha0,          USART_TC_CLOCK_POL0_PHA0_EN     ),
+  TCD ( USART_Clock_Pol0_Pha1,          USART_TC_CLOCK_POL0_PHA1_EN     ),
+  TCD ( USART_Clock_Pol1_Pha0,          USART_TC_CLOCK_POL1_PHA1_EN     ),
+  TCD ( USART_Clock_Pol1_Pha1,          USART_TC_CLOCK_POL1_PHA1_EN     ),
+  #endif
+  #if ( USART_TG_BAUDRATE_EN != 0)
+  TCD ( USART_Baudrate_Min,             USART_TC_BAUDRATE_MIN_EN        ),
+  TCD ( USART_Baudrate_Max,             USART_TC_BAUDRATE_MAX_EN        ),
+  #endif
+  #if ( USART_TG_OTHER_EN != 0)
+  TCD ( USART_Number_Of_Items,          USART_TC_NUMBER_OF_ITEMS_EN     ),
+  TCD ( USART_GetTxCount,               USART_TC_GET_TX_COUNT_EN        ),
+  TCD ( USART_GetRxCount,               USART_TC_GET_RX_COUNT_EN        ),
+  TCD ( USART_GetTxRxCount,             USART_TC_GET_TX_RX_COUNT_EN     ),
+  TCD ( USART_AbortSend,                USART_TC_ABORT_SEND_EN          ),
+  TCD ( USART_AbortReceive,             USART_TC_ABORT_RECEIVE_EN       ),
+  TCD ( USART_AbortTransfer,            USART_TC_ABORT_TRANSFER_EN      ),
+  TCD ( USART_TxBreak,                  USART_TC_TX_BREAK_EN            ),
+  #endif
+  #endif
+  #if ( USART_TG_MODEM_EN != 0 )
+  TCD ( USART_Modem_RTS,                USART_TC_MODEM_RTS_EN           ),
+  TCD ( USART_Modem_DTR,                USART_TC_MODEM_DTR_EN           ),
+  TCD ( USART_Modem_CTS,                USART_TC_MODEM_CTS_EN           ),
+  TCD ( USART_Modem_DSR,                USART_TC_MODEM_DSR_EN           ),
+  TCD ( USART_Modem_DCD,                USART_TC_MODEM_DCD_EN           ),
+  TCD ( USART_Modem_RI,                 USART_TC_MODEM_RI_EN            ),
+  #endif
+  #if ( USART_TG_EVENT_EN != 0 )
+  TCD ( USART_Tx_Underflow,             USART_TC_TX_UNDERFLOW_EN        ),
+  TCD ( USART_Rx_Overflow,              USART_TC_RX_OVERFLOW_EN         ),
+  TCD ( USART_Rx_Timeout,               USART_TC_RX_TIMEOUT_EN          ),
+  TCD ( USART_Rx_Break,                 USART_TC_RX_BREAK_EN            ),
+  TCD ( USART_Rx_Framing_Error,         USART_TC_RX_FRAMING_ERROR_EN    ),
+  TCD ( USART_Rx_Parity_Error,          USART_TC_RX_PARITY_ERROR_EN     ),
+  TCD ( USART_Event_CTS,                USART_TC_EVENT_CTS_EN           ),
+  TCD ( USART_Event_DSR,                USART_TC_EVENT_DSR_EN           ),
+  TCD ( USART_Event_DCD,                USART_TC_EVENT_DCD_EN           ),
+  TCD ( USART_Event_RI,                 USART_TC_EVENT_RI_EN            ),
+  #endif
 };
 #endif
 
@@ -360,8 +433,8 @@ TEST_GROUP ts[] = {
 {
   __FILE__, __DATE__, __TIME__,
   "CMSIS-Driver USART Test Report",
-  NULL,
-  NULL,
+  TS_Init_USART,
+  TS_Uninit_USART,
   TC_List_USART,
   ARRAY_SIZE (TC_List_USART),
 },

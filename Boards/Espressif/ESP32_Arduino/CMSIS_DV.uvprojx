@@ -1179,18 +1179,6 @@
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="sourceC" name="project_template\dcd.c" version="0.0.0">
-        <instance index="0" removed="1">RTE\Board_Support\MIMXRT1064DVL6A\dcd.c</instance>
-        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND___component.serial_manager_AND_utility.debug_console__OR_utility.debug_console_lite__AND_component.lpuart_adapter_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device"/>
-        <package name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="https://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="13.0.0"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="header" name="project_template\dcd.h" version="0.0.0">
-        <instance index="0" removed="1">RTE\Board_Support\MIMXRT1064DVL6A\dcd.h</instance>
-        <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND___component.serial_manager_AND_utility.debug_console__OR_utility.debug_console_lite__AND_component.lpuart_adapter_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_device"/>
-        <package name="EVK-MIMXRT1064_BSP" schemaVersion="1.4" url="https://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="13.0.0"/>
-        <targetInfos/>
-      </file>
       <file attr="config" category="sourceC" name="project_template\peripherals.c" version="1.0.0">
         <instance index="0">RTE\Board_Support\MIMXRT1064DVL6A\peripherals.c</instance>
         <component Cclass="Board Support" Cgroup="SDK Project Template" Csub="project_template" Cvariant="evkmimxrt1064" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1064_AND_component.lpuart_adapter_AND_component.serial_manager_AND_device.MIMXRT1064_startup_AND_driver.clock_AND_driver.common_AND_driver.igpio_AND_driver.iomuxc_AND_driver.lpuart_AND_driver.xip_board_AND_driver.xip_board_dcd_AND_driver.xip_device_AND_utility.debug_console"/>

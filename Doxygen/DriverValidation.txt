@@ -48,7 +48,7 @@ The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_usbh  "USB Host"   - Universal Serial Bus (USB) Host interface driver.
   - \ref dv_wifi  "WiFi"       - WiFi (Wireless Fidelity Interface) module/shield driver.
 
-\note Extensive testing using dedicated Server is available for SPI driver.
+\note Extensive testing using dedicated Server is available for SPI and USART drivers.
 
 This manual assumes that you are familiar with MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
@@ -62,6 +62,15 @@ Revision History
     <tr>
       <th>Version</th>
       <th>Description</th>
+    </tr>
+    <tr>
+      <td>V3.0.0-dev0</td>
+      <td>
+        - Rework USART driver validation (introduced USART_Server)
+        - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+        - Update examples
+        - Update documentation
+      </td>
     </tr>
     <tr>
       <td>V2.0.1-dev2</td>
@@ -470,7 +479,7 @@ Each interface test module has specific requirements for the heap memory, defaul
 | CAN                     | 128                                |
 | Ethernet                | 1024                               |
 | SPI                     | 12288                              |
-| USART                   | 2048                               |
+| USART                   | 8192                               |
 
 Interface test modules that are not listed in the previous table do not use heap memory.
 

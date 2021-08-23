@@ -9,6 +9,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.1.0-dev0">
+      - Add WiFi Driver tests (socket functions in non-blocking mode)
+      - Update examples (WiFi Driver related)
+    </release>
     <release version="3.0.0-dev0">
       - Rework USART driver validation (introduced USART_Server)
       - Add USART_Server application for Keil MCBSTM32F400 evaluation board
@@ -285,14 +289,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi">
+    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi">
       <description>WiFi driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_WIFI       /* Driver Validation WiFi enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__wifi.html" />
-        <file category="header" name="Config/DV_WiFi_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_WiFi_Config.h" attr="config" version = "1.1.0"/>
         <file category="source" name="Source/DV_WIFI.c"/>
       </files>
     </component>

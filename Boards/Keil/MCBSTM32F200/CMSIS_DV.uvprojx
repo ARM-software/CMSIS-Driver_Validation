@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>STM32F207IGHx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev29</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev32</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -427,7 +427,7 @@
         <TargetCommonOption>
           <Device>STM32F207IGHx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev29</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.10.0-dev32</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1121,7 +1121,7 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1130,7 +1130,7 @@
       <file attr="config" category="header" name="Config\DV_ETH_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_ETH_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation ETH"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1139,7 +1139,7 @@
       <file attr="config" category="header" name="Config\DV_I2C_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_I2C_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="I2C" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation I2C"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1148,7 +1148,7 @@
       <file attr="config" category="header" name="Config\DV_MCI_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_MCI_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="MCI" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation MCI"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1157,7 +1157,7 @@
       <file attr="config" category="header" name="Config\DV_SPI_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_SPI_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.1.0" condition="CMSIS Driver Validation SPI"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1166,7 +1166,7 @@
       <file attr="config" category="header" name="Config\DV_USART_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USART_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation USART"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1175,7 +1175,7 @@
       <file attr="config" category="header" name="Config\DV_USBD_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USBD_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USB Device" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USBD"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev0"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1184,7 +1184,7 @@
       <file attr="config" category="header" name="CMSIS\Driver\Config\RTE_Device.h" version="2.3.1">
         <instance index="0">RTE\Device\STM32F207IGHx\RTE_Device.h</instance>
         <component Capiversion="1.0.0" Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.2.1" condition="STM32F2 Framework Classic"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev29"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev32"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1193,7 +1193,7 @@
       <file attr="config" category="source" condition="STM32F207xx_ARMCC" name="Drivers\CMSIS\Device\ST\STM32F2xx\Source\Templates\arm\startup_stm32f207xx.s" version="2.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\startup_stm32f207xx.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.1" condition="STM32F2 CMSIS HAL"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev29"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev32"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1202,7 +1202,7 @@
       <file attr="config" category="header" name="MDK\Templates\Inc\stm32f2xx_hal_conf.h" version="1.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\stm32f2xx_hal_conf.h</instance>
         <component Capiversion="1.0.0" Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.2.1" condition="STM32F2 Framework Classic"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev29"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev32"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1211,7 +1211,7 @@
       <file attr="config" category="source" name="Drivers\CMSIS\Device\ST\STM32F2xx\Source\Templates\system_stm32f2xx.c" version="2.2.1">
         <instance index="0">RTE\Device\STM32F207IGHx\system_stm32f2xx.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.1" condition="STM32F2 CMSIS HAL"/>
-        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev29"/>
+        <package name="STM32F2xx_DFP" schemaVersion="1.7.1" url="http://www.keil.com/pack/" vendor="Keil" version="2.10.0-dev32"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

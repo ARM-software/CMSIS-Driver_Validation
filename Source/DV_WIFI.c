@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -3812,6 +3812,7 @@ typedef struct {
   osThreadId_t owner;
   uint32_t     xid;
   const char  *cmd;
+  uint32_t     tval;
 } IO_ACCEPT;
 #endif
 
@@ -3825,6 +3826,7 @@ typedef struct {
 
 /* TestAssistant control */
 #define TEST_PORT           2000
+#define TEST_PORT_NB        2001
 
 /* CONNECT <proto>,<ip_addr>,<port>,<delay_ms>
            <proto>    = protocol (TCP, UDP)
@@ -3838,13 +3840,15 @@ typedef struct {
 #define CMD_CONNECT_TCP     "CONNECT TCP,0.0.0.0,2000,500"
 #define CMD_CONNECT_UDP     "CONNECT UDP,0.0.0.0,2000,200"
 
+#define CMD_CONNECT_TCP_NB  "CONNECT TCP,0.0.0.0,2001,500"
+
 /* Accept worker thread */
 __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
   uint32_t flags,xid;
   int32_t sock;
 
   for (;;) {
-    flags = osThreadFlagsWait (F_CREATE_TCP | F_CREATE_UDP | F_BIND | F_LISTEN |
+    flags = osThreadFlagsWait (F_CREATE_TCP | F_CREATE_UDP | F_BIND | F_LISTEN | F_SETOPT |
                                F_ACCEPT     | F_SEND_CTRL  | F_RECV | F_CLOSE, osFlagsWaitAny, osWaitForever);
     xid   = io->xid;
     switch (flags) {
@@ -3860,7 +3864,7 @@ __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
 
       case F_BIND:
         /* Bind socket */
-        io->rc = drv->SocketBind (io->sock, ip_unspec, 4, TEST_PORT);
+        io->rc = drv->SocketBind (io->sock, ip_unspec, 4, (uint16_t)io->tval);
         break;
 
       case F_LISTEN:
@@ -3887,6 +3891,12 @@ __NO_RETURN static void Th_Accept (IO_ACCEPT *io) {
         /* Close socket */
         io->rc = drv->SocketClose (io->sock);
         break;
+
+      case F_SETOPT: {
+        /* Set socket non-blocking mode */
+        const uint32_t nbio = 1;
+        io->rc = drv->SocketSetOpt (io->sock, ARM_SOCKET_IO_FIONBIO, &nbio, sizeof(nbio));
+      } break;
 
       case F_SEND_CTRL:
         /* Send control command to TestAssistant */
@@ -3974,6 +3984,7 @@ void WIFI_SocketAccept (void) {
 
     /* Bind socket */
     io.sock = sock;
+    io.tval = TEST_PORT;
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
 
@@ -4084,6 +4095,7 @@ void WIFI_SocketAccept (void) {
 
     /* Bind socket */
     io.sock = sock;
+    io.tval = TEST_PORT;
     TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
 
@@ -4132,6 +4144,205 @@ void WIFI_SocketAccept (void) {
   osThreadTerminate (worker);
 }
 
+/**
+\brief  Test case: WIFI_SocketAccept_nbio
+\ingroup wifi_sock_api
+\details
+The test case \b WIFI_SocketAccept_nbio verifies the WiFi Driver \b SocketAccept function
+running in non-blocking mode.
+
+Stream socket test:
+ - Create stream socket
+ - Set non-blocking mode
+ - Bind socket
+ - Start listening
+ - Check function parameters 
+ - Accept connection, NULL parameters
+ - Receive ServerId on accepted socket
+ - Close accepted socket
+ - Accept connection again, return IP address and port
+ - Receive ServerId on accepted socket
+ - Receive again, server closed connection
+ - Close accepted socket
+ - Close listening socket
+ - Accept again, closed socket
+*/
+void WIFI_SocketAccept_nbio (void) {
+  uint8_t      ip[4];
+  uint32_t     ip_len;
+  uint16_t     port;
+  uint32_t     ticks,tout;
+  osThreadId_t worker;
+  int32_t      rval;
+  IO_ACCEPT    io;
+  int32_t      sock;
+
+  /* Create worker thread */
+  worker = osThreadNew ((osThreadFunc_t)Th_Accept, &io, NULL);
+  if (worker == NULL) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Worker Thread not created");
+    return;
+  }
+
+  ARG_INIT();
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Bind socket */
+    io.sock = sock;
+    io.tval = TEST_PORT_NB;
+    TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Start listening */
+    io.sock = sock;
+    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Check parameter (socket = -1) */
+    ip_len = sizeof(ip);
+    ARG_ACCEPT (-1, ip, &ip_len, &port);
+    TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MIN) */
+    ARG_ACCEPT (INT32_MIN, ip, &ip_len, &port);
+    TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MAX) */
+    ARG_ACCEPT (INT32_MAX, ip, &ip_len, &port);
+    TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Parameters 'ip', 'ip_len' and 'port' are optional, can be NULL */
+
+    /* Request a remote server to connect to us */
+    io.cmd = CMD_CONNECT_TCP_NB;
+    TH_EXECUTE (F_SEND_CTRL, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc > 0);
+
+    /* Accept connection, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      /* Accept connection with NULL parameters */
+      ARG_ACCEPT (sock, NULL, NULL, NULL);
+      TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Accepted socket should be different */
+    TH_ASSERT  ((io.rc != io.sock) && (io.rc >= 0));
+
+    /* Receive SockServer id string, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      io.sock = io.rc;
+      TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+      if (io.rc > 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT (io.rc > 0);
+
+    /* Close accepted socket, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (500);
+
+    /* Request from remote server to connect to us */
+    io.cmd = CMD_CONNECT_TCP_NB;
+    TH_EXECUTE (F_SEND_CTRL, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc > 0);
+
+    /* Initialize buffers for return values */
+    port   = 0;
+    ip_len = sizeof(ip) + 1;
+    memset (ip, 0, sizeof(ip));
+
+    /* Accept again, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      /* Accept again, return ip address and port */
+      ARG_ACCEPT (sock, &ip[0], &ip_len, &port);
+      TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Accepted socket should be different */
+    TH_ASSERT  ((io.rc != io.sock) && (io.rc >= 0));
+    /* IP address should be the address of the server */
+    TH_ASSERT  ((memcmp (ip, ip_socket_server, 4) == 0) && (ip_len == 4));
+    /* Port number of remote peer should be non-zero */
+    TH_ASSERT  (port != 0);
+
+    /* Receive SockServer id string, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      io.sock = io.rc;
+      TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+      if (io.rc > 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT (io.rc > 0);
+
+    /* SockServer disconnects after 500ms */
+    osDelay (1000);
+
+    /* Receive again, no data */
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (connection reset) */
+    /* Strict: ECONNRESET, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+
+    /* Close accepted socket, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Close listening socket, polling mode  */
+    io.sock = sock;
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Accept again, closed socket */
+    ip_len = 4;
+    ARG_ACCEPT (sock, &ip[0], &ip_len, &port);
+    TH_EXECUTE (F_ACCEPT, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not created) */
+    /* Strict: ESOCK, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "accept on closed socket", io.rc, ARM_SOCKET_ESOCK);
+
+    osDelay (10);
+  }
+
+  /* Terminate worker thread */
+  osThreadTerminate (worker);
+}
+
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Connect IO parameters */
@@ -4163,7 +4374,7 @@ __NO_RETURN static void Th_Connect (IO_CONNECT *io) {
 
   for (;;) {
     /* Wait for the signal to select and execute the function */
-    flags = osThreadFlagsWait (F_CREATE_TCP | F_CREATE_UDP | F_BIND |
+    flags = osThreadFlagsWait (F_CREATE_TCP | F_CREATE_UDP | F_BIND | F_SETOPT |
                                F_CONNECT    | F_LISTEN     | F_CLOSE, osFlagsWaitAny, osWaitForever);
     xid   = io->xid;
     switch (flags) {
@@ -4196,6 +4407,12 @@ __NO_RETURN static void Th_Connect (IO_CONNECT *io) {
         /* Close socket */
         io->rc = drv->SocketClose (io->sock);
         break;
+
+      case F_SETOPT: {
+        /* Set socket non-blocking mode */
+        const uint32_t nbio = 1;
+        io->rc = drv->SocketSetOpt (io->sock, ARM_SOCKET_IO_FIONBIO, &nbio, sizeof(nbio));
+      } break;
     }
     /* Done, send signal to owner thread */
     flags = (xid == io->xid) ? TH_OK : TH_TOUT;
@@ -4518,6 +4735,290 @@ void WIFI_SocketConnect (void) {
   osThreadTerminate (worker);
 }
 
+/**
+\brief  Test case: WIFI_SocketConnect_nbio
+\ingroup wifi_sock_api
+\details
+The test case \b WIFI_SocketConnect_nbio verifies the WiFi Driver \b SocketConnect function
+running in non-blocking mode.
+
+Stream socket test 1:
+ - Create stream socket
+ - Set non-blocking mode
+ - Check function parameters
+ - Connect to server, non-blocking mode
+ - Connect again, already connected
+ - Bind connected socket
+ - Close socket
+ - Connect on closed socket
+
+Stream socket test 2:
+ - Create stream socket
+ - Set non-blocking mode
+ - Connect to server, connection rejected
+ - Close socket
+
+Stream socket test 3:
+ - Create stream socket
+ - Set non-blocking mode
+ - Connect to server, non-responding or non-existent
+ - Close socket
+
+Stream socket test 4:
+ - Create stream socket
+ - Set non-blocking mode
+ - Bind socket
+ - Start listening
+ - Connect to server, non-blocking mode
+ - Close socket
+*/
+void WIFI_SocketConnect_nbio (void) {
+  uint32_t     ticks,tout;
+  osThreadId_t worker;
+  int32_t      rval;
+  IO_CONNECT   io;
+  int32_t      sock;
+
+  /* Create worker thread */
+  worker = osThreadNew ((osThreadFunc_t)Th_Connect, &io, NULL);
+  if (worker == NULL) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Worker Thread not created");
+    return;
+  }
+
+  ARG_INIT();
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Check parameter (socket = -1) */
+    ARG_CONNECT(-1, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MIN) */
+    ARG_CONNECT(INT32_MIN, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MAX) */
+    ARG_CONNECT(INT32_MAX, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (ip = NULL) */
+    ARG_CONNECT(sock, NULL, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check parameter (ip = 0.0.0.0) */
+    ARG_CONNECT(sock, ip_unspec, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check parameter (ip_len = 0) */
+    ARG_CONNECT(sock, ip_socket_server, 0, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check parameter (ip_len = 5) */
+    ARG_CONNECT(sock, ip_socket_server, 5, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check parameter (port = 0) */
+    ARG_CONNECT(sock, ip_socket_server, 4, 0);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Connect to stream server, start non-blocking */
+    ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
+
+    /* Connect, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
+      TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EALREADY) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EISCONN);
+
+    /* Connect 2nd time */
+    ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket already connected) */
+    /* Strict: EISCONN, valid non-strict: OK, ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EISCONN), ((io.rc == 0) || (io.rc == ARM_SOCKET_ERROR)), "connect socket to same address again", io.rc, ARM_SOCKET_EISCONN);
+
+    /* Bind connected socket */
+    io.sock = sock;
+    TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket already connected) */
+    /* Strict: EISCONN, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EISCONN), (io.rc == ARM_SOCKET_ERROR), "bind on connected socket", io.rc, ARM_SOCKET_EISCONN);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Connect again, closed socket */
+    ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not created) */
+    /* Strict: ESOCK, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "connect on closed socket", io.rc, ARM_SOCKET_ESOCK);
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Connect to stream server (connection rejected) */
+    ARG_CONNECT(sock, ip_socket_server, 4, TCP_REJECTED_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
+
+    /* Connect, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_CONNECT(sock, ip_socket_server, 4, TCP_REJECTED_PORT);
+      TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EALREADY) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Should return error (connection rejected by the peer) */
+    /* Strict: ECONNREFUSED, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNREFUSED), (io.rc == ARM_SOCKET_ERROR), "connect to non-existent port", io.rc, ARM_SOCKET_ECONNREFUSED);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Connect to stream server (non-existent), start non-blocking */
+    ARG_CONNECT(sock, ip_socket_server, 4, TCP_TIMEOUT_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
+
+    /* Connect, polling mode */
+    tout  = SYSTICK_MICROSEC((18000 + WIFI_SOCKET_TIMEOUT)*1000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_CONNECT(sock, ip_socket_server, 4, TCP_TIMEOUT_PORT);
+      TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EALREADY) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Should return error (connection timeout) */
+    /* Strict: ETIMEDOUT, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ETIMEDOUT), (io.rc == ARM_SOCKET_ERROR), "connect to non-existent stream server", io.rc, ARM_SOCKET_ETIMEDOUT);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Bind socket */
+    io.sock = sock;
+    TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Start listening */
+    io.sock = sock;
+    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Connect to stream server */
+    ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    /* Connect on listening socket should fail */
+    /* Strict: EINVAL, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_EINVAL), (io.rc == ARM_SOCKET_ERROR), "connect on listening socket", io.rc, ARM_SOCKET_EINVAL);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (10);
+  }
+
+  /* Terminate worker thread */
+  osThreadTerminate (worker);
+}
+
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* Recv IO parameters */
@@ -4571,10 +5072,11 @@ __NO_RETURN static void Th_Recv (IO_RECV *io) {
         io->rc = drv->SocketListen (io->sock, 1);
         break;
 
-      case F_SETOPT:
+      case F_SETOPT: {
         /* Set socket options */
-        io->rc = drv->SocketSetOpt (io->sock, ARM_SOCKET_SO_RCVTIMEO, &io->tval, sizeof(io->tval));
-        break;
+        int32_t opt_id = (io->tval > 1) ? ARM_SOCKET_SO_RCVTIMEO : ARM_SOCKET_IO_FIONBIO;
+        io->rc = drv->SocketSetOpt (io->sock, opt_id, &io->tval, sizeof(io->tval));
+      } break;
 
       case F_RECV:
         /* Recv on socket */
@@ -4807,6 +5309,238 @@ void WIFI_SocketRecv (void) {
   osThreadTerminate (worker);
 }
 
+/**
+\brief  Test case: WIFI_SocketRecv_nbio
+\ingroup wifi_sock_api
+\details
+Test case \b WIFI_SocketRecv_nbio verifies the WiFi Driver \b SocketRecv function
+running in non-blocking mode.
+
+Stream socket test 1:
+ - Create stream socket
+ - Set non-blocking mode
+ - Connect to Chargen server
+ - Check function parameters
+ - Receive data in non-blocking mode
+ - Close socket
+ - Receive again, closed socket
+
+Stream socket test 2:
+ - Create stream socket
+ - Set non-blocking mode
+ - Receive data, created socket
+ - Bind socket
+ - Receive data, bound socket
+ - Start listening
+ - Receive data, listening socket
+ - Close socket
+
+Stream socket test 3:
+ - Create stream socket
+ - Set non-blocking mode
+ - Connect to Discard server
+ - Receive data for 1 sec, timeout expires
+ - Close socket
+*/
+void WIFI_SocketRecv_nbio (void) {
+  uint8_t      buf[4];
+  uint32_t     ticks,tout,npoll;
+  osThreadId_t worker;
+  int32_t      rval;
+  IO_RECV      io;
+  int32_t      sock;
+
+  /* Create worker thread */
+  worker = osThreadNew ((osThreadFunc_t)Th_Recv, &io, NULL);
+  if (worker == NULL) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Worker Thread not created");
+    return;
+  }
+
+  ARG_INIT();
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Connect to stream server, blocking */
+    io.sock = sock;
+    io.tval = CHARGEN_PORT;
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Set socket non-blocking */
+    io.tval = 1;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Check parameter (socket = -1) */
+    ARG_RECV   (-1, buf, sizeof(buf));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MIN) */
+    ARG_RECV   (INT32_MIN, buf, sizeof(buf));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MAX) */
+    ARG_RECV   (INT32_MAX, buf, sizeof(buf));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (buf = NULL) */
+    ARG_RECV   (sock, NULL, sizeof(buf));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check if socket readable (len = 0) */
+    ARG_RECV   (sock, buf, 0);
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive some data, polling mode */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_RECV   (sock, buffer, sizeof(buffer));
+      TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc >= 2);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive again, closed socket */
+    ARG_RECV (sock, buffer, sizeof(buffer));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not created) */
+    /* Strict: ESOCK, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recv on closed socket", io.rc, ARM_SOCKET_ESOCK);
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    /* Test server mode */
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    io.tval = 1;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive, created socket */
+    ARG_RECV   (sock, buffer, sizeof(buffer));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not connected) */
+    /* Strict: ENOTCONN, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on created socket", io.rc, ARM_SOCKET_ENOTCONN);
+
+    /* Bind socket */
+    io.sock = sock;
+    TH_EXECUTE (F_BIND, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive, bound socket */
+    ARG_RECV   (sock, buffer, sizeof(buffer));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not connected) */
+    /* Strict: ENOTCONN, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on bound socket", io.rc, ARM_SOCKET_ENOTCONN);
+
+    /* Start listening */
+    io.sock = sock;
+    TH_EXECUTE (F_LISTEN, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive, listening socket */
+    ARG_RECV   (sock, buffer, sizeof(buffer));
+    TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not connected) */
+    /* Strict: ENOTCONN, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ENOTCONN), (io.rc == ARM_SOCKET_ERROR), "recv on listening socket", io.rc, ARM_SOCKET_ENOTCONN);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (10);
+  }
+
+  /* Create stream socket */
+  TH_EXECUTE (F_CREATE_TCP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Stream Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Connect to stream server */
+    io.sock = sock;
+    io.tval = DISCARD_PORT;
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT_LONG);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    io.tval = 1;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive for 1 sec, timeout no data */
+    npoll = 0;
+    tout  = SYSTICK_MICROSEC(1000000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_RECV   (sock, buffer, sizeof(buffer));
+      TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
+      npoll++;
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Should return EAGAIN (operation timed out) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
+    /* Check polling counter (max. 1000) */
+    TH_ASSERT  (npoll >= 50);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    osDelay (10);
+  }
+
+  /* Terminate worker thread */
+  osThreadTerminate (worker);
+}
+
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 
 /* RecvFrom IO parameters */
@@ -4822,7 +5556,7 @@ typedef struct {
   /* Control */
   osThreadId_t owner;
   uint32_t     xid;
-  uint32_t     tout;
+  uint32_t     tval;
 } IO_RECVFROM;
 #endif
 
@@ -4856,10 +5590,11 @@ __NO_RETURN static void Th_RecvFrom (IO_RECVFROM *io) {
         io->rc = drv->SocketConnect (io->sock, ip_socket_server, 4, CHARGEN_PORT);
         break;
 
-      case F_SETOPT:
+      case F_SETOPT: {
         /* Set socket options */
-        io->rc = drv->SocketSetOpt (io->sock, ARM_SOCKET_SO_RCVTIMEO, &io->tout, sizeof(io->tout));
-        break;
+        int32_t opt_id = (io->tval > 1) ? ARM_SOCKET_SO_RCVTIMEO : ARM_SOCKET_IO_FIONBIO;
+        io->rc = drv->SocketSetOpt (io->sock, opt_id, &io->tval, sizeof(io->tval));
+      } break;
 
       case F_RECVFROM:
         /* RecvFrom on socket */
@@ -4995,7 +5730,7 @@ void WIFI_SocketRecvFrom (void) {
 
     /* Set receive timeout to 1 sec */
     io.sock = sock;
-    io.tout = 1000;
+    io.tval = 1000;
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
 
@@ -5026,6 +5761,151 @@ void WIFI_SocketRecvFrom (void) {
 
   if (rval == 0) {
     station_uninit ();
+  }
+
+  /* Terminate worker thread */
+  osThreadTerminate (worker);
+}
+
+/**
+\brief  Test case: WIFI_SocketRecvFrom_nbio
+\ingroup wifi_sock_api
+\details
+The test case \b WIFI_SocketRecvFrom_nbio verifies the WiFi Driver \b SocketRecvFrom function
+running in non-blocking mode.
+
+Datagram socket test 1:
+ - Create datagram socket
+ - Set non-blocking mode
+ - Connect to Chargen server
+ - Check function parameters
+ - Receive data in non-blocking mode
+ - Receive again, timeout expires
+ - Close socket
+ - Receive again, closed socket
+*/
+void WIFI_SocketRecvFrom_nbio (void) {
+  uint8_t      ip[4];
+  uint32_t     ip_len,ticks,tout,npoll;
+  uint16_t     port;
+  uint8_t      buf[4];
+  osThreadId_t worker;
+  int32_t      rval;
+  IO_RECVFROM  io;
+  int32_t      sock;
+
+  /* Create worker thread */
+  worker = osThreadNew ((osThreadFunc_t)Th_RecvFrom, &io, NULL);
+  if (worker == NULL) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Worker Thread not created");
+    return;
+  }
+
+  ARG_INIT();
+
+  /* Create datagram socket */
+  TH_EXECUTE (F_CREATE_UDP, WIFI_SOCKET_TIMEOUT);
+  if (io.rc < 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Datagram Socket not created");
+  } else {
+    sock = io.rc;
+
+    /* Set socket non-blocking */
+    io.sock = sock;
+    io.tval = 1;
+    TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Connect to datagram server */
+    io.sock = sock;
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Check parameter (socket = -1) */
+    ip_len = sizeof(ip);
+    ARG_RECVFROM (-1, buf, sizeof(buf), ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MIN) */
+    ARG_RECVFROM (INT32_MIN, buf, sizeof(buf), ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (socket = INT32_MAX) */
+    ARG_RECVFROM (INT32_MAX, buf, sizeof(buf), ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_ESOCK);
+
+    /* Check parameter (buf == NULL) */
+    ARG_RECVFROM (sock, NULL, sizeof(buf), ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == ARM_SOCKET_EINVAL);
+
+    /* Check if socket readable (len = 0) */
+    ARG_RECVFROM (sock, buf, 0, ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    /* No data available to read */
+    TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
+
+    /* Send one byte of data to trigger a reply */
+    io.sock = sock;
+    TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 1);
+
+    /* Initialize buffers for return values */
+    port   = 0;
+    ip_len = sizeof(ip) + 1;
+    memset (ip, 0, sizeof(ip));
+    
+    /* Receive some data */
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
+      TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Should receive at least 2 bytes */
+    TH_ASSERT  (io.rc >= 2);
+    /* IP address should be the address of the server */
+    TH_ASSERT  ((memcmp (ip, ip_socket_server, 4) == 0) && (ip_len == 4));
+    /* Port number should be the port of the CHARGEN server */
+    TH_ASSERT  (port == CHARGEN_PORT);
+
+     /* Receive for 1 sec, timeout no data */
+    npoll = 0;
+    tout  = SYSTICK_MICROSEC(1000000);
+    ticks = GET_SYSTICK();
+    do {
+      ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
+      TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+      npoll++;
+      if (io.rc != ARM_SOCKET_EAGAIN) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    /* Should return EAGAIN (operation timed out) */
+    TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
+    /* Check polling counter (max. 1000) */
+    TH_ASSERT  (npoll >= 50);
+
+    /* Close socket, polling mode */
+    io.sock = sock;
+    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    ticks = GET_SYSTICK();
+    do {
+      TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
+      if (io.rc == 0) break;
+    } while (GET_SYSTICK() - ticks < tout);
+    TH_ASSERT  (io.rc == 0);
+
+    /* Receive again, closed socket */
+    ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
+    TH_EXECUTE (F_RECVFROM, WIFI_SOCKET_TIMEOUT);
+    /* Should return error (socket not created) */
+    /* Strict: ESOCK, valid non-strict: ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ESOCK), (io.rc == ARM_SOCKET_ERROR), "recvfrom on closed socket", io.rc, ARM_SOCKET_ESOCK);
+
+    osDelay (10);
   }
 
   /* Terminate worker thread */

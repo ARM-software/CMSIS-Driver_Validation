@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>MIMXRT1064DVL6A</Device>
           <Vendor>NXP</Vendor>
-          <PackID>NXP.MIMXRT1064_DFP.13.0.0</PackID>
-          <PackURL>https://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <PackID>NXP.MIMXRT1064_DFP.12.1.0</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
           <Cpu>IRAM(0x20000000,0x020000) IRAM2(0x00000000,0x020000) IROM(0x70000000,0x400000) XRAM(0x20200000,0x0c0000) CPUTYPE("Cortex-M7") FPU3(DFPU) CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -440,8 +440,8 @@
         <TargetCommonOption>
           <Device>MIMXRT1064DVL6A</Device>
           <Vendor>NXP</Vendor>
-          <PackID>NXP.MIMXRT1064_DFP.13.0.0</PackID>
-          <PackURL>https://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <PackID>NXP.MIMXRT1064_DFP.12.1.0</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
           <Cpu>IRAM(0x20000000,0x020000) IRAM2(0x00000000,0x020000) IROM(0x70000000,0x400000) XRAM(0x20200000,0x0c0000) CPUTYPE("Cortex-M7") FPU3(DFPU) CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -923,14 +923,14 @@
     </apis>
     <components>
       <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+      <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1245,16 +1245,16 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.0.0">
+      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_WiFi_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>

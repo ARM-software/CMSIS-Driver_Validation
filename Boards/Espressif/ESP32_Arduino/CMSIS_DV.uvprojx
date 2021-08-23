@@ -929,8 +929,8 @@
           <targetInfo name="Release"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+      <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
@@ -1245,16 +1245,16 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.0.0">
+      <file attr="config" category="header" name="Config\DV_WiFi_Config.h" version="1.1.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_WiFi_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cvendor="ARM" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
           <targetInfo name="Release"/>

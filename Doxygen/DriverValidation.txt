@@ -63,6 +63,14 @@ Revision History
       <th>Version</th>
       <th>Description</th>
     </tr>
+
+    <tr>
+      <td>V3.1.0-dev0</td>
+      <td>
+        - Add WiFi Driver tests (socket functions in non-blocking mode)
+        - Update examples (WiFi Driver related)
+      </td>
+    </tr>
     <tr>
       <td>V3.0.0-dev0</td>
       <td>

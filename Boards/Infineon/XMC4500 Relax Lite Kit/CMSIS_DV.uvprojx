@@ -1170,7 +1170,7 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1179,7 +1179,7 @@
       <file attr="config" category="header" name="Config\DV_ETH_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_ETH_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation ETH"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1188,7 +1188,7 @@
       <file attr="config" category="header" name="Config\DV_I2C_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_I2C_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="I2C" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation I2C"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1197,7 +1197,7 @@
       <file attr="config" category="header" name="Config\DV_USBD_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USBD_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USB Device" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USBD"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.1.0-dev0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

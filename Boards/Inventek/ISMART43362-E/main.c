@@ -76,7 +76,7 @@ int main (void) {
 
   SystemCoreClockUpdate();
 
-  SDK_DelayAtLeastUs(5000000);          // 5 seconds for debugger connect
+  SDK_DelayAtLeastUs(5000000, SystemCoreClock); // 5 seconds for debugger connect
 
   osKernelInitialize ();                // Initialize CMSIS-RTOS2
   osThreadNew (cmsis_dv, NULL, NULL);   // Create validation main thread
@@ -96,7 +96,7 @@ static void gint_callback (void) {
 }
 
 uint32_t SPI8_GetFreq(void) {
-  return CLOCK_GetFreq(kCLOCK_HsLspi);
+  return CLOCK_GetHsLspiClkFreq();
 }
 
 void SPI8_InitPins(void) {

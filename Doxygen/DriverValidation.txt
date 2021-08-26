@@ -65,7 +65,14 @@ Revision History
     </tr>
 
     <tr>
-      <td>V3.1.0-dev0</td>
+      <td>V3.0.0-dev2</td>
+      <td>
+        - Minor update of WiFi Driver non-blocking mode tests
+        - Update examples
+      </td>
+    </tr>
+    <tr>
+      <td>V3.0.0-dev1</td>
       <td>
         - Add WiFi Driver tests (socket functions in non-blocking mode)
         - Update examples (WiFi Driver related)

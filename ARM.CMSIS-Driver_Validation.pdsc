@@ -9,7 +9,11 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="3.1.0-dev0">
+    <release version="3.0.0-dev2">
+      - Minor update of WiFi Driver non-blocking mode tests
+      - Update examples
+    </release>
+    <release version="3.0.0-dev1">
       - Add WiFi Driver tests (socket functions in non-blocking mode)
       - Update examples (WiFi Driver related)
     </release>
@@ -289,7 +293,7 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.6.0" condition="CMSIS Driver Validation WiFi">
+    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.6.1" condition="CMSIS Driver Validation WiFi">
       <description>WiFi driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_WIFI       /* Driver Validation WiFi enabled */

@@ -4177,6 +4177,16 @@ void WIFI_SocketAccept_nbio (void) {
   IO_ACCEPT    io;
   int32_t      sock;
 
+  if (socket_funcs_exist == 0U) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Socket functions not available");
+    return;
+  }
+
+  if (station_init (1) == 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Station initialization and connect failed");
+    return;
+  }
+
   /* Create worker thread */
   worker = osThreadNew ((osThreadFunc_t)Th_Accept, &io, NULL);
   if (worker == NULL) {
@@ -4779,6 +4789,16 @@ void WIFI_SocketConnect_nbio (void) {
   IO_CONNECT   io;
   int32_t      sock;
 
+  if (socket_funcs_exist == 0U) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Socket functions not available");
+    return;
+  }
+
+  if (station_init (1) == 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Station initialization and connect failed");
+    return;
+  }
+
   /* Create worker thread */
   worker = osThreadNew ((osThreadFunc_t)Th_Connect, &io, NULL);
   if (worker == NULL) {
@@ -5350,6 +5370,16 @@ void WIFI_SocketRecv_nbio (void) {
   IO_RECV      io;
   int32_t      sock;
 
+  if (socket_funcs_exist == 0U) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Socket functions not available");
+    return;
+  }
+
+  if (station_init (1) == 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Station initialization and connect failed");
+    return;
+  }
+
   /* Create worker thread */
   worker = osThreadNew ((osThreadFunc_t)Th_Recv, &io, NULL);
   if (worker == NULL) {
@@ -5794,6 +5824,16 @@ void WIFI_SocketRecvFrom_nbio (void) {
   IO_RECVFROM  io;
   int32_t      sock;
 
+  if (socket_funcs_exist == 0U) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Socket functions not available");
+    return;
+  }
+
+  if (station_init (1) == 0) {
+    TEST_ASSERT_MESSAGE(0,"[FAILED] Station initialization and connect failed");
+    return;
+  }
+
   /* Create worker thread */
   worker = osThreadNew ((osThreadFunc_t)Th_RecvFrom, &io, NULL);
   if (worker == NULL) {
@@ -5810,15 +5850,15 @@ void WIFI_SocketRecvFrom_nbio (void) {
   } else {
     sock = io.rc;
 
+    /* Connect to datagram server */
+    io.sock = sock;
+    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
+    TH_ASSERT  (io.rc == 0);
+
     /* Set socket non-blocking */
     io.sock = sock;
     io.tval = 1;
     TH_EXECUTE (F_SETOPT, WIFI_SOCKET_TIMEOUT);
-    TH_ASSERT  (io.rc == 0);
-
-    /* Connect to datagram server */
-    io.sock = sock;
-    TH_EXECUTE (F_CONNECT, WIFI_SOCKET_TIMEOUT);
     TH_ASSERT  (io.rc == 0);
 
     /* Check parameter (socket = -1) */

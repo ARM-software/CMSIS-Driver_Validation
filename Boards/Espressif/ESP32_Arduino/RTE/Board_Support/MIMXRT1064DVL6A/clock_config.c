@@ -15,11 +15,11 @@
 
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 !!GlobalInfo
-product: Clocks v6.0
+product: Clocks v9.0
 processor: MIMXRT1064xxxxA
 package_id: MIMXRT1064DVL6A
 mcu_data: ksdk2_0
-processor_version: 6.0.2
+processor_version: 11.0.1
 board: MIMXRT1064-EVK
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
@@ -53,16 +53,14 @@ name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
 - {id: AHB_CLK_ROOT.outFreq, value: 600 MHz}
-- {id: CAN_CLK_ROOT.outFreq, value: 20 MHz}
+- {id: CAN_CLK_ROOT.outFreq, value: 40 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
 - {id: CLK_1M.outFreq, value: 1 MHz}
 - {id: CLK_24M.outFreq, value: 24 MHz}
 - {id: CSI_CLK_ROOT.outFreq, value: 12 MHz}
-- {id: ENET1_TX_CLK.outFreq, value: 50 MHz}
-- {id: ENET2_125M_CLK.outFreq, value: 50 MHz}
-- {id: ENET2_TX_CLK.outFreq, value: 50 MHz}
 - {id: ENET_125M_CLK.outFreq, value: 50 MHz}
 - {id: ENET_25M_REF_CLK.outFreq, value: 25 MHz}
+- {id: ENET_REF_CLK.outFreq, value: 50 MHz}
 - {id: FLEXIO1_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: FLEXIO2_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: FLEXSPI2_CLK_ROOT.outFreq, value: 1440/11 MHz}
@@ -77,12 +75,12 @@ outputs:
 - {id: MQS_MCLK.outFreq, value: 1080/17 MHz}
 - {id: PERCLK_CLK_ROOT.outFreq, value: 75 MHz}
 - {id: PLL7_MAIN_CLK.outFreq, value: 24 MHz}
-- {id: SAI1_CLK_ROOT.outFreq, value: 1080/17 MHz}
-- {id: SAI1_MCLK1.outFreq, value: 1080/17 MHz}
-- {id: SAI1_MCLK2.outFreq, value: 1080/17 MHz}
+- {id: SAI1_CLK_ROOT.outFreq, value: 12.28875 MHz}
+- {id: SAI1_MCLK1.outFreq, value: 12.28875 MHz}
+- {id: SAI1_MCLK2.outFreq, value: 12.28875 MHz}
 - {id: SAI1_MCLK3.outFreq, value: 30 MHz}
-- {id: SAI2_CLK_ROOT.outFreq, value: 1080/17 MHz}
-- {id: SAI2_MCLK1.outFreq, value: 1080/17 MHz}
+- {id: SAI2_CLK_ROOT.outFreq, value: 960/119 MHz}
+- {id: SAI2_MCLK1.outFreq, value: 960/119 MHz}
 - {id: SAI2_MCLK3.outFreq, value: 30 MHz}
 - {id: SAI3_CLK_ROOT.outFreq, value: 1080/17 MHz}
 - {id: SAI3_MCLK1.outFreq, value: 1080/17 MHz}
@@ -96,21 +94,25 @@ outputs:
 settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
 - {id: CCM.ARM_PODF.scale, value: '2', locked: true}
-- {id: CCM.CAN_CLK_PODF.scale, value: '4'}
 - {id: CCM.FLEXSPI2_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXSPI2_SEL.sel, value: CCM_ANALOG.PLL3_PFD0_CLK}
 - {id: CCM.FLEXSPI_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL3_PFD0_CLK}
 - {id: CCM.LPSPI_PODF.scale, value: '5', locked: true}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
+- {id: CCM.SAI1_CLK_PODF.scale, value: '64', locked: true}
+- {id: CCM.SAI1_CLK_PRED.scale, value: '1', locked: true}
+- {id: CCM.SAI1_CLK_SEL.sel, value: CCM_ANALOG.PLL4_MAIN_CLK}
+- {id: CCM.SAI2_CLK_PODF.scale, value: '63', locked: true}
+- {id: CCM.SAI2_CLK_PRED.scale, value: '1'}
 - {id: CCM.SEMC_PODF.scale, value: '8'}
 - {id: CCM.TRACE_PODF.scale, value: '3', locked: true}
-- {id: CCM_ANALOG.ENET2_DIV.scale, value: '10'}
+- {id: CCM_ANALOG.AUDIO_DIV.scale, value: '1', locked: true}
+- {id: CCM_ANALOG.ENET2_DIV.scale, value: '10', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
 - {id: CCM_ANALOG.PLL1_PREDIV.scale, value: '1', locked: true}
 - {id: CCM_ANALOG.PLL1_VDIV.scale, value: '50', locked: true}
 - {id: CCM_ANALOG.PLL2.denom, value: '1', locked: true}
-- {id: CCM_ANALOG.PLL2.div, value: '22'}
 - {id: CCM_ANALOG.PLL2.num, value: '0', locked: true}
 - {id: CCM_ANALOG.PLL2_BYPASS.sel, value: CCM_ANALOG.PLL2_OUT_CLK}
 - {id: CCM_ANALOG.PLL2_PFD0_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD0}
@@ -124,15 +126,20 @@ settings:
 - {id: CCM_ANALOG.PLL3_PFD1_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD1}
 - {id: CCM_ANALOG.PLL3_PFD2_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD2}
 - {id: CCM_ANALOG.PLL3_PFD3_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD3}
-- {id: CCM_ANALOG.PLL4.denom, value: '50'}
-- {id: CCM_ANALOG.PLL4.div, value: '47'}
+- {id: CCM_ANALOG.PLL4.denom, value: '100', locked: true}
+- {id: CCM_ANALOG.PLL4.div, value: '32', locked: true}
+- {id: CCM_ANALOG.PLL4.num, value: '77', locked: true}
+- {id: CCM_ANALOG.PLL4_BYPASS.sel, value: CCM_ANALOG.PLL4_POST_DIV}
+- {id: CCM_ANALOG.PLL4_POST_DIV.scale, value: '1', locked: true}
 - {id: CCM_ANALOG.PLL5.denom, value: '1'}
 - {id: CCM_ANALOG.PLL5.div, value: '40'}
 - {id: CCM_ANALOG.PLL5.num, value: '0'}
 - {id: CCM_ANALOG.PLL6_BYPASS.sel, value: CCM_ANALOG.PLL6}
+- {id: CCM_ANALOG_PLL_AUDIO_POWERDOWN_CFG, value: 'No'}
+- {id: CCM_ANALOG_PLL_ENET_ENET2_REF_EN_CFG, value: Disabled}
 - {id: CCM_ANALOG_PLL_USB1_POWER_CFG, value: 'Yes'}
+- {id: IOMUXC_GPR.ENET_REF_CLK_SEL.sel, value: CCM_ANALOG.ENET_125M_CLK}
 sources:
-- {id: XTALOSC24M.OSC.outFreq, value: 24 MHz, enabled: true}
 - {id: XTALOSC24M.RTC_OSC.outFreq, value: 32.768 kHz, enabled: true}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
@@ -156,10 +163,18 @@ const clock_usb_pll_config_t usb1PllConfig_BOARD_BootClockRUN =
         .loopDivider = 0,                         /* PLL loop divider, Fout = Fin * 20 */
         .src = 0,                                 /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
     };
+const clock_audio_pll_config_t audioPllConfig_BOARD_BootClockRUN =
+    {
+        .loopDivider = 32,                        /* PLL loop divider, Fout = Fin * ( loopDivider + numerator / denominator ) */
+        .postDivider = 1,                         /* Divider after PLL */
+        .numerator = 77,                          /* 30 bit numerator of fractional loop divider, Fout = Fin * ( loopDivider + numerator / denominator ) */
+        .denominator = 100,                       /* 30 bit denominator of fractional loop divider, Fout = Fin * ( loopDivider + numerator / denominator ) */
+        .src = 0,                                 /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
+    };
 const clock_enet_pll_config_t enetPllConfig_BOARD_BootClockRUN =
     {
         .enableClkOutput = true,                  /* Enable the PLL providing the ENET 125MHz reference clock */
-        .enableClkOutput1 = true,                 /* Enable the PLL providing the ENET2 125MHz reference clock */
+        .enableClkOutput1 = false,                /* Disable the PLL providing the ENET2 125MHz reference clock */
         .enableClkOutput25M = true,               /* Enable the PLL providing the ENET 25MHz reference clock */
         .loopDivider = 1,                         /* Set frequency of ethernet reference clock to 50 MHz */
         .loopDivider1 = 1,                        /* Set frequency of ethernet reference clock to 50 MHz */
@@ -283,17 +298,17 @@ void BOARD_BootClockRUN(void)
     /* Disable SAI1 clock gate. */
     CLOCK_DisableClock(kCLOCK_Sai1);
     /* Set SAI1_CLK_PRED. */
-    CLOCK_SetDiv(kCLOCK_Sai1PreDiv, 3);
+    CLOCK_SetDiv(kCLOCK_Sai1PreDiv, 0);
     /* Set SAI1_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_Sai1Div, 1);
+    CLOCK_SetDiv(kCLOCK_Sai1Div, 63);
     /* Set Sai1 clock source. */
-    CLOCK_SetMux(kCLOCK_Sai1Mux, 0);
+    CLOCK_SetMux(kCLOCK_Sai1Mux, 2);
     /* Disable SAI2 clock gate. */
     CLOCK_DisableClock(kCLOCK_Sai2);
     /* Set SAI2_CLK_PRED. */
-    CLOCK_SetDiv(kCLOCK_Sai2PreDiv, 3);
+    CLOCK_SetDiv(kCLOCK_Sai2PreDiv, 0);
     /* Set SAI2_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_Sai2Div, 1);
+    CLOCK_SetDiv(kCLOCK_Sai2Div, 62);
     /* Set Sai2 clock source. */
     CLOCK_SetMux(kCLOCK_Sai2Mux, 0);
     /* Disable SAI3 clock gate. */
@@ -320,7 +335,7 @@ void BOARD_BootClockRUN(void)
     CLOCK_DisableClock(kCLOCK_Can2S);
     CLOCK_DisableClock(kCLOCK_Can3S);
     /* Set CAN_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_CanDiv, 3);
+    CLOCK_SetDiv(kCLOCK_CanDiv, 1);
     /* Set Can clock source. */
     CLOCK_SetMux(kCLOCK_CanMux, 2);
     /* Disable UART clock gate. */
@@ -376,6 +391,9 @@ void BOARD_BootClockRUN(void)
      * With this macro SKIP_SYSCLK_INIT, system pll (selected to be SEMC source clock in SDK projects) will be left unchanged.
      * Note: If another clock source is selected for SEMC, user may want to avoid changing that clock as well.*/
 #ifndef SKIP_SYSCLK_INIT
+#if defined(XIP_BOOT_HEADER_DCD_ENABLE) && (XIP_BOOT_HEADER_DCD_ENABLE == 1)
+    #warning "SKIP_SYSCLK_INIT should be defined to keep system pll (selected to be SEMC source clock in SDK projects) unchanged."
+#endif
     /* Init System PLL. */
     CLOCK_InitSysPll(&sysPllConfig_BOARD_BootClockRUN);
     /* Init System pfd0. */
@@ -404,15 +422,26 @@ void BOARD_BootClockRUN(void)
     /* Disable Usb1 PLL output for USBPHY1. */
     CCM_ANALOG->PLL_USB1 &= ~CCM_ANALOG_PLL_USB1_EN_USB_CLKS_MASK;
 #endif
-    /* DeInit Audio PLL. */
-    CLOCK_DeinitAudioPll();
-    /* Bypass Audio PLL. */
-    CLOCK_SetPllBypass(CCM_ANALOG, kCLOCK_PllAudio, 1);
-    /* Set divider for Audio PLL. */
+    /* Init Audio PLL. */
+    uint32_t pllAudio;
+    /* Disable Audio PLL output before initial Audio PLL. */
+    CCM_ANALOG->PLL_AUDIO &= ~CCM_ANALOG_PLL_AUDIO_ENABLE_MASK;
+    /* Bypass PLL first */
+    CCM_ANALOG->PLL_AUDIO = (CCM_ANALOG->PLL_AUDIO & (~CCM_ANALOG_PLL_AUDIO_BYPASS_CLK_SRC_MASK)) |
+                            CCM_ANALOG_PLL_AUDIO_BYPASS_MASK | CCM_ANALOG_PLL_AUDIO_BYPASS_CLK_SRC(0);
+    CCM_ANALOG->PLL_AUDIO_NUM = CCM_ANALOG_PLL_AUDIO_NUM_A(77);
+    CCM_ANALOG->PLL_AUDIO_DENOM = CCM_ANALOG_PLL_AUDIO_DENOM_B(100);
+    pllAudio = (CCM_ANALOG->PLL_AUDIO & (~(CCM_ANALOG_PLL_AUDIO_DIV_SELECT_MASK | CCM_ANALOG_PLL_AUDIO_POWERDOWN_MASK))) |
+               CCM_ANALOG_PLL_AUDIO_ENABLE_MASK | CCM_ANALOG_PLL_AUDIO_DIV_SELECT(32);
+    pllAudio |= CCM_ANALOG_PLL_AUDIO_POST_DIV_SELECT(2);
     CCM_ANALOG->MISC2 &= ~CCM_ANALOG_MISC2_AUDIO_DIV_LSB_MASK;
     CCM_ANALOG->MISC2 &= ~CCM_ANALOG_MISC2_AUDIO_DIV_MSB_MASK;
-    /* Enable Audio PLL output. */
-    CCM_ANALOG->PLL_AUDIO |= CCM_ANALOG_PLL_AUDIO_ENABLE_MASK;
+    CCM_ANALOG->PLL_AUDIO = pllAudio;
+    while ((CCM_ANALOG->PLL_AUDIO & CCM_ANALOG_PLL_AUDIO_LOCK_MASK) == 0)
+    {
+    }
+    /* Disable bypass for Audio PLL. */
+    CLOCK_SetPllBypass(CCM_ANALOG, kCLOCK_PllAudio, 0);
     /* DeInit Video PLL. */
     CLOCK_DeinitVideoPll();
     /* Bypass Video PLL. */
@@ -465,14 +494,10 @@ void BOARD_BootClockRUN(void)
     IOMUXC_SetSaiMClkClockSource(IOMUXC_GPR, kIOMUXC_GPR_SAI3MClk3Sel, 0);
     /* Set MQS configuration. */
     IOMUXC_MQSConfig(IOMUXC_GPR,kIOMUXC_MqsPwmOverSampleRate32, 0);
-    /* Set ENET1 Tx clock source. */
-    IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1RefClkMode, false);
-    /* Set ENET2 Tx clock source. */
-#if defined(FSL_IOMUXC_DRIVER_VERSION) && (FSL_IOMUXC_DRIVER_VERSION != (MAKE_VERSION(2, 0, 0)))
-    IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET2RefClkMode, false);
-#else
-    IOMUXC_EnableMode(IOMUXC_GPR, IOMUXC_GPR_GPR1_ENET2_CLK_SEL_MASK, false);
-#endif
+    /* Set ENET Ref clock source. */
+    IOMUXC_GPR->GPR1 |= IOMUXC_GPR_GPR1_ENET1_TX_CLK_DIR_MASK;
+    /* Set ENET2 Ref clock source. */
+    IOMUXC_GPR->GPR1 &= ~IOMUXC_GPR_GPR1_ENET2_TX_CLK_DIR_MASK;
     /* Set GPT1 High frequency reference clock source. */
     IOMUXC_GPR->GPR5 &= ~IOMUXC_GPR_GPR5_VREF_1M_CLK_GPT1_MASK;
     /* Set GPT2 High frequency reference clock source. */

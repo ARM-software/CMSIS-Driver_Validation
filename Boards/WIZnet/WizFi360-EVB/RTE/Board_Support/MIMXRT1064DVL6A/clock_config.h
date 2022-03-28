@@ -37,18 +37,20 @@ void BOARD_InitBootClocks(void);
 
 /* Clock outputs (values are in Hz): */
 #define BOARD_BOOTCLOCKRUN_AHB_CLK_ROOT               600000000UL
-#define BOARD_BOOTCLOCKRUN_CAN_CLK_ROOT               20000000UL
+#define BOARD_BOOTCLOCKRUN_CAN_CLK_ROOT               40000000UL
 #define BOARD_BOOTCLOCKRUN_CKIL_SYNC_CLK_ROOT         32768UL
 #define BOARD_BOOTCLOCKRUN_CLKO1_CLK                  0UL
 #define BOARD_BOOTCLOCKRUN_CLKO2_CLK                  0UL
 #define BOARD_BOOTCLOCKRUN_CLK_1M                     1000000UL
 #define BOARD_BOOTCLOCKRUN_CLK_24M                    24000000UL
 #define BOARD_BOOTCLOCKRUN_CSI_CLK_ROOT               12000000UL
-#define BOARD_BOOTCLOCKRUN_ENET1_TX_CLK               50000000UL
-#define BOARD_BOOTCLOCKRUN_ENET2_125M_CLK             50000000UL
-#define BOARD_BOOTCLOCKRUN_ENET2_TX_CLK               50000000UL
+#define BOARD_BOOTCLOCKRUN_ENET2_125M_CLK             0UL
+#define BOARD_BOOTCLOCKRUN_ENET2_REF_CLK              0UL
+#define BOARD_BOOTCLOCKRUN_ENET2_TX_CLK               0UL
 #define BOARD_BOOTCLOCKRUN_ENET_125M_CLK              50000000UL
 #define BOARD_BOOTCLOCKRUN_ENET_25M_REF_CLK           25000000UL
+#define BOARD_BOOTCLOCKRUN_ENET_REF_CLK               50000000UL
+#define BOARD_BOOTCLOCKRUN_ENET_TX_CLK                0UL
 #define BOARD_BOOTCLOCKRUN_FLEXIO1_CLK_ROOT           30000000UL
 #define BOARD_BOOTCLOCKRUN_FLEXIO2_CLK_ROOT           30000000UL
 #define BOARD_BOOTCLOCKRUN_FLEXSPI2_CLK_ROOT          130909090UL
@@ -63,12 +65,12 @@ void BOARD_InitBootClocks(void);
 #define BOARD_BOOTCLOCKRUN_MQS_MCLK                   63529411UL
 #define BOARD_BOOTCLOCKRUN_PERCLK_CLK_ROOT            75000000UL
 #define BOARD_BOOTCLOCKRUN_PLL7_MAIN_CLK              24000000UL
-#define BOARD_BOOTCLOCKRUN_SAI1_CLK_ROOT              63529411UL
-#define BOARD_BOOTCLOCKRUN_SAI1_MCLK1                 63529411UL
-#define BOARD_BOOTCLOCKRUN_SAI1_MCLK2                 63529411UL
+#define BOARD_BOOTCLOCKRUN_SAI1_CLK_ROOT              12288750UL
+#define BOARD_BOOTCLOCKRUN_SAI1_MCLK1                 12288750UL
+#define BOARD_BOOTCLOCKRUN_SAI1_MCLK2                 12288750UL
 #define BOARD_BOOTCLOCKRUN_SAI1_MCLK3                 30000000UL
-#define BOARD_BOOTCLOCKRUN_SAI2_CLK_ROOT              63529411UL
-#define BOARD_BOOTCLOCKRUN_SAI2_MCLK1                 63529411UL
+#define BOARD_BOOTCLOCKRUN_SAI2_CLK_ROOT              8067226UL
+#define BOARD_BOOTCLOCKRUN_SAI2_MCLK1                 8067226UL
 #define BOARD_BOOTCLOCKRUN_SAI2_MCLK2                 0UL
 #define BOARD_BOOTCLOCKRUN_SAI2_MCLK3                 30000000UL
 #define BOARD_BOOTCLOCKRUN_SAI3_CLK_ROOT              63529411UL
@@ -94,6 +96,9 @@ extern const clock_usb_pll_config_t usb1PllConfig_BOARD_BootClockRUN;
 /*! @brief Sys PLL for BOARD_BootClockRUN configuration.
  */
 extern const clock_sys_pll_config_t sysPllConfig_BOARD_BootClockRUN;
+/*! @brief Audio PLL set for BOARD_BootClockRUN configuration.
+ */
+extern const clock_audio_pll_config_t audioPllConfig_BOARD_BootClockRUN;
 /*! @brief Enet PLL set for BOARD_BootClockRUN configuration.
  */
 extern const clock_enet_pll_config_t enetPllConfig_BOARD_BootClockRUN;

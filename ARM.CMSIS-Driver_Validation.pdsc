@@ -9,6 +9,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev3">
+      - Update validation examples for Espressif ESP32, ESP8266 and WizNet WizFi360
+      - Add SockServer application for IMXRT1050-EVKB
+    </release>
     <release version="3.0.0-dev2">
       - Minor update of WiFi Driver non-blocking mode tests
       - Update examples

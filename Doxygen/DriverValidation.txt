@@ -65,6 +65,13 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev3</td>
+      <td>
+        - Update validation examples for Espressif ESP32, ESP8266 and WizNet WizFi360
+        - Add SockServer application for IMXRT1050-EVKB
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev2</td>
       <td>
         - Minor update of WiFi Driver non-blocking mode tests

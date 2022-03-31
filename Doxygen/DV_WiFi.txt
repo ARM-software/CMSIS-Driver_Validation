@@ -275,7 +275,7 @@ WiFi socket deviations from the BSD-strict specification
 
 -# \b SocketAccept
  - receive on disconnected socket<br>
-   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return codes: \token{ARM_SOCKET_EAGAIN} or \token{ARM_SOCKET_ERROR}
 
  - accept on closed socket<br>
    <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
@@ -331,7 +331,7 @@ WiFi socket deviations from the BSD-strict specification
    <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
  - send on disconnected socket<br>
-   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return codes: >\token{0} or \token{ARM_SOCKET_EAGAIN} or \token{ARM_SOCKET_ERROR}
 
  - send on created socket<br>
    <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
@@ -343,7 +343,7 @@ WiFi socket deviations from the BSD-strict specification
    <b>BSD-strict</b> expected return code \b ARM_SOCKET_ENOTCONN<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
  - send on closed socket<br>
-   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ECONNRESET<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
+   <b>BSD-strict</b> expected return code \b ARM_SOCKET_ESOCK<br>non BSD-strict accepted return code \token{ARM_SOCKET_ERROR}
 
 -# \b SocketSendTo
  - sendto on closed socket<br>

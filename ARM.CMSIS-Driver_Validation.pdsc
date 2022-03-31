@@ -9,6 +9,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev5">
+      - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
+    </release>
     <release version="3.0.0-dev4">
       - Minor update to USART driver validation (USART_TxBreak test documentation)
     </release>

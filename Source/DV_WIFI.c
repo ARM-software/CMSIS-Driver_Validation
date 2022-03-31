@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -4063,8 +4063,8 @@ void WIFI_SocketAccept (void) {
     /* Receive again, no data */
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT_LONG);
     /* Should return error (connection reset) */
-    /* Strict: ECONNRESET, valid non-strict: ERROR */
-    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    /* Strict: ECONNRESET, valid non-strict: EAGAIN, ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), ((io.rc == ARM_SOCKET_EAGAIN) || (io.rc == ARM_SOCKET_ERROR)), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
 
     /* Close accepted socket */
     TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4317,8 +4317,8 @@ void WIFI_SocketAccept_nbio (void) {
     /* Receive again, no data */
     TH_EXECUTE (F_RECV, WIFI_SOCKET_TIMEOUT);
     /* Should return error (connection reset) */
-    /* Strict: ECONNRESET, valid non-strict: ERROR */
-    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    /* Strict: ECONNRESET, valid non-strict: EAGAIN, ERROR */
+    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), ((io.rc == ARM_SOCKET_EAGAIN) || (io.rc == ARM_SOCKET_ERROR)), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
 
     /* Close accepted socket, polling mode */
     tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
@@ -6162,8 +6162,13 @@ void WIFI_SocketSend (void) {
     ARG_SEND   (sock, test_msg, sizeof(test_msg));
     TH_EXECUTE (F_SEND, WIFI_SOCKET_TIMEOUT);
     /* Should return error (connection reset by the peer) */
-    /* Strict: ECONNRESET, valid non-strict: ERROR */
-    TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), (io.rc == ARM_SOCKET_ERROR), "send on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    /* Strict: ECONNRESET, valid non-strict: >0, EAGAIN, ERROR */
+    if (io.rc > 0) {
+      snprintf(msg_buf, sizeof(msg_buf), "[WARNING] Non BSD-strict, send on disconnected socket (result %i, expected %s)", io.rc, str_sock_ret[-ARM_SOCKET_ECONNRESET]);
+      TEST_MESSAGE(msg_buf);
+    } else {
+      TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), ((io.rc == ARM_SOCKET_EAGAIN) || (io.rc == ARM_SOCKET_ERROR)), "send on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
+    }
 
     /* Close socket */
     io.sock = sock;

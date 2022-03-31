@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -4430,7 +4430,7 @@ The function \b USART_TxBreak verifies Break signaling:
 
 \note This test is not executed if any of the following settings are selected:
  - Test Mode <b>Loopback</b>
- - Tests Default Mode <b>Asynchronous/Single-wire/IrDA</b>
+ - Tests Default Mode <b>Synchronous Master/Slave</b>
 */
 void USART_TxBreak (void) {
 

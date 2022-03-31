@@ -65,6 +65,12 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev4</td>
+      <td>
+        - Minor update to USART driver validation (USART_TxBreak test documentation)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev3</td>
       <td>
         - Update validation examples for Espressif ESP32, ESP8266 and WizNet WizFi360

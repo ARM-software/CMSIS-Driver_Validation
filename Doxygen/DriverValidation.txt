@@ -65,6 +65,12 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev6</td>
+      <td>
+        - Add pack version information in Test Report
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev5</td>
       <td>
         - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
@@ -291,7 +297,7 @@ In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as
 Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window.<br>
 Example below shows output result of an SPI driver testing:
 \verbatim
-CMSIS-Driver SPI Test Report   May  4 2020   14:06:23 
+CMSIS-Driver_Validation v3.0.0 CMSIS-Driver SPI Test Report   March  30 2022   13:44:11 
 
 TEST 01: SPI_GetVersion                   
   DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15

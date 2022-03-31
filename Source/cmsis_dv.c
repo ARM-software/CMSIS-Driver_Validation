@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -425,7 +425,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_SPI                /* SPI test group                     */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver SPI Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver SPI Test Report",
   TS_Init_SPI,
   TS_Uninit_SPI,
   TC_List_SPI,
@@ -436,7 +436,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_USART              /* USART test group                   */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver USART Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver USART Test Report",
   TS_Init_USART,
   TS_Uninit_USART,
   TC_List_USART,
@@ -447,7 +447,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_ETH                /* ETH test group                     */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver ETH Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver ETH Test Report",
   NULL,
   NULL,
   TC_List_ETH,
@@ -458,7 +458,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_I2C                /* I2C test group                     */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver I2C (API v2.3) Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver I2C (API v2.3) Test Report",
   NULL,
   NULL,
   TC_List_I2C,
@@ -469,7 +469,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_MCI                /* MCI test group                     */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver MCI Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver MCI Test Report",
   NULL,
   NULL,
   TC_List_MCI,
@@ -480,7 +480,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_USBD               /* USBD test group                    */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver USBD Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver USBD Test Report",
   NULL,
   NULL,
   TC_List_USBD,
@@ -491,7 +491,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_USBH               /* USBH test group                    */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver USBH Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver USBH Test Report",
   NULL,
   NULL,
   TC_List_USBH,
@@ -502,7 +502,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_CAN                /* CAN test group                    */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver CAN Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver CAN Test Report",
   NULL,
   NULL,
   TC_List_CAN,
@@ -513,7 +513,7 @@ TEST_GROUP ts[] = {
 #ifdef  RTE_CMSIS_DV_WIFI               /* WIFI test group                    */
 {
   __FILE__, __DATE__, __TIME__,
-  "CMSIS-Driver WiFi Test Report",
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver WiFi Test Report",
   TS_Init_WiFi,
   TS_Uninit_WiFi,
   TC_List_WiFi,

@@ -7,6 +7,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev9">
+      - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)
+      - Minor update to SPI_Server application (use software controlled Slave Select in Master mode)
+    </release>
     <release version="3.0.0-dev8">
       - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)
     </release>
@@ -208,7 +212,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev8"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev9"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
@@ -220,7 +224,7 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.0" condition="CMSIS Driver Validation SPI">
+    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.1" condition="CMSIS Driver Validation SPI">
       <description>SPI driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */

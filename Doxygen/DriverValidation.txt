@@ -65,6 +65,13 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev9</td>
+      <td>
+        - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)
+        - Minor update to SPI_Server application (use software controlled Slave Select in Master mode)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev8</td>
       <td>
         - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -1178,7 +1178,7 @@ static int32_t SPI_Cmd_SetCom (const char *cmd) {
               spi_com_config_xfer.ss_mode = ARM_SPI_SS_MASTER_UNUSED;
               break;
             case 1:
-              spi_com_config_xfer.ss_mode = ARM_SPI_SS_MASTER_HW_OUTPUT;
+              spi_com_config_xfer.ss_mode = ARM_SPI_SS_MASTER_SW;
               break;
             default:
               ret = EXIT_FAILURE;
@@ -1346,10 +1346,10 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
   }
 
   if ((ret == EXIT_SUCCESS) && 
-      (spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE) && 
-      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW)) {
-    // Only for Slave transfer with Slave Select unused, 
-    // use Software Slave Select and drive it to active state
+     ((spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE)     && 
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW))   ||
+     ((spi_com_config_xfer.mode    == ARM_SPI_MODE_MASTER)    &&
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_MASTER_SW)))  {
     ret = SPI_Com_SS(1U);
   }
 
@@ -1359,10 +1359,10 @@ static int32_t SPI_Cmd_Xfer (const char *cmd) {
   }
 
   if ((ret == EXIT_SUCCESS) && 
-      (spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE) && 
-      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW)) {
-    // Only for Slave transfer with Slave Select unused, 
-    // use Software Slave Select and drive it to inactive state
+     ((spi_com_config_xfer.mode    == ARM_SPI_MODE_SLAVE)     && 
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_SLAVE_SW))   ||
+     ((spi_com_config_xfer.mode == ARM_SPI_MODE_MASTER)       &&
+      (spi_com_config_xfer.ss_mode == ARM_SPI_SS_MASTER_SW)))  {
     ret = SPI_Com_SS(0U);
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -2249,7 +2249,21 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
 #else                                   // If Test Mode Loopback is selected
     if (chk_data != 0U) {               // If transferred content should be checked
       if (operation == OP_TRANSFER) {
-        memset(ptr_cmp_buf, (int32_t)'T', num * DataBitsToBytes(data_bits));
+        memset(ptr_cmp_buf, (int32_t)('T' & ((1U << data_bits) - 1U)), num * DataBitsToBytes(data_bits));
+        if ((data_bits > 8U) && (data_bits < 16U)) {
+          for (i = 1U; i < (num * DataBitsToBytes(data_bits)); i+= DataBitsToBytes(data_bits)) {
+            ptr_cmp_buf[i] = 'T' & ((1U << (data_bits - 8U)) - 1U);
+          }
+        } else if ((data_bits > 16U) && (data_bits < 32U)) {
+          for (i = 2U; i < (num * DataBitsToBytes(data_bits)); i+= DataBitsToBytes(data_bits)) {
+            if (data_bits <= 24U) {
+              ptr_cmp_buf[i  ] = 'T' & ((1U << (data_bits - 16U)) - 1U);
+              ptr_cmp_buf[i+1] = 0U;
+            } else {
+              ptr_cmp_buf[i+1] = 'T' & ((1U << (data_bits - 24U)) - 1U);
+            }
+          }
+        }
         stat = memcmp(ptr_rx_buf, ptr_cmp_buf, num * DataBitsToBytes(data_bits));
         if (stat != 0) {
           // If data received mismatches
@@ -2647,12 +2661,9 @@ The function \b SPI_Data_Bits_1 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_1 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2678,12 +2689,9 @@ The function \b SPI_Data_Bits_2 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_2 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2709,12 +2717,9 @@ The function \b SPI_Data_Bits_3 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_3 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2740,12 +2745,9 @@ The function \b SPI_Data_Bits_4 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_4 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2771,12 +2773,9 @@ The function \b SPI_Data_Bits_5 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_5 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2802,12 +2801,9 @@ The function \b SPI_Data_Bits_6 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_6 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2833,12 +2829,9 @@ The function \b SPI_Data_Bits_7 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_7 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2867,7 +2860,6 @@ The function \b SPI_Data_Bits_8 verifies data exchange:
 */
 void SPI_Data_Bits_8 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2893,12 +2885,9 @@ The function \b SPI_Data_Bits_9 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_9 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2924,12 +2913,9 @@ The function \b SPI_Data_Bits_10 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_10 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2955,12 +2941,9 @@ The function \b SPI_Data_Bits_11 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_11 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -2986,12 +2969,9 @@ The function \b SPI_Data_Bits_12 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_12 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3017,12 +2997,9 @@ The function \b SPI_Data_Bits_13 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_13 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3048,12 +3025,9 @@ The function \b SPI_Data_Bits_14 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_14 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3079,12 +3053,9 @@ The function \b SPI_Data_Bits_15 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_15 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3113,7 +3084,6 @@ The function \b SPI_Data_Bits_16 verifies data exchange:
 */
 void SPI_Data_Bits_16 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsFormatValid()   != EXIT_SUCCESS) {              return; }
   if (IsBitOrderValid() != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3139,12 +3109,9 @@ The function \b SPI_Data_Bits_17 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_17 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3170,12 +3137,9 @@ The function \b SPI_Data_Bits_18 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test not executed
 */
 void SPI_Data_Bits_18 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3201,12 +3165,9 @@ The function \b SPI_Data_Bits_19 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_19 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3232,12 +3193,9 @@ The function \b SPI_Data_Bits_20 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_20 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3263,12 +3221,9 @@ The function \b SPI_Data_Bits_21 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_21 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3294,12 +3249,9 @@ The function \b SPI_Data_Bits_22 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_22 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3325,12 +3277,9 @@ The function \b SPI_Data_Bits_23 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_23 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3384,12 +3333,9 @@ The function \b SPI_Data_Bits_25 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_25 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3415,12 +3361,9 @@ The function \b SPI_Data_Bits_26 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_26 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3446,12 +3389,9 @@ The function \b SPI_Data_Bits_27 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_27 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3477,12 +3417,9 @@ The function \b SPI_Data_Bits_28 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_28 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3508,12 +3445,9 @@ The function \b SPI_Data_Bits_29 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_29 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3539,12 +3473,9 @@ The function \b SPI_Data_Bits_30 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_30 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -3570,12 +3501,9 @@ The function \b SPI_Data_Bits_31 verifies data exchange:
  - with default bit order
  - at default bus speed
  - for default number of data items
-
-\note In Test Mode <b>Loopback</b> this test is not executed
 */
 void SPI_Data_Bits_31 (void) {
 
-  if (IsNotLoopback()   != EXIT_SUCCESS) {              return; }
   if (IsNotFrameTI()    != EXIT_SUCCESS) {              return; }
   if (IsNotFrameMw()    != EXIT_SUCCESS) {              return; }
   if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }

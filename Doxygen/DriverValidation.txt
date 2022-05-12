@@ -65,6 +65,13 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev7</td>
+      <td>
+        - Add support for Arm Cortex-M85 processor based devices
+        - Add support for Arm China Star-MC1 processor based devices
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev6</td>
       <td>
         - Add pack version information in Test Report

@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<package schemaVersion="1.4.9" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
-  <vendor>ARM</vendor>
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
+  <vendor>ARM</vendor>
   <url>http://www.keil.com/pack/</url>
-  <supportContact>http://silver.arm.com/support</supportContact>
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev7">
+      - Add support for Arm Cortex-M85 processor based devices
+      - Add support for Arm China Star-MC1 processor based devices
+    </release>
     <release version="3.0.0-dev6">
       - Add pack version information in Test Report
     </release>
@@ -107,7 +109,7 @@
 
   <conditions>
     <condition id="Cortex-M Device">
-      <description>Cortex-M processor based device: Cortex-M0, Cortex-M0+, Cortex-M1, Cortex-M3, Cortex-M4, Cortex-M7, Cortex-M23, Cortex-M33, SC000 or SC3000</description>
+      <description>Cortex-M processor based device: Cortex-M0/M0+/M1/M3/M4/M7/M23/M33/M35P/M55/M85, ARMV8MBL/ML, Star-MC1, SC000/300</description>
       <accept Dcore="Cortex-M0"/>
       <accept Dcore="Cortex-M0+"/>
       <accept Dcore="Cortex-M1"/>
@@ -118,8 +120,10 @@
       <accept Dcore="Cortex-M33"/>
       <accept Dcore="Cortex-M35P"/>
       <accept Dcore="Cortex-M55"/>
+      <accept Dcore="Cortex-M85"/>
       <accept Dcore="ARMV8MBL"/>
       <accept Dcore="ARMV8MML"/>
+      <accept Dcore="Star-MC1"/>
       <accept Dcore="SC000"/>
       <accept Dcore="SC300"/>
     </condition>
@@ -201,7 +205,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev6"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev7"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

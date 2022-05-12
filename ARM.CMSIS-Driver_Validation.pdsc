@@ -7,6 +7,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev8">
+      - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)
+    </release>
     <release version="3.0.0-dev7">
       - Add support for Arm Cortex-M85 processor based devices
       - Add support for Arm China Star-MC1 processor based devices
@@ -205,7 +208,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev7"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev8"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

@@ -1320,7 +1320,6 @@ static int32_t CmdSetMdm (uint32_t mdm_ctrl, uint32_t delay, uint32_t duration) 
   memset(ptr_tx_buf, 0, CMD_LEN);
   (void)snprintf((char *)ptr_tx_buf, CMD_LEN, "SET MDM %x,%i,%i", mdm_ctrl, delay, duration);
   ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
-  (void)osDelay(10U);
 
   if (ret != EXIT_SUCCESS) {
     TEST_FAIL_MESSAGE("[FAILED] Set modem control on USART Server. Check USART Server! Test aborted!");
@@ -1994,13 +1993,8 @@ void USART_Initialize_Uninitialize (void) {
 
   stat = drv->GetStatus();
 
-  // Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR status
-  TEST_ASSERT(drv->PowerControl (ARM_POWER_LOW) == ARM_DRIVER_ERROR);
-
-  stat = drv->GetStatus();
-
-  // Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_ERROR status
-  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_ERROR);
+  // Call PowerControl(ARM_POWER_LOW) function and assert that it returned status different then ARM_DRIVER_OK
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_LOW) != ARM_DRIVER_OK);
 
   stat = drv->GetStatus();
 
@@ -2012,12 +2006,6 @@ void USART_Initialize_Uninitialize (void) {
 
   // Call Transfer function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->Transfer (ptr_tx_buf, ptr_rx_buf, USART_CFG_DEF_NUM) == ARM_DRIVER_ERROR);
-
-  // Call GetTxCount function and assert that it returned 0
-  TEST_ASSERT(drv->GetTxCount () == 0U);
-
-  // Call GetRxCount function and assert that it returned 0
-  TEST_ASSERT(drv->GetRxCount () == 0U);
 
   // Call Control function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->Control (((USART_CFG_DEF_MODE << ARM_USART_CONTROL_Pos) & ARM_USART_CONTROL_Msk) | ARM_USART_DATA_BITS_8, USART_CFG_DEF_BAUDRATE) == ARM_DRIVER_ERROR);
@@ -2165,12 +2153,6 @@ void USART_PowerControl (void) {
 
   // Call Transfer function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->Transfer (ptr_tx_buf, ptr_rx_buf, USART_CFG_DEF_NUM) == ARM_DRIVER_ERROR);
-
-  // Call GetTxCount function and assert that it returned 0
-  TEST_ASSERT(drv->GetTxCount () == 0U);
-
-  // Call GetRxCount function and assert that it returned 0
-  TEST_ASSERT(drv->GetRxCount () == 0U);
 
   // Call Control function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->Control (((USART_CFG_DEF_MODE << ARM_USART_CONTROL_Pos) & ARM_USART_CONTROL_Msk) | 
@@ -5236,18 +5218,18 @@ void USART_Event_CTS (void) {
   do {
     if (ComConfigDefault() != EXIT_SUCCESS) { break; }
 
+    // Instruct USART Server to drive RTS to active state for 20 ms
+    // RTS line from USART Server should be connected to CTS line on the USART Client (DUT)
+    if (CmdSetMdm(RTS_ON, 10U, 20U) != EXIT_SUCCESS) { break; }
+
     (void)drv->Control(USART_CFG_DEF_MODE_VAL      | 
                        USART_CFG_DEF_DATA_BITS_VAL | 
                        USART_CFG_DEF_PARITY_VAL    | 
                        USART_CFG_DEF_STOP_BITS_VAL | 
-                       ARM_USART_FLOW_CONTROL_NONE , 
+                       ARM_USART_FLOW_CONTROL_CTS  , 
                        USART_CFG_DEF_BAUDRATE);
 
     event = 0;
-
-    // Instruct USART Server to drive RTS to active state for 20 ms
-    // RTS line from USART Server should be connected to CTS line on the USART Client (DUT)
-    if (CmdSetMdm(RTS_ON, 10U, 20U) != EXIT_SUCCESS) { break; }
 
     (void)osDelay(20U);
 

@@ -65,6 +65,12 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev8</td>
+      <td>
+        - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev7</td>
       <td>
         - Add support for Arm Cortex-M85 processor based devices

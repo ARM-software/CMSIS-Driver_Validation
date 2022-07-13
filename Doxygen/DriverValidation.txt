@@ -65,22 +65,29 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev13</td>
+      <td>
+        - Update to SPI_Server on MCBSTM32F400 board (use latest packs)
+        - Update to USART_Server on MCBSTM32F400 board (use latest packs)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev12</td>
       <td>
-      - Minor update to USART_Server application (enable Tx before set break command)
+        - Minor update to USART_Server application (enable Tx before set break command)
       </td>
     </tr>
     <tr>
       <td>V3.0.0-dev11</td>
       <td>
-      - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
+        - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
       </td>
     </tr>
     <tr>
       <td>V3.0.0-dev10</td>
       <td>
-      - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
-        Tx Underflow and Rx Overflow tests not executed in synchronous master mode)
+        - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
+          Tx Underflow and Rx Overflow tests not executed in synchronous master mode)
       </td>
     </tr>
     <tr>

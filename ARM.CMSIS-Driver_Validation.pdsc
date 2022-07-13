@@ -7,6 +7,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev13">
+      - Update to SPI_Server on MCBSTM32F400 board (use latest packs)
+      - Update to USART_Server on MCBSTM32F400 board (use latest packs)
+    </release>
     <release version="3.0.0-dev12">
       - Minor update to USART_Server application (enable Tx before set break command)
     </release>
@@ -222,7 +226,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev12"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev13"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

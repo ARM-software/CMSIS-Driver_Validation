@@ -1116,25 +1116,25 @@ void SPI_DV_Initialize (void) {
   memset(&msg_buf,      0, sizeof(msg_buf));
 
   // Allocate buffers for transmission, reception and comparison
-  // (maximum size is incremented by 4 bytes to ensure that buffer can be aligned to 4 bytes)
+  // (maximum size is incremented by 32 bytes to ensure that buffer can be aligned to 32 bytes)
 
-  ptr_tx_buf_alloc = malloc(SPI_BUF_MAX + 4U);
-  if (((uint32_t)ptr_tx_buf_alloc & 3U) != 0U) {
-    // If allocated memory is not 4 byte aligned, use next 4 byte aligned address for ptr_tx_buf
-    ptr_tx_buf = (uint8_t *)((((uint32_t)ptr_tx_buf_alloc) + 3U) & (~3U));
+  ptr_tx_buf_alloc = malloc(SPI_BUF_MAX + 32U);
+  if (((uint32_t)ptr_tx_buf_alloc & 31U) != 0U) {
+    // If allocated memory is not 32 byte aligned, use next 32 byte aligned address for ptr_tx_buf
+    ptr_tx_buf = (uint8_t *)((((uint32_t)ptr_tx_buf_alloc) + 31U) & (~31U));
   } else {
-    // If allocated memory is 4 byte aligned, use it directly
+    // If allocated memory is 32 byte aligned, use it directly
     ptr_tx_buf = (uint8_t *)ptr_tx_buf_alloc;
   }
-  ptr_rx_buf_alloc = malloc(SPI_BUF_MAX + 4U);
-  if (((uint32_t)ptr_rx_buf_alloc & 3U) != 0U) {
-    ptr_rx_buf = (uint8_t *)((((uint32_t)ptr_rx_buf_alloc) + 3U) & (~3U));
+  ptr_rx_buf_alloc = malloc(SPI_BUF_MAX + 32U);
+  if (((uint32_t)ptr_rx_buf_alloc & 31U) != 0U) {
+    ptr_rx_buf = (uint8_t *)((((uint32_t)ptr_rx_buf_alloc) + 31U) & (~31U));
   } else {
     ptr_rx_buf = (uint8_t *)ptr_rx_buf_alloc;
   }
-  ptr_cmp_buf_alloc = malloc(SPI_BUF_MAX + 4U);
-  if (((uint32_t)ptr_cmp_buf_alloc & 3U) != 0U) {
-    ptr_cmp_buf = (uint8_t *)((((uint32_t)ptr_cmp_buf_alloc) + 3U) & (~3U));
+  ptr_cmp_buf_alloc = malloc(SPI_BUF_MAX + 32U);
+  if (((uint32_t)ptr_cmp_buf_alloc & 31U) != 0U) {
+    ptr_cmp_buf = (uint8_t *)((((uint32_t)ptr_cmp_buf_alloc) + 31U) & (~31U));
   } else {
     ptr_cmp_buf = (uint8_t *)ptr_cmp_buf_alloc;
   }

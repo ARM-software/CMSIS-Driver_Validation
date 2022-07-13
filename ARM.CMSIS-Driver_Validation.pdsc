@@ -7,6 +7,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev11">
+      - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
+    </release>
     <release version="3.0.0-dev10">
       - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
         Tx Underflow and Rx Overflow tests not executed in Synchronous Master mode)
@@ -216,7 +219,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev10"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev11"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
@@ -228,7 +231,7 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.1" condition="CMSIS Driver Validation SPI">
+    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.2" condition="CMSIS Driver Validation SPI">
       <description>SPI driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */

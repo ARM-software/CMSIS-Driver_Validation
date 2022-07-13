@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -28,7 +28,7 @@
 
 #include <stdint.h>
 
-#define USART_SERVER_VER               "1.0.0"
+#define USART_SERVER_VER               "1.0.1"
 
 #define USART_SERVER_STATE_RECEPTION    0
 #define USART_SERVER_STATE_EXECUTION    1

@@ -7,6 +7,9 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev12">
+      - Minor update to USART_Server application (enable Tx before set break command)
+    </release>
     <release version="3.0.0-dev11">
       - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
     </release>
@@ -219,7 +222,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev11"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev12"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

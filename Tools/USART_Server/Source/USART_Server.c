@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -1648,6 +1648,10 @@ static int32_t USART_Cmd_SetBrk (const char *cmd) {
 
   if ((ret == EXIT_SUCCESS) && (delay != 0U)) {
     (void)osDelay(delay);
+  }
+
+  if (ret == EXIT_SUCCESS) {
+    ret = USART_Com_Configure(&usart_com_config_default);
   }
 
   if (ret == EXIT_SUCCESS) {

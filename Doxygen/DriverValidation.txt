@@ -65,6 +65,12 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev12</td>
+      <td>
+      - Minor update to USART_Server application (enable Tx before set break command)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev11</td>
       <td>
       - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)

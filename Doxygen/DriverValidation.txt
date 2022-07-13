@@ -65,6 +65,13 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev10</td>
+      <td>
+      - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
+        Tx Underflow and Rx Overflow tests not executed in synchronous master mode)
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev9</td>
       <td>
         - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)

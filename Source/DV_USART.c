@@ -360,6 +360,7 @@ static int32_t  ServerCheck            (uint32_t mode, uint32_t data_bits, uint3
 static int32_t  IsNotLoopback          (void);
 static int32_t  IsNotSync              (void);
 static int32_t  IsNotAsync             (void);
+static int32_t  IsNotSyncMaster        (void);
 static int32_t  IsNotSingleWire        (void);
 
 static uint32_t DataBitsToBytes        (uint32_t data_bits);
@@ -454,6 +455,25 @@ static int32_t IsNotSync (void) {
   return EXIT_SUCCESS;
 #else
   TEST_MESSAGE("[WARNING] Test not supported for Synchronous Mode! Test not executed!");
+  return EXIT_FAILURE;
+#endif
+}
+
+/*
+  \fn            static int32_t IsNotSyncMaster (void)
+  \brief         Check if Synchronous Master mode is not selected as default mode.
+  \detail        This function is used to skip executing a test if it is not supported 
+                 in Synchronous Master mode.
+  \return        execution status
+                   - EXIT_SUCCESS: Synchronous Master mode is not selected
+                   - EXIT_FAILURE: Synchronous Master mode is selected
+*/
+static int32_t IsNotSyncMaster (void) {
+
+#if (USART_CFG_DEF_MODE != MODE_SYNCHRONOUS_MASTER)
+  return EXIT_SUCCESS;
+#else
+  TEST_MESSAGE("[WARNING] Test not supported for Synchronous Master Mode! Test not executed!");
   return EXIT_FAILURE;
 #endif
 }
@@ -1652,25 +1672,25 @@ void USART_DV_Initialize (void) {
   memset(&msg_buf,        0, sizeof(msg_buf));
 
   // Allocate buffers for transmission, reception and comparison
-  // (maximum size is incremented by 4 bytes to ensure that buffer can be aligned to 4 bytes)
+  // (maximum size is incremented by 32 bytes to ensure that buffer can be aligned to 32 bytes)
 
-  ptr_tx_buf_alloc = malloc(USART_BUF_MAX + 4U);
-  if (((uint32_t)ptr_tx_buf_alloc & 3U) != 0U) {
-    // If allocated memory is not 4 byte aligned, use next 4 byte aligned address for ptr_tx_buf
-    ptr_tx_buf = (uint8_t *)((((uint32_t)ptr_tx_buf_alloc) + 3U) & (~3U));
+  ptr_tx_buf_alloc = malloc(USART_BUF_MAX + 32U);
+  if (((uint32_t)ptr_tx_buf_alloc & 31U) != 0U) {
+    // If allocated memory is not 32 byte aligned, use next 32 byte aligned address for ptr_tx_buf
+    ptr_tx_buf = (uint8_t *)((((uint32_t)ptr_tx_buf_alloc) + 31U) & (~31U));
   } else {
-    // If allocated memory is 4 byte aligned, use it directly
+    // If allocated memory is 32 byte aligned, use it directly
     ptr_tx_buf = (uint8_t *)ptr_tx_buf_alloc;
   }
-  ptr_rx_buf_alloc = malloc(USART_BUF_MAX + 4U);
-  if (((uint32_t)ptr_rx_buf_alloc & 3U) != 0U) {
-    ptr_rx_buf = (uint8_t *)((((uint32_t)ptr_rx_buf_alloc) + 3U) & (~3U));
+  ptr_rx_buf_alloc = malloc(USART_BUF_MAX + 32U);
+  if (((uint32_t)ptr_rx_buf_alloc & 31U) != 0U) {
+    ptr_rx_buf = (uint8_t *)((((uint32_t)ptr_rx_buf_alloc) + 31U) & (~31U));
   } else {
     ptr_rx_buf = (uint8_t *)ptr_rx_buf_alloc;
   }
-  ptr_cmp_buf_alloc = malloc(USART_BUF_MAX + 4U);
-  if (((uint32_t)ptr_cmp_buf_alloc & 3U) != 0U) {
-    ptr_cmp_buf = (uint8_t *)((((uint32_t)ptr_cmp_buf_alloc) + 3U) & (~3U));
+  ptr_cmp_buf_alloc = malloc(USART_BUF_MAX + 32U);
+  if (((uint32_t)ptr_cmp_buf_alloc & 31U) != 0U) {
+    ptr_cmp_buf = (uint8_t *)((((uint32_t)ptr_cmp_buf_alloc) + 31U) & (~31U));
   } else {
     ptr_cmp_buf = (uint8_t *)ptr_cmp_buf_alloc;
   }
@@ -4834,15 +4854,16 @@ The function \b USART_Tx_Underflow verifies signaling of the <b>ARM_USART_EVENT_
 
 it also checks that status tx_underflow flag was activated.
 
-\note If Tests Default Mode <b>Asynchronous/Single-wire/IrDA</b> is selected this test is not executed
+\note If Tests Default Mode <b>Asynchronous/Synchronous Master/Single-wire/IrDA</b> is selected this test is not executed
 */
 void USART_Tx_Underflow (void) {
 
-  if (IsNotLoopback() != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (IsNotLoopback()   != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #if  (USART_SERVER_USED == 1)
-  if (IsNotAsync()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
-  if (DriverInit()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
-  if (SettingsCheck   (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (IsNotAsync()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (IsNotSyncMaster() != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (SettingsCheck     (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 
   do {
     if (ComConfigDefault() != EXIT_SUCCESS) { break; }
@@ -4893,13 +4914,16 @@ The function \b USART_Rx_Overflow verifies signaling of the <b>ARM_USART_EVENT_R
  - at default baudrate
 
 it also checks that status rx_overflow flag was activated.
+
+\note If Tests Default Mode <b>Synchronous Master</b> is selected this test is not executed
 */
 void USART_Rx_Overflow (void) {
 
-  if (IsNotLoopback() != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (IsNotLoopback()   != EXIT_SUCCESS) { TEST_FAIL(); return; }
 #if  (USART_SERVER_USED == 1)
-  if (DriverInit()    != EXIT_SUCCESS) { TEST_FAIL(); return; }
-  if (SettingsCheck   (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (IsNotSyncMaster() != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (DriverInit()      != EXIT_SUCCESS) { TEST_FAIL(); return; }
+  if (SettingsCheck     (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }
 
   do {
     if (ComConfigDefault() != EXIT_SUCCESS) { break; }

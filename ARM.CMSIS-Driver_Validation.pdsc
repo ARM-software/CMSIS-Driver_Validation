@@ -7,6 +7,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev10">
+      - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
+        Tx Underflow and Rx Overflow tests not executed in Synchronous Master mode)
+    </release>
     <release version="3.0.0-dev9">
       - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)
       - Minor update to SPI_Server application (use software controlled Slave Select in Master mode)
@@ -212,7 +216,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev9"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev10"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

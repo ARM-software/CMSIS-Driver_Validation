@@ -7,7 +7,7 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="3.0.0-rc0">
+    <release version="3.0.0-rc1">
       - Rework USART driver validation (introduced USART_Server)
       - Add USART_Server application for Keil MCBSTM32F400 evaluation board
       - Add USART_Server application for STM32F429I-DISC1 board

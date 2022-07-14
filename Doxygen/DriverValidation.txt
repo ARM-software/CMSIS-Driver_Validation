@@ -65,124 +65,22 @@ Revision History
     </tr>
 
     <tr>
-      <td>V3.0.0-dev14</td>
-      <td>
-        - Add SPI_Server application for STM32F429I-DISC1 board
-        - Add USART_Server application for STM32F429I-DISC1 board
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev13</td>
-      <td>
-        - Update to SPI_Server on MCBSTM32F400 board (use latest packs)
-        - Update to USART_Server on MCBSTM32F400 board (use latest packs)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev12</td>
-      <td>
-        - Minor update to USART_Server application (enable Tx before set break command)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev11</td>
-      <td>
-        - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev10</td>
-      <td>
-        - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
-          Tx Underflow and Rx Overflow tests not executed in synchronous master mode)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev9</td>
-      <td>
-        - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)
-        - Minor update to SPI_Server application (use software controlled Slave Select in Master mode)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev8</td>
-      <td>
-        - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev7</td>
-      <td>
-        - Add support for Arm Cortex-M85 processor based devices
-        - Add support for Arm China Star-MC1 processor based devices
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev6</td>
-      <td>
-        - Add pack version information in Test Report
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev5</td>
-      <td>
-        - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev4</td>
-      <td>
-        - Minor update to USART driver validation (USART_TxBreak test documentation)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev3</td>
-      <td>
-        - Update validation examples for Espressif ESP32, ESP8266 and WizNet WizFi360
-        - Add SockServer application for IMXRT1050-EVKB
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev2</td>
-      <td>
-        - Minor update of WiFi Driver non-blocking mode tests
-        - Update examples
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev1</td>
-      <td>
-        - Add WiFi Driver tests (socket functions in non-blocking mode)
-        - Update examples (WiFi Driver related)
-      </td>
-    </tr>
-    <tr>
-      <td>V3.0.0-dev0</td>
+      <td>V3.0.0</td>
       <td>
         - Rework USART driver validation (introduced USART_Server)
         - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+        - Add USART_Server application for STM32F429I-DISC1 board
+        - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
+        - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
+        - Add SPI_Server application for STM32F429I-DISC1 board
+        - Add WiFi Driver tests (socket functions in non-blocking mode)
+        - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
+        - Add SockServer application for IMXRT1050-EVKB
+        - Add pack version information in Test Report
+        - Add support for Arm Cortex-M85 processor based devices
+        - Add support for Arm China Star-MC1 processor based devices
         - Update examples
         - Update documentation
-      </td>
-    </tr>
-    <tr>
-      <td>V2.0.1-dev2</td>
-      <td>
-        - Minor update to SPI driver validation documentation
-        - Minor update to SPI_Server
-      </td>
-    </tr>
-    <tr>
-      <td>V2.0.1-dev1</td>
-      <td>
-        - Improved robustness of SPI Driver testing
-        - Improved robustness of SPI Server
-      </td>
-    </tr>
-    <tr>
-      <td>V2.0.1-dev0</td>
-      <td>
-        - Minor update to SPI Driver testing
       </td>
     </tr>
     <tr>

@@ -7,72 +7,21 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="3.0.0-dev14">
-      - Add SPI_Server application for STM32F429I-DISC1 board
-      - Add USART_Server application for STM32F429I-DISC1 board
-    </release>
-    <release version="3.0.0-dev13">
-      - Update to SPI_Server on MCBSTM32F400 board (use latest packs)
-      - Update to USART_Server on MCBSTM32F400 board (use latest packs)
-    </release>
-    <release version="3.0.0-dev12">
-      - Minor update to USART_Server application (enable Tx before set break command)
-    </release>
-    <release version="3.0.0-dev11">
-      - Minor update to SPI driver validation (data buffers aligned to 32 bytes for DMA testing)
-    </release>
-    <release version="3.0.0-dev10">
-      - Minor update to USART driver validation (data buffers aligned to 32 bytes for DMA testing, 
-        Tx Underflow and Rx Overflow tests not executed in Synchronous Master mode)
-    </release>
-    <release version="3.0.0-dev9">
-      - Minor update to SPI driver validation (enable Data Bits tests in loopback mode)
-      - Minor update to SPI_Server application (use software controlled Slave Select in Master mode)
-    </release>
-    <release version="3.0.0-dev8">
-      - Minor update to USART driver validation (corrected RTS/CTS tests, less strict Initialize/Uninitialize and PowerControl tests)
-    </release>
-    <release version="3.0.0-dev7">
-      - Add support for Arm Cortex-M85 processor based devices
-      - Add support for Arm China Star-MC1 processor based devices
-    </release>
-    <release version="3.0.0-dev6">
-      - Add pack version information in Test Report
-    </release>
-    <release version="3.0.0-dev5">
-      - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
-    </release>
-    <release version="3.0.0-dev4">
-      - Minor update to USART driver validation (USART_TxBreak test documentation)
-    </release>
-    <release version="3.0.0-dev3">
-      - Update validation examples for Espressif ESP32, ESP8266 and WizNet WizFi360
-      - Add SockServer application for IMXRT1050-EVKB
-    </release>
-    <release version="3.0.0-dev2">
-      - Minor update of WiFi Driver non-blocking mode tests
-      - Update examples
-    </release>
-    <release version="3.0.0-dev1">
-      - Add WiFi Driver tests (socket functions in non-blocking mode)
-      - Update examples (WiFi Driver related)
-    </release>
-    <release version="3.0.0-dev0">
+    <release version="3.0.0-rc0">
       - Rework USART driver validation (introduced USART_Server)
       - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+      - Add USART_Server application for STM32F429I-DISC1 board
+      - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
+      - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
+      - Add SPI_Server application for STM32F429I-DISC1 board
+      - Add WiFi Driver tests (socket functions in non-blocking mode)
+      - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
+      - Add SockServer application for IMXRT1050-EVKB
+      - Add pack version information in Test Report
+      - Add support for Arm Cortex-M85 processor based devices
+      - Add support for Arm China Star-MC1 processor based devices
       - Update examples
       - Update documentation
-    </release>
-    <release version="2.0.1-dev2">
-      - Minor update to SPI driver validation documentation
-      - Minor update to SPI_Server
-    </release>
-    <release version="2.0.1-dev1">
-      - Improved robustness of SPI Driver testing
-      - Improved robustness of SPI Server
-    </release>
-    <release version="2.0.1-dev0">
-      - Minor update to SPI Driver testing
     </release>
     <release version="2.0.0" date="2020-07-15">
       - Remove bundle from components
@@ -230,7 +179,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev14"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

@@ -1,4 +1,4 @@
-This is an USART Server application for the Keil MCBSTM32F400 evaluation board.
+This is an USART Server application for the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board.
 The application executes commands sent from the USART Client over the 
 USART interface and is used to physically test compliance of the USART driver 
 with the CMSIS USART driver specification from version 2.0.0 upwards.
@@ -32,21 +32,17 @@ Settings configurable in the USART_Server_Config.h file:
 
 Hardware configuration of the USART Server (peripheral USART1 is used):
    Function:      Pin:
-   TX             PB6
-   RX             PB7
+   TX             PA9
+   RX             PA10
    CK             PA8
    CTS            PA11
    RTS            PA12
-   DCD test pin   PA9
-   RI test pin    PA10
+   DCD test pin   PA13
+   RI test pin    PA14
    GND            any ground connection on the board
 
 Note: In Single-wire mode Tx pin is used for both transmit and receive working 
       in half-duplex mode
-
-Note: On this board there is DB9 connector with routed USART1, just take care 
-      of jumpers J13 (TX1-TX3/4) and J14 (RX1-RX3/4) position
-      (IMPORTANT: on board version V1.1 these jumpers are mislabeled)
 
 Note: USART pins are MCU pins before RS232 level shifter.
 
@@ -156,7 +152,7 @@ USART Server responses to commands:
                  - bit 0.:  CTS line current state
                  - bit 1.:  DSR line current state
 
-The USART Server for the Keil MCBSTM32F400 board is available for different targets:
+The USART Server for the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board is available for different targets:
  - Release: target with high optimization and no User Interface
  - Debug:   target with low optimization and User Interface (GLCD, LED)
 

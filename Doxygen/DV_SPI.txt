@@ -183,13 +183,11 @@ Problems and solutions:
     - insure if possible that SCK and GND wires are a twisted pair
     - insure that SPI driver in inactive mode does not drive Slave Select line
 
-\section spi_server_MCBSTM32F400 SPI Server on the Keil MCBSTM32F400
+\section spi_server_MCBSTM32F400 SPI Server on the Keil MCBSTM32F400 board
 
-SPI Server is currently available for the <b>Keil MCBSTM32F400</b> evaluation board.
+µVision project and source files for the MCBSTM32F400 board are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\MCBSTM32F400</b> directory.
 
-µVision project and source files are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\MCBSTM32F400</b> directory.
-
-On the Keil MCBSTM32F400 the <b>SPI2</b> interface is used, with the following pinout:
+On the Keil MCBSTM32F400 board the <b>SPI2</b> interface is used, with the following pinout:
 
 | SPI function                     | Pin    |
 | :------------------------------- | :----: |
@@ -204,5 +202,26 @@ so that SPI signals have same ground potential.
 For more information please consult <b>Abstract.txt</b> file in the project root.
 
 \note SPI Server on the Keil MCBSTM32F400 does not support National Semiconductor Microwire Frame Format.
+
+
+\section spi_server_STM32F429I_DISC1 SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board
+
+µVision project and source files for the STM32F429I-DISC1 board are available in the <c>\<pack root directory\></c><b>\\Tools\\SPI_Server\\Board\\STM32F429I-DISC1</b> directory.
+
+On the STMicroelectronics STM32F429I-DISC1 board the <b>SPI1</b> interface is used, with the following pinout:
+
+| SPI function                     | Pin    |
+| :------------------------------- | :----: |
+| SPI Clock                        | PA5    |
+| Master Output Slave Input (MOSI) | PA7    |
+| Master Input Slave Output (MISO) | PB4    |
+| Slave Select                     | PA15   |
+
+\note IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test 
+so that SPI signals have same ground potential.
+
+For more information please consult <b>Abstract.txt</b> file in the project root.
+
+\note SPI Server on the STMicroelectronics STM32F429I-DISC1 does not support National Semiconductor Microwire Frame Format.
 
 */

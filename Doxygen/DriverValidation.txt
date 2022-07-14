@@ -65,6 +65,13 @@ Revision History
     </tr>
 
     <tr>
+      <td>V3.0.0-dev14</td>
+      <td>
+        - Add SPI_Server application for STM32F429I-DISC1 board
+        - Add USART_Server application for STM32F429I-DISC1 board
+      </td>
+    </tr>
+    <tr>
       <td>V3.0.0-dev13</td>
       <td>
         - Update to SPI_Server on MCBSTM32F400 board (use latest packs)

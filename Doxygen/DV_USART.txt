@@ -196,9 +196,7 @@ Problems and solutions:
 
 \section usart_server_MCBSTM32F400 USART Server on the Keil MCBSTM32F400
 
-USART Server is currently available for the <b>Keil MCBSTM32F400</b> evaluation board.
-
-µVision project and source files are available in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Board\\MCBSTM32F400</b> directory.
+µVision project and source files for the MCBSTM32F400 board are available in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Board\\MCBSTM32F400</b> directory.
 
 On the Keil MCBSTM32F400 the <b>USART1</b> interface is used, with the following pinout:
 
@@ -211,6 +209,31 @@ On the Keil MCBSTM32F400 the <b>USART1</b> interface is used, with the following
 | RTS            | PA12   |
 | DCD test pin   | PA9    |
 | RI test pin    | PA10   |
+
+\note IMPORTANT: Ground must be connected between USART Server and Device (Driver) Under Test 
+so that USART signals have same ground potential.
+
+For more information please consult <b>Abstract.txt</b> file in the project root.
+
+\note For synchronous mode testing this device's hardware supports only synchronous Master mode, 
+so it can only be used for testing synchronous Slave mode of the Driver Under Test.
+
+
+\section usart_server_STM32F429I_DISC1 USART Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board
+
+µVision project and source files for the STM32F429I-DISC1 board are available in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Board\\STM32F429I-DISC1</b> directory.
+
+On the STMicroelectronics STM32F429I-DISC1 board the <b>USART1</b> interface is used, with the following pinout:
+
+| USART function | Pin    |
+| :------------- | :----: |
+| Tx             | PA9    |
+| Rx             | PA10   |
+| CLK (synchro)  | PA8    |
+| CTS            | PA11   |
+| RTS            | PA12   |
+| DCD test pin   | PA13   |
+| RI test pin    | PA14   |
 
 \note IMPORTANT: Ground must be connected between USART Server and Device (Driver) Under Test 
 so that USART signals have same ground potential.

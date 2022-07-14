@@ -7,6 +7,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0-dev14">
+      - Add SPI_Server application for STM32F429I-DISC1 board
+      - Add USART_Server application for STM32F429I-DISC1 board
+    </release>
     <release version="3.0.0-dev13">
       - Update to SPI_Server on MCBSTM32F400 board (use latest packs)
       - Update to USART_Server on MCBSTM32F400 board (use latest packs)
@@ -226,7 +230,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev13"
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0-dev14"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />

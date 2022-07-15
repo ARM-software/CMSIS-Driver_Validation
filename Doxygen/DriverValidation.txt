@@ -11,6 +11,7 @@ The CMSIS-Driver Validation is used to validate the driver implementation compli
 The CMSIS-Driver Validation provides:
   - Configurable validation tests for various CMSIS-Driver interfaces
   - Example projects that show the usage of the CMSIS-Driver Validation
+  - Various Servers used for testing
 
 The CMSIS-Driver Validation tests and verifies:
   - <b>API interface</b> using the driver capabilities as well as valid and invalid parameters
@@ -18,7 +19,7 @@ The CMSIS-Driver Validation tests and verifies:
     - <b>Loopback testing</b> (for some interfaces) for testing of the underlying hardware with usage of a local loopback
     - <b>Server testing</b> (for some interfaces) for extensive testing of the underlying hardware with usage of a dedicated Server
   - <b>Transfer speed</b> of the data communication with time measurement of data transfer duration
-  - <b>Error event</b> signaling in error conditions
+  - <b>Event</b> signaling
 
 The CMSIS-Driver Validation requires
 <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
@@ -47,6 +48,8 @@ The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_usbh  "USB Host"   - Universal Serial Bus (USB) Host interface driver.
   - \ref dv_wifi  "WiFi"       - WiFi (Wireless Fidelity Interface) module/shield driver.
 
+\note Extensive testing using dedicated Server is available for SPI and USART drivers.
+
 This manual assumes that you are familiar with MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
 
@@ -59,6 +62,26 @@ Revision History
     <tr>
       <th>Version</th>
       <th>Description</th>
+    </tr>
+
+    <tr>
+      <td>V3.0.0</td>
+      <td>
+        - Rework USART driver validation (introduced USART_Server)
+        - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+        - Add USART_Server application for STM32F429I-DISC1 board
+        - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
+        - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
+        - Add SPI_Server application for STM32F429I-DISC1 board
+        - Add WiFi Driver tests (socket functions in non-blocking mode)
+        - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
+        - Add SockServer application for IMXRT1050-EVKB
+        - Add pack version information in Test Report
+        - Add support for Arm Cortex-M85 processor based devices
+        - Add support for Arm China Star-MC1 processor based devices
+        - Update examples
+        - Update documentation
+      </td>
     </tr>
     <tr>
       <td>V2.0.0</td>
@@ -225,7 +248,7 @@ In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as
 Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window.<br>
 Example below shows output result of an SPI driver testing:
 \verbatim
-CMSIS-Driver SPI Test Report   May  4 2020   14:06:23 
+CMSIS-Driver_Validation v3.0.0 CMSIS-Driver SPI Test Report   March  30 2022   13:44:11 
 
 TEST 01: SPI_GetVersion                   
   DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15
@@ -299,7 +322,7 @@ Test Result: PASSED
 /**
 \page report Report
 
-The CMSIS-Driver Validation can output the test report in a <b>Plain Text</b> format or as an <b>XML</b> formatted output.<br>
+The CMSIS-Driver Validation can output the test report in a <b>Plain Text</b> format or as an <b>XML</b> formatted file.<br>
 Selection of the output report type is done in the <b>DV_Config.h</b> configuration file.
 
 \image html dv_config_h.png "Configuration file DV_Config.h in Configuration Wizard view mode"
@@ -367,13 +390,18 @@ By Inspecting the details in previous report it is clear that <c>TEST 03: SPI_In
 on multiple assertions.<br>
 Each failed assertion is recorded as a single  line in the test report.<br>
 The failed assert information in the output report contains additional information about the <b>source module</b> and <b>line</b> 
-in that module where the assertion is located as well as any optional additional debugging info.
+in that module where the assertion is located with additional debugging info if available.
 
 The documentation can be consulted regarding the failed function, for example in previous case 
 documentation on the \ref SPI_Initialize_Uninitialize can be consulted.
 
 Main way of fixing the driver consists of opening reported file mentioned as failed and inspecting the 
 line in which failure was reported.
+
+If there are many failures, it is recommended to deselect all tests except first failing one 
+so it is easier to focus on just that failure.
+Also, selecting only first failing test removes potential clutter from following failing tests that 
+are all failing due to same cause.
 
 In the previous report, opening <b>DV_SPI.c</b> module (available in the project) and inspecting the <b>1106</b> line 
 which states:
@@ -417,7 +445,7 @@ of the 25 executed tests have passed.
 
 This report could be used as an insurance that the SPI Driver on this device is compliant to the CMSIS-Driver specification.
 
-The TestReport.xml report created instead of Plain Text opened in a Web browser looks like on the picture below:
+The TestReport.xml report created instead of Plain Text opened in a Web browser looks similar to the the picture below:
 
 \image html xml_report.png "XML test report"
 
@@ -442,7 +470,7 @@ Each interface test module has specific requirements for the heap memory, defaul
 | CAN                     | 128                                |
 | Ethernet                | 1024                               |
 | SPI                     | 12288                              |
-| USART                   | 2048                               |
+| USART                   | 8192                               |
 
 Interface test modules that are not listed in the previous table do not use heap memory.
 

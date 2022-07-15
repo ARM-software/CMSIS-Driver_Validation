@@ -58,7 +58,7 @@
 // <o> WiFi thread stack size [bytes] <96-1073741824:8>
 // <i> Defines stack size for the WiFi Thread.
 // <i> Default: 512
-#define WIFI_ESP8266_THREAD_STACK_SIZE      512
+#define WIFI_ESP8266_THREAD_STACK_SIZE      1024
 
 // <o> Socket buffer block size <128-16384:128>
 // <i> Defines the size of one memory block used for socket data buffering.

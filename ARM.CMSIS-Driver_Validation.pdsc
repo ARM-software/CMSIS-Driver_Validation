@@ -1,14 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<package schemaVersion="1.4.9" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
-  <vendor>ARM</vendor>
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
+  <vendor>ARM</vendor>
   <url>http://www.keil.com/pack/</url>
-  <supportContact>http://silver.arm.com/support</supportContact>
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.0" date="2022-07-14">
+      - Rework USART driver validation (introduced USART_Server)
+      - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+      - Add USART_Server application for STM32F429I-DISC1 board
+      - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
+      - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
+      - Add SPI_Server application for STM32F429I-DISC1 board
+      - Add WiFi Driver tests (socket functions in non-blocking mode)
+      - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
+      - Add SockServer application for IMXRT1050-EVKB
+      - Add pack version information in Test Report
+      - Add support for Arm Cortex-M85 processor based devices
+      - Add support for Arm China Star-MC1 processor based devices
+      - Update examples
+      - Update documentation
+    </release>
     <release version="2.0.0" date="2020-07-15">
       - Remove bundle from components
       - Change configuration from single file to a file per component
@@ -69,7 +83,7 @@
 
   <conditions>
     <condition id="Cortex-M Device">
-      <description>Cortex-M processor based device: Cortex-M0, Cortex-M0+, Cortex-M1, Cortex-M3, Cortex-M4, Cortex-M7, Cortex-M23, Cortex-M33, SC000 or SC3000</description>
+      <description>Cortex-M processor based device: Cortex-M0/M0+/M1/M3/M4/M7/M23/M33/M35P/M55/M85, ARMV8MBL/ML, Star-MC1, SC000/300</description>
       <accept Dcore="Cortex-M0"/>
       <accept Dcore="Cortex-M0+"/>
       <accept Dcore="Cortex-M1"/>
@@ -80,8 +94,10 @@
       <accept Dcore="Cortex-M33"/>
       <accept Dcore="Cortex-M35P"/>
       <accept Dcore="Cortex-M55"/>
+      <accept Dcore="Cortex-M85"/>
       <accept Dcore="ARMV8MBL"/>
       <accept Dcore="ARMV8MML"/>
+      <accept Dcore="Star-MC1"/>
       <accept Dcore="SC000"/>
       <accept Dcore="SC300"/>
     </condition>
@@ -162,6 +178,9 @@
   <components>
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
+      <RTE_Components_h>
+        #define RTE_CMSIS_DV_PACK_VER   "3.0.0"
+      </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
         <file category="include" name="Include/"/>
@@ -172,14 +191,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.0.0" condition="CMSIS Driver Validation SPI">
+    <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cversion="2.1.2" condition="CMSIS Driver Validation SPI">
       <description>SPI driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_SPI        /* Driver Validation SPI enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__spi.html" />
-        <file category="header" name="Config/DV_SPI_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_SPI_Config.h" attr="config" version = "1.1.0"/>
         <file category="source" name="Source/DV_SPI.c"/>
       </files>
     </component>
@@ -196,14 +215,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cversion="1.4.0" condition="CMSIS Driver Validation USART">
+    <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cversion="2.0.0" condition="CMSIS Driver Validation USART">
       <description>USART driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_USART      /* Driver Validation USART enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__usart.html" />
-        <file category="header" name="Config/DV_USART_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_USART_Config.h" attr="config" version = "2.0.0"/>
         <file category="source" name="Source/DV_USART.c"/>
       </files>
     </component>
@@ -268,14 +287,14 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.5.0" condition="CMSIS Driver Validation WiFi">
+    <component Cclass="CMSIS Driver Validation" Cgroup="WiFi" Cversion="1.6.1" condition="CMSIS Driver Validation WiFi">
       <description>WiFi driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_WIFI       /* Driver Validation WiFi enabled */
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__wifi.html" />
-        <file category="header" name="Config/DV_WiFi_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_WiFi_Config.h" attr="config" version = "1.1.0"/>
         <file category="source" name="Source/DV_WIFI.c"/>
       </files>
     </component>

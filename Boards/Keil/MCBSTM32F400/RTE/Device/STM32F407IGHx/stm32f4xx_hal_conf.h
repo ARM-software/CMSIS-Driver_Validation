@@ -10,7 +10,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2017-2018 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017-2020 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -119,6 +119,9 @@
 #endif
 #ifdef RTE_DEVICE_HAL_I2C
 #define HAL_I2C_MODULE_ENABLED
+#endif
+#ifdef RTE_DEVICE_HAL_SMBUS
+#define HAL_SMBUS_MODULE_ENABLED
 #endif
 #ifdef RTE_DEVICE_HAL_I2S
 #define HAL_I2S_MODULE_ENABLED
@@ -479,6 +482,10 @@
 #ifdef HAL_I2C_MODULE_ENABLED
  #include "stm32f4xx_hal_i2c.h"
 #endif /* HAL_I2C_MODULE_ENABLED */
+
+#ifdef HAL_SMBUS_MODULE_ENABLED
+ #include "stm32f4xx_hal_smbus.h"
+#endif /* HAL_SMBUS_MODULE_ENABLED */
 
 #ifdef HAL_I2S_MODULE_ENABLED
  #include "stm32f4xx_hal_i2s.h"

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -116,20 +116,63 @@ extern void SPI_Abort (void);
 extern void SPI_DataLost (void);
 extern void SPI_ModeFault (void);
 
+extern void USART_DV_Initialize (void);
+extern void USART_DV_Uninitialize (void);
+extern void USART_GetVersion (void);
 extern void USART_GetCapabilities (void);
-extern void USART_Initialization (void);
+extern void USART_Initialize_Uninitialize (void);
 extern void USART_PowerControl (void);
-extern void USART_Config_PolarityPhase (void);
-extern void USART_Config_DataBits (void);
-extern void USART_Config_StopBits (void);
-extern void USART_Config_Parity (void);
-extern void USART_Config_CommonParams (void);
-extern void USART_Config_Baudrate (void);
-extern void USART_Send (void);
-extern void USART_AsynchronousReceive (void);
-extern void USART_Loopback_CheckBaudrate (void);
-extern void USART_Loopback_Transfer (void);
-extern void USART_CheckInvalidInit (void);
+extern void USART_Mode_Asynchronous (void);
+extern void USART_Mode_Synchronous_Master (void);
+extern void USART_Mode_Synchronous_Slave (void);
+extern void USART_Mode_Single_Wire (void);
+extern void USART_Mode_IrDA (void);
+extern void USART_Data_Bits_5 (void);
+extern void USART_Data_Bits_6 (void);
+extern void USART_Data_Bits_7 (void);
+extern void USART_Data_Bits_8 (void);
+extern void USART_Data_Bits_9 (void);
+extern void USART_Parity_None (void);
+extern void USART_Parity_Even (void);
+extern void USART_Parity_Odd (void);
+extern void USART_Stop_Bits_1 (void);
+extern void USART_Stop_Bits_2 (void);
+extern void USART_Stop_Bits_1_5 (void);
+extern void USART_Stop_Bits_0_5 (void);
+extern void USART_Flow_Control_None (void);
+extern void USART_Flow_Control_RTS (void);
+extern void USART_Flow_Control_CTS (void);
+extern void USART_Flow_Control_RTS_CTS (void);
+extern void USART_Clock_Pol0_Pha0 (void);
+extern void USART_Clock_Pol0_Pha1 (void);
+extern void USART_Clock_Pol1_Pha0 (void);
+extern void USART_Clock_Pol1_Pha1 (void);
+extern void USART_Baudrate_Min (void);
+extern void USART_Baudrate_Max (void);
+extern void USART_Number_Of_Items (void);
+extern void USART_GetTxCount (void);
+extern void USART_GetRxCount (void);
+extern void USART_GetTxRxCount (void);
+extern void USART_AbortSend (void);
+extern void USART_AbortReceive (void);
+extern void USART_AbortTransfer (void);
+extern void USART_TxBreak (void);
+extern void USART_Modem_RTS (void);
+extern void USART_Modem_DTR (void);
+extern void USART_Modem_CTS (void);
+extern void USART_Modem_DSR (void);
+extern void USART_Modem_DCD (void);
+extern void USART_Modem_RI (void);
+extern void USART_Tx_Underflow (void);
+extern void USART_Rx_Overflow (void);
+extern void USART_Rx_Timeout (void);
+extern void USART_Rx_Break (void);
+extern void USART_Rx_Framing_Error (void);
+extern void USART_Rx_Parity_Error (void);
+extern void USART_Event_CTS (void);
+extern void USART_Event_DSR (void);
+extern void USART_Event_DCD (void);
+extern void USART_Event_RI (void);
 
 extern void ETH_MAC_GetCapabilities (void);
 extern void ETH_MAC_Initialization (void);
@@ -205,9 +248,13 @@ extern void WIFI_SocketCreate (void);
 extern void WIFI_SocketBind (void);
 extern void WIFI_SocketListen (void);
 extern void WIFI_SocketAccept (void);
+extern void WIFI_SocketAccept_nbio (void);
 extern void WIFI_SocketConnect (void);
+extern void WIFI_SocketConnect_nbio (void);
 extern void WIFI_SocketRecv (void);
+extern void WIFI_SocketRecv_nbio (void);
 extern void WIFI_SocketRecvFrom (void);
+extern void WIFI_SocketRecvFrom_nbio (void);
 extern void WIFI_SocketSend (void);
 extern void WIFI_SocketSendTo (void);
 extern void WIFI_SocketGetSockName (void);

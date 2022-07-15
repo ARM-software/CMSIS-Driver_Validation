@@ -17,7 +17,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * $Revision:   V1.0.0
+ * $Revision:   V1.1.0
  *
  * Project:     CMSIS-Driver Validation
  * Title:       WiFi driver validation configuration file
@@ -201,12 +201,20 @@
 #define WIFI_SOCKETLISTEN_EN            1
 // <q> WIFI_SocketAccept
 #define WIFI_SOCKETACCEPT_EN            1
+// <q> WIFI_SocketAccept_nbio
+#define WIFI_SOCKETACCEPT_NBIO_EN       0
 // <q> WIFI_SocketConnect
 #define WIFI_SOCKETCONNECT_EN           1
+// <q> WIFI_SocketConnect_nbio
+#define WIFI_SOCKETCONNECT_NBIO_EN      0
 // <q> WIFI_SocketRecv
 #define WIFI_SOCKETRECV_EN              1
+// <q> WIFI_SocketRecv_nbio
+#define WIFI_SOCKETRECV_NBIO_EN         0
 // <q> WIFI_SocketRecvFrom
 #define WIFI_SOCKETRECVFROM_EN          1
+// <q> WIFI_SocketRecvFrom_nbio
+#define WIFI_SOCKETRECVFROM_NBIO_EN     0
 // <q> WIFI_SocketSend
 #define WIFI_SOCKETSEND_EN              1
 // <q> WIFI_SocketSendTo
@@ -260,7 +268,7 @@
 // Configuration settings of test values for Set/GetOptions
 // BSSID
 #define WIFI_BSSID_STA                  "1E-30-6C-A2-45-5E"
-#define WIFI_BSSID_AP                   "1E-30-6C-A2-45-5E"
+#define WIFI_BSSID_AP                   "1E-31-6C-A2-45-5E"
 // Radio transmitting power in dBm
 #define WIFI_TX_POWER_STA               16
 #define WIFI_TX_POWER_AP                16
@@ -273,16 +281,16 @@
 #define WIFI_BEACON_AP                  2000
 // Ethernet MAC Address in text representation
 #define WIFI_MAC_STA                    "1E-30-6C-A2-45-5E"
-#define WIFI_MAC_AP                     "1E-30-6C-A2-45-5E"
+#define WIFI_MAC_AP                     "1E-31-6C-A2-45-5E"
 // Static IPv4 Address in text representation
-#define WIFI_IP_STA                     "192.168.0.100"
-#define WIFI_IP_AP                      "192.168.0.100"
+#define WIFI_IP_STA                     "192.168.1.100"
+#define WIFI_IP_AP                      "192.168.2.100"
 // Local Subnet mask in text representation
 #define WIFI_IP_SUBNET_MASK_STA         "255.255.255.0"
 #define WIFI_IP_SUBNET_MASK_AP          "255.255.255.0"
 // IP Address of Default Gateway in text representation
-#define WIFI_IP_GATEWAY_STA             "192.168.0.254"
-#define WIFI_IP_GATEWAY_AP              "192.168.0.254"
+#define WIFI_IP_GATEWAY_STA             "192.168.1.1"
+#define WIFI_IP_GATEWAY_AP              "192.168.2.1"
 // IP Address of Primary DNS Server in text representation
 #define WIFI_IP_DNS1_STA                "8.8.8.8"
 #define WIFI_IP_DNS1_AP                 "8.8.8.8"
@@ -290,9 +298,9 @@
 #define WIFI_IP_DNS2_STA                "8.8.4.4"
 #define WIFI_IP_DNS2_AP                 "8.8.4.4"
 // IP Address of DHCP server pool beginning in text representation
-#define WIFI_IP_DHCP_POOL_BEGIN_AP      "192.168.0.100"
+#define WIFI_IP_DHCP_POOL_BEGIN_AP      "192.168.2.150"
 // IP Address of DHCP server pool end in text representation
-#define WIFI_IP_DHCP_POOL_END_AP        "192.168.0.200"
+#define WIFI_IP_DHCP_POOL_END_AP        "192.168.2.200"
 // DHCP lease time value in seconds
 #define WIFI_IP_DHCP_LEASE_TIME_AP      2880
 

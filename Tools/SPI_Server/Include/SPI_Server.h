@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2022 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -28,7 +28,7 @@
 
 #include <stdint.h>
 
-#define SPI_SERVER_VER                 "1.0.0"
+#define SPI_SERVER_VER                 "1.1.2"
 
 #define SPI_SERVER_STATE_RECEPTION      0
 #define SPI_SERVER_STATE_EXECUTION      1

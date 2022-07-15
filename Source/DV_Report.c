@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -32,14 +32,16 @@
 #define FLUSH()  MsgFlush()
 
 /* Local functions */
-static void tr_Init  (void);
-static void tr_Uninit(void);
-static void tg_Init  (const char *title, const char *date, const char *time, const char *fn);
-static void tg_Uninit(void);
-static void tc_Init  (uint32_t num, const char *fn);
-static void tc_Uninit(void);
-static void tc_Detail(const char *module, uint32_t line, const char *message);
-static void as_Result(TC_RES res);
+static void tr_Init    (void);
+static void tr_Uninit  (void);
+static void tg_Init    (const char *title, const char *date, const char *time, const char *fn);
+static void tg_Info    (const char *info);
+static void tg_InfoDone(void);
+static void tg_Uninit  (void);
+static void tc_Init    (uint32_t num, const char *fn);
+static void tc_Detail  (const char *module, uint32_t line, const char *message);
+static void tc_Uninit  (void);
+static void as_Result  (TC_RES res);
 
 static void MsgPrint (const char *msg, ...);
 static void MsgFlush (void);
@@ -49,11 +51,13 @@ REPORT_ITF ritf = {                     /* Structure for report interface     */
   tr_Init,
   tr_Uninit,
   tg_Init,
+  tg_Info,
+  tg_InfoDone,
   tg_Uninit,
   tc_Init,
-  tc_Uninit,
   tc_Detail,
-  as_Result
+  tc_Uninit,
+  as_Result,
 };
 
 /* Local variables */
@@ -127,10 +131,33 @@ static void tg_Init (const char *title, const char *date, const char *time, cons
   PRINT(("<time>%s</time>\n",   time));
   PRINT(("<file>%s</file>\n",   fn));
   PRINT(("<group>%i</group>\n", test_group_result.idx));
-  PRINT(("<test_cases>\n"));
+  PRINT(("<info>\n"));
 #else
   (void) fn;
   PRINT(("%s   %s   %s \n\n", title, date, time));
+#endif  
+}
+
+/*-----------------------------------------------------------------------------
+ * Write test group info
+ *----------------------------------------------------------------------------*/
+static void tg_Info (const char *info) {
+
+  PRINT(("%s", info));
+  PRINT(("\n"));
+#if (PRINT_XML_REPORT==0)
+  PRINT(("\n"));
+#endif
+}
+
+/*-----------------------------------------------------------------------------
+ * Test group info done
+ *----------------------------------------------------------------------------*/
+static void tg_InfoDone (void) {
+
+#if (PRINT_XML_REPORT==1)
+  PRINT(("</info>\n"));
+  PRINT(("<test_cases>\n"));
 #endif  
 }
 
@@ -187,6 +214,32 @@ static void tc_Init (uint32_t num, const char *fn) {
 }
 
 /*-----------------------------------------------------------------------------
+ * Write test detail
+ *----------------------------------------------------------------------------*/
+static void tc_Detail (const char *module, uint32_t line, const char *message) {
+  const char *module_no_path;
+
+  module_no_path = no_path (module);
+
+  as_detail = 1U;
+
+#if (PRINT_XML_REPORT==1) 
+  PRINT(("<detail>\n"));
+  PRINT(("<module>%s</module>\n", module_no_path));
+  PRINT(("<line>%d</line>\n",     line));
+  if (message != NULL) {
+    PRINT(("<message>%s</message>\n", message));
+  }
+  PRINT(("</detail>\n"));
+#else
+  PRINT(("\n  %s (%d)", module_no_path, line));
+  if (message != NULL) {
+    PRINT((": %s", message));
+  }
+#endif
+}
+
+/*-----------------------------------------------------------------------------
  * Uninit test
  *----------------------------------------------------------------------------*/
 static void tc_Uninit (void) {
@@ -218,32 +271,6 @@ static void tc_Uninit (void) {
 }
 
 /*-----------------------------------------------------------------------------
- * Write test detail
- *----------------------------------------------------------------------------*/
-static void tc_Detail (const char *module, uint32_t line, const char *message) {
-  const char *module_no_path;
-
-  module_no_path = no_path (module);
-
-  as_detail = 1U;
-
-#if (PRINT_XML_REPORT==1) 
-  PRINT(("<detail>\n"));
-  PRINT(("<module>%s</module>\n", module_no_path));
-  PRINT(("<line>%d</line>\n",     line));
-  if (message != NULL) {
-    PRINT(("<message>%s</message>\n", message));
-  }
-  PRINT(("</detail>\n"));
-#else
-  PRINT(("\n  %s (%d)", module_no_path, line));
-  if (message != NULL) {
-    PRINT((": %s", message));
-  }
-#endif
-}
-
-/*-----------------------------------------------------------------------------
  * Assertion result registering
  *----------------------------------------------------------------------------*/
 static void as_Result (TC_RES res) {
@@ -254,6 +281,16 @@ static void as_Result (TC_RES res) {
     as_failed++;
   } else {
     // Do nothing
+  }
+}
+
+/*-----------------------------------------------------------------------------
+ * Add info line to group info
+ *----------------------------------------------------------------------------*/
+void __tg_info (const char *info) {
+
+  if (info != NULL) {
+    tg_Info(info);
   }
 }
 

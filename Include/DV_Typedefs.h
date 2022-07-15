@@ -58,8 +58,11 @@ typedef unsigned int    BOOL;
 
 #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
 
+/* Test group info macro */
+#define TEST_GROUP_INFO(info)                   __tg_info (info)
+
 /* Test macros */
-#define TEST_FAIL()                             TEST_FAIL_MESSAGE("[FAILED]")
+#define TEST_FAIL()                             TEST_FAIL_MESSAGE(NULL)
 #define TEST_FAIL_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, FAILED)
 #define TEST_PASS()                             TEST_PASS_MESSAGE(NULL)
 #define TEST_PASS_MESSAGE(message)              __set_result (__FILE__, __LINE__, message, PASSED)

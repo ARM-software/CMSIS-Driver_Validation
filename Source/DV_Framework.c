@@ -86,14 +86,17 @@ void cmsis_dv (void *argument) {
 
     for (i = 0U; i < tg_cnt; i++) {
 
-      if (ts[i].Init != NULL) {
-        ts[i].Init();                   /* Init test group (group setup)      */
-      }
                                         /* Init test group report             */
       ritf.tg_Init(ts[i].ReportTitle,   /* Write test group title             */
                    ts[i].Date,          /* Write test group compilation date  */
                    ts[i].Time,          /* Write test group compilation time  */
                    ts[i].FileName);     /* Write test group module file name  */
+
+      if (ts[i].Init != NULL) {
+        ts[i].Init();                   /* Init test group (group setup)      */
+      }
+
+      ritf.tg_InfoDone();               /* Test group info done               */
 
       /* Execute all tests in a group */
       for (tc = 0U; tc < ts[i].NumOfTC; tc++) {

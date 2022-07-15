@@ -17,7 +17,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * $Revision:   V1.0.0
+ * $Revision:   V1.1.0
  *
  * Project:     CMSIS-Driver Validation
  * Title:       WiFi driver validation configuration file
@@ -201,12 +201,20 @@
 #define WIFI_SOCKETLISTEN_EN            1
 // <q> WIFI_SocketAccept
 #define WIFI_SOCKETACCEPT_EN            1
+// <q> WIFI_SocketAccept_nbio
+#define WIFI_SOCKETACCEPT_NBIO_EN       1
 // <q> WIFI_SocketConnect
 #define WIFI_SOCKETCONNECT_EN           1
+// <q> WIFI_SocketConnect_nbio
+#define WIFI_SOCKETCONNECT_NBIO_EN      1
 // <q> WIFI_SocketRecv
 #define WIFI_SOCKETRECV_EN              1
+// <q> WIFI_SocketRecv_nbio
+#define WIFI_SOCKETRECV_NBIO_EN         1
 // <q> WIFI_SocketRecvFrom
 #define WIFI_SOCKETRECVFROM_EN          1
+// <q> WIFI_SocketRecvFrom_nbio
+#define WIFI_SOCKETRECVFROM_NBIO_EN     1
 // <q> WIFI_SocketSend
 #define WIFI_SOCKETSEND_EN              1
 // <q> WIFI_SocketSendTo

@@ -13,5 +13,6 @@ var searchData=
   ['msg_5fbuf',['msg_buf',['../_d_v___w_i_f_i_8c.html#ae4623dbd5a508d53c880bbd91ac94e75',1,'DV_WIFI.c']]],
   ['msgflush',['MsgFlush',['../_d_v___report_8c.html#a4f84dfc600aac34cb931972b5e3bcb1a',1,'DV_Report.c']]],
   ['msgprint',['MsgPrint',['../_d_v___report_8c.html#aceb59c281096f40ab2bf466b01fe6f85',1,'DV_Report.c']]],
+  ['modem_20lines',['Modem Lines',['../group__usart__tests__modem.html',1,'']]],
   ['management',['Management',['../group__wifi__mgmt.html',1,'']]]
 ];

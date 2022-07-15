@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -83,7 +83,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_vars.html"><span>Variables</span></a></li>
-      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -128,7 +127,7 @@ $(document).ready(function(){initNavTree('globals_b.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -141,21 +140,16 @@ $(document).ready(function(){initNavTree('globals_b.html','');});
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
-<li>buf_t
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#aa8189083f7b0155f28e74c3326553341">DV_USART.c</a>
-</li>
 <li>buffer
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a9b13d2f64cc611d63eac79b3494bedc7">DV_WIFI.c</a>
 </li>
 <li>buffer_in
-: <a class="el" href="_d_v___e_t_h_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_ETH.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#a339cfe6a8f6f1e3d52f8fb835c4c4380">DV_USART.c</a>
-, <a class="el" href="_d_v___c_a_n_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_CAN.c</a>
+: <a class="el" href="_d_v___c_a_n_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_CAN.c</a>
+, <a class="el" href="_d_v___e_t_h_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_ETH.c</a>
 </li>
 <li>buffer_out
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a65b511a972d6aacfb71bb97f7c6480a0">DV_USART.c</a>
+: <a class="el" href="_d_v___c_a_n_8c.html#aafb2b93e2fdfe9864fc6988e29c9a345">DV_CAN.c</a>
 , <a class="el" href="_d_v___e_t_h_8c.html#aafb2b93e2fdfe9864fc6988e29c9a345">DV_ETH.c</a>
-, <a class="el" href="_d_v___c_a_n_8c.html#aafb2b93e2fdfe9864fc6988e29c9a345">DV_CAN.c</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -163,7 +157,7 @@ $(document).ready(function(){initNavTree('globals_b.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

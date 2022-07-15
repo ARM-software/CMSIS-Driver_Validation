@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('debugging.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -136,9 +136,10 @@ Test Result: FAILED
 </pre><p>From previous report it is clear that one test function has failed.<br/>
  By Inspecting the details in previous report it is clear that <code>TEST 03: SPI_Initialize_Uninitialize</code> has failed on multiple assertions.<br/>
  Each failed assertion is recorded as a single line in the test report.<br/>
- The failed assert information in the output report contains additional information about the <b>source module</b> and <b>line</b> in that module where the assertion is located as well as any optional additional debugging info.</p>
+ The failed assert information in the output report contains additional information about the <b>source module</b> and <b>line</b> in that module where the assertion is located with additional debugging info if available.</p>
 <p>The documentation can be consulted regarding the failed function, for example in previous case documentation on the <a class="el" href="group__spi__tests__drv__mgmt.html#ga1f84a363466cd780fcbc4cc0747cefec">SPI_Initialize_Uninitialize</a> can be consulted.</p>
 <p>Main way of fixing the driver consists of opening reported file mentioned as failed and inspecting the line in which failure was reported.</p>
+<p>If there are many failures, it is recommended to deselect all tests except first failing one so it is easier to focus on just that failure. Also, selecting only first failing test removes potential clutter from following failing tests that are all failing due to same cause.</p>
 <p>In the previous report, opening <b><a class="el" href="_d_v___s_p_i_8c.html">DV_SPI.c</a></b> module (available in the project) and inspecting the <b>1106</b> line which states: </p>
 <pre class="fragment">  // Driver is uninitialized and peripheral is powered-off:
   // Call PowerControl(ARM_POWER_FULL) function and assert that it returned ARM_DRIVER_ERROR status
@@ -164,7 +165,7 @@ Test Summary: 56 Tests, 25 Passed, 0 Failed.
 Test Result: PASSED
 </pre><p>The fix for the assertion failing in line 1106 has also fixed subsequent assertions in lines 1109 and 1112 thus the driver now reports no failed tests and reports that all of the 25 executed tests have passed.</p>
 <p>This report could be used as an insurance that the SPI Driver on this device is compliant to the CMSIS-Driver specification.</p>
-<p>The TestReport.xml report created instead of Plain Text opened in a Web browser looks like on the picture below:</p>
+<p>The TestReport.xml report created instead of Plain Text opened in a Web browser looks similar to the the picture below:</p>
 <div class="image">
 <img src="xml_report.png" alt="xml_report.png"/>
 <div class="caption">
@@ -174,7 +175,7 @@ XML test report</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:10 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:08 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

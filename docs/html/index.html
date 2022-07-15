@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,6 +119,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <ul>
 <li>Configurable validation tests for various CMSIS-Driver interfaces</li>
 <li>Example projects that show the usage of the CMSIS-Driver Validation</li>
+<li>Various Servers used for testing</li>
 </ul>
 <p>The CMSIS-Driver Validation tests and verifies:</p>
 <ul>
@@ -129,7 +130,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 </ul>
 </li>
 <li><b>Transfer speed</b> of the data communication with time measurement of data transfer duration</li>
-<li><b>Error event</b> signaling in error conditions</li>
+<li><b>Event</b> signaling</li>
 </ul>
 <p>The CMSIS-Driver Validation requires <a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.<br/>
 </p>
@@ -158,12 +159,33 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li><a class="el" href="group__dv__usbh.html">USB Host</a> - Universal Serial Bus (USB) Host interface driver.</li>
 <li><a class="el" href="group__dv__wifi.html">WiFi</a> - WiFi (Wireless Fidelity Interface) module/shield driver.</li>
 </ul>
+<dl class="section note"><dt>Note</dt><dd>Extensive testing using dedicated Server is available for SPI and USART drivers.</dd></dl>
 <p>This manual assumes that you are familiar with MDK. Refer to <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.</p>
 <hr/>
 <h2>Revision History </h2>
 <table  class="cmtable" summary="Revision History">
 <tr>
-<th>Version </th><th>Description  </th></tr>
+<th>Version </th><th><p class="starttd">Description </p>
+<p class="endtd"></p>
+</th></tr>
+<tr>
+<td>V3.0.0 </td><td><ul>
+<li>Rework USART driver validation (introduced USART_Server)</li>
+<li>Add USART_Server application for Keil MCBSTM32F400 evaluation board</li>
+<li>Add USART_Server application for STM32F429I-DISC1 board</li>
+<li>Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)</li>
+<li>Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)</li>
+<li>Add SPI_Server application for STM32F429I-DISC1 board</li>
+<li>Add WiFi Driver tests (socket functions in non-blocking mode)</li>
+<li>Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)</li>
+<li>Add SockServer application for IMXRT1050-EVKB</li>
+<li>Add pack version information in Test Report</li>
+<li>Add support for Arm Cortex-M85 processor based devices</li>
+<li>Add support for Arm China Star-MC1 processor based devices</li>
+<li>Update examples</li>
+<li>Update documentation   </li>
+</ul>
+</td></tr>
 <tr>
 <td>V2.0.0 </td><td><ul>
 <li>Remove bundle from components</li>
@@ -216,7 +238,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

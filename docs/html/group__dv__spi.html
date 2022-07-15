@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__dv__spi.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -130,14 +130,23 @@ Content</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <p>The SPI validation performs the following tests:</p>
 <ul>
-<li>API interface compliance.</li>
-<li>Data exchange with various speeds, transfer sizes and communication settings.</li>
-<li>Error event signaling.</li>
+<li>API interface compliance</li>
+<li>Data exchange with various speeds, transfer sizes and communication settings</li>
+<li>Event signaling</li>
 </ul>
 <p>Two Test Modes are available: <b>Loopback</b> and <b>SPI Server</b>.</p>
 <h2>Test Mode : <b>Loopback</b> </h2>
 <p>This test mode allows only limited validation of the SPI Driver.<br/>
  It is recommended that this test mode is used only as a proof that driver is good enough to be tested with the <b>SPI Server</b>.</p>
+<p>For this purpose following <b>Default settings</b> should be used:</p>
+<ul>
+<li>Slave Select: Not used</li>
+<li>Clock / Frame Format: Clock Polarity 0, Clock Phase 0</li>
+<li>Data Bits: 8</li>
+<li>Bit Order: MSB to LSB</li>
+<li>Bus Speed: same as setting for the SPI Server</li>
+<li>Number of Items: 32</li>
+</ul>
 <p>To enable this mode of testing in the <b>DV_SPI_Config.h</b> configuration file select the <b>Configuration: Test Mode: Loopback</b> setting.</p>
 <p>Required pin connection for the <b>Loopback</b> test mode:</p>
 <div class="image">
@@ -150,7 +159,7 @@ Content</h2></td></tr>
 <li>data content sent by the Send function</li>
 <li>clock / frame format and bit order settings</li>
 <li>data bit settings other then: 8, 16, 24 and 32</li>
-<li>error event signaling</li>
+<li>event signaling</li>
 </ul>
 </dd></dl>
 <h2>Test Mode : <b>SPI Server</b> </h2>
@@ -162,12 +171,22 @@ Content</h2></td></tr>
 <div class="image">
 <img src="spi_server_pin_connections.png" alt="spi_server_pin_connections.png"/>
 </div>
- </div><!-- contents -->
+<dl class="section note"><dt>Note</dt><dd>Slave Select line has to be pulled to Vcc by an external pull-up (for example 10 kOhm). </dd>
+<dd>
+To ensure proper signal quality:<ul>
+<li>keep the connecting wires as short as possible</li>
+<li>if possible have SCK and GND wires as a twisted pair and MISO, MOSI and Slave Select wires separate from each other</li>
+<li>ensure a good Ground (GND) connection between SPI Server and DUT </li>
+</ul>
+</dd>
+<dd>
+If you experience issues with corrupt data content try reducing bus speed. </dd></dl>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

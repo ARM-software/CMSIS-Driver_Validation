@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__dv__usart.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,26 +122,87 @@ $(document).ready(function(){initNavTree('group__dv__usart.html','');});
 Content</h2></td></tr>
 <tr class="memitem:group__usart__config"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usart__config.html">Configuration</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__usart__server"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usart__server.html">USART Server</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__usart__tests"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usart__tests.html">Tests</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<p>The USART validation test performs the following checks:</p>
+<p>The USART validation performs the following tests:</p>
 <ul>
-<li>API interface compliance.</li>
-<li>Data communication with various transfer sizes and communication parameters.</li>
-<li>Transfer speed of the data communication.</li>
-<li>Loopback communication.</li>
+<li>API interface compliance</li>
+<li>Data exchange with various speeds, transfer sizes and communication settings</li>
+<li>Modem lines operation</li>
+<li>Event signaling</li>
 </ul>
-<p><a class="anchor" id="usart_loop_back_setup"></a></p>
-<h2>Loopback Communication Setup </h2>
-<p>To perform loopback communication tests, it is required to connect the USART's <b>TX</b> signal to the <b>RX</b> signal (refer to the schematics of your target hardware for detailed pinout information). </p>
+<p>Two Test Modes are available: <b>Loopback</b> and <b>USART Server</b>.</p>
+<h2>Test Mode : <b>Loopback</b> </h2>
+<p>This test mode allows only limited validation of the USART Driver.<br/>
+ It is recommended that this test mode is used only as a proof that driver is good enough to be tested with the <b>USART Server</b>.</p>
+<p>For this purpose following <b>Default settings</b> should be used:</p>
+<ul>
+<li>Mode: Asynchronous</li>
+<li>Data Bits: 8</li>
+<li>Parity: None</li>
+<li>Stop Bits: 1</li>
+<li>Flow control: No</li>
+<li>Clock Polarity: Clock Polarity 0</li>
+<li>Clock Phase: Clock Phase 0</li>
+<li>Baudrate: 115200</li>
+<li>Number of Items: 32</li>
+</ul>
+<p>To enable this mode of testing in the <b>DV_USART_Config.h</b> configuration file select the <b>Configuration: Test Mode: Loopback</b> setting.</p>
+<p>Required pin connection for the <b>Loopback</b> test mode:</p>
+<div class="image">
+<img src="usart_loopback_pin_connections.png" alt="usart_loopback_pin_connections.png"/>
+</div>
+<dl class="section note"><dt>Note</dt><dd>In this mode following operations / settings cannot be tested:<ul>
+<li>synchronous slave or single-wire modes</li>
+<li>operation of the Receive function</li>
+<li>data content sent by the Send function</li>
+<li>parity, stop bits, flow control, clock polarity / phase settings</li>
+<li>data bit settings other then 8</li>
+<li>modem lines operation</li>
+<li>event signaling</li>
+</ul>
+</dd></dl>
+<p><a class="anchor" id="usart_server_con"></a> </p>
+<h2>Test Mode : <b>USART Server</b> </h2>
+<p>This test mode allows extensive validation of the USART Driver.<br/>
+ Results of the Driver Validation in this test mode are relevant as a proof of driver compliance to the CMSIS-Driver specification.</p>
+<p>To perform extensive communication tests, it is required to use an <a class="el" href="group__usart__server.html">USART Server</a> running on a dedicated hardware.</p>
+<p>To enable this mode of testing in the <b>DV_USART_Config.h</b> configuration file select the <b>Configuration: Test Mode: USART Server</b> setting.</p>
+<p>Required pin connections for the <b>USART Server</b> test mode with <b>USART Server Mode</b>: <b>Asynchronous</b> or <b>IrDa</b></p>
+<dl class="section note"><dt>Note</dt><dd>Only necessary pin connections are Tx, Rx and GND. Flow control (RTS, CTS), modem lines (DSR, DTR, DCD, RI) and synchronous clock (CLK) line are optional and depend on pin availability and driver support for flow control, modem lines and synchronous mode. </dd>
+<dd>
+For stable idle level on Rx lines, external pull-ups can be added.</dd></dl>
+<div class="image">
+<img src="usart_server_pin_connections_async.png" alt="usart_server_pin_connections_async.png"/>
+</div>
+<p>Required pin connections for the <b>USART Server</b> test mode with <b>USART Server Mode</b>: <b>Single-wire</b></p>
+<div class="image">
+<img src="usart_server_pin_connections_single_wire.png" alt="usart_server_pin_connections_single_wire.png"/>
+</div>
+<dl class="section note"><dt>Note</dt><dd>Asynchronous and IrDa modes use same connection type and Single-wire uses a different connection. </dd>
+<dd>
+Please ensure that correct connection is used as required by tests otherwise damage to hardware may occur (For example using Asynchronous mode selected with hardware connected for Single-wire tests can result in damaged pins). </dd>
+<dd>
+In this mode Tx and Rx pins are internally connected together. </dd>
+<dd>
+Tx pin should use open-drain setting in this mode to prevent damage in case of simultaneous driving from both USART Server and USART Client.</dd>
+<dd>
+To ensure proper signal quality:<ul>
+<li>keep the connecting wires as short as possible</li>
+<li>if possible keep Tx and Rx wires wires separate from each other</li>
+<li>ensure a good Ground (GND) connection between USART Server and DUT </li>
+</ul>
+</dd></dl>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

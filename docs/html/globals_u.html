@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -83,7 +83,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_vars.html"><span>Variables</span></a></li>
-      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -128,7 +127,7 @@ $(document).ready(function(){initNavTree('globals_u.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -141,71 +140,170 @@ $(document).ready(function(){initNavTree('globals_u.html','');});
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
-<li>USART_AsynchronousReceive()
-: <a class="el" href="group__usart__tests.html#ga6907170284f1c45f4f6704afe01e4aa0">DV_USART.c</a>
+<li>USART_AbortReceive()
+: <a class="el" href="group__usart__tests__data__xchg.html#gabe19044aa011dbed4c6cbd9ec231d19d">DV_USART.c</a>
 </li>
-<li>USART_BR
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#ae1b8a3d7093b409faf9cd6c1aa169f41">DV_USART.c</a>
+<li>USART_AbortSend()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga1da0965cefb89ef5dc8d8808956f5b1b">DV_USART.c</a>
 </li>
-<li>USART_BR_NUM
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a5e802bd4033a9f2da64c71e4bd26b280">DV_USART.c</a>
+<li>USART_AbortTransfer()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga64f02f32c9ef693029bfa803482b547b">DV_USART.c</a>
 </li>
-<li>USART_CheckInvalidInit()
-: <a class="el" href="group__usart__tests.html#gadb3e1918ab2aac3c8a28d6a603488e8a">DV_USART.c</a>
+<li>USART_Baudrate_Max()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga2f49cdc91fc6531f35c2cde38a557a17">DV_USART.c</a>
 </li>
-<li>USART_Config_Baudrate()
-: <a class="el" href="group__usart__tests.html#ga3e6af6ace166713e88f523d665fa6d39">DV_USART.c</a>
+<li>USART_Baudrate_Min()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaccd6bc4a56a3ab6fbf9c6d6b530c7202">DV_USART.c</a>
 </li>
-<li>USART_Config_CommonParams()
-: <a class="el" href="group__usart__tests.html#gaf4c3918278da03f94da21244f4cec142">DV_USART.c</a>
+<li>USART_Clock_Pol0_Pha0()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaf8563c0c1128aeed7fe7643ffa77b3f4">DV_USART.c</a>
 </li>
-<li>USART_Config_DataBits()
-: <a class="el" href="group__usart__tests.html#gafc98cb544a20459f9a58adbde5a27a7e">DV_USART.c</a>
+<li>USART_Clock_Pol0_Pha1()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga64a7101eda6dd294032cdf5a72dd3509">DV_USART.c</a>
 </li>
-<li>USART_Config_Parity()
-: <a class="el" href="group__usart__tests.html#gaab9c0670a7bc93d2fd657217199af546">DV_USART.c</a>
+<li>USART_Clock_Pol1_Pha0()
+: <a class="el" href="group__usart__tests__data__xchg.html#gabc613495ab6ac148bcbc99702113b9c4">DV_USART.c</a>
 </li>
-<li>USART_Config_PolarityPhase()
-: <a class="el" href="group__usart__tests.html#ga7f9dbbda7a2b84f125e63c6a0143be73">DV_USART.c</a>
+<li>USART_Clock_Pol1_Pha1()
+: <a class="el" href="group__usart__tests__data__xchg.html#gac0b3616acf95a85d23bfc047df4ce9d7">DV_USART.c</a>
 </li>
-<li>USART_Config_StopBits()
-: <a class="el" href="group__usart__tests.html#ga45e429b4e17d4de6d3f730e94ef8b870">DV_USART.c</a>
+<li>USART_Data_Bits_5()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga7dc236e9d399ff1c93896cfc650c845c">DV_USART.c</a>
 </li>
-<li>USART_DrvEvent()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a8e3585a4889f0cfd3bad5fd0a36bbf57">DV_USART.c</a>
+<li>USART_Data_Bits_6()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga0df6875d13894722f7cf0ec1b0a939e3">DV_USART.c</a>
+</li>
+<li>USART_Data_Bits_7()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga42d833bfdb763bff0d8ed0a12f54eb7d">DV_USART.c</a>
+</li>
+<li>USART_Data_Bits_8()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga4ccfb8b8f0224cca9f9bd3a424c03774">DV_USART.c</a>
+</li>
+<li>USART_Data_Bits_9()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga2541ffd0a83ab5b81cb073522e55f595">DV_USART.c</a>
+</li>
+<li>USART_Event_CTS()
+: <a class="el" href="group__usart__tests__evt.html#gacc6aa5751e84afcbd94040dc52d5b709">DV_USART.c</a>
+</li>
+<li>USART_Event_DCD()
+: <a class="el" href="group__usart__tests__evt.html#gad7fcd4c6f5a53d269815cb6f6e5cbebd">DV_USART.c</a>
+</li>
+<li>USART_Event_DSR()
+: <a class="el" href="group__usart__tests__evt.html#ga3e2a5108116429cb0955069f0d38a1ce">DV_USART.c</a>
+</li>
+<li>USART_Event_RI()
+: <a class="el" href="group__usart__tests__evt.html#gaba27808feeaadde10d8808c4d2cae7d7">DV_USART.c</a>
+</li>
+<li>USART_Flow_Control_CTS()
+: <a class="el" href="group__usart__tests__data__xchg.html#gad839e76bc28cdb61ad3ef1dcab57e3d7">DV_USART.c</a>
+</li>
+<li>USART_Flow_Control_None()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga040fc63fefda65b125e0b9e3062822c1">DV_USART.c</a>
+</li>
+<li>USART_Flow_Control_RTS()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga3c719e1bdcbd69c8613b2a89e7a79547">DV_USART.c</a>
+</li>
+<li>USART_Flow_Control_RTS_CTS()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga4c1b72a89e0abe8ede1106a5485d40b7">DV_USART.c</a>
 </li>
 <li>USART_GetCapabilities()
-: <a class="el" href="group__usart__tests.html#ga037e730d991dec7457bb6c772591b030">DV_USART.c</a>
+: <a class="el" href="group__usart__tests__drv__mgmt.html#ga037e730d991dec7457bb6c772591b030">DV_USART.c</a>
 </li>
-<li>USART_Initialization()
-: <a class="el" href="group__usart__tests.html#gae1c6617f165812d2422674f85b7d44ea">DV_USART.c</a>
+<li>USART_GetRxCount()
+: <a class="el" href="group__usart__tests__data__xchg.html#gab78672a5404ab60f8ebb1e610c847ba2">DV_USART.c</a>
 </li>
-<li>USART_Loopback_CheckBaudrate()
-: <a class="el" href="group__usart__tests.html#ga9dcba9495e1082c6318a98a8cc5196b9">DV_USART.c</a>
+<li>USART_GetTxCount()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga3ff5d3780bbb363536222e4fca5b3c41">DV_USART.c</a>
 </li>
-<li>USART_Loopback_Transfer()
-: <a class="el" href="group__usart__tests.html#ga5dee14ea9298374730032cbed51bf7e1">DV_USART.c</a>
+<li>USART_GetTxRxCount()
+: <a class="el" href="group__usart__tests__data__xchg.html#gab6eb6ea3fe53a824129824eaa2a8b326">DV_USART.c</a>
+</li>
+<li>USART_GetVersion()
+: <a class="el" href="group__usart__tests__drv__mgmt.html#ga0dab21ba670a410575aec5fcd97b4a93">DV_USART.c</a>
+</li>
+<li>USART_Initialize_Uninitialize()
+: <a class="el" href="group__usart__tests__drv__mgmt.html#gae1bab8095aea7b1c0c0abb233ea91ffa">DV_USART.c</a>
+</li>
+<li>USART_Mode_Asynchronous()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga99441c905042bdd393396dc24d20611f">DV_USART.c</a>
+</li>
+<li>USART_Mode_IrDA()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga7f3eb12f69da8ea1f39c7ba4a06c45c7">DV_USART.c</a>
+</li>
+<li>USART_Mode_Single_Wire()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga4d28be85064db81463314ea332933f62">DV_USART.c</a>
+</li>
+<li>USART_Mode_Synchronous_Master()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaa036d2407d3cc773977c1d0b646b9a79">DV_USART.c</a>
+</li>
+<li>USART_Mode_Synchronous_Slave()
+: <a class="el" href="group__usart__tests__data__xchg.html#gab9b59802f1b640f02909d57fd0c3c1b2">DV_USART.c</a>
+</li>
+<li>USART_Modem_CTS()
+: <a class="el" href="group__usart__tests__modem.html#ga6ab22a98d9bef10ccd58bff4e94b4350">DV_USART.c</a>
+</li>
+<li>USART_Modem_DCD()
+: <a class="el" href="group__usart__tests__modem.html#gab19547540abded2590d7efa711421412">DV_USART.c</a>
+</li>
+<li>USART_Modem_DSR()
+: <a class="el" href="group__usart__tests__modem.html#ga04c80400d9de1edef38a16af1e7fd5f8">DV_USART.c</a>
+</li>
+<li>USART_Modem_DTR()
+: <a class="el" href="group__usart__tests__modem.html#gabf6c1692de52ec101858a7b0cf6574e4">DV_USART.c</a>
+</li>
+<li>USART_Modem_RI()
+: <a class="el" href="group__usart__tests__modem.html#gae5200c9dcf53d3334befe998a87b1705">DV_USART.c</a>
+</li>
+<li>USART_Modem_RTS()
+: <a class="el" href="group__usart__tests__modem.html#ga0746601c514854d9ea909d35ae79bbbb">DV_USART.c</a>
+</li>
+<li>USART_Number_Of_Items()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga89c83e2ced0a9e285c24f0bab4388f79">DV_USART.c</a>
+</li>
+<li>USART_Parity_Even()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga8cea79c99e749456878ee3dfb4c55b17">DV_USART.c</a>
+</li>
+<li>USART_Parity_None()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaa7247efc5b87eb2a7f938464deaf91dd">DV_USART.c</a>
+</li>
+<li>USART_Parity_Odd()
+: <a class="el" href="group__usart__tests__data__xchg.html#gace3b1ed76c768face637f32d970e719d">DV_USART.c</a>
 </li>
 <li>USART_PowerControl()
-: <a class="el" href="group__usart__tests.html#ga6230d1a7f159dd1ffbb68cc3f24af71c">DV_USART.c</a>
+: <a class="el" href="group__usart__tests__drv__mgmt.html#ga6230d1a7f159dd1ffbb68cc3f24af71c">DV_USART.c</a>
 </li>
-<li>USART_RunReceive()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#add519f1f89cfe90a1487d5f5da0a946a">DV_USART.c</a>
+<li>USART_Rx_Break()
+: <a class="el" href="group__usart__tests__evt.html#gaa4d06e13022ba73a4193c3e965f86bfd">DV_USART.c</a>
 </li>
-<li>USART_RunReceive_NoCallback()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a67cbf8274dfe98a8329b85d2f49e36cc">DV_USART.c</a>
+<li>USART_Rx_Framing_Error()
+: <a class="el" href="group__usart__tests__evt.html#gaec06574b7447ff206d9e78dfb3b838d7">DV_USART.c</a>
 </li>
-<li>USART_RunSend()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a55c569e3d8b0ce0efd1da0719eddf58f">DV_USART.c</a>
+<li>USART_Rx_Overflow()
+: <a class="el" href="group__usart__tests__evt.html#ga76e437f50e04cbea1b354c8c7cf644b9">DV_USART.c</a>
 </li>
-<li>USART_RunSend_NoCallback()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a5321dc9183825ddab4f5fda14619a691">DV_USART.c</a>
+<li>USART_Rx_Parity_Error()
+: <a class="el" href="group__usart__tests__evt.html#ga6a43986b62dc241094b4fa0c1a72b79e">DV_USART.c</a>
 </li>
-<li>USART_RunTransfer()
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#affacb6dca29a4326344ce0383faaa842">DV_USART.c</a>
+<li>USART_Rx_Timeout()
+: <a class="el" href="group__usart__tests__evt.html#ga6ebd238d715ad56a408d5ce36e39e997">DV_USART.c</a>
 </li>
-<li>USART_Send()
-: <a class="el" href="group__usart__tests.html#gaf1bbbb2f6a933429e01193358cfbcf12">DV_USART.c</a>
+<li>USART_Stop_Bits_0_5()
+: <a class="el" href="group__usart__tests__data__xchg.html#gab79f574141c65add1bb774cb88b38de4">DV_USART.c</a>
+</li>
+<li>USART_Stop_Bits_1()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga65c20a6c73ef50848593689f44498780">DV_USART.c</a>
+</li>
+<li>USART_Stop_Bits_1_5()
+: <a class="el" href="group__usart__tests__data__xchg.html#ga1060b32727bc2f3b718eecabcf43aa0a">DV_USART.c</a>
+</li>
+<li>USART_Stop_Bits_2()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaa7e0618da51b4914ba41518a8c2fab16">DV_USART.c</a>
+</li>
+<li>USART_Tx_Underflow()
+: <a class="el" href="group__usart__tests__evt.html#gadad6acb05395fa07205afbbf3125621d">DV_USART.c</a>
+</li>
+<li>USART_TxBreak()
+: <a class="el" href="group__usart__tests__data__xchg.html#gaccc7ace941a50590cd9f28accabc70e3">DV_USART.c</a>
 </li>
 <li>USB_DeviceEvent()
 : <a class="el" href="_d_v___u_s_b_d_8c.html#ace5a37588f917b9738b2ed0f2425c356">DV_USBD.c</a>
@@ -249,7 +347,7 @@ $(document).ready(function(){initNavTree('globals_u.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

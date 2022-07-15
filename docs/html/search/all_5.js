@@ -21,10 +21,11 @@ var searchData=
   ['eth_5fphy_5finitialization',['ETH_PHY_Initialization',['../group__eth__tests.html#ga3ed7bdec67ded66d0a0e7d809ef40a32',1,'DV_ETH.c']]],
   ['eth_5fphy_5fpowercontrol',['ETH_PHY_PowerControl',['../group__eth__tests.html#ga070d572e482b1b3a619d42f2cda413af',1,'DV_ETH.c']]],
   ['eth_5fruntransfer',['ETH_RunTransfer',['../_d_v___e_t_h_8c.html#ab878f325259b7b7d11ea13556986aec0',1,'DV_ETH.c']]],
-  ['event',['Event',['../_d_v___c_a_n_8c.html#a71d16e9ad8373fa07961d6de824338cc',1,'Event():&#160;DV_CAN.c'],['../_d_v___e_t_h_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_ETH.c'],['../_d_v___i2_c_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_I2C.c'],['../_d_v___m_c_i_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_MCI.c'],['../_d_v___u_s_a_r_t_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_USART.c']]],
+  ['event',['Event',['../_d_v___c_a_n_8c.html#a71d16e9ad8373fa07961d6de824338cc',1,'Event():&#160;DV_CAN.c'],['../_d_v___e_t_h_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_ETH.c'],['../_d_v___i2_c_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_I2C.c'],['../_d_v___m_c_i_8c.html#ab5135011ec160c4988c8469051a56838',1,'Event():&#160;DV_MCI.c']]],
   ['event_5ffunc',['event_func',['../_d_v___w_i_f_i_8c.html#ab997766d59982fe3201f506e3a6c3131',1,'DV_WIFI.c']]],
   ['examples',['Examples',['../examples.html',1,'']]],
   ['espressif_20esp32_20wroom_20sparkfun_20thing_20plus_20wifi_20shield_20with_20nxp_20mimxrt1064_2devk',['Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK',['../examples_esp32.html',1,'examples']]],
   ['espressif_20esp8266_20sparkfun_20wifi_20shield_20with_20nxp_20mimxrt1064_2devk',['Espressif ESP8266 SparkFun WiFi Shield with NXP MIMXRT1064-EVK',['../examples_esp8266.html',1,'examples']]],
-  ['error_20event',['Error Event',['../group__spi__tests__err__evt.html',1,'']]]
+  ['event',['Event',['../group__spi__tests__evt.html',1,'']]],
+  ['event',['Event',['../group__usart__tests__evt.html',1,'']]]
 ];

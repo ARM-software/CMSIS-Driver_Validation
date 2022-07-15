@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__spi__tests__data__xchg.html',''
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -145,7 +145,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaf4cae787814b6fc5687c970d23c4d0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol1_Pha0.  <a href="#gaf4cae787814b6fc5687c970d23c4d0ec">More...</a><br/></td></tr>
 <tr class="separator:gaf4cae787814b6fc5687c970d23c4d0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga71f510e5cd4a4787372687529fcc48c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga71f510e5cd4a4787372687529fcc48c7">SPI_Format_Clock_Pol1_Pha1</a> (void)</td></tr>
-<tr class="memdesc:ga71f510e5cd4a4787372687529fcc48c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol0_Pha0.  <a href="#ga71f510e5cd4a4787372687529fcc48c7">More...</a><br/></td></tr>
+<tr class="memdesc:ga71f510e5cd4a4787372687529fcc48c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Clock_Pol1_Pha1.  <a href="#ga71f510e5cd4a4787372687529fcc48c7">More...</a><br/></td></tr>
 <tr class="separator:ga71f510e5cd4a4787372687529fcc48c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3d667f45f42c07f90e6faec7fc0ef3d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__spi__tests__data__xchg.html#ga3d667f45f42c07f90e6faec7fc0ef3d8">SPI_Format_Frame_TI</a> (void)</td></tr>
 <tr class="memdesc:ga3d667f45f42c07f90e6faec7fc0ef3d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: Function SPI_Format_Frame_TI.  <a href="#ga3d667f45f42c07f90e6faec7fc0ef3d8">More...</a><br/></td></tr>
@@ -296,11 +296,11 @@ Functions</h2></td></tr>
 <li>send command "SET BUF TX,.." to the SPI Server: Set Tx buffer</li>
 <li>send command "SET BUF RX,.." to the SPI Server: Set Rx buffer</li>
 <li>send command "SET COM .." to the SPI Server: Set communication settings for the next XFER command</li>
-<li>send command "XFER .." to the SPI Server: Activate transfer</li>
+<li>send command "XFER .." to the SPI Server: Specify transfer</li>
 <li>driver Control: Configure the SPI interface</li>
 <li>driver Control: Set the default Tx value</li>
 <li>driver Send/Receive/Transfer: Start the requested operation</li>
-<li>driver GetStatus/SignalEvent: Wait for the current operation to finish or time out<br/>
+<li>driver GetStatus/SignalEvent: Wait for the current operation to finish or time-out<br/>
  (operation is finished when busy flag is 0 and completed event was signaled)</li>
 <li>assert that operation has finished in expected time</li>
 <li>assert that ARM_SPI_EVENT_TRANSFER_COMPLETE event was signaled</li>
@@ -317,7 +317,7 @@ Functions</h2></td></tr>
 <li>send command "SET BUF TX,.." to the SPI Server: Set Tx buffer</li>
 <li>send command "SET BUF RX,.." to the SPI Server: Set Rx buffer</li>
 <li>send command "SET COM .." to the SPI Server: Set communication settings for the next XFER command</li>
-<li>send command "XFER .." to the SPI Server: Activate transfer</li>
+<li>send command "XFER .." to the SPI Server: Specify transfer</li>
 <li>driver Control: Configure the SPI interface</li>
 <li>driver Control: Set the default Tx value</li>
 <li>driver Send/Receive/Transfer: Start the requested operation</li>
@@ -331,7 +331,7 @@ Functions</h2></td></tr>
 <li>driver Control: Configure the SPI interface</li>
 <li>driver Control: Set the default Tx value</li>
 <li>driver Send/Transfer: Start the requested operation</li>
-<li>driver GetStatus/SignalEvent: Wait for the current operation to finish or time out<br/>
+<li>driver GetStatus/SignalEvent: Wait for the current operation to finish or time-out<br/>
  (operation is finished when busy flag is 0 and completed event was signaled)</li>
 <li>assert that operation has finished in expected time</li>
 <li>assert that ARM_SPI_EVENT_TRANSFER_COMPLETE event was signaled</li>
@@ -390,14 +390,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Mode_Master_SS_Sw_Ctrl</b> verifies data exchange:</p>
 <ul>
-<li>in <b>Master Mode</b> with <b>Slave Select line Software Controlled</b></li>
+<li>in <b>Master Mode</b> with <b>Slave Select line Software controlled</b></li>
 <li>with default clock / frame format</li>
 <li>with default data bits</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is not executed </dd></dl>
 
 </div>
 </div>
@@ -416,14 +416,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Mode_Master_SS_Hw_Ctrl_Out</b> verifies data exchange:</p>
 <ul>
-<li>in <b>Master Mode</b> with <b>Slave Select line Hardware Controlled Output</b></li>
+<li>in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b></li>
 <li>with default clock / frame format</li>
 <li>with default data bits</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -442,14 +442,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Mode_Master_SS_Hw_Mon_In</b> verifies data exchange:</p>
 <ul>
-<li>in <b>Master Mode</b> with <b>Slave Select line Hardware Monitored Input</b></li>
+<li>in <b>Master Mode</b> with <b>Slave Select line Hardware monitored Input</b></li>
 <li>with default clock / frame format</li>
 <li>with default data bits</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -468,14 +468,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Mode_Slave_SS_Hw_Mon</b> verifies data exchange:</p>
 <ul>
-<li>in <b>Slave Mode</b> with <b>Slave Select line Hardware Monitored</b></li>
+<li>in <b>Slave Mode</b> with <b>Slave Select line Hardware monitored</b></li>
 <li>with default clock / frame format</li>
 <li>with default data bits</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -494,14 +494,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Mode_Slave_SS_Sw_Ctrl</b> verifies data exchange:</p>
 <ul>
-<li>in <b>Slave Mode</b> with <b>Slave Select line Software Controlled</b></li>
+<li>in <b>Slave Mode</b> with <b>Slave Select line Software controlled</b></li>
 <li>with default clock / frame format</li>
 <li>with default data bits</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -527,7 +527,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -553,7 +553,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -579,7 +579,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -605,7 +605,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -624,14 +624,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Format_Frame_TI</b> verifies data exchange:</p>
 <ul>
-<li>in Master Mode with default Slave Select mode</li>
+<li>in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b></li>
 <li>with <b>Texas Instruments frame format</b></li>
 <li>with default data bits</li>
-<li>with default bit order</li>
+<li>with bit order <b>from MSB to LSB</b></li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -650,14 +650,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The function <b>SPI_Format_Clock_Microwire</b> verifies data exchange:</p>
 <ul>
-<li>in Master Mode with default Slave Select mode</li>
+<li>in <b>Master Mode</b> with <b>Slave Select line Hardware controlled Output</b></li>
 <li>with <b>National Semiconductor Microwire frame format</b></li>
 <li>with default data bits</li>
-<li>with default bit order</li>
+<li>with bit order <b>from MSB to LSB</b></li>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test not executed </dd></dl>
 
 </div>
 </div>
@@ -681,9 +681,8 @@ Functions</h2></td></tr>
 <li>with <b>1 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -707,9 +706,8 @@ Functions</h2></td></tr>
 <li>with <b>2 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -733,9 +731,8 @@ Functions</h2></td></tr>
 <li>with <b>3 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -759,9 +756,8 @@ Functions</h2></td></tr>
 <li>with <b>4 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -785,9 +781,8 @@ Functions</h2></td></tr>
 <li>with <b>5 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -811,9 +806,8 @@ Functions</h2></td></tr>
 <li>with <b>6 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -837,9 +831,8 @@ Functions</h2></td></tr>
 <li>with <b>7 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -888,9 +881,8 @@ Functions</h2></td></tr>
 <li>with <b>9 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -914,9 +906,8 @@ Functions</h2></td></tr>
 <li>with <b>10 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -940,9 +931,8 @@ Functions</h2></td></tr>
 <li>with <b>11 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -966,9 +956,8 @@ Functions</h2></td></tr>
 <li>with <b>12 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -992,9 +981,8 @@ Functions</h2></td></tr>
 <li>with <b>13 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1018,9 +1006,8 @@ Functions</h2></td></tr>
 <li>with <b>14 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1044,9 +1031,8 @@ Functions</h2></td></tr>
 <li>with <b>15 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1095,9 +1081,8 @@ Functions</h2></td></tr>
 <li>with <b>17 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1121,9 +1106,8 @@ Functions</h2></td></tr>
 <li>with <b>18 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1147,9 +1131,8 @@ Functions</h2></td></tr>
 <li>with <b>19 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1173,9 +1156,8 @@ Functions</h2></td></tr>
 <li>with <b>20 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1199,9 +1181,8 @@ Functions</h2></td></tr>
 <li>with <b>21 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1225,9 +1206,8 @@ Functions</h2></td></tr>
 <li>with <b>22 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1251,9 +1231,8 @@ Functions</h2></td></tr>
 <li>with <b>23 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1302,9 +1281,8 @@ Functions</h2></td></tr>
 <li>with <b>25 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1328,9 +1306,8 @@ Functions</h2></td></tr>
 <li>with <b>26 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1354,9 +1331,8 @@ Functions</h2></td></tr>
 <li>with <b>27 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1380,9 +1356,8 @@ Functions</h2></td></tr>
 <li>with <b>28 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1406,9 +1381,8 @@ Functions</h2></td></tr>
 <li>with <b>29 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1432,9 +1406,8 @@ Functions</h2></td></tr>
 <li>with <b>30 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1458,9 +1431,8 @@ Functions</h2></td></tr>
 <li>with <b>31 data bits</b> per frame</li>
 <li>with default bit order</li>
 <li>at default bus speed</li>
-<li>for default number of data items</li>
+<li>for default number of data items </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
 
 </div>
 </div>
@@ -1511,7 +1483,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is not executed </dd></dl>
 
 </div>
 </div>
@@ -1537,7 +1509,7 @@ Functions</h2></td></tr>
 <li>at default bus speed</li>
 <li>for default number of data items</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is skipped </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Test Mode <b>Loopback</b> this test is not executed </dd></dl>
 
 </div>
 </div>
@@ -1683,7 +1655,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

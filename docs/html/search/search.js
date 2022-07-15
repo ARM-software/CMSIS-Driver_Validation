@@ -10,11 +10,10 @@ var indexSectionsWithContent =
   0: "_abcdefikmnoprstuw",
   1: "cd",
   2: "_aceimnstuw",
-  3: "abcdefimnoprstu",
-  4: "b",
-  5: "acdefpst",
-  6: "cdefimrstuw",
-  7: "deikrsw"
+  3: "abcdefimnoprst",
+  4: "acdefpst",
+  5: "cdefimrstuw",
+  6: "deikrsw"
 };
 
 var indexSectionNames =
@@ -23,10 +22,9 @@ var indexSectionNames =
   1: "files",
   2: "functions",
   3: "variables",
-  4: "typedefs",
-  5: "defines",
-  6: "groups",
-  7: "pages"
+  4: "defines",
+  5: "groups",
+  6: "pages"
 };
 
 function convertToId(search)

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('group__spi__server.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -121,7 +121,6 @@ $(document).ready(function(){initNavTree('group__spi__server.html','');});
 <li>set and read of the <b>data buffers content</b></li>
 <li>read of the last <b>transfer count</b></li>
 <li><b>transfer</b> in Slave or Master mode</li>
-<li><b>generation of mode fault</b> by activation of the Slave Select line during Slave transfer</li>
 </ul>
 <h1><a class="anchor" id="spi_server_oper"></a>
 Operation</h1>
@@ -138,13 +137,16 @@ SPI_Server_Config.h configuration file in Configuration Wizard view mode</div></
  <h2><a class="anchor" id="spi_server_config_detail"></a>
 Configuration settings</h2>
 <p><b>Driver_SPI#</b> selects the driver instance used by the SPI Server.<br/>
- <b>Communication settings</b> specify the communication parameters for command exchange with the SPI Client:</p>
+ Communication settings used for command exchange with the SPI Client are fixed to:</p>
 <ul>
-<li><b>Clock / Frame Format</b> setting specifies the clock or frame format used for command exchange.</li>
-<li><b>Data Bits</b> setting specifies the number of data bits per item used for command exchange.</li>
-<li><b>Bit Order</b> setting specifies the bit order used for command exchange.</li>
+<li><b>Mode: Slave with Slave Select Hardware monitored</b></li>
+<li><b>Clock / Frame Format: Clock Polarity 0/ Clock Phase 0</b></li>
+<li><b>Data Bits: 8</b></li>
+<li><b>Bit Order: MSB to LSB</b></li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>The SPI Server is receiving commands operating in SPI Slave mode with usage of the Slave Select line</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The SPI Server is receiving commands operating in SPI Slave mode with usage of the Slave Select line </dd>
+<dd>
+The SPI driver used by the SPI Server must support Hardware monitored Slave Select functionality</dd></dl>
 <h1><a class="anchor" id="spi_server_commands"></a>
 Commands</h1>
 <p>Commands are encoded in human readable format (ASCII strings) so they can be viewed by the SPI bus analyzer and analyzed more easily.</p>
@@ -161,7 +163,7 @@ Commands</h1>
 <dl class="section note"><dt>Note</dt><dd>For details about commands please refer to <b>Abstract.txt</b> file in the <code>&lt;pack root directory&gt;</code>\Tools\SPI_Server\Board\MCBSTM32F400 directory.</dd></dl>
 <p>Picture below shows a capture of SPI Driver Validation validating functionality of the Master transfer with Slave Select line not used </p>
 <div class="image">
-<img src="spi_bus_master_ss_unused.png" alt="spi_bus_master_ss_unused.png"/>
+<img src="spi_bus_master_ss_hw_ctrl_out.png" alt="spi_bus_master_ss_hw_ctrl_out.png"/>
 </div>
 <h1><a class="anchor" id="spi_server_porting"></a>
 Porting SPI Server to other targets</h1>
@@ -178,12 +180,8 @@ Porting SPI Server to other targets</h1>
 </ul>
 </li>
 <li>Copy the <b>SPI_Server.c</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Source</b> directory to the project root and add it to µVision project</li>
-<li>Copy the <b>SPI_Server.h</b> and <b>SPI_Server_HW.h</b> files from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Include</b> directory to the project root</li>
-<li>Copy the files specified below from the directory <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Config</b> to the project root and add them to µVision project:<ul>
-<li><b>SPI_Server_Config.h</b>: also adapt this file as required by your device</li>
-<li><b>SPI_Server_HW.c</b>: also adapt this file for your device's specific handling of the SPI Slave Select line</li>
-</ul>
-</li>
+<li>Copy the <b>SPI_Server.h</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Include</b> directory to the project root</li>
+<li>Copy the <b>SPI_Server_Config.h</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Config</b> directory to the project root and adapt this file as required by your device</li>
 <li>Add root of the project to include path (<b>Options for Target</b> -&gt; <b>C/C++</b> -&gt; <b>Include Paths: .\</b>)</li>
 <li>Add the <b>main.c</b> file from a template (Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the <b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>) and update with code snippet below (replace <code>app_main</code> function): <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;SPI_Server.h&quot;</span></div>
 <div class="line"> </div>
@@ -196,6 +194,7 @@ Porting SPI Server to other targets</h1>
 <div class="line">  <span class="keywordflow">for</span> (;;) {}</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
+<li>Ensure that system has at least 10kB of heap available for the transfer buffers (this is usually set in the startup file of the device)</li>
 <li>Build and download the ported SPI Server application to the target device</li>
 </ol>
 <h1><a class="anchor" id="spi_server_troubleshooting"></a>
@@ -204,16 +203,27 @@ Troubleshooting</h1>
 <ol type="1">
 <li>SPI Server is not responding to commands<ul>
 <li>reset the SPI Server</li>
-<li>check that communication settings between SPI Server and SPI Driver Validation are the same,<br/>
- if they are not, correct them, rebuild the application and download to the hardware</li>
+<li>check that correct driver instance is selected in the SPI_Server_Config.h file</li>
+<li>reduce bus speed used for communication with the SPI Server (in the DV_SPI_Config.h file)</li>
+</ul>
+</li>
+<li>SPI Server is not responding to commands it reports "Server Start failed!" message if debug variant is used<ul>
+<li>check heap settings (it has to be larger than 2 * SPI_SERVER_BUF_SIZE specified in the SPI_Server_Config.h file)</li>
+<li>check that RTOS allows allocation of at least 512 bytes for the SPI Server main thread (Global Dynamic Memory size [bytes] setting in RTX_Config.h file if RTX5 is used)</li>
+</ul>
+</li>
+<li>tests report data mismatch<ul>
+<li>check that Slave Select line has a pull-up to Vcc line</li>
+<li>check that wires are separate and short as possible</li>
+<li>insure if possible that SCK and GND wires are a twisted pair</li>
+<li>insure that SPI driver in inactive mode does not drive Slave Select line</li>
 </ul>
 </li>
 </ol>
 <h1><a class="anchor" id="spi_server_MCBSTM32F400"></a>
-SPI Server on the Keil MCBSTM32F400</h1>
-<p>SPI Server is currently available for the <b>Keil MCBSTM32F400</b> evaluation board.</p>
-<p>uVision project and source files are available in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Board\MCBSTM32F400</b> directory.</p>
-<p>On the Keil MCBSTM32F400 the <b>SPI2</b> interface is used, with the following pinout:</p>
+SPI Server on the Keil MCBSTM32F400 board</h1>
+<p>µVision project and source files for the MCBSTM32F400 board are available in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Board\MCBSTM32F400</b> directory.</p>
+<p>On the Keil MCBSTM32F400 board the <b>SPI2</b> interface is used, with the following pinout:</p>
 <table class="doxtable">
 <tr>
 <th align="left">SPI function </th><th align="center">Pin  </th></tr>
@@ -228,13 +238,32 @@ SPI Server on the Keil MCBSTM32F400</h1>
 </table>
 <dl class="section note"><dt>Note</dt><dd>IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test so that SPI signals have same ground potential.</dd></dl>
 <p>For more information please consult <b>Abstract.txt</b> file in the project root.</p>
-<dl class="section note"><dt>Note</dt><dd>SPI Server on the Keil MCBSTM32F400 does not support National Semiconductor Microwire Frame Format. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>SPI Server on the Keil MCBSTM32F400 does not support National Semiconductor Microwire Frame Format.</dd></dl>
+<h1><a class="anchor" id="spi_server_STM32F429I_DISC1"></a>
+SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board</h1>
+<p>µVision project and source files for the STM32F429I-DISC1 board are available in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Board\STM32F429I-DISC1</b> directory.</p>
+<p>On the STMicroelectronics STM32F429I-DISC1 board the <b>SPI1</b> interface is used, with the following pinout:</p>
+<table class="doxtable">
+<tr>
+<th align="left">SPI function </th><th align="center">Pin  </th></tr>
+<tr>
+<td align="left">SPI Clock </td><td align="center">PA5 </td></tr>
+<tr>
+<td align="left">Master Output Slave Input (MOSI) </td><td align="center">PA7 </td></tr>
+<tr>
+<td align="left">Master Input Slave Output (MISO) </td><td align="center">PB4 </td></tr>
+<tr>
+<td align="left">Slave Select </td><td align="center">PA15 </td></tr>
+</table>
+<dl class="section note"><dt>Note</dt><dd>IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test so that SPI signals have same ground potential.</dd></dl>
+<p>For more information please consult <b>Abstract.txt</b> file in the project root.</p>
+<dl class="section note"><dt>Note</dt><dd>SPI Server on the STMicroelectronics STM32F429I-DISC1 does not support National Semiconductor Microwire Frame Format. </dd></dl>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:08 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

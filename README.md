@@ -1,9 +1,9 @@
 # CMSIS Driver Validation
 
-The branch *master* of this GitHub repository contains the CMSIS-Driver Validation Version 2.0.0.  The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
+The branch *master* of this GitHub repository contains the CMSIS-Driver Validation.  The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
  http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html
 
-Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation Version 2.0.0. 
+Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation. 
 
 **Note:** The branch *develop* of this GitHub repository reflects our current state of development and is constantly updated. It gives our users and partners contiguous access to the CMSIS development. It allows you to review the work and provide feedback or create pull requests for contributions.
 

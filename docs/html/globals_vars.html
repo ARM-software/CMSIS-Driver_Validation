@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="keilarm.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">CMSIS-Driver Validation
-   &#160;<span id="projectnumber">Version 2.0.0</span>
+   &#160;<span id="projectnumber">Version 3.0.0</span>
    </div>
    <div id="projectbrief">Driver Validation</div>
   </td>
@@ -83,7 +83,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="globals_vars.html"><span>Variables</span></a></li>
-      <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
@@ -102,8 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
-      <li><a href="#index_t"><span>t</span></a></li>
-      <li class="current"><a href="#index_u"><span>u</span></a></li>
+      <li class="current"><a href="#index_t"><span>t</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -126,7 +124,7 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -157,13 +155,11 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 </li>
 <li>buffer_in
 : <a class="el" href="_d_v___c_a_n_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_CAN.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#a339cfe6a8f6f1e3d52f8fb835c4c4380">DV_USART.c</a>
 , <a class="el" href="_d_v___e_t_h_8c.html#ac14f0a356acfadc3410b1a3121a05423">DV_ETH.c</a>
 </li>
 <li>buffer_out
 : <a class="el" href="_d_v___c_a_n_8c.html#aafb2b93e2fdfe9864fc6988e29c9a345">DV_CAN.c</a>
 , <a class="el" href="_d_v___e_t_h_8c.html#aafb2b93e2fdfe9864fc6988e29c9a345">DV_ETH.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#a65b511a972d6aacfb71bb97f7c6480a0">DV_USART.c</a>
 </li>
 </ul>
 
@@ -179,13 +175,12 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 : <a class="el" href="_d_v___w_i_f_i_8c.html#adda84f6fab35d6c72ae7336597c5f70b">DV_WIFI.c</a>
 </li>
 <li>capab
-: <a class="el" href="_d_v___c_a_n_8c.html#a23c4b8278f273cabab99443d204e4cb5">DV_CAN.c</a>
-, <a class="el" href="_d_v___u_s_b_d_8c.html#a0c2942c084e068ac1094b8e5863a51a3">DV_USBD.c</a>
-, <a class="el" href="_d_v___i2_c_8c.html#adedf5e7ac65bd5f1408c1152f00c938a">DV_I2C.c</a>
-, <a class="el" href="_d_v___m_c_i_8c.html#a8421260ff0eceaefea99658a6856810d">DV_MCI.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#a6a52fbb4742c6d2becd908f58ce19bcf">DV_USART.c</a>
-, <a class="el" href="_d_v___e_t_h_8c.html#a7b4156dfaedbfc7e66588db68c4ea53d">DV_ETH.c</a>
+: <a class="el" href="_d_v___i2_c_8c.html#adedf5e7ac65bd5f1408c1152f00c938a">DV_I2C.c</a>
 , <a class="el" href="_d_v___u_s_b_h_8c.html#a9269e6d12e7a385db010a3d0117c216f">DV_USBH.c</a>
+, <a class="el" href="_d_v___u_s_b_d_8c.html#a0c2942c084e068ac1094b8e5863a51a3">DV_USBD.c</a>
+, <a class="el" href="_d_v___e_t_h_8c.html#a7b4156dfaedbfc7e66588db68c4ea53d">DV_ETH.c</a>
+, <a class="el" href="_d_v___c_a_n_8c.html#a23c4b8278f273cabab99443d204e4cb5">DV_CAN.c</a>
+, <a class="el" href="_d_v___m_c_i_8c.html#a8421260ff0eceaefea99658a6856810d">DV_MCI.c</a>
 </li>
 <li>config
 : <a class="el" href="_d_v___w_i_f_i_8c.html#abd851433cffb636da62b2a37da823342">DV_WIFI.c</a>
@@ -201,13 +196,12 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 : <a class="el" href="_d_v___u_s_b_d_8c.html#a41fbde253f9fa5aa9aa5de0836f426e3">DV_USBD.c</a>
 </li>
 <li>drv
-: <a class="el" href="_d_v___w_i_f_i_8c.html#a2cded6df392313bcfa9b8c71e57c513d">DV_WIFI.c</a>
-, <a class="el" href="_d_v___u_s_b_h_8c.html#a7d9cc8cd8c2e505709d6d7fc71968a8e">DV_USBH.c</a>
-, <a class="el" href="_d_v___u_s_b_d_8c.html#a7a32bb48fdad304170bdd694996d7ff0">DV_USBD.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#af3aebbe1fc596d85d0d86e47b1b4afc1">DV_USART.c</a>
-, <a class="el" href="_d_v___m_c_i_8c.html#ac03dbc298d644debe0326dd143808841">DV_MCI.c</a>
+: <a class="el" href="_d_v___c_a_n_8c.html#a470e2e6a49656a1b0a23c700d4c8be4a">DV_CAN.c</a>
 , <a class="el" href="_d_v___i2_c_8c.html#a3059d503b9adf6e71af4dcc6a04b26e9">DV_I2C.c</a>
-, <a class="el" href="_d_v___c_a_n_8c.html#a470e2e6a49656a1b0a23c700d4c8be4a">DV_CAN.c</a>
+, <a class="el" href="_d_v___m_c_i_8c.html#ac03dbc298d644debe0326dd143808841">DV_MCI.c</a>
+, <a class="el" href="_d_v___u_s_b_d_8c.html#a7a32bb48fdad304170bdd694996d7ff0">DV_USBD.c</a>
+, <a class="el" href="_d_v___u_s_b_h_8c.html#a7d9cc8cd8c2e505709d6d7fc71968a8e">DV_USBH.c</a>
+, <a class="el" href="_d_v___w_i_f_i_8c.html#a2cded6df392313bcfa9b8c71e57c513d">DV_WIFI.c</a>
 </li>
 </ul>
 
@@ -227,7 +221,6 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 , <a class="el" href="_d_v___e_t_h_8c.html#ab5135011ec160c4988c8469051a56838">DV_ETH.c</a>
 , <a class="el" href="_d_v___i2_c_8c.html#ab5135011ec160c4988c8469051a56838">DV_I2C.c</a>
 , <a class="el" href="_d_v___m_c_i_8c.html#ab5135011ec160c4988c8469051a56838">DV_MCI.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#ab5135011ec160c4988c8469051a56838">DV_USART.c</a>
 </li>
 <li>event_func
 : <a class="el" href="_d_v___w_i_f_i_8c.html#ab997766d59982fe3201f506e3a6c3131">DV_WIFI.c</a>
@@ -315,7 +308,6 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 <li>str
 : <a class="el" href="_d_v___c_a_n_8c.html#a549fe09c81875b8f32e305dc573e6929">DV_CAN.c</a>
 , <a class="el" href="_d_v___e_t_h_8c.html#a549fe09c81875b8f32e305dc573e6929">DV_ETH.c</a>
-, <a class="el" href="_d_v___u_s_a_r_t_8c.html#a549fe09c81875b8f32e305dc573e6929">DV_USART.c</a>
 </li>
 <li>str_ret
 : <a class="el" href="_d_v___w_i_f_i_8c.html#a7cd935478cf1f40e7ac2ab5a2a93bcbd">DV_WIFI.c</a>
@@ -343,22 +335,12 @@ $(document).ready(function(){initNavTree('globals_vars.html','');});
 : <a class="el" href="cmsis__dv_8c.html#adf0167df16a8815898f1d78483dbc2ac">cmsis_dv.c</a>
 </li>
 </ul>
-
-
-<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
-<li>USART_BR
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#ae1b8a3d7093b409faf9cd6c1aa169f41">DV_USART.c</a>
-</li>
-<li>USART_BR_NUM
-: <a class="el" href="_d_v___u_s_a_r_t_8c.html#a5e802bd4033a9f2da64c71e4bd26b280">DV_USART.c</a>
-</li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jul 15 2020 10:47:11 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
+    <li class="footer">Generated on Fri Jul 15 2022 08:42:09 for CMSIS-Driver Validation by ARM Ltd. All rights reserved.
 	<!--
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 

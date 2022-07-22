@@ -55,7 +55,7 @@ WiFi Driver API function tests respectively.
 <b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
 are used for more complex operational test of the WiFi driver.<br>
 A brief description of each test functionality can be viewed by using 
-<a href="http://www.keil.com/support/man/docs/uv4/uv4_ut_configwizard.htm" target="_blank">Configuration Wizard</a>
+<a href="https://developer.arm.com/documentation/101407/0537/Utilities/Configuration-Wizard" target="_blank">Configuration Wizard</a>
 view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a mouse pointer over it.
 
 */

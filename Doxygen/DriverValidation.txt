@@ -1,14 +1,12 @@
 ﻿/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\mainpage Introduction
+\mainpage Overview
 
-This manual explains the scope and the usage of the Software Pack for <b>CMSIS-Driver Validation</b>.<br>
-<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/index.html" target="_blank">CMSIS-Driver</a> specifies the 
-software API for peripheral driver interfaces that connect microcontroller peripherals with middleware or the user application. 
+This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the correposponding **[CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html)**. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.
 
-The CMSIS-Driver Validation is used to validate the driver implementation compliance to the CMSIS-Driver specification.
+The CMSIS-Driver Validation is maintained in a public **[GitHub repository](https://github.com/ARM-software/CMSIS-Driver_Validation)**. Its releases in **[CMSIS Pack format](https://www.open-cmsis-pack.org/)** are also available on **[CMSIS Packs page](https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs)** under *Arm* - *CMSIS Driver Validation* category and can be used in environments supporting the CMSIS-Pack concept. 
 
-The CMSIS-Driver Validation provides:
+The CMSIS-Driver Validation framework provides:
   - Configurable validation tests for various CMSIS-Driver interfaces
   - Example projects that show the usage of the CMSIS-Driver Validation
   - Various Servers used for testing
@@ -22,20 +20,11 @@ The CMSIS-Driver Validation tests and verifies:
   - <b>Event</b> signaling
 
 The CMSIS-Driver Validation requires
-<a href="http://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be
-used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.<br>
+<a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.
 
 The diagram below shows an overview of the CMSIS-Driver Validation configuration.
 
 \image html cmsis_dv.png
-
-This manual contains the following chapters:
-  - \ref setup                 - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.
-  - \ref report                - Describes the reports produced by the CMSIS-Driver Validation.
-  - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
-  - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
-  - \ref examples              - Contains information about several example projects including the required hardware setup.
-  - <a class="el" href="./modules.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
 
 The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_can   "CAN"        - Controller Area Network (CAN) interface driver.
@@ -51,12 +40,19 @@ The CMSIS-Driver Validation provides validation for the following interfaces:
 \note Extensive testing using dedicated Server is available for SPI and USART drivers.
 
 This manual assumes that you are familiar with MDK. Refer to
-<a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
+<a href="https://developer.arm.com/documentation/KGS1" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
 
-<hr>
+\section doc_structure Document structure
 
-Revision History
-----------------
+This manual contains the following chapters:
+  - \ref setup                 - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.
+  - \ref report                - Describes the reports produced by the CMSIS-Driver Validation.
+  - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
+  - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
+  - \ref examples              - Contains information about several example projects including the required hardware setup.
+  - <a class="el" href="./modules.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
+
+\section rev_hist Revision History
 
 <table class="cmtable" summary="Revision History">
     <tr>
@@ -137,6 +133,10 @@ Revision History
     </tr>
  </table>
 
+\section License License
+
+The CMSIS Driver example implementations are provided free of charge under Apache 2.0 license.
+See the <a href="LICENSE.txt">Apache 2.0 License</a>.
 
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -486,11 +486,11 @@ Suggested value for heap memory size is <b>16384</b> bytes.
 \section rtos2_req CMSIS-RTOS2
 
 The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the
-<a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
+<a class="el" href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
 
-For <a class="el" href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
+For <a class="el" href="https://arm-software.github.io/CMSIS_5/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
 requirements are configured in the
-<a class=el href="http://www.keil.com/pack/doc/cmsis/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
+<a class=el href="https://arm-software.github.io/CMSIS_5/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
 under the \b CMSIS component class:
 
 | Option                                                            | Value                              |
@@ -521,11 +521,9 @@ The following example projects are available:
 - \subpage examples_esp32
 - \subpage examples_wizfi360
 
-\anchor example_targets
-Targets
--------
+\section example_targets Project Targets
 
-Example projects contain some of the following targets:
+Example projects contain some of the following target configurations:
 - <b>Create Report</b>: Test results and statistics are printed to the <b>TestReport\TestReport.xml</b> file. Open the file in a Web browser of your choice.
 - \b Debug: Results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
 - \b Release: Same as the Debug target but with higher level of code optimization selected.
@@ -547,6 +545,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the validation on the target hardware using the on-board JLink-Lite debugger.
+
 
 Hardware Setup
 --------------

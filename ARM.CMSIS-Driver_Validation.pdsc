@@ -8,7 +8,7 @@
 
   <releases>
     <release version="3.0.1-dev0">
-      use https in url tag.
+      - Update url tag to https
     </release>
     <release version="3.0.0" date="2022-07-14">
       - Rework USART driver validation (introduced USART_Server)

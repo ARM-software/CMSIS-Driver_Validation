@@ -51,15 +51,15 @@ function doxygen {
         if [[ $2 != 0 ]]; then
             # use with $partname in path for complex multi-folder projects
             #mkdir -p "${DIRNAME}/../Documentation/html/search/"
-            #cp -f "${DIRNAME}/Doxygen_Templates/search.css" "${DIRNAME}/../Documentation/html/search/"
+            #cp -f "${DIRNAME}/templates/search.css" "${DIRNAME}/../Documentation/html/search/"
             mkdir -p "${DIRNAME}/../Documentation/html/search/"
-            cp -f "${DIRNAME}/Doxygen_Templates/search.css" "${DIRNAME}/../Documentation/html/search/"
+            cp -f "${DIRNAME}/templates/search.css" "${DIRNAME}/../Documentation/html/search/"
         fi
         
         projectName=$(grep -E "PROJECT_NAME\s+=" $1 | sed -r -e 's/[^"]*"([^"]+)".*/\1/')
         projectNumber=$(grep -E "PROJECT_NUMBER\s+=" $1 | sed -r -e 's/[^"]*"([^"]+)".*/\1/')
         datetime=$(date -u +'%a %b %e %Y %H:%M:%S')
-        sed -e "s/{datetime}/${datetime}/" "${DIRNAME}/Doxygen_Templates/footer.js" \
+        sed -e "s/{datetime}/${datetime}/" "${DIRNAME}/templates/footer.js" \
           | sed -e "s/{projectName}/${projectName}/" \
           | sed -e "s/{projectNumber}/${projectNumber}/" \
           > "${DIRNAME}/../Documentation/html/footer.js"

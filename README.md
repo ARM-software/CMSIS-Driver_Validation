@@ -1,9 +1,9 @@
 # CMSIS Driver Validation
 
-The branch *master* of this GitHub repository contains the CMSIS-Driver Validation.  The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
- http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html
+The branch *master* of this GitHub repository contains the CMSIS-Driver Validation. The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
+http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html
 
-Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation. 
+Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation.
 
 **Note:** The branch *develop* of this GitHub repository reflects our current state of development and is constantly updated. It gives our users and partners contiguous access to the CMSIS development. It allows you to review the work and provide feedback or create pull requests for contributions.
 
@@ -21,7 +21,7 @@ Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-
 ## Generate CMSIS Pack for Release
 
 To build a complete CMSIS pack for installation the following additional tools are required:
- - **doxygen.exe**    Version: 1.8.6 (Documentation Generator)
+ - **doxygen.exe**    Version: 1.9.2 (Documentation Generator)
  - **mscgen.exe**     Version: 0.20  (Message Sequence Chart Converter)
  - **7z.exe (7-Zip)** Version: 16.02 (File Archiver)
   
@@ -31,7 +31,7 @@ Using these tools, you can generate on a Windows PC:
 
 ## License
 
-Arm CMSIS is licensed under Apache-2.0.
+Arm CMSIS-Driver Validation is licensed under Apache-2.0.
 
 ## Contributions and Pull Requests
 Contributions are accepted under Apache-2.0. Only submit contributions where you have authored all of the code.
@@ -51,19 +51,19 @@ In the spirit of openness we will be tagging issues with the following:
 - **bug** – We consider this issue to be a bug that will be investigated.
 
 - **wontfix** - We appreciate this issue but decided not to change the current behavior.
-	
+
 - **enhancement** – Denotes something that will be implemented soon. 
 
 - **future** - Denotes something not yet schedule for implementation.
 
 - **out-of-scope** - We consider this issue loosely related to CMSIS. It might by implemented outside of CMSIS. Let us know about your work.
-	
+
 - **question** – We have further questions to this issue. Please review and provide feedback.
 
 - **documentation** - This issue is a documentation flaw that will be improved in future.
 
 - **review** - This issue is under review. Please be patient.
-	
+
 - **DONE** - We consider this issue as resolved - please review and close it. In case of no further activity this issues will be closed after a week.
 
 - **duplicate** - This issue is already addressed elsewhere, see comment with provided references.

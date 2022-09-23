@@ -521,12 +521,13 @@ The following example projects are available:
 - \subpage examples_esp32
 - \subpage examples_wizfi360
 
-\section example_targets Project Targets
+\anchor example_targets
+<b>Project Targets</b>
 
-Example projects contain some of the following target configurations:
-- <b>Create Report</b>: Test results and statistics are printed to the <b>TestReport\TestReport.xml</b> file. Open the file in a Web browser of your choice.
-- \b Debug: Results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
-- \b Release: Same as the Debug target but with higher level of code optimization selected.
+The example projects may contain some of the following target configurations:
+- <b>Create Report</b>: test results and statistics are stored in the <b>TestReport\TestReport.xml</b> file, that can be viewed with a web browser.
+- \b Debug: test results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
+- \b Release: same as the Debug target but with higher level of code optimization selected.
 */
 
 
@@ -541,7 +542,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>Infineon::XMC4000_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the validation on the target hardware using the on-board JLink-Lite debugger.
@@ -569,7 +570,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>Keil::STM32F2xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the validation on the target hardware.
@@ -600,7 +601,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>Keil::STM32F4xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (MCBSTM32F400)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the validation on the target hardware.
@@ -631,7 +632,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>Keil::STM32L4xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A1)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
 
 This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements", 
@@ -653,7 +654,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>NXP::LPC55S69_DFP</b> and <b>NXP::LPCXpresso55S69_EVK</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Inventek ISM43362 Validation (LPCXpresso55S69)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware.
 
 \note The example is preconfigured to use an 
@@ -692,7 +693,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Espressif ESP8266 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
 This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
@@ -715,7 +716,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi Espressif ESP32 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
 This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
@@ -738,7 +739,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
 <b>CMSIS-Driver WiFi WIZnet WizFi360 Validation (EVK-MIMXRT1064)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
 This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements", 
@@ -761,7 +762,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 <b>Keil::STM32F7xx_DFP</b> pack and copy the example project
 <b>CMSIS-Driver Validation (STM32F746G-Discovery)</b> to your machine.
 
--# Choose one of the available \ref example_targets "Targets" and build the project.
+-# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
    configuration.
 -# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.

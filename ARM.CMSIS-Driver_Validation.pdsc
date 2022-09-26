@@ -3,10 +3,13 @@
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
   <vendor>ARM</vendor>
-  <url>http://www.keil.com/pack/</url>
+  <url>https://www.keil.com/pack/</url>
   <license>LICENSE.txt</license>
 
   <releases>
+    <release version="3.0.1-dev0">
+      - Update url tag to https
+    </release>
     <release version="3.0.0" date="2022-07-14">
       - Rework USART driver validation (introduced USART_Server)
       - Add USART_Server application for Keil MCBSTM32F400 evaluation board

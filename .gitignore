@@ -1,2 +1,4 @@
-
 Documentation/html/*
+DoxyGen/src/history.txt
+DoxyGen/CMSIS_DV.dxy
+output

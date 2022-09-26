@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.7/schema/PACK.xsd">
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
   <vendor>ARM</vendor>
@@ -7,67 +7,8 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="3.0.1-dev0">
-      - Update url tag to https
-    </release>
-    <release version="3.0.0" date="2022-07-14">
-      - Rework USART driver validation (introduced USART_Server)
-      - Add USART_Server application for Keil MCBSTM32F400 evaluation board
-      - Add USART_Server application for STM32F429I-DISC1 board
-      - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
-      - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
-      - Add SPI_Server application for STM32F429I-DISC1 board
-      - Add WiFi Driver tests (socket functions in non-blocking mode)
-      - Minor update to WiFi driver validation (less strict SocketAccept and SocektSend tests)
-      - Add SockServer application for IMXRT1050-EVKB
-      - Add pack version information in Test Report
-      - Add support for Arm Cortex-M85 processor based devices
-      - Add support for Arm China Star-MC1 processor based devices
-      - Update examples
-      - Update documentation
-    </release>
-    <release version="2.0.0" date="2020-07-15">
-      - Remove bundle from components
-      - Change configuration from single file to a file per component
-      - Rework SPI Driver testing (introduced SPI_Server)
-      - Add SPI_Server application for Keil MCBSTM32F400 evaluation board
-      - Update WiFi Driver tests (support for WiFi Driver API V1.1.0)
-      - Update all examples
-      - Deprecate CMSIS-RTOS1
-    </release>
-    <release version="1.4.0" date="2019-12-02">
-      - Updated conditions to support all Cortex-M devices
-      - Introduced test groups (each driver is organized in a group)
-      - Improved XSL for XML display
-      - Added SockServer application for PC running Microsoft Windows
-      - Added example for Inventek ISM43362 WiFi Driver testing on STMicroelectronics B-L475E-IOT01A1 board
-      - Added example for Inventek ISM43362 WiFi Driver testing using ISMART43362-E WiFi shield mounted on NXP LPCXpresso55S69 board
-      - Added examples for Espressif ESP8266 and ESP32 WiFi Driver testing with NXP MIMXRT1064-EVK board
-      - Added example for WIZnet WizFi360 WiFi Driver testing with NXP MIMXRT1064-EVK board
-      - Updated all examples
-      - Removed example for Atmel board
-      - Added upstream and downstream bandwidth testing to WiFi Driver testing
-    </release>
-    <release version="1.3.0" date="2019-10-04">
-      - Added WiFi Driver testing
-      - Updated component condition to accept both RTOS and RTOS2
-      - Updated documentation
-    </release>
-    <release version="1.2.0" date="2019-02-21">
-      migrated repository to github.com/arm-software/CMSIS-Driver_Validation repository
-      - Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
-      - Updated CAN test (corrected test for SetBitrate function, added bitrate set for Loopback tests)
-      - Minor update to documentation
-      - Updated closeDebug function in DV_Framework.c, specified as noinline so higher optimization will keep it also
-    </release>
-    <release version="1.1.0" date="2016-04-25">
-      - Added USB Host test cases
-      - Added CAN test cases
-      - Added Ethernet Precision Time Protocol test cases
-      - Updated configuration file DV_Config.h to support new features
-    </release>
-    <release version="1.0.0" date="2015-10-09">
-      - Initial public release of the CMSIS-Driver Validation Suite
+    <release version="0.0.0">
+      Active Development ...
     </release>
   </releases>
 

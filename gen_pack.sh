@@ -1,13 +1,13 @@
 #!/bin/bash
-# Version: 2.2
-# Date: 2022-09-26
+# Version: 2.3
+# Date: 2022-09-28
 # This bash script generates a CMSIS-Driver Software Pack
 #
 
 set -o pipefail
 
 # Set version of gen pack library
-REQUIRED_GEN_PACK_LIB="0.4.0"
+REQUIRED_GEN_PACK_LIB="0.5.0"
 
 # Set default command line arguments
 DEFAULT_ARGS=(-c "")
@@ -42,7 +42,18 @@ PACK_DELETE_FILES=""
 PACK_PATCH_FILES=""
 
 # Specify addition argument to packchk
-PACKCHK_ARGS=(-i "${CMSIS_PACK_ROOT}/.Web/Keil.ARM_Compiler.pdsc")
+PACKCHK_ARGS=()
+
+# Specify additional dependencies for packchk
+PACKCHK_DEPS="
+  Keil.STM32F2xx_DFP.pdsc
+  Keil.STM32F4xx_DFP.pdsc
+  Keil.STM32F7xx_DFP.pdsc
+  Keil.B-L475E-IOT01A_BSP.pdsc
+  Infineon.XMC4000_DFP.pdsc
+  NXP.LPCXpresso55S69_BSP.pdsc
+  NXP.EVK-MIMXRT1064_BSP.pdsc
+"
 
 # custom preprocessing steps
 function preprocess() {

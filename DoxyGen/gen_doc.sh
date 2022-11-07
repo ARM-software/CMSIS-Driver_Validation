@@ -1,20 +1,19 @@
 #!/bin/bash
-# Version: 1.0
-# Date: 2022-05-31
+# Version: 1.1
+# Date: 2022-11-07
 # This bash script generates CMSIS-Driver Documentation:
 #
 # Pre-requisites:
 # - bash shell (for Windows: install git for Windows)
 # - doxygen 1.9.2
 # - git
-# - gh cli
 
 set -o pipefail
 
 DIRNAME=$(dirname $(realpath $0))
 DOXYGEN=$(which doxygen)
 REQ_DXY_VERSION="1.9.2"
-REQUIRED_GEN_PACK_LIB="0.4.0"
+REQUIRED_GEN_PACK_LIB="0.6.1"
 
 ############ gen-pack library ###########
 
@@ -26,6 +25,10 @@ function install_lib() {
 }
 
 function load_lib() {
+  if [[ -d ${GEN_PACK_LIB} ]]; then
+    . "${GEN_PACK_LIB}/gen-pack"
+    return 0
+  fi
   local GLOBAL_LIB="/usr/local/share/gen-pack/${REQUIRED_GEN_PACK_LIB}"
   local USER_LIB="${HOME}/.local/share/gen-pack/${REQUIRED_GEN_PACK_LIB}"
   if [[ ! -d "${GLOBAL_LIB}" && ! -d "${USER_LIB}" ]]; then
@@ -45,7 +48,6 @@ function load_lib() {
 
 load_lib
 find_git
-find_ghcli
 
 #########################################
 
@@ -76,7 +78,9 @@ rm -rf ${DIRNAME}/../Documentation/html
 sed -e "s/{projectNumber}/${VERSION}/" "${DIRNAME}/CMSIS_DV.dxy.in" \
   > "${DIRNAME}/CMSIS_DV.dxy"
 
-git_changelog -f html > src/history.txt
+PACK_CHANGELOG_MODE="tag"
+DEV=$(pdsc_release_desc "${DIRNAME}/../ARM.CMSIS-Driver_Validation.pdsc")
+git_changelog -f html -d "${DEV}" > src/history.txt
 
 echo "${DOXYGEN} CMSIS_DV.dxy"
 "${DOXYGEN}" CMSIS_DV.dxy

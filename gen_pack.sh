@@ -7,7 +7,7 @@
 set -o pipefail
 
 # Set version of gen pack library
-REQUIRED_GEN_PACK_LIB="0.5.0"
+REQUIRED_GEN_PACK_LIB="0.6.1"
 
 # Set default command line arguments
 DEFAULT_ARGS=(-c "")
@@ -54,6 +54,14 @@ PACKCHK_DEPS="
   NXP.LPCXpresso55S69_BSP.pdsc
   NXP.EVK-MIMXRT1064_BSP.pdsc
 "
+
+# Optional: restrict fallback modes for changelog generation
+# Default: full
+# Values:
+# - full      Tag annotations, release descriptions, or commit messages (in order)
+# - release   Tag annotations, or release descriptions (in order)
+# - tag       Tag annotations only
+PACK_CHANGELOG_MODE="tag"
 
 # custom preprocessing steps
 function preprocess() {

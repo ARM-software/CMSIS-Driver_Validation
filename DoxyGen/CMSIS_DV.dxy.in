@@ -38,7 +38,7 @@ PROJECT_NAME           = "CMSIS-Driver Validation"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = "Version 3.0.0"
+PROJECT_NUMBER         = "Version {projectNumber}"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -884,6 +884,7 @@ INPUT                  = ./src/DriverValidation.txt \
                          ./src/DV_USBD.txt          \
                          ./src/DV_USBH.txt          \
                          ./src/DV_WiFi.txt          \
+                         ./src/history.txt          \
                          ../Source
 
 # This tag can be used to specify the character encoding of the source files
@@ -1321,6 +1322,8 @@ HTML_EXTRA_FILES       = ./templates/tabs.css \
                          ./templates/navtree.css \
                          ./templates/tab_b.png \
                          ./templates/navtree.js \
+                         ./templates/version.css \
+                         ./templates/dropdown.png \
                          ../LICENSE.txt
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen

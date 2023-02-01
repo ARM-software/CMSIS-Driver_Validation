@@ -3,7 +3,7 @@
 Test suite for verifying that a peripheral driver implementation is compliant with the correposponding [CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html).
 
 ## Overview
-The branch *main* of this repository contains the code of CMSIS-Driver Validation Suite/[User documentation](http://arm-software.github.io/CMSIS-Driver_Validation/main/index.html) explains the scope and the usage of the framework.
+The branch *main* of this repository contains the code of CMSIS-Driver Validation Suite. [User documentation](http://arm-software.github.io/CMSIS-Driver_Validation/main/index.html) explains the scope and the usage of the framework.
 
 [See verified releases](https://github.com/ARM-software/CMSIS-Driver_Validation/releases) of CMSIS-Driver Validation suite in source code archives and in [CMSIS-Pack (.pack)](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/index.html) format as download assets.
 

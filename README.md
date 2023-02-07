@@ -1,72 +1,76 @@
-# CMSIS Driver Validation
+# CMSIS-Driver Validation
 
-The branch *master* of this GitHub repository contains the CMSIS-Driver Validation. The [documentation](http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html) is available under 
-http://arm-software.github.io/CMSIS-Driver_Validation/html/index.html
+Test suite for verifying that a peripheral driver implementation is compliant with the correposponding [CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html).
 
-Use [Issues](https://github.com/ARM-software/CMSIS-Driver_Validation#issues-and-labels) to provide feedback and report problems for CMSIS-Driver Validation.
+## Overview
+The branch **main** of this repository contains the code of CMSIS-Driver Validation Suite. [User documentation](http://arm-software.github.io/CMSIS-Driver_Validation/main/index.html) explains the scope and the usage of the framework.
 
-**Note:** The branch *develop* of this GitHub repository reflects our current state of development and is constantly updated. It gives our users and partners contiguous access to the CMSIS development. It allows you to review the work and provide feedback or create pull requests for contributions.
+[See verified releases](https://github.com/ARM-software/CMSIS-Driver_Validation/releases) of CMSIS-Driver Validation suite in source code archives and in [CMSIS-Pack (.pack)](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/index.html) format as download assets.
 
-## Directory Structure
+Feel free to raise an [issue on GitHub](https://github.com/ARM-software/CMSIS-Driver_Validation/issues) to report a misbehavior (i.e. bugs), start discussions about enhancements or create a pull request with suggested modifications.
 
-| Directory        | Content                                                   |
-| ---------------- | --------------------------------------------------------- |
-| Boards           | Driver Validation examples for a set of boards            |
-| DoxyGen          | Source of the documentation                               |
-| Include          | Header files for driver validation components             |
-| Source           | Source files for driver validation components             |
-| Tools            | SockServer and SPI_Server source and executable files     |
-| Utilities        | Utility programs                                          |
+### Supported Driver Interfaces
 
-## Generate CMSIS Pack for Release
+The CMSIS-Driver Validation provides tests for the following CMSIS-Driver interfaces:
 
-To build a complete CMSIS pack for installation the following additional tools are required:
- - **doxygen.exe**    Version: 1.9.2 (Documentation Generator)
- - **mscgen.exe**     Version: 0.20  (Message Sequence Chart Converter)
- - **7z.exe (7-Zip)** Version: 16.02 (File Archiver)
+Extensive tests with available test servers:
+  - **SPI** - Serial Peripheral Interface driver.
+  - **USART** - Universal Synchronous and Asynchronous Receiver/Transmitter interface driver.
+  - **WiFi** - Wireless Fidelity Interface module/shield driver.
+
+Basic tests:
+  - **CAN** - Controller Area Network interface driver.
+  - **Ethernet** - Ethernet MAC and PHY peripheral interface driver.
+  - **I2C** - Inter-Integrated Circuit multi-master serial single-ended bus interface - driver.
+  - **MCI** - Memory Card Interface driver for SD/MMC memory.
+  - **USB Device** - Universal Serial Bus Device interface driver.
+  - **USB Host** - Universal Serial Bus Host interface driver.
+
+
+## Repository Structure
+
+| Directory/File        | Content                                                   |
+| --------------------- | --------------------------------------------------------- |
+| [`Boards`](./Boards/) | Driver Validation examples for various boards             |
+| [`Config`](./Config/) | Configuration files for the Driver Validation framework   |
+| [`Documentation`](./Documentation)    | Placeholder for the offline documentation in the pack     |
+| [`DoxyGen`](./Doxygen)          | Source of the documentation                               |
+| [`Include`](./Include)          | Header files for Driver Validation components             |
+| [`Scripts`](./Scripts)          | Script files for XML reports                              |
+| [`Source`](./Source)           | Source files for Driver Validation components             |
+| [`Tools`](./Tools)            | Various Server implementations for extensive testing      |
+| [`ARM.CMSIS-Driver_Validation.pdsc`](./ARM.CMSIS-Driver_Validation.pdsc) | Open-CMSIS-Pack description file           |
+| [`gen_pack.sh`](./gen_pack.sh)       | Open-CMSIS-Pack generation script                         |
+| [`LICENSE.txt`](./LICENSE.txt)       | License text for the repository content                   |
+
+
+
+## Examples
+
+Folder [`Boards`](./Boards/) contains example projects that show how to use the CMSIS-Driver Validation on a real hardware with available CMSIS-Driver implementations.The examples are also included in CMSIS-Driver Validation Software Pack. Details are explained in [Examples documentation](https://arm-software.github.io/CMSIS-Driver_Validation/main/examples.html).
+
+## Build CMSIS-Driver Validation as Open-CMSIS-Pack
+
+ A generator script [`gen_pack.sh`](./gen_pack.sh) is provided for building the CMSIS-Driver Validation as [Open-CMSIS-Pack](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/index.html) using the [gen-pack library](https://github.com/Open-CMSIS-Pack/gen-pack). Simply follow the steps below:
   
-Using these tools, you can generate on a Windows PC:
- - **CMSIS Software Pack** using the batch file **gen_pack.bat** (located in ./Utilities). This batch file also generates the documentation.
- - **CMSIS Documentation** using the batch file **gen_doc.bat** (located in ./Doxygen). 
+ - Verify that following tools are installed on the PC:
+   - git bash (e.g. for Windows: https://gitforwindows.org/)
+   - ZIP archive creation utility (e.g. [7-Zip](http://www.7-zip.org/download.html))
+   - Doxygen version 1.9.2 (https://sourceforge.net/projects/doxygen/files/rel-1.9.2/)
+ - Checkout this repository. For example in git bash with:
+    ```git clone https://github.com/ARM-Software/CMSIS-Driver_Validation```
+ - In the local repository folder execute `./gen_pack.sh` in the bash shell.
+   - this creates a pack file in the local `output` folder. For example `./output/ARM.CMSIS-Driver_Validation.3.0.1-dev12+g3725082.pack`.
 
 ## License
 
-Arm CMSIS-Driver Validation is licensed under Apache-2.0.
+Arm CMSIS-Driver Validation is licensed under [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).
 
-## Contributions and Pull Requests
-Contributions are accepted under Apache-2.0. Only submit contributions where you have authored all of the code.
+## Useful resources
 
-### Issues and Labels
-
-Please feel free to raise an [issue on GitHub](https://github.com/ARM-software/CMSIS-Driver_Validation/issues)
-to report misbehavior (i.e. bugs) or start discussions about enhancements. This
-is your best way to interact directly with the maintenance team and the community.
-We encourage you to append implementation suggestions as this helps to decrease the
-workload of the very limited maintenance team. 
-
-We will be monitoring and responding to issues as best we can.
-Please attempt to avoid filing duplicates of open or closed items when possible.
-In the spirit of openness we will be tagging issues with the following:
-
-- **bug** – We consider this issue to be a bug that will be investigated.
-
-- **wontfix** - We appreciate this issue but decided not to change the current behavior.
-
-- **enhancement** – Denotes something that will be implemented soon. 
-
-- **future** - Denotes something not yet schedule for implementation.
-
-- **out-of-scope** - We consider this issue loosely related to CMSIS. It might by implemented outside of CMSIS. Let us know about your work.
-
-- **question** – We have further questions to this issue. Please review and provide feedback.
-
-- **documentation** - This issue is a documentation flaw that will be improved in future.
-
-- **review** - This issue is under review. Please be patient.
-
-- **DONE** - We consider this issue as resolved - please review and close it. In case of no further activity this issues will be closed after a week.
-
-- **duplicate** - This issue is already addressed elsewhere, see comment with provided references.
-
-- **Important Information** - We provide essential informations regarding planned or resolved major enhancements.
-
+| Link                        | Description                                                 |
+|:--------------------------- |:----------------------------------------------------------- |
+| [CMSIS](https://github.com/ARM-software/cmsis_5)               | CMSIS GitHub repository  |
+| [CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/latest/Driver/html/index.html) | Specification of CMSIS-Driver API    |
+| [CMSIS-Driver](https://github.com/ARM-software/CMSIS-Driver)   |  Reference CMSIS-Driver implementations for external peripheral devices |
+| [Open-CMSIS-Pack](https://www.open-cmsis-pack.org)  |  Overview of the Open-CMSIS-Pack project|

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -54,32 +54,6 @@
 #include "DV_Framework.h"
 
 /*-----------------------------------------------------------------------------
- *      Variables declarations
- *----------------------------------------------------------------------------*/
-// Buffer list sizes
-
-#if (defined(RTE_CMSIS_DV_ETH) || defined(RTE_CMSIS_DV_USART))
-const uint32_t BUFFER[] =  {
-#if (BUFFER_ELEM_1_32!=0)
-  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,
-#endif
-#if (BUFFER_ELEM_512!=0)
-  512,
-#endif
-#if (BUFFER_ELEM_1024!=0)
-  1024,
-#endif
-#if (BUFFER_ELEM_4096!=0)
-  4096,
-#endif
-#if (BUFFER_ELEM_32768!=0)
-  32768,
-#endif 
-};
-const uint32_t BUFFER_NUM = ARRAY_SIZE(BUFFER);
-#endif
-
-/*-----------------------------------------------------------------------------
  *      Init/Uninit test suite
  *----------------------------------------------------------------------------*/
 #ifdef  RTE_CMSIS_DV_SPI
@@ -96,6 +70,14 @@ static void TS_Init_USART (void) {
 }
 static void TS_Uninit_USART (void) {
   USART_DV_Uninitialize ();
+}
+#endif
+#ifdef  RTE_CMSIS_DV_ETH
+static void TS_Init_ETH (void) {
+  ETH_DV_Initialize ();
+}
+static void TS_Uninit_ETH (void) {
+  ETH_DV_Uninitialize ();
 }
 #endif
 #ifdef  RTE_CMSIS_DV_WIFI
@@ -276,20 +258,27 @@ static TEST_CASE TC_List_USART[] = {
 
 #ifdef  RTE_CMSIS_DV_ETH
 static TEST_CASE TC_List_ETH[] = {
+  TCD ( ETH_MAC_GetVersion,             ETH_MAC_GETVERSION_EN           ),
   TCD ( ETH_MAC_GetCapabilities,        ETH_MAC_GETCAPABILITIES_EN      ),
   TCD ( ETH_MAC_Initialization,         ETH_MAC_INITIALIZATION_EN       ),
   TCD ( ETH_MAC_PowerControl,           ETH_MAC_POWERCONTROL_EN         ),
+  TCD ( ETH_MAC_MacAddress,             ETH_MAC_MACADDRESS_EN           ),
   TCD ( ETH_MAC_SetBusSpeed,            ETH_MAC_SETBUSSPEED_EN          ),
   TCD ( ETH_MAC_Config_Mode,            ETH_MAC_CONFIG_MODE_EN          ),
   TCD ( ETH_MAC_Config_CommonParams,    ETH_MAC_CONFIG_COMMONPARAMS_EN  ),
+  TCD ( ETH_MAC_Control_Filtering,      ETH_MAC_CONTROL_FILTERING_EN    ),
+  TCD ( ETH_MAC_SetAddressFilter,       ETH_MAC_SETADDRESSFILTER_EN     ),
+  TCD ( ETH_MAC_SignalEvent,            ETH_MAC_SIGNALEVENT_EN          ),
   TCD ( ETH_MAC_PTP_ControlTimer,       ETH_MAC_PTP_CONTROLTIMER_EN     ),
+  TCD ( ETH_MAC_CheckInvalidInit,       ETH_MAC_CHECKINVALIDINIT_EN     ),
+  TCD ( ETH_PHY_GetVersion,             ETH_PHY_GETVERSION_EN           ),
   TCD ( ETH_PHY_Initialization,         ETH_PHY_INITIALIZATION_EN       ),
   TCD ( ETH_PHY_PowerControl,           ETH_PHY_POWERCONTROL_EN         ),
   TCD ( ETH_PHY_Config,                 ETH_PHY_CONFIG_EN               ),
+  TCD ( ETH_PHY_CheckInvalidInit,       ETH_PHY_CHECKINVALIDINIT_EN     ),
   TCD ( ETH_Loopback_Transfer,          ETH_LOOPBACK_TRANSFER_EN        ),
   TCD ( ETH_Loopback_PTP,               ETH_LOOPBACK_PTP_EN             ),
-  TCD ( ETH_PHY_CheckInvalidInit,       ETH_PHY_CHECKINVALIDINIT_EN     ),
-  TCD ( ETH_MAC_CheckInvalidInit,       ETH_MAC_CHECKINVALIDINIT_EN     ),
+  TCD ( ETH_Loopback_External,          ETH_LOOPBACK_EXTERNAL_EN        ),
 };
 #endif
 
@@ -448,8 +437,8 @@ TEST_GROUP ts[] = {
 {
   __FILE__, __DATE__, __TIME__,
   "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver ETH Test Report",
-  NULL,
-  NULL,
+  TS_Init_ETH,
+  TS_Uninit_ETH,
   TC_List_ETH,
   ARRAY_SIZE (TC_List_ETH),
 },

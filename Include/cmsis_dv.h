@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -47,10 +47,6 @@
 /* Expansion macro used to create CMSIS Driver references */
 #define EXPAND_SYMBOL(name, port) name##port
 #define CREATE_SYMBOL(name, port) EXPAND_SYMBOL(name, port)
-
-// Buffer list sizes
-extern const uint32_t BUFFER[];
-extern const uint32_t BUFFER_NUM;
 
 // Test main function
 extern void cmsis_dv (void *argument);
@@ -174,20 +170,29 @@ extern void USART_Event_DSR (void);
 extern void USART_Event_DCD (void);
 extern void USART_Event_RI (void);
 
+extern void ETH_DV_Initialize (void);
+extern void ETH_DV_Uninitialize (void);
+extern void ETH_MAC_GetVersion (void);
 extern void ETH_MAC_GetCapabilities (void);
 extern void ETH_MAC_Initialization (void);
 extern void ETH_MAC_PowerControl (void);
+extern void ETH_MAC_MacAddress (void);
 extern void ETH_MAC_SetBusSpeed (void);
 extern void ETH_MAC_Config_Mode (void);
 extern void ETH_MAC_Config_CommonParams (void);
+extern void ETH_MAC_Control_Filtering (void);
+extern void ETH_MAC_SetAddressFilter (void);
+extern void ETH_MAC_SignalEvent (void);
 extern void ETH_MAC_PTP_ControlTimer (void);
+extern void ETH_MAC_CheckInvalidInit (void);
+extern void ETH_PHY_GetVersion (void);
 extern void ETH_PHY_Initialization (void);
 extern void ETH_PHY_PowerControl (void);
 extern void ETH_PHY_Config (void);
+extern void ETH_PHY_CheckInvalidInit (void);
 extern void ETH_Loopback_Transfer (void);
 extern void ETH_Loopback_PTP (void);
-extern void ETH_PHY_CheckInvalidInit (void);
-extern void ETH_MAC_CheckInvalidInit (void);
+extern void ETH_Loopback_External (void);
 
 extern void I2C_GetCapabilities (void);
 extern void I2C_Initialization (void);

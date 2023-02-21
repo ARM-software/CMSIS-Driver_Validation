@@ -12,9 +12,9 @@ The Ethernet driver validation settings are available in the <b>DV_ETH_Config.h<
 <b>Driver_ETH_MAC#</b> selects the driver instance that will be tested.<br>
 For example if we want to test <c>Driver_ETH_MAC2</c> then this setting would be set to <c>2</c>.
 
-<b>Link timeout</b> specifies timeout for link check, expressed in microseconds.
+<b>Link timeout</b> specifies timeout for link check, expressed in milliseconds.
 
-<b>Transfer timeout</b> setting specifies maximum timeout for a transfer, expressed in microseconds.
+<b>Transfer timeout</b> setting specifies maximum timeout for a transfer, expressed in milliseconds.
 
 <b>Time duration for PTP Control Time</b> setting specifies referent time interval used for PTP testing, expressed in milliseconds.
 

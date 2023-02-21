@@ -7,8 +7,10 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="0.0.0">
-      Active Development ...
+    <release version="3.1.0-dirty0">
+      - Update ETH driver validation, added new tests
+      - Update examples
+      - Update documentation
     </release>
   </releases>
 
@@ -178,7 +180,7 @@
       </RTE_Components_h>
       <files>
         <file category="doc"    name="Documentation/html/group__dv__eth.html" />
-        <file category="header" name="Config/DV_ETH_Config.h" attr="config" version = "1.0.0"/>
+        <file category="header" name="Config/DV_ETH_Config.h" attr="config" version = "1.1.0"/>
         <file category="source" name="Source/DV_ETH.c"/>
       </files>
     </component>

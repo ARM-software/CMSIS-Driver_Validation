@@ -387,7 +387,7 @@ Each interface test module has specific requirements for the heap memory, defaul
 | Interface test module   | Heap memory requirement (in bytes) |
 | :---------------------: | :--------------------------------: |
 | CAN                     | 128                                |
-| Ethernet                | 1024                               |
+| Ethernet                | 3028                               |
 | SPI                     | 12288                              |
 | USART                   | 8192                               |
 

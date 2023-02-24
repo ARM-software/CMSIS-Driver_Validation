@@ -646,7 +646,7 @@ void ETH_MAC_SetAddressFilter (void) {
   }
 
   /* Receive one multicast address */
-  TEST_ASSERT(eth_mac->SetAddressFilter(&mac_mcast[0], 1) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetAddressFilter(mac_mcast, 1) == ARM_DRIVER_OK);
 
   memcpy(&buffer_out[0], &mac_mcast[0], 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
@@ -664,10 +664,7 @@ void ETH_MAC_SetAddressFilter (void) {
   }
 
   /* Receive two multicast addresses */
-  for (i = 0; i < 2; i++) {
-    memcpy(&buffer_in[6*i], &mac_mcast[i], 6);
-  }
-  TEST_ASSERT(eth_mac->SetAddressFilter((ARM_ETH_MAC_ADDR *)buffer_in, i) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetAddressFilter(mac_mcast, 2) == ARM_DRIVER_OK);
 
   for (i = 0; i < 2; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
@@ -688,10 +685,7 @@ void ETH_MAC_SetAddressFilter (void) {
   }
 
   /* Receive three multicast addresses */
-  for (i = 0; i < 3; i++) {
-    memcpy(&buffer_in[6*i], &mac_mcast[i], 6);
-  }
-  TEST_ASSERT(eth_mac->SetAddressFilter((ARM_ETH_MAC_ADDR *)buffer_in, i) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetAddressFilter(mac_mcast, 3) == ARM_DRIVER_OK);
 
   for (i = 0; i < 3; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
@@ -712,10 +706,7 @@ void ETH_MAC_SetAddressFilter (void) {
   }
 
   /* Receive four multicast addresses */
-  for (i = 0; i < 4; i++) {
-    memcpy(&buffer_in[6*i], &mac_mcast[i], 6);
-  }
-  TEST_ASSERT(eth_mac->SetAddressFilter((ARM_ETH_MAC_ADDR *)buffer_in, i) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetAddressFilter(mac_mcast, 4) == ARM_DRIVER_OK);
 
   for (i = 0; i < 4; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
@@ -736,10 +727,7 @@ void ETH_MAC_SetAddressFilter (void) {
   }
 
   /* Receive all multicast addresses */
-  for (i = 0; i < 6; i++) {
-    memcpy(&buffer_in[6*i], &mac_mcast[i], 6);
-  }
-  TEST_ASSERT(eth_mac->SetAddressFilter((ARM_ETH_MAC_ADDR *)buffer_in, i) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetAddressFilter(mac_mcast, 6) == ARM_DRIVER_OK);
 
   for (i = 0; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);

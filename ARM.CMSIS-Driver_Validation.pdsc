@@ -7,10 +7,8 @@
   <license>LICENSE.txt</license>
 
   <releases>
-    <release version="3.1.0-dirty0">
-      - Update ETH driver validation, added new tests
-      - Update examples
-      - Update documentation
+    <release version="0.0.0">
+      Active Development ...
     </release>
   </releases>
 

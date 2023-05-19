@@ -119,23 +119,8 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>ULPL2CM3</Key>
-          <Name>-UL19881111A -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>ULP2CM3</Key>
-          <Name>-UP1135049 -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO69651 -TC120000000 -TT120000000 -TP8 -TDX0 -TDD0 -TDS8000 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>ARMRTXEVENTFLAGS</Key>
-          <Name>-L70 -Z18 -C0 -M0 -T1</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=1767,139,2174,629,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -149,18 +134,23 @@
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U-O207 -I0 -O8399 -S3 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC32000000 -TP21 -TDS800F -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN0</Name>
+          <Key>UL2CM3</Key>
+          <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM))</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>UL2CM3</Key>
-          <Name>-UV0998FBE -O207 -S9 -C0 -P00 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+          <Key>ULPL2CM3</Key>
+          <Name>-UAny -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMRTXEVENTFLAGS</Key>
+          <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
       <ScvdPack>
-        <Filename>C:\Keil\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Filename>C:\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
         <Type>ARM.CMSIS.5.9.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
@@ -169,7 +159,7 @@
       </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>1</periodic>
+        <periodic>0</periodic>
         <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
@@ -314,23 +304,13 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>ULPL2CM3</Key>
-          <Name>-UL19881111A -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>ULP2CM3</Key>
-          <Name>-UP1135049 -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT120000000 -TP18 -TDX0 -TDD0 -TDS8000 -TDT0 -TDC1F -TIE1 -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=1767,139,2174,629,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -344,18 +324,18 @@
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U-O207 -I0 -O8399 -S3 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC32000000 -TP21 -TDS800F -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN0</Name>
+          <Key>UL2CM3</Key>
+          <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM))</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>UL2CM3</Key>
-          <Name>-UV0998FBE -O207 -S9 -C0 -P00 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+          <Key>ULPL2CM3</Key>
+          <Name>-UAny -O207 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO65537 -TC120000000 -TT10000000 -TP20 -TDS8002 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F207IGHx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
       <ScvdPack>
-        <Filename>C:\Keil\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
+        <Filename>C:\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>
         <Type>ARM.CMSIS.5.9.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
@@ -364,7 +344,7 @@
       </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>1</periodic>
+        <periodic>0</periodic>
         <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>

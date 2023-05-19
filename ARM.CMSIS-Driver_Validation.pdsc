@@ -123,7 +123,7 @@
     <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
       <description>Test framework</description>
       <RTE_Components_h>
-        #define RTE_CMSIS_DV_PACK_VER   "3.0.0"
+        #define RTE_CMSIS_DV_PACK_VER   "3.1.0"
       </RTE_Components_h>
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
@@ -171,7 +171,7 @@
       </files>
     </component>
 
-    <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cversion="1.4.0" condition="CMSIS Driver Validation ETH">
+    <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cversion="2.0.0" condition="CMSIS Driver Validation ETH">
       <description>Ethernet driver validation</description>
       <RTE_Components_h>
         #define RTE_CMSIS_DV_ETH        /* Driver Validation Ethernet enabled */

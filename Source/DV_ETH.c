@@ -510,6 +510,7 @@ void ETH_MAC_Control_Filtering (void) {
     ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
@@ -631,6 +632,7 @@ void ETH_MAC_SetAddressFilter (void) {
     ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
@@ -787,6 +789,7 @@ void ETH_MAC_SignalEvent (void) {
     ARM_ETH_MAC_ADDRESS_BROADCAST | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
@@ -1041,6 +1044,7 @@ void ETH_Loopback_Transfer (void) {
     ARM_ETH_MAC_ADDRESS_BROADCAST | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
@@ -1159,6 +1163,7 @@ void ETH_Loopback_External (void) {
     ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M |
    ARM_ETH_PHY_DUPLEX_FULL | ARM_ETH_PHY_LOOPBACK) == ARM_DRIVER_OK);
@@ -1430,6 +1435,7 @@ void ETH_Loopback_PTP (void) {
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
 

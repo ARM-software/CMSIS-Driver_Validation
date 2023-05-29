@@ -271,7 +271,7 @@ void ETH_MAC_Initialization (void) {
 /**
 \brief Function: ETH_MAC_CheckInvalidInit
 \details
-The function \b ETH_MAC_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The function \b ETH_MAC_CheckInvalidInit verifies the driver behavior when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
@@ -516,7 +516,7 @@ void ETH_MAC_Control_Filtering (void) {
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
 
-  /* Set ethernet header */
+  /* Set Ethernet header */
   memcpy(&buffer_out[6], &mac_addr, 6);
   buffer_out[12] = 0;
   buffer_out[13] = 50;
@@ -638,7 +638,7 @@ void ETH_MAC_SetAddressFilter (void) {
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
 
-  /* Set ethernet header */
+  /* Set Ethernet header */
   memcpy(&buffer_out[6], &mac_addr, 6);
   buffer_out[12] = 0;
   buffer_out[13] = 50;
@@ -795,7 +795,7 @@ void ETH_MAC_SignalEvent (void) {
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
 
-  /* Set ethernet header */
+  /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
   buffer_out[12] = 0;
@@ -873,12 +873,12 @@ void ETH_PHY_Initialization (void) {
 /**
 \brief Function: ETH_PHY_CheckInvalidInit
 \details
-The function \b ETH_PHY_CheckInvalidInit verifies the driver behaviour when receiving an invalid initialization sequence:
+The function \b ETH_PHY_CheckInvalidInit verifies the driver behavior when receiving an invalid initialization sequence:
   - \b Uninitialize
   - \b PowerControl with Power off
   - \b PowerControl with Power on
-  - \b SetInterface to configure the Ehternet PHY bus
-  - \b SetMode to configure the Ehternet PHY bus
+  - \b SetInterface to configure the Ethernet PHY bus
+  - \b SetMode to configure the Ethernet PHY bus
   - \b PowerControl with Power off
   - \b Uninitialize
 */
@@ -1003,7 +1003,7 @@ void ETH_PHY_Config (void) {
 /**
 \brief  Function: ETH_Loopback_Transfer
 \details
-The function \b ETH_Loopback_Transfer verifies data transfer via Ehernet with the following sequence:
+The function \b ETH_Loopback_Transfer verifies data transfer via Ethernet with the following sequence:
   - Buffer allocation
   - Initialize
   - Power on
@@ -1028,7 +1028,7 @@ void ETH_Loopback_Transfer (void) {
   const uint32_t test_num = ARRAY_SIZE(test_len);
   uint32_t i,cnt,tick;
 
-  /* Allocate buffers, add space for ethernet header */
+  /* Allocate buffers, add space for Ethernet header */
   buffer_out = (uint8_t *)malloc(14+ETH_MTU);
   TEST_ASSERT(buffer_out != NULL);
   if (buffer_out == NULL) return;
@@ -1056,7 +1056,7 @@ void ETH_Loopback_Transfer (void) {
     buffer_out[15+i] = 0xAA;
   }
 
-  /* Set ethernet header */
+  /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
 
@@ -1064,7 +1064,7 @@ void ETH_Loopback_Transfer (void) {
   for (cnt = 0; cnt < test_num; cnt++) {
     /* Clear input buffer */
     memset(buffer_in, 0, test_len[cnt]);
-    /* Set ethernet type/length */
+    /* Set Ethernet type/length */
     buffer_out[12] = test_len[cnt] >> 8;
     buffer_out[13] = test_len[cnt] & 0xFF;
     if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
@@ -1086,7 +1086,7 @@ void ETH_Loopback_Transfer (void) {
   for (cnt = 0; cnt < test_num; cnt++) {
     /* Clear input buffer */
     memset(buffer_in, 0, test_len[cnt]);
-    /* Set ethernet type/length */
+    /* Set Ethernet type/length */
     buffer_out[12] = test_len[cnt] >> 8;
     buffer_out[13] = test_len[cnt] & 0xFF;
     if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
@@ -1102,7 +1102,7 @@ void ETH_Loopback_Transfer (void) {
   for (cnt = 0; cnt < test_num; cnt++) {
     /* Clear input buffer */
     memset(buffer_in, 0, test_len[cnt]);
-    /* Set ethernet type/length */
+    /* Set Ethernet type/length */
     buffer_out[12] = test_len[cnt] >> 8;
     buffer_out[13] = test_len[cnt] & 0xFF;
     if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
@@ -1129,7 +1129,7 @@ void ETH_Loopback_Transfer (void) {
 /**
 \brief  Function: ETH_Loopback_External
 \details
-The function \b ETH_Loopback_External verifies data transfer via Ehernet with the following sequence:
+The function \b ETH_Loopback_External verifies data transfer via Ethernet with the following sequence:
   - Buffer allocation
   - Initialize
   - Power on
@@ -1147,7 +1147,7 @@ void ETH_Loopback_External (void) {
   ARM_ETH_LINK_INFO info;
   uint32_t i,cnt,tick;
 
-  /* Allocate buffers, add space for ethernet header */
+  /* Allocate buffers, add space for Ethernet header */
   buffer_out = (uint8_t *)malloc(14+ETH_MTU);
   TEST_ASSERT(buffer_out != NULL);
   if (buffer_out == NULL) return;
@@ -1175,11 +1175,11 @@ void ETH_Loopback_External (void) {
     buffer_out[14+cnt] = (cnt ^ 0x20) & 0x7F;
   }
 
-  /* Set ethernet header */
+  /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
 
-  /* Set ethernet type/length */
+  /* Set Ethernet type/length */
   buffer_out[12] = (ETH_MTU >> 8) & 0xFF;
   buffer_out[13] =  ETH_MTU       & 0xFF;
 

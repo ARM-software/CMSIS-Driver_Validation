@@ -54,7 +54,7 @@
 // <q> I2C_AbortTransfer
 #define I2C_ABORTTRANSFER_EN            1
 // <q> I2C_CheckInvalidInit
-#define I2C_CHECKINVALIDINIT_EN         0
+#define I2C_CHECKINVALIDINIT_EN         1
 // </h>
 // </h>
 

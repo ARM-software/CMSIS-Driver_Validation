@@ -54,7 +54,7 @@
 // <q> MCI_Config_DriverStrength
 #define MCI_CONFIG_DRIVERSTRENGTH_EN    1
 // <q> MCI_CheckInvalidInit
-#define MCI_CHECKINVALIDINIT_EN         0
+#define MCI_CHECKINVALIDINIT_EN         1
 // </h>
 // </h>
 

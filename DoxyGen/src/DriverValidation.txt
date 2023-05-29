@@ -691,8 +691,8 @@ Hardware Setup
 --------------
 
 The following picture shows the necessary external loopback connections for the STMicroelectronics STM32F746G-Discovery evaluation board:
- - <b>SPI2</b>: \b D12 (SPI2_MISO) and \b D11 (SPI2_MOSI)
- - <b>USART6</b>: \b D1 (USART6_TX) and \b D0 (USART6_RX)
+ - <b>SPI2</b>: \b D12 (SPI2_MISO - PB14) and \b D11 (SPI2_MOSI - PB15)
+ - <b>USART6</b>: \b D1 (USART6_TX - PC6) and \b D0 (USART6_RX - PC7)
  - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup".
 
 \image html stm32f746g-disco.png  "Connections for Loopback Communication Tests on STM32F746G-Discovery"

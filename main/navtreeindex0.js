@@ -2,7 +2,7 @@ var NAVTREEINDEX0 =
 {
 "debugging.html":[3],
 "examples.html":[5],
-"examples_b_l475e_iot01a1.html":[5,3],
+"examples_b_l475e_iot01a.html":[5,3],
 "examples_esp32.html":[5,7],
 "examples_esp8266.html":[5,6],
 "examples_ismart43362_e.html":[5,5],

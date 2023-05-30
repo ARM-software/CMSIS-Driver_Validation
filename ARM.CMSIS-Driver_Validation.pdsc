@@ -273,9 +273,9 @@
       </attributes>
     </example>
 
-    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/ST/B-L475E-IOT01A1">
+    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/ST/B-L475E-IOT01A">
       <description>CMSIS-Driver Validation of WiFi Inventek ISM43362 driver</description>
-      <board name="B-L475E-IOT01A1" vendor="STMicroelectronics"/>
+      <board name="B-L475E-IOT01A" vendor="STMicroelectronics"/>
       <project>
         <environment name="uv" load="CMSIS_DV.uvprojx"/>
       </project>

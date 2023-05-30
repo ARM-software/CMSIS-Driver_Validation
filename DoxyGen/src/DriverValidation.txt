@@ -112,7 +112,7 @@ For details on interface specific configuration and test selection please check 
 
 Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these
 buffers to be allocated.<br>
-Depending on how heap is configured in your system, open your <b>startup_<i>device</i>.s</b> file from the \b Device group in the \b Project window
+Depending on how heap is configured in your system, open your <b>startup_\<device\>.s</b> or <b>startup_\<device\>.c</b> file from the \b Device group in the \b Project window
 or use a <b>linker script</b> to adjust the heap size.<br>
 Set the <b>heap size</b> to minimum of <b>16384</b> bytes.
 
@@ -375,8 +375,8 @@ The TestReport.xml report created instead of Plain Text opened in a Web browser 
 
 \section heap_req Heap Memory
 Heap memory is used by the memory allocation functions.<br>
-It is usually configured in the <a class="el" href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" target="_blank">startup_device.s</a>
-file located under the \b Device component class but it can also, in some cases,  be configured by a <b>linker script</b> instead.
+It is usually configured in the <b>startup_\<device\>.s</b> or <b>startup_\<device\>.c</b> 
+file located under the \b Device component class but it can also, in some cases, be configured by a <b>linker script</b> instead.
 
 Some interface test functions allocate additional buffers from the heap memory.
 
@@ -433,7 +433,7 @@ The following example projects are available:
 - \subpage examples_xmc4500_relax
 - \subpage examples_mcbstm32f200
 - \subpage examples_mcbstm32f400
-- \subpage examples_b_l475e_iot01a1
+- \subpage examples_b_l475e_iot01a
 - \subpage examples_stm32f746g
 - \subpage examples_ismart43362_e
 - \subpage examples_esp8266
@@ -542,14 +542,14 @@ The following picture shows the necessary external loopback connections for the 
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\page examples_b_l475e_iot01a1 STMicroelectronics B-L475E-IOT01A1
+\page examples_b_l475e_iot01a STMicroelectronics B-L475E-IOT01A
 
 Software Setup
 --------------
 
 Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
 <b>Keil::STM32L4xx_DFP</b> pack and copy the example project
-<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A1)</b> to your machine.
+<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A)</b> to your machine.
 
 -# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
@@ -559,7 +559,7 @@ as well as, proper configuration described in \ref wifi_config "WiFi Configurati
 
 For details on WiFi driver validation please refer to \ref dv_wifi.
 
-\image html b-l475e-iot01a.png  "STMicroelectronics B-L475E-IOT01A1 board"
+\image html b-l475e-iot01a.png  "STMicroelectronics B-L475E-IOT01A board"
 
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/

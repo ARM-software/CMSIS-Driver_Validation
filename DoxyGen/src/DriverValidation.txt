@@ -2,7 +2,7 @@
 /**
 \mainpage Overview
 
-This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the correposponding **[CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html)**. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.
+This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the corresponding **[CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html)**. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.
 
 The CMSIS-Driver Validation is maintained in a public **[GitHub repository](https://github.com/ARM-software/CMSIS-Driver_Validation)**. Its releases in **[CMSIS Pack format](https://www.open-cmsis-pack.org/)** are also available on **[CMSIS Packs page](https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs)** under *Arm* - *CMSIS Driver Validation* category and can be used in environments supporting the CMSIS-Pack concept.
 
@@ -590,7 +590,7 @@ Hardware Setup
 This example uses the ISMART module with SPI communication.<br>
 By default, the shield is loaded with a UART firmware.<br>
 Instructions on how to flash the SPI firmware can be found in the
-[CMSIS-Driver documentation](https://arm-software.github.io/CMSIS-Driver/General/html/driver_WiFi.html#driver_ISM43362).
+[CMSIS-Driver documentation](https://arm-software.github.io/CMSIS-Driver/latest/driver_WiFi.html#driver_ISM43362).
 
 For proper operation of the Inventek ISMART43362-E WiFi Shield please connect the jumper between 5V_BOARD and 5V_MOD pins
 on the WiFi Shield.
@@ -615,7 +615,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 -# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements",
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
 as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
 For details on WiFi driver tests please refer to \ref dv_wifi.
@@ -638,7 +638,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 -# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements",
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
 as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
 For details on WiFi driver tests please refer to \ref dv_wifi.
@@ -661,7 +661,7 @@ Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack
 -# Choose one of the available \ref example_targets "Project Targets" and build the project.
 -# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
 
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi equirements",
+This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
 as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
 
 For details on WiFi driver tests please refer to \ref dv_wifi.

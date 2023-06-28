@@ -10,13 +10,13 @@
       <TargetName>Create Report</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
+      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>XMC4500-F100x1024</Device>
           <Vendor>Infineon</Vendor>
-          <PackID>Infineon.XMC4000_DFP.2.13.0</PackID>
+          <PackID>Infineon.XMC4000_DFP.2.14.0</PackID>
           <PackURL>https://www.infineon.com/cmsis_packs/XMC4000/</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IROM2(0x0C000000,0x100000) IRAM(0x20000000,0xFFC0) IRAM2(0x10000000,0x10000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -186,6 +186,7 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>1</hadIROM2>
             <StupSel>8</StupSel>
@@ -361,7 +362,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -370,7 +371,7 @@
             <TextAddressRange>0x00400000</TextAddressRange>
             <DataAddressRange>0x20400000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>.\RTE\Device\XMC4500-F100x1024\XMC4500x1024_ac6.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -490,13 +491,13 @@
       <TargetName>Debug</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
+      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>XMC4500-F100x1024</Device>
           <Vendor>Infineon</Vendor>
-          <PackID>Infineon.XMC4000_DFP.2.13.0</PackID>
+          <PackID>Infineon.XMC4000_DFP.2.14.0</PackID>
           <PackURL>https://www.infineon.com/cmsis_packs/XMC4000/</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IROM2(0x0C000000,0x100000) IRAM(0x20000000,0xFFC0) IRAM2(0x10000000,0x10000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -639,7 +640,7 @@
             <ldmm>1</ldmm>
             <ldXref>1</ldXref>
             <BigEnd>0</BigEnd>
-            <AdsALst>1</AdsALst>
+            <AdsALst>0</AdsALst>
             <AdsACrf>1</AdsACrf>
             <AdsANop>0</AdsANop>
             <AdsANot>0</AdsANot>
@@ -652,8 +653,8 @@
             <AdsLsun>1</AdsLsun>
             <AdsLven>1</AdsLven>
             <AdsLsxf>1</AdsLsxf>
-            <RvctClst>1</RvctClst>
-            <GenPPlst>1</GenPPlst>
+            <RvctClst>0</RvctClst>
+            <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>1</mOS>
@@ -666,6 +667,7 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>1</hadIROM2>
             <StupSel>8</StupSel>
@@ -841,7 +843,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -850,7 +852,7 @@
             <TextAddressRange>0x00400000</TextAddressRange>
             <DataAddressRange>0x20400000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>.\RTE\Device\XMC4500-F100x1024\XMC4500x1024_ac6.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -980,20 +982,26 @@
       <api Capiversion="2.00" Cclass="CMSIS Driver" Cgroup="Ethernet PHY" exclusive="0">
         <package name="CMSIS" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="ARM" version="4.3.0-RC2"/>
         <targetInfos>
-          <targetInfo name="Create Report">
-            <c>
-              <Define>RTE_Drivers_PHY_KSZ8081</Define>
-            </c>
-          </targetInfo>
-          <targetInfo name="Debug">
-            <c>
-              <Define>RTE_Drivers_PHY_KSZ8081</Define>
-            </c>
-          </targetInfo>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
         </targetInfos>
       </api>
       <api Capiversion="2.02" Cclass="CMSIS Driver" Cgroup="I2C" exclusive="0">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.3.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </api>
+      <api Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="SPI" exclusive="0">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </api>
+      <api Capiversion="2.4.0" Cclass="CMSIS Driver" Cgroup="USART" exclusive="0">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1015,133 +1023,160 @@
       </api>
     </apis>
     <components>
-      <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation ETH">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+      <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation ETH">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
       <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
       <component Cclass="CMSIS Driver Validation" Cgroup="I2C" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation I2C">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.1.2" condition="CMSIS Driver Validation SPI">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation USART">
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
       <component Cclass="CMSIS Driver Validation" Cgroup="USB Device" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USBD">
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.1-dev1"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.4.0" condition="ARMv6_7_8-M Device">
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5" isTargetSpecific="1">
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Library" Cvendor="ARM" Cversion="5.5.4" condition="RTOS2 RTX5" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
         </targetInfos>
       </component>
-      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.2" condition="RTOS2 RTX5" isTargetSpecific="1">
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
+      <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.4" condition="RTOS2 RTX5" isTargetSpecific="1">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="Ethernet MAC" Cvendor="Infineon" Cversion="2.12" condition="XMC4 CMSIS Driver Ethernet MAC">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
-        <targetInfos>
-          <targetInfo name="Create Report"/>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-      <component Capiversion="2.00" Cclass="CMSIS Driver" Cgroup="Ethernet PHY" Csub="KSZ8081" Cvendor="Infineon" Cversion="1.01" condition="XMC4 CMSIS">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
-        <targetInfos>
-          <targetInfo name="Create Report">
-            <c>
-              <Define>RTE_Drivers_PHY_KSZ8081</Define>
-            </c>
-          </targetInfo>
-          <targetInfo name="Debug">
-            <c>
-              <Define>RTE_Drivers_PHY_KSZ8081</Define>
-            </c>
-          </targetInfo>
-        </targetInfos>
-      </component>
-      <component Capiversion="2.02" Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="Infineon" Cversion="2.08" condition="XMC4 CMSIS Driver I2C">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="Ethernet MAC" Cvendor="Infineon" Cversion="2.13" condition="XMC4 CMSIS Driver Ethernet MAC">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="USB Device" Csub="USB" Cvendor="Infineon" Cversion="2.07" condition="XMC4 CMSIS Driver USBD">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Capiversion="2.02" Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="Infineon" Cversion="2.10" condition="XMC4 CMSIS Driver I2C">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="RTE_Device" Cvendor="Infineon" Cversion="1.1.0" condition="XMC4 CMSIS">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="SPI" Cvendor="Infineon" Cversion="2.12" condition="XMC4 CMSIS Driver SPI">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="2.2.4" condition="XMC4 CMSIS">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="USART" Cvendor="Infineon" Cversion="2.14" condition="XMC4 CMSIS Driver USART">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="XMClib" Csub="GPIO" Cvendor="Infineon" Cversion="2.1.24" condition="XMC4 CMSIS">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Capiversion="2.01" Cclass="CMSIS Driver" Cgroup="USB Device" Csub="USB" Cvendor="Infineon" Cversion="2.08" condition="XMC4 CMSIS Driver USBD">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="XMClib" Csub="I2C" Cvendor="Infineon" Cversion="2.1.24" condition="XMC4 CMSIS SCU">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Cclass="Device" Cgroup="RTE_Device" Cvendor="Infineon" Cversion="1.2.0" condition="XMC4 CMSIS">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="XMClib" Csub="SCU" Cvendor="Infineon" Cversion="2.1.24" condition="XMC4 CMSIS">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="3.0.0" condition="XMC4 CMSIS">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="XMClib" Csub="SPI" Cvendor="Infineon" Cversion="2.1.24" condition="XMC4 CMSIS SCU">
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+      <component Cclass="Device" Cgroup="XMClib" Csub="GPIO" Cvendor="Infineon" Cversion="2.2.0" condition="XMC4 CMSIS">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="XMClib" Csub="I2C" Cvendor="Infineon" Cversion="2.2.0" condition="XMC4 CMSIS SCU">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="XMClib" Csub="SCU" Cvendor="Infineon" Cversion="2.2.0" condition="XMC4 CMSIS">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="XMClib" Csub="SPI" Cvendor="Infineon" Cversion="2.2.0" condition="XMC4 CMSIS SCU">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="XMClib" Csub="UART" Cvendor="Infineon" Cversion="2.2.0" condition="XMC4 CMSIS SCU">
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </component>
       <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="ITM" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with ITM">
-        <package name="ARM_Compiler" schemaVersion="1.6.3" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.3"/>
+        <package name="ARM_Compiler" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="Keil" version="1.7.2"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="2.0.0" Cclass="CMSIS Driver" Cgroup="Ethernet PHY" Csub="KSZ8081RNA" Cvendor="Keil" Cversion="6.3.0" condition="CMSIS Core">
+        <package name="CMSIS-Driver" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="2.7.2"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1149,19 +1184,19 @@
       </component>
     </components>
     <files>
-      <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.0">
+      <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.1">
         <instance index="0">RTE\CMSIS\RTX_Config.c</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.3" condition="RTOS2 RTX5"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.8.0"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.4" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="CMSIS\RTOS2\RTX\Config\RTX_Config.h" version="5.5.1">
+      <file attr="config" category="header" name="CMSIS\RTOS2\RTX\Config\RTX_Config.h" version="5.5.2">
         <instance index="0">RTE\CMSIS\RTX_Config.h</instance>
-        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.3" condition="RTOS2 RTX5"/>
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.8.0"/>
+        <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" Cversion="5.5.4" condition="RTOS2 RTX5"/>
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1170,16 +1205,16 @@
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="Framework" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Core with RTOS and STDOUT"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev2"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" name="Config\DV_ETH_Config.h" version="1.0.0">
+      <file attr="config" category="header" name="Config\DV_ETH_Config.h" version="2.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_ETH_Config.h</instance>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation ETH"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev2"/>
+        <component Cclass="CMSIS Driver Validation" Cgroup="Ethernet" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation ETH"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1188,7 +1223,25 @@
       <file attr="config" category="header" name="Config\DV_I2C_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_I2C_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="I2C" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation I2C"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev2"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Config\DV_SPI_Config.h" version="1.1.0">
+        <instance index="0">RTE\CMSIS_Driver_Validation\DV_SPI_Config.h</instance>
+        <component Cclass="CMSIS Driver Validation" Cgroup="SPI" Cvendor="ARM" Cversion="2.1.2" condition="CMSIS Driver Validation SPI"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="Config\DV_USART_Config.h" version="2.0.0">
+        <instance index="0">RTE\CMSIS_Driver_Validation\DV_USART_Config.h</instance>
+        <component Cclass="CMSIS Driver Validation" Cgroup="USART" Cvendor="ARM" Cversion="2.0.0" condition="CMSIS Driver Validation USART"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
@@ -1197,34 +1250,43 @@
       <file attr="config" category="header" name="Config\DV_USBD_Config.h" version="1.0.0">
         <instance index="0">RTE\CMSIS_Driver_Validation\DV_USBD_Config.h</instance>
         <component Cclass="CMSIS Driver Validation" Cgroup="USB Device" Cvendor="ARM" Cversion="1.4.0" condition="CMSIS Driver Validation USBD"/>
-        <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="3.0.0-dev2"/>
+        <package name="CMSIS-Driver_Validation" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="3.1.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="header" condition="XMC4500_F100" name="RTE_Driver\Config\XMC4500_F100\RTE_Device.h" version="1.1.0">
+      <file attr="config" category="header" condition="XMC4500_F100" name="Driver\Config\XMC4500_F100\RTE_Device.h" version="1.2.0">
         <instance index="0">RTE\Device\XMC4500-F100x1024\RTE_Device.h</instance>
-        <component Cclass="Device" Cgroup="RTE_Device" Cvendor="Infineon" Cversion="1.1.0" condition="XMC4 CMSIS"/>
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+        <component Cclass="Device" Cgroup="RTE_Device" Cvendor="Infineon" Cversion="1.2.0" condition="XMC4 CMSIS"/>
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" condition="XMC4500_ARMCC" name="Device\XMC4500_series\Source\ARM\startup_XMC4500.s" version="1.7.0">
+      <file attr="config" category="linkerScript" condition="XMC4500_1024_ARMCC6" name="Device\XMC4500_series\Source\ARM\XMC4500x1024_ac6.sct" version="1.1.0">
+        <instance index="0">RTE\Device\XMC4500-F100x1024\XMC4500x1024_ac6.sct</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="3.0.0" condition="XMC4 CMSIS"/>
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
+        <targetInfos>
+          <targetInfo name="Create Report"/>
+          <targetInfo name="Debug"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceAsm" condition="XMC4500_ARMCC" name="Device\XMC4500_series\Source\ARM\startup_XMC4500.s" version="1.8.0">
         <instance index="0">RTE\Device\XMC4500-F100x1024\startup_XMC4500.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="2.2.4" condition="XMC4 CMSIS"/>
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="3.0.0" condition="XMC4 CMSIS"/>
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" condition="XMC45xx" name="Device\XMC4500_series\Source\system_XMC4500.c" version="3.1.5">
+      <file attr="config" category="source" condition="XMC45xx" name="Device\XMC4500_series\Source\system_XMC4500.c" version="3.1.7">
         <instance index="0">RTE\Device\XMC4500-F100x1024\system_XMC4500.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="2.2.4" condition="XMC4 CMSIS"/>
-        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.13.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Infineon" Cversion="3.0.0" condition="XMC4 CMSIS"/>
+        <package name="XMC4000_DFP" schemaVersion="1.2" url="https://www.infineon.com/cmsis_packs/XMC4000/" vendor="Infineon" version="2.14.0"/>
         <targetInfos>
           <targetInfo name="Create Report"/>
           <targetInfo name="Debug"/>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -17,7 +17,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * $Revision:   V1.0.0
+ * $Revision:   V2.0.0
  *
  * Project:     CMSIS-Driver Validation
  * Title:       Ethernet (ETH) driver validation configuration file
@@ -37,11 +37,11 @@
 // <i> For example to test Driver_ETH_MAC0 select 0.
 #define DRV_ETH                         0
 // <o> Link timeout
-// <i> Set the Ethernet link timeout (us)
-#define ETH_LINK_TIMEOUT                3000000
+// <i> Set the Ethernet link timeout (ms)
+#define ETH_LINK_TIMEOUT                3000
 // <o> Transfer timeout
-// <i> Set the transfer timeout (us)
-#define ETH_TRANSFER_TIMEOUT 1000000
+// <i> Set the transfer timeout (ms)
+#define ETH_TRANSFER_TIMEOUT            100
 // <o> Time duration for PTP Control Time
 // <i> Set time duration for Control Time tests (ms)
 #define ETH_PTP_TIME_REF                1000
@@ -50,43 +50,49 @@
 #define ETH_PTP_TOLERANCE               0
 // <h> Tests
 // <i> Enable / disable tests.
+// <q> ETH_MAC_GetVersion
+#define ETH_MAC_GET_VERSION_EN          1
 // <q> ETH_MAC_GetCapabilities
-#define ETH_MAC_GETCAPABILITIES_EN      1
+#define ETH_MAC_GET_CAPABILITIES_EN     1
 // <q> ETH_MAC_Initialization
 #define ETH_MAC_INITIALIZATION_EN       1
 // <q> ETH_MAC_PowerControl
-#define ETH_MAC_POWERCONTROL_EN         1
+#define ETH_MAC_POWER_CONTROL_EN        1
+// <q> ETH_MAC_MacAddress
+#define ETH_MAC_MAC_ADDRESS_EN          1
 // <q> ETH_MAC_SetBusSpeed
-#define ETH_MAC_SETBUSSPEED_EN          1
+#define ETH_MAC_SET_BUS_SPEED_EN        1
 // <q> ETH_MAC_Config_Mode
 #define ETH_MAC_CONFIG_MODE_EN          1
 // <q> ETH_MAC_Config_CommonParams
-#define ETH_MAC_CONFIG_COMMONPARAMS_EN  1
+#define ETH_MAC_CONFIG_COMMON_PARAMS_EN 1
+// <q> ETH_MAC_Control_Filtering
+#define ETH_MAC_CONTROL_FILTERING_EN    0
+// <q> ETH_MAC_SetAddressFilter
+#define ETH_MAC_SET_ADDRESS_FILTER_EN   0
+// <q> ETH_MAC_SignalEvent
+#define ETH_MAC_SIGNAL_EVENT_EN         1
 // <q> ETH_MAC_PTP_ControlTimer
-#define ETH_MAC_PTP_CONTROLTIMER_EN     0
+#define ETH_MAC_PTP_CONTROL_TIMER_EN    0
+// <q> ETH_MAC_CheckInvalidInit
+#define ETH_MAC_CHECK_INVALID_INIT_EN   1
+// <q> ETH_PHY_GetVersion
+#define ETH_PHY_GET_VERSION_EN          1
 // <q> ETH_PHY_Initialization
-#define ETH_PHY_INITIALIZATION_EN       1
+#define ETH_PHY_INITIALIZATION_EN       0
 // <q> ETH_PHY_PowerControl
-#define ETH_PHY_POWERCONTROL_EN         1
+#define ETH_PHY_POWER_CONTROL_EN        0
 // <q> ETH_PHY_Config
-#define ETH_PHY_CONFIG_EN               1
+#define ETH_PHY_CONFIG_EN               0
+// <q> ETH_PHY_CheckInvalidInit
+#define ETH_PHY_CHECK_INVALID_INIT_EN   1
 // <q> ETH_Loopback_Transfer
-#define ETH_LOOPBACK_TRANSFER_EN        1
+#define ETH_LOOPBACK_TRANSFER_EN        0
 // <q> ETH_Loopback_PTP
 #define ETH_LOOPBACK_PTP_EN             0
-// <q> ETH_PHY_CheckInvalidInit
-#define ETH_PHY_CHECKINVALIDINIT_EN     0
-// <q> ETH_MAC_CheckInvalidInit
-#define ETH_MAC_CHECKINVALIDINIT_EN     0
+// <q> ETH_Loopback_External
+#define ETH_LOOPBACK_EXTERNAL_EN        0
 // </h>
 // </h>
-
-// Buffer definitions
-#define BUFFER_ELEM_1_32                0               // 0 = disable, 1 = enable
-#define BUFFER_ELEM_512                 1               // 0 = disable, 1 = enable
-#define BUFFER_ELEM_1024                0               // 0 = disable, 1 = enable
-#define BUFFER_ELEM_4096                0               // 0 = disable, 1 = enable
-#define BUFFER_ELEM_32768               0               // 0 = disable, 1 = enable
-#define BUFFER_PATTERN                 {0x55, 0xAA}     // Buffer pattern
 
 #endif /* DV_ETH_CONFIG_H_ */

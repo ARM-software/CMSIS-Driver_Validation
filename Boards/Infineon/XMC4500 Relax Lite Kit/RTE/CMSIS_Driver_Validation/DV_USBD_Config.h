@@ -44,7 +44,7 @@
 // <q> USBD_Initialization
 #define USBD_INITIALIZATION_EN          1
 // <q> USBD_PowerControl
-#define USBD_POWERCONTROL_EN            1
+#define USBD_POWERCONTROL_EN            0
 // <q> USBD_CheckInvalidInit
 #define USBD_CHECKINVALIDINIT_EN        0
 // </h>

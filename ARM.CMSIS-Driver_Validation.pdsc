@@ -9,6 +9,9 @@
   <releases>
     <release version="0.0.0">
       Active Development ...
+      - Improve Ethernet driver validation
+      - Update examples
+      - Update documentation
     </release>
   </releases>
 

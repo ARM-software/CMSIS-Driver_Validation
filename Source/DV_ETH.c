@@ -111,6 +111,22 @@ static int32_t ETH_RunTransfer (const uint8_t *out, uint8_t *in, uint32_t len, u
   return ARM_DRIVER_ERROR;
 }
 
+// Initialize MAC driver wrapper for RMII interface
+static int32_t mac_initialize (ARM_ETH_MAC_SignalEvent_t cb_event) {
+  ARM_DRIVER_ETH_MAC *drv_mac = &CREATE_SYMBOL(Driver_ETH_MAC, DRV_ETH);
+
+  phy_power = 1U;
+  return drv_mac->Initialize(cb_event);
+}
+
+// Uninitialize MAC driver wrapper for RMII interface
+static int32_t mac_uninitialize (void) {
+  ARM_DRIVER_ETH_MAC *drv_mac = &CREATE_SYMBOL(Driver_ETH_MAC, DRV_ETH);
+
+  phy_power = 0U;
+  return drv_mac->Uninitialize();
+}
+
 // MAC driver power control wrapper for RMII interface
 static int32_t mac_power_control (ARM_POWER_STATE state) {
   ARM_DRIVER_ETH_MAC *drv_mac = &CREATE_SYMBOL(Driver_ETH_MAC, DRV_ETH);
@@ -118,13 +134,13 @@ static int32_t mac_power_control (ARM_POWER_STATE state) {
   int32_t retv;
 
   retv = drv_mac->PowerControl(state);
-  if ((state == ARM_POWER_FULL) && (retv == ARM_DRIVER_ERROR) && (phy_power == 0U)) {
+  if ((state == ARM_POWER_FULL) && (retv == ARM_DRIVER_ERROR) && (phy_power == 1U)) {
     /* RMII solution when the PHY is a 50 MHz reference clock source   */
     /* MAC never exits soft reset when PHY is powered down (no 50 MHz) */
     /* So turn on the power for the PHY here to prevent deadlock       */
     drv_phy->Initialize(drv_mac->PHY_Read, drv_mac->PHY_Write);
     if (drv_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
-      phy_power = 1U;
+      phy_power = 2U;
       osDelay (10);
       retv = drv_mac->PowerControl(state);
       if (retv == ARM_DRIVER_OK) {
@@ -142,8 +158,8 @@ static int32_t phy_power_control (ARM_POWER_STATE state) {
   int32_t retv;
 
   retv = drv_phy->PowerControl(state);
-  if ((state == ARM_POWER_OFF) && (retv == ARM_DRIVER_OK)) {
-    phy_power = 0U;
+  if ((state == ARM_POWER_OFF) && (retv == ARM_DRIVER_OK) && (phy_power == 2U)) {
+    phy_power = 1U;
   }
   return (retv);
 }
@@ -160,11 +176,13 @@ void ETH_DV_Initialize (void) {
     memcpy(&s_mac, eth_mac, sizeof(s_mac));
     memcpy(&s_phy, eth_phy, sizeof(s_phy));
     /* Use wrapper functions in RMII interface mode */
+    s_mac.Initialize   = &mac_initialize;
+    s_mac.Uninitialize = &mac_uninitialize;
     s_mac.PowerControl = &mac_power_control;
     s_phy.PowerControl = &phy_power_control;
     eth_mac = &s_mac;
     eth_phy = &s_phy;
-    phy_power  = 1U;
+    phy_power  = 0U;
     mac_lockup = 0U;
   }
   cb_event = (capab.event_rx_frame) ? ETH_DrvEvent : NULL;

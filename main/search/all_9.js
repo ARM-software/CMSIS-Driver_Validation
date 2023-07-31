@@ -64,6 +64,6 @@ var searchData=
   ['spi_5fmodefault_61',['SPI_ModeFault',['../group__spi__tests__evt.html#gae5aa9107a73024bd68d883b638960f8f',1,'DV_SPI.c']]],
   ['spi_5fnumber_5fof_5fitems_62',['SPI_Number_Of_Items',['../group__spi__tests__data__xchg.html#ga60177cabd2ede8ad3ab7ce591cfa567d',1,'DV_SPI.c']]],
   ['spi_5fpowercontrol_63',['SPI_PowerControl',['../group__spi__tests__drv__mgmt.html#gaf9277686b4b32b538df354e2b2c5a6b6',1,'DV_SPI.c']]],
-  ['stmicroelectronics_20b_2dl475e_2diot01a1_64',['STMicroelectronics B-L475E-IOT01A1',['../examples_b_l475e_iot01a1.html',1,'examples']]],
+  ['stmicroelectronics_20b_2dl475e_2diot01a_64',['STMicroelectronics B-L475E-IOT01A',['../examples_b_l475e_iot01a.html',1,'examples']]],
   ['stmicroelectronics_20stm32f746g_2ddiscovery_65',['STMicroelectronics STM32F746G-Discovery',['../examples_stm32f746g.html',1,'examples']]]
 ];

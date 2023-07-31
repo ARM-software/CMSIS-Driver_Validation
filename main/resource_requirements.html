@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('resource_requirements.html',''); initR
 <div class="textblock"><h1><a class="anchor" id="heap_req"></a>
 Heap Memory</h1>
 <p >Heap memory is used by the memory allocation functions.<br  />
- It is usually configured in the <a href="http://www.keil.com/support/man/docs/gsac/gsac_startupcodecortex.htm" class="el" target="_blank">startup_device.s</a> file located under the <b>Device</b> component class but it can also, in some cases, be configured by a <b>linker script</b> instead.</p>
+ It is usually configured in the <b>startup_&lt;device&gt;.s</b> or <b>startup_&lt;device&gt;.c</b> file located under the <b>Device</b> component class but it can also, in some cases, be configured by a <b>linker script</b> instead.</p>
 <p >Some interface test functions allocate additional buffers from the heap memory.</p>
 <p >The CMSIS-Driver Validation framework does not impose heap requirements because it does not use heap memory.</p>
 <p >Each interface test module has specific requirements for the heap memory, default requirements are listed below:</p>
@@ -120,7 +120,7 @@ Heap Memory</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">CAN   </td><td class="markdownTableBodyCenter">128    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter">Ethernet   </td><td class="markdownTableBodyCenter">1024    </td></tr>
+<td class="markdownTableBodyCenter">Ethernet   </td><td class="markdownTableBodyCenter">3028    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">SPI   </td><td class="markdownTableBodyCenter">12288    </td></tr>
 <tr class="markdownTableRowEven">

@@ -138,7 +138,7 @@ Step 5: Configure the interface settings and tests in related DV_interface_Confi
 <h1><a class="anchor" id="step6"></a>
 Step 6: Configure the Heap memory</h1>
 <p >Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these buffers to be allocated.<br  />
- Depending on how heap is configured in your system, open your <b>startup_<em>device</em>.s</b> file from the <b>Device</b> group in the <b>Project</b> window or use a <b>linker script</b> to adjust the heap size.<br  />
+ Depending on how heap is configured in your system, open your <b>startup_&lt;device&gt;.s</b> or <b>startup_&lt;device&gt;.c</b> file from the <b>Device</b> group in the <b>Project</b> window or use a <b>linker script</b> to adjust the heap size.<br  />
  Set the <b>heap size</b> to minimum of <b>16384</b> bytes.</p>
 <p >For details on heap requirements please refer to the <a class="el" href="resource_requirements.html#heap_req">Heap Memory requirements</a> documentation.</p>
 <h1><a class="anchor" id="step7"></a>

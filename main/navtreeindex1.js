@@ -1,5 +1,12 @@
 var NAVTREEINDEX1 =
 {
+"group__wifi__sock__api.html#gaa80eb04e62ae8883e9feace380ef85b2":[7,9,4,2,7],
+"group__wifi__sock__api.html#gab3a6004025b524ac7564276397bf5d5e":[7,9,4,2,11],
+"group__wifi__sock__api.html#gac7bb0143c5d023b3ca97ff8f480c9f8a":[7,9,4,2,18],
+"group__wifi__sock__api.html#gad37acd8194b984b4c25c88b0c05c2f03":[7,9,4,2,19],
+"group__wifi__sock__api.html#gaecb05d7d0871ef157b8de81367ea8451":[7,9,4,2,6],
+"group__wifi__sock__api.html#gaffb006e3899ba780c3781af90bc1b009":[7,9,4,2,12],
+"group__wifi__sock__op.html":[7,9,4,3],
 "group__wifi__sock__op.html#ga1ea6beecd1a175a01fa3e6cb07cfa07f":[7,9,4,3,4],
 "group__wifi__sock__op.html#ga3176acaa3ab1f518c2e1d57348b484a0":[7,9,4,3,5],
 "group__wifi__sock__op.html#ga344f942e644180492ab1f51d03b543f1":[7,9,4,3,7],

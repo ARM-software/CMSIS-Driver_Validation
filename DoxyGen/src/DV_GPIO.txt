@@ -1,0 +1,25 @@
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\defgroup gpio_config Configuration
+\ingroup  dv_gpio
+
+The GPIO driver validation settings are available in the <b>DV_GPIO_Config.h</b> configuration file.
+
+\image html dv_gpio_config_h.png "DV_GPIO_Config.h configuration file in Configuration Wizard view mode"
+
+\section gpio_config_detail Configuration settings
+
+<b>Driver_GPIO#</b> selects the driver instance that will be tested.<br>
+For example if we want to test <c>Driver_GPIO0</c> then this setting would be set to <c>0</c>.
+
+<b>Configuration</b> section contains configuration of two pins:
+- <b>Pin Under Test</b> specifying the pin that will be tested.<br>
+- <b>Auxiliary Pin</b> specifies the auxiliary pin with serial low resistance resistor connected to Pin Under Test.
+  Suggested resistance of this serial resistor is around 1 kOhm.<br>
+
+<b>Pins</b> should not have any external resistors or any external devices connected to it except the low resistance resistor used for testing.<br>
+
+<b>Tests</b> section contains selections of tests to be executed.
+For details on tests performed by each test function please refer to \ref gpio_tests "GPIO Tests".
+
+*/

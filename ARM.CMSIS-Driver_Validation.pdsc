@@ -9,6 +9,7 @@
   <releases>
     <release version="0.0.0">
       Active Development ...
+      - Add GPIO Driver validation
       - Improve Ethernet driver validation
       - Update examples
       - Update documentation
@@ -17,7 +18,7 @@
 
   <requirements>
     <packages>
-      <package vendor="ARM"  name="CMSIS"        version="5.7.0-0"/>
+      <package vendor="ARM"  name="CMSIS"        version="6.0.0-0"/>
       <package vendor="Keil" name="ARM_Compiler" version="1.6.2-0"/>
     </packages>
   </requirements>
@@ -55,6 +56,13 @@
       <require Cclass="CMSIS"                   Cgroup="CORE"/>
       <require Cclass="CMSIS"                   Cgroup="RTOS2"/>
       <require Cclass="Compiler"                Cgroup="I/O" Csub="STDOUT"/>
+    </condition>
+
+    <condition id="CMSIS Driver Validation GPIO">
+      <description>CMSIS Driver GPIO</description>
+      <require condition="CMSIS Core with RTOS and STDOUT"/>
+      <require Cclass="CMSIS Driver"            Cgroup="GPIO"         Capiversion="1.0.0"/>
+      <require Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
     </condition>
 
     <condition id="CMSIS Driver Validation SPI">
@@ -135,6 +143,18 @@
         <file category="source"  name="Source/cmsis_dv.c"/>
         <file category="source"  name="Source/DV_Framework.c"/>
         <file category="source"  name="Source/DV_Report.c"/>
+      </files>
+    </component>
+
+    <component Cclass="CMSIS Driver Validation" Cgroup="GPIO" Cversion="1.0.0" condition="CMSIS Driver Validation GPIO">
+      <description>GPIO driver validation</description>
+      <RTE_Components_h>
+        #define RTE_CMSIS_DV_GPIO       /* Driver Validation GPIO enabled */
+      </RTE_Components_h>
+      <files>
+        <file category="doc"    name="Documentation/html/group__dv__gpio.html" />
+        <file category="header" name="Config/DV_GPIO_Config.h" attr="config" version = "1.0.0"/>
+        <file category="source" name="Source/DV_GPIO.c"/>
       </files>
     </component>
 

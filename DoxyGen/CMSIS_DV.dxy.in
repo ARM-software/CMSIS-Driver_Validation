@@ -877,6 +877,7 @@ INPUT                  = ./src/DriverValidation.txt \
                          ./src/DV_Framework.txt     \
                          ./src/DV_CAN.txt           \
                          ./src/DV_ETH.txt           \
+                         ./src/DV_GPIO.txt          \
                          ./src/DV_I2C.txt           \
                          ./src/DV_MCI.txt           \
                          ./src/DV_SPI.txt           \

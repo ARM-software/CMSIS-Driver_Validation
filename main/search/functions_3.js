@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['mci_5fcheckinvalidinit_0',['MCI_CheckInvalidInit',['../group__mci__tests.html#ga6a8da0da1e1948d041df83dadcf040fa',1,'DV_MCI.c']]],
-  ['mci_5fconfig_5fcmdlinemode_1',['MCI_Config_CmdLineMode',['../group__mci__tests.html#gaebafd712cb91fc240e5acb2a7a968675',1,'DV_MCI.c']]],
-  ['mci_5fconfig_5fdatawidth_2',['MCI_Config_DataWidth',['../group__mci__tests.html#ga58de415fa79b7e1561a1567d20a09110',1,'DV_MCI.c']]],
-  ['mci_5fconfig_5fdriverstrength_3',['MCI_Config_DriverStrength',['../group__mci__tests.html#ga5aee0627cfc07f89e4ed4bd4e19eb519',1,'DV_MCI.c']]],
-  ['mci_5fgetcapabilities_4',['MCI_GetCapabilities',['../group__mci__tests.html#ga4445f77f0524673fb7e1a206f6c0886a',1,'DV_MCI.c']]],
-  ['mci_5finitialization_5',['MCI_Initialization',['../group__mci__tests.html#ga1fbbdddda0f9ea5c393aa22fd14a2203',1,'DV_MCI.c']]],
-  ['mci_5fpowercontrol_6',['MCI_PowerControl',['../group__mci__tests.html#gae0bacb3721a19527d6c8be03a806731d',1,'DV_MCI.c']]],
-  ['mci_5fsetbusspeedmode_7',['MCI_SetBusSpeedMode',['../group__mci__tests.html#ga9ba9cbcc5c0f22f8ad1089453e0794d4',1,'DV_MCI.c']]]
+  ['i2c_5faborttransfer_0',['I2C_AbortTransfer',['../group__i2c__tests.html#gacb9a0dd8262bfc61e8c20a5ad346cd20',1,'DV_I2C.c']]],
+  ['i2c_5fbusclear_1',['I2C_BusClear',['../group__i2c__tests.html#gac83fdb0bd0691665d45baf41c4b8f592',1,'DV_I2C.c']]],
+  ['i2c_5fcheckinvalidinit_2',['I2C_CheckInvalidInit',['../group__i2c__tests.html#gaf35718402630c8b5f21c87a9c979d2e1',1,'DV_I2C.c']]],
+  ['i2c_5fgetcapabilities_3',['I2C_GetCapabilities',['../group__i2c__tests.html#ga2c6a116bb2cb38f7b5350a2fbf75bcad',1,'DV_I2C.c']]],
+  ['i2c_5finitialization_4',['I2C_Initialization',['../group__i2c__tests.html#ga09f2e10deffff7b99ddf09609e097b60',1,'DV_I2C.c']]],
+  ['i2c_5fpowercontrol_5',['I2C_PowerControl',['../group__i2c__tests.html#ga2d1b9fddc155cb2984f280b07ee7d76f',1,'DV_I2C.c']]],
+  ['i2c_5fsetbusspeed_6',['I2C_SetBusSpeed',['../group__i2c__tests.html#ga8e2f94421465a76d51223866616c7b71',1,'DV_I2C.c']]],
+  ['i2c_5fsetownaddress_7',['I2C_SetOwnAddress',['../group__i2c__tests.html#gac0486a6829258541dbbaa3636e764203',1,'DV_I2C.c']]]
 ];

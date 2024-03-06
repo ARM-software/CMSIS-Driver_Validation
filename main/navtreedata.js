@@ -56,7 +56,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "debugging.html",
-"group__wifi__sock__api.html#gaa80eb04e62ae8883e9feace380ef85b2"
+"group__wifi__sock__api.html#ga5b92075e23383e2cdfc08ba17b7930a1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

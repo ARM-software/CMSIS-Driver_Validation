@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['tests_0',['Tests',['../group__can__tests.html',1,'(Global Namespace)'],['../group__eth__tests.html',1,'(Global Namespace)'],['../group__i2c__tests.html',1,'(Global Namespace)'],['../group__mci__tests.html',1,'(Global Namespace)'],['../group__spi__tests.html',1,'(Global Namespace)'],['../group__usart__tests.html',1,'(Global Namespace)'],['../group__usbd__tests.html',1,'(Global Namespace)'],['../group__usbh__tests.html',1,'(Global Namespace)'],['../group__wifi__tests.html',1,'(Global Namespace)']]]
+  ['socket_20api_0',['Socket API',['../group__wifi__sock__api.html',1,'']]],
+  ['socket_20operation_1',['Socket Operation',['../group__wifi__sock__op.html',1,'']]],
+  ['socket_20testing_2',['Socket testing',['../group__wifi__sock__testing.html',1,'']]],
+  ['sockserver_3',['SockServer',['../group__wifi__sock__setup.html',1,'']]],
+  ['spi_20server_4',['SPI Server',['../group__spi__server.html',1,'']]],
+  ['spi_20validation_5',['SPI Validation',['../group__dv__spi.html',1,'']]]
 ];

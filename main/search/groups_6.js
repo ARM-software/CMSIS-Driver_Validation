@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['requirements_0',['Requirements',['../group__wifi__requirements.html',1,'']]]
+  ['management_0',['Management',['../group__wifi__mgmt.html',1,'']]],
+  ['mci_20validation_1',['MCI Validation',['../group__dv__mci.html',1,'']]],
+  ['modem_20lines_2',['Modem Lines',['../group__usart__tests__modem.html',1,'']]]
 ];

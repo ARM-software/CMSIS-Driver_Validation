@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['usart_20server_0',['USART Server',['../group__usart__server.html',1,'']]],
-  ['usart_20validation_1',['USART Validation',['../group__dv__usart.html',1,'']]],
-  ['usb_20compliance_20tests_2',['USB Compliance Tests',['../group__usbd__comp__test.html',1,'']]],
-  ['usb_20device_20validation_3',['USB Device Validation',['../group__dv__usbd.html',1,'']]],
-  ['usb_20host_20validation_4',['USB Host Validation',['../group__dv__usbh.html',1,'']]]
+  ['tests_0',['Tests',['../group__can__tests.html',1,'(Global Namespace)'],['../group__eth__tests.html',1,'(Global Namespace)'],['../group__gpio__tests.html',1,'(Global Namespace)'],['../group__i2c__tests.html',1,'(Global Namespace)'],['../group__mci__tests.html',1,'(Global Namespace)'],['../group__spi__tests.html',1,'(Global Namespace)'],['../group__usart__tests.html',1,'(Global Namespace)'],['../group__usbd__tests.html',1,'(Global Namespace)'],['../group__usbh__tests.html',1,'(Global Namespace)'],['../group__wifi__tests.html',1,'(Global Namespace)']]]
 ];

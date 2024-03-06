@@ -278,4 +278,12 @@ extern void WIFI_Concurrent_Socket (void);
 extern void WIFI_Downstream_Rate (void);
 extern void WIFI_Upstream_Rate (void);
 
+extern void GPIO_Setup (void);
+extern void GPIO_SetDirection (void);
+extern void GPIO_SetOutputMode (void);
+extern void GPIO_SetPullResistor (void);
+extern void GPIO_SetEventTrigger (void);
+extern void GPIO_SetOutput (void);
+extern void GPIO_GetInput (void);
+
 #endif /* __CMSIS_DV_H */

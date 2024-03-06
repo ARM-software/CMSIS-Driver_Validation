@@ -29,6 +29,7 @@ The diagram below shows an overview of the CMSIS-Driver Validation configuration
 The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_can   "CAN"        - Controller Area Network (CAN) interface driver.
   - \ref dv_eth   "Ethernet"   - Ethernet MAC and PHY peripheral interface driver.
+  - \ref dv_gpio  "GPIO"       - General Purpose Input-Output interface driver.
   - \ref dv_i2c   "I2C"        - Inter-Integrated Circuit (I2C) multi-master serial single-ended bus interface driver.
   - \ref dv_mci   "MCI"        - Memory Card Interface driver for SD/MMC memory.
   - \ref dv_spi   "SPI"        - Serial Peripheral Interface (SPI) driver.

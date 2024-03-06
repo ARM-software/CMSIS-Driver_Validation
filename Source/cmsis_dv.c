@@ -24,6 +24,9 @@
  */
 
 #include "cmsis_dv.h"
+#ifdef  RTE_CMSIS_DV_GPIO
+#include "DV_GPIO_Config.h"
+#endif
 #ifdef  RTE_CMSIS_DV_SPI
 #include "DV_SPI_Config.h"
 #endif
@@ -403,6 +406,18 @@ static TEST_CASE TC_List_WiFi[] = {
 };
 #endif
 
+#ifdef  RTE_CMSIS_DV_GPIO
+static TEST_CASE TC_List_GPIO[] = {
+  TCD ( GPIO_Setup,                     GPIO_TC_SETUP_EN                ),
+  TCD ( GPIO_SetDirection,              GPIO_TC_SET_DIRECTION_EN        ),
+  TCD ( GPIO_SetOutputMode,             GPIO_TC_SET_OUTPUT_MODE_EN      ),
+  TCD ( GPIO_SetPullResistor,           GPIO_TC_SET_PULL_RESISTOR_EN    ),
+  TCD ( GPIO_SetEventTrigger,           GPIO_TC_SET_EVENT_TRIGGER_EN    ),
+  TCD ( GPIO_SetOutput,                 GPIO_TC_SET_OUTPUT_EN           ),
+  TCD ( GPIO_GetInput,                  GPIO_TC_GET_INPUT_EN            )
+};
+#endif
+
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdate-time"
@@ -507,6 +522,17 @@ TEST_GROUP ts[] = {
   TS_Uninit_WiFi,
   TC_List_WiFi,
   ARRAY_SIZE (TC_List_WiFi),
+},
+#endif
+
+#ifdef  RTE_CMSIS_DV_GPIO               /* GPIO test group                    */
+{
+  __FILE__, __DATE__, __TIME__,
+  "CMSIS-Driver_Validation v" RTE_CMSIS_DV_PACK_VER " CMSIS-Driver GPIO Test Report",
+  NULL,
+  NULL,
+  TC_List_GPIO,
+  ARRAY_SIZE (TC_List_GPIO),
 },
 #endif
 };

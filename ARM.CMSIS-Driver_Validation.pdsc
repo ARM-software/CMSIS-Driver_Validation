@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.7/schema/PACK.xsd">
+
+<package schemaVersion="1.7.31" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.31/schema/PACK.xsd">
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
   <vendor>ARM</vendor>
-  <url>https://www.keil.com/pack/</url>
   <license>LICENSE.txt</license>
+  <url>https://www.keil.com/pack/</url>
 
   <releases>
-    <release version="0.0.0">
+    <release version="3.1.0-dev">
       Active Development ...
       - Add GPIO Driver validation
       - Improve Ethernet driver validation
@@ -18,8 +19,8 @@
 
   <requirements>
     <packages>
-      <package vendor="ARM"  name="CMSIS"        version="6.0.0-0"/>
-      <package vendor="Keil" name="ARM_Compiler" version="1.6.2-0"/>
+      <package vendor="ARM" name="CMSIS"          version="6.0.0-0"/>
+      <package vendor="ARM" name="CMSIS-Compiler" version="2.0.0-0"/>
     </packages>
   </requirements>
 
@@ -31,7 +32,7 @@
 
   <conditions>
     <condition id="Cortex-M Device">
-      <description>Cortex-M processor based device: Cortex-M0/M0+/M1/M3/M4/M7/M23/M33/M35P/M55/M85, ARMV8MBL/ML, Star-MC1, SC000/300</description>
+      <description>Cortex-M processor based device: Cortex-M0/M0+/M1/M3/M4/M7/M23/M33/M35P/M55/M85, ARMV8MBL/ML, ARMV81MML, Star-MC1, SC000/300</description>
       <accept Dcore="Cortex-M0"/>
       <accept Dcore="Cortex-M0+"/>
       <accept Dcore="Cortex-M1"/>
@@ -45,6 +46,7 @@
       <accept Dcore="Cortex-M85"/>
       <accept Dcore="ARMV8MBL"/>
       <accept Dcore="ARMV8MML"/>
+      <accept Dcore="ARMV81MML"/>
       <accept Dcore="Star-MC1"/>
       <accept Dcore="SC000"/>
       <accept Dcore="SC300"/>
@@ -55,7 +57,7 @@
       <accept  condition="Cortex-M Device"/>
       <require Cclass="CMSIS"                   Cgroup="CORE"/>
       <require Cclass="CMSIS"                   Cgroup="RTOS2"/>
-      <require Cclass="Compiler"                Cgroup="I/O" Csub="STDOUT"/>
+      <require Cclass="CMSIS-Compiler"          Cgroup="STDOUT"/>
     </condition>
 
     <condition id="CMSIS Driver Validation GPIO">

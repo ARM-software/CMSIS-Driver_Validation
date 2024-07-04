@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2024 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -305,15 +305,6 @@ static const char *str_cpol[] = {
 static const char *str_cpha[] = {
   "CPHA0",
   "CPHA1"
-};
-
-static const char *str_modem_line[] = {
-  "RTS",
-  "CTS",
-  "DTR",
-  "DSR",
-  "DCD",
-  "RI"
 };
 
 static const char *str_ret[] = {
@@ -796,7 +787,7 @@ static int32_t ComSendCommand (const void *data_out, uint32_t len) {
 */
 static int32_t ComReceiveResponse (void *data_in, uint32_t len) {
    int32_t ret;
-  uint32_t flags, num, tout;
+  uint32_t flags, num;
 
   ret = EXIT_SUCCESS;
   num = (len + DataBitsToBytes(USART_CFG_SRV_DATA_BITS) - 1U) / DataBitsToBytes(USART_CFG_SRV_DATA_BITS);
@@ -1164,7 +1155,7 @@ static int32_t CmdSetCom (uint32_t mode, uint32_t data_bits, uint32_t parity, ui
   // Send "SET COM" command to USART Server
   memset(ptr_tx_buf, 0, CMD_LEN);
   stat = snprintf((char *)ptr_tx_buf, CMD_LEN, "SET COM %i,%i,%i,%i,%i,%i,%i,%i", mode, data_bits, parity, stop_bits, flow_control, cpol, cpha, baudrate);
-  if ((stat > 0) && (stat < CMD_LEN)) {
+  if ((stat > 0) && (stat < (int32_t)CMD_LEN)) {
     ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
     (void)osDelay(10U);
   } else {
@@ -1641,6 +1632,11 @@ static int32_t SettingsCheck (uint32_t mode, uint32_t data_bits, uint32_t parity
   if (ServerCheck (mode, data_bits, parity, stop_bits, flow_control, modem_line_mask, baudrate) != EXIT_SUCCESS) {
     return EXIT_FAILURE;
   }
+#else
+  (void)data_bits;
+  (void)parity;
+  (void)stop_bits;
+  (void)baudrate;
 #endif
 
   return EXIT_SUCCESS;
@@ -1727,10 +1723,10 @@ void USART_DV_Initialize (void) {
 
 #if (USART_SERVER_USED == 1)            // If Test Mode USART Server is selected
   // Test communication with USART Server
-  int32_t  server_status;
-  uint32_t str_len;
+  int32_t server_status;
 
   // Test communication with USART Server
+  server_status = EXIT_FAILURE;
   if (drv->Initialize    (USART_DrvEvent) == ARM_DRIVER_OK) {
     if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
       server_status = ServerInit();
@@ -1739,8 +1735,10 @@ void USART_DV_Initialize (void) {
   (void)drv->PowerControl(ARM_POWER_OFF);
   (void)drv->Uninitialize();
 
-//(void)snprintf(msg_buf, sizeof(msg_buf), "Server status:      %s\n", str_srv_status[server_status]);
-//TEST_GROUP_INFO(msg_buf);
+  if (server_status != EXIT_SUCCESS) {
+    (void)snprintf(msg_buf, sizeof(msg_buf), "Server status:      %s\n", str_srv_status[server_status]);
+    TEST_GROUP_INFO(msg_buf);
+  }
 #endif
 }
 
@@ -2400,7 +2398,7 @@ static void USART_DataExchange_Operation (uint32_t operation, uint32_t mode, uin
   volatile ARM_USART_STATUS usart_stat;
   volatile uint32_t         tx_count, rx_count;
            uint32_t         start_cnt;
-           uint32_t         val, delay, i;
+           uint32_t         val, i;
   volatile uint32_t         srv_delay;
   volatile uint32_t         drv_delay;
            uint8_t          chk_tx_data, chk_rx_data;
@@ -2621,6 +2619,8 @@ static void USART_DataExchange_Operation (uint32_t operation, uint32_t mode, uin
     (void)srv_dir;
     (void)srv_flow_control;
     (void)srv_delay;
+    (void)def_tx_stat;
+    (void)curr_tick;
 #endif
     start_tick = osKernelGetTickCount();
 
@@ -4138,7 +4138,6 @@ This test function checks the following requirement:
 */
 void USART_Baudrate_Min (void) {
   volatile uint64_t br;
-  volatile  int32_t got_baudrate;
 
   if (DriverInit()  != EXIT_SUCCESS) { TEST_FAIL(); return; }
   if (SettingsCheck (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }
@@ -4184,7 +4183,6 @@ This test function checks the following requirement:
 */
 void USART_Baudrate_Max (void) {
   volatile uint64_t br;
-  volatile  int32_t got_baudrate;
 
   if (DriverInit()  != EXIT_SUCCESS) { TEST_FAIL(); return; }
   if (SettingsCheck (USART_CFG_DEF_MODE, USART_CFG_DEF_DATA_BITS, USART_CFG_DEF_PARITY, USART_CFG_DEF_STOP_BITS, USART_CFG_DEF_FLOW_CONTROL, 0U, USART_CFG_DEF_BAUDRATE) != EXIT_SUCCESS) { TEST_FAIL(); return; }

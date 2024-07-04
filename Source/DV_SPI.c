@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2024 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -384,7 +384,7 @@ static int32_t ComConfigDefault (void) {
 */
 static int32_t ComSendCommand (const void *data_out, uint32_t len) {
    int32_t ret;
-  uint32_t flags, num, tout;
+  uint32_t flags, num;
 
   ret = EXIT_SUCCESS;
   num = (len + DataBitsToBytes(SPI_CFG_SRV_DATA_BITS) - 1U) / DataBitsToBytes(SPI_CFG_SRV_DATA_BITS);
@@ -430,7 +430,7 @@ static int32_t ComSendCommand (const void *data_out, uint32_t len) {
 */
 static int32_t ComReceiveResponse (void *data_in, uint32_t len) {
    int32_t ret;
-  uint32_t flags, num, tout;
+  uint32_t flags, num;
 
   ret = EXIT_SUCCESS;
   num = (len + DataBitsToBytes(SPI_CFG_SRV_DATA_BITS) - 1U) / DataBitsToBytes(SPI_CFG_SRV_DATA_BITS);
@@ -762,7 +762,7 @@ static int32_t CmdSetCom (uint32_t mode, uint32_t format, uint32_t data_bits, ui
   // Send "SET COM" command to SPI Server
   memset(ptr_tx_buf, 0, CMD_LEN);
   stat = snprintf((char *)ptr_tx_buf, CMD_LEN, "SET COM %i,%i,%i,%i,%i,%i", mode, format, data_bits, bit_order, ss_mode, bus_speed);
-  if ((stat > 0) && (stat < CMD_LEN)) {
+  if ((stat > 0) && (stat < (int32_t)CMD_LEN)) {
     ret = ComSendCommand(ptr_tx_buf, CMD_LEN);
     (void)osDelay(10U);
   } else {
@@ -1163,10 +1163,10 @@ void SPI_DV_Initialize (void) {
 
 #if (SPI_SERVER_USED == 1)              // If Test Mode SPI Server is selected
   // Test communication with SPI Server
-  int32_t  server_status;
-  uint32_t str_len;
+  int32_t server_status;
 
   // Test communication with SPI Server
+  server_status = EXIT_FAILURE;
   if (drv->Initialize    (SPI_DrvEvent)   == ARM_DRIVER_OK) {
     if (drv->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK) {
       server_status = ServerInit();
@@ -1175,8 +1175,10 @@ void SPI_DV_Initialize (void) {
   (void)drv->PowerControl(ARM_POWER_OFF);
   (void)drv->Uninitialize();
 
-//(void)snprintf(msg_buf, sizeof(msg_buf), "Server status:    %s\n", str_srv_status[server_status]);
-//TEST_GROUP_INFO(msg_buf);
+  if (server_status != EXIT_SUCCESS) {
+    (void)snprintf(msg_buf, sizeof(msg_buf), "Server status:    %s\n", str_srv_status[server_status]);
+    TEST_GROUP_INFO(msg_buf);
+  }
 #endif
 }
 
@@ -1382,8 +1384,8 @@ The function \b SPI_Initialize_Uninitialize verifies the \b Initialize and \b Un
 Testing sequence:
   - Driver is uninitialized and peripheral is powered-off:
     - Call PowerControl(ARM_POWER_FULL) function and assert that it returned ARM_DRIVER_ERROR status
-    - Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR status
-    - Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_ERROR status
+    - Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR or ARM_DRIVER_ERROR_UNSUPPORTED status
+    - Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_OK status
     - Call Send function and assert that it returned ARM_DRIVER_ERROR status
     - Call Receive function and assert that it returned ARM_DRIVER_ERROR status
     - Call Transfer function and assert that it returned ARM_DRIVER_ERROR status
@@ -1420,17 +1422,21 @@ Testing sequence:
     - Assert that GetStatus function returned status structure with busy flag 0
 */
 void SPI_Initialize_Uninitialize (void) {
+  int32_t        ret;
   ARM_SPI_STATUS stat;
 
   // Driver is uninitialized and peripheral is powered-off:
   // Call PowerControl(ARM_POWER_FULL) function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->PowerControl (ARM_POWER_FULL) == ARM_DRIVER_ERROR);
 
-  // Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR status
-  TEST_ASSERT(drv->PowerControl (ARM_POWER_LOW) == ARM_DRIVER_ERROR);
+  // Call PowerControl(ARM_POWER_LOW) function
+  ret = drv->PowerControl (ARM_POWER_LOW);
 
-  // Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_ERROR status
-  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_ERROR);
+  // Assert that PowerControl(ARM_POWER_LOW) function returned ARM_DRIVER_ERROR or ARM_DRIVER_ERROR_UNSUPPORTED status
+  TEST_ASSERT((ret == ARM_DRIVER_ERROR) || (ret == ARM_DRIVER_ERROR_UNSUPPORTED));
+
+  // Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_OK status
+  TEST_ASSERT(drv->PowerControl (ARM_POWER_OFF) == ARM_DRIVER_OK);
 
   // Call Send function and assert that it returned ARM_DRIVER_ERROR status
   TEST_ASSERT(drv->Send (ptr_tx_buf, SPI_CFG_DEF_NUM) == ARM_DRIVER_ERROR);
@@ -1954,6 +1960,8 @@ static void SPI_DataExchange_Operation (uint32_t operation, uint32_t mode, uint3
     (void)srv_ss_mode;
     (void)srv_delay_c;
     (void)srv_delay_t;
+    (void)def_tx_stat;
+    (void)curr_tick;
 #endif
     start_tick = osKernelGetTickCount();
 

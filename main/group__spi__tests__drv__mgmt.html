@@ -212,8 +212,8 @@ Functions</h2></td></tr>
 </div><!-- fragment --><p >Testing sequence:</p><ul>
 <li>Driver is uninitialized and peripheral is powered-off:<ul>
 <li>Call PowerControl(ARM_POWER_FULL) function and assert that it returned ARM_DRIVER_ERROR status</li>
-<li>Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR status</li>
-<li>Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_ERROR status</li>
+<li>Call PowerControl(ARM_POWER_LOW) function and assert that it returned ARM_DRIVER_ERROR or ARM_DRIVER_ERROR_UNSUPPORTED status</li>
+<li>Call PowerControl(ARM_POWER_OFF) function and assert that it returned ARM_DRIVER_OK status</li>
 <li>Call Send function and assert that it returned ARM_DRIVER_ERROR status</li>
 <li>Call Receive function and assert that it returned ARM_DRIVER_ERROR status</li>
 <li>Call Transfer function and assert that it returned ARM_DRIVER_ERROR status</li>

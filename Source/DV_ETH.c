@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -101,6 +101,10 @@ static int32_t ETH_RunTransfer (const uint8_t *out, uint8_t *in, uint32_t len, u
     if ((Event & ARM_ETH_MAC_EVENT_RX_FRAME) || !capab.event_rx_frame) {
       size = eth_mac->GetRxFrameSize();
       if (size > 0) {
+        if ((size < 14) || (size > 14+ETH_MTU)) {
+          eth_mac->ReadFrame(NULL, 0U);
+          return ARM_DRIVER_ERROR;
+        }
         eth_mac->ReadFrame(in, size);
         return ARM_DRIVER_OK;
       }
@@ -108,7 +112,24 @@ static int32_t ETH_RunTransfer (const uint8_t *out, uint8_t *in, uint32_t len, u
   }
   while ((GET_SYSTICK() - tick) < SYSTICK_MICROSEC(ETH_TRANSFER_TIMEOUT*1000));
 
-  return ARM_DRIVER_ERROR;
+  return ARM_DRIVER_ERROR_TIMEOUT;
+}
+
+#define ETH_CheckAddressFilter()    ETH_CheckFilter(0)
+#define ETH_CheckVlanFilter()       ETH_CheckFilter(1)
+
+// Check multicast address and VLAN filtering support
+static int32_t ETH_CheckFilter (int32_t vlan) {
+  int32_t retv;
+
+  eth_mac->Initialize(cb_event);
+  eth_mac->PowerControl(ARM_POWER_FULL);
+  retv = (!vlan) ? eth_mac->SetAddressFilter(NULL, 0)         :
+                   eth_mac->Control (ARM_ETH_MAC_VLAN_FILTER, 0);
+  eth_mac->PowerControl(ARM_POWER_OFF);
+  eth_mac->Uninitialize();
+
+  return retv;
 }
 
 // Initialize MAC driver wrapper for RMII interface
@@ -634,6 +655,12 @@ The internal Ethernet MAC loopback is used for the test.
 void ETH_MAC_SetAddressFilter (void) {
   uint32_t i,tick;
 
+  if (ETH_CheckAddressFilter() == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    /* Multicast address filtering not supported */
+    TEST_MESSAGE("[WARNING] Multicast address filtering is not supported");
+    return;
+  }
+
   /* Allocate buffers */
   buffer_out = (uint8_t *)malloc(64);
   TEST_ASSERT(buffer_out != NULL);
@@ -756,6 +783,98 @@ void ETH_MAC_SetAddressFilter (void) {
       snprintf(str,sizeof(str),"[FAILED] Receive multicast %d address",i);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
+  }
+
+  /* Power off and uninitialize */
+  TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->Uninitialize() == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->PowerControl(ARM_POWER_OFF) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Uninitialize() == ARM_DRIVER_OK);
+
+  /* Free buffers */
+  free(buffer_out);
+  free(buffer_in);
+}
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\brief  Function: ETH_MAC_VLAN_Filter
+\details
+The function \b ETH_MAC_VLAN_Filter verifies the Ethernet MAC Virtual LAN filtering with the following sequence:
+  - Buffer allocation
+  - Initialize
+  - Power on
+  - Transfer VLAN packets
+  - Receive VLAN packets
+  - Power off
+  - Uninitialize
+
+\note
+The internal Ethernet MAC loopback is used for the test.
+*/
+void ETH_MAC_VLAN_Filter (void) {
+  const uint8_t IP_frame[] = {
+    0x01,0x00,0x5e,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x81,0x00,0x00,0x00,
+    0x08,0x00,0x45,0x00,0x00,0x1c,0x65,0x51,0x00,0x00,0x01,0x02,0xb2,0xe3,0xc0,0xa8,
+    0x01,0x02,0xe0,0x00,0x00,0x01,0x11,0x64,0xee,0x9b,0x00,0x00,0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+  };
+  const uint16_t test_id[] = { 1,2,100,500,1000,1005,1006,1500,2000,4000,4093 };
+  const uint16_t vlan_id[] = { 1,20,100,1000,2000,4093 };
+  uint32_t i,j;
+
+  if (ETH_CheckVlanFilter() == ARM_DRIVER_ERROR_UNSUPPORTED) {
+    /* VLAN tagged frame filtering not supported */
+    TEST_MESSAGE("[WARNING] VLAN filtering is not supported");
+    return;
+  }
+
+  /* Allocate buffers */
+  buffer_out = (uint8_t *)malloc(64);
+  TEST_ASSERT(buffer_out != NULL);
+  if (buffer_out == NULL) return;
+  buffer_in = (uint8_t *)malloc(64);
+  TEST_ASSERT(buffer_in != NULL);
+  if (buffer_in == NULL) { free(buffer_out); return; }
+
+  /* Initialize, power on and configure MAC and PHY */
+  TEST_ASSERT(eth_mac->Initialize(cb_event) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->SetMacAddress(&mac_addr) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->Initialize(eth_mac->PHY_Read, eth_mac->PHY_Write) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
+  osDelay (100);
+  TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
+
+  /* Set Ethernet frame */
+  memcpy (buffer_out, IP_frame, sizeof (IP_frame));
+  memcpy (&buffer_out[6], &mac_addr,  6);
+
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M | ARM_ETH_MAC_DUPLEX_FULL |
+    ARM_ETH_MAC_ADDRESS_MULTICAST | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
+
+  for (i = 0; i < ARRAY_SIZE(vlan_id); i++) {
+    TEST_ASSERT(eth_mac->Control (ARM_ETH_MAC_VLAN_FILTER,
+      ARM_ETH_MAC_VLAN_FILTER_ID_ONLY | vlan_id[i]) == ARM_DRIVER_OK);
+    for (j = 0; j < ARRAY_SIZE(test_id); j++) {
+      int32_t retv;
+      /* Set VLAN ID tag */
+      buffer_out[14] = (test_id[j] >> 8) & 0xFF;
+      buffer_out[15] =  test_id[j]       & 0xFF;
+      retv = ETH_RunTransfer(buffer_out, buffer_in, 64, 0);
+      if (((test_id[j] == vlan_id[i]) && (retv != ARM_DRIVER_OK)) ||
+          ((test_id[j] != vlan_id[i]) && (retv == ARM_DRIVER_OK))) {
+        snprintf(str,sizeof(str),"[FAILED] VLAN tag %d",vlan_id[i]);
+        TEST_FAIL_MESSAGE(str);
+        break;
+      }
+      else TEST_PASS();
+    }
   }
 
   /* Power off and uninitialize */
@@ -1222,7 +1341,7 @@ void ETH_Loopback_External (void) {
   while (eth_phy->GetLinkState() != ARM_ETH_LINK_UP) {
     if ((GET_SYSTICK() - tick) >= SYSTICK_MICROSEC(ETH_LINK_TIMEOUT*1000)) {
       TEST_FAIL_MESSAGE("[FAILED] Link down, connect Ethernet cable");
-      goto end;
+      goto exit;
     }
   }
 
@@ -1232,7 +1351,7 @@ void ETH_Loopback_External (void) {
     (uint32_t)info.duplex << ARM_ETH_MAC_DUPLEX_Pos |
     ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
 
-  /* Clear input buffer*/
+  /* Clear input buffer */
   memset(buffer_in, 0, 14+ETH_MTU);
   if (ETH_RunTransfer(buffer_out, buffer_in, 14+ETH_MTU, 0) != ARM_DRIVER_OK) {
     TEST_FAIL_MESSAGE("[FAILED] Transfer external cable loopback");
@@ -1241,11 +1360,12 @@ void ETH_Loopback_External (void) {
   } else TEST_PASS();
 
   /* Power off and uninitialize */
+exit:
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->Uninitialize() == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->PowerControl(ARM_POWER_OFF) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Uninitialize() == ARM_DRIVER_OK);
-end:
+
   /* Free buffers */
   free(buffer_out);
   free(buffer_in);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -17,7 +17,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * $Revision:   V2.0.0
+ * $Revision:   V2.1.0
  *
  * Project:     CMSIS-Driver Validation
  * Title:       Ethernet (ETH) driver validation configuration file
@@ -70,6 +70,8 @@
 #define ETH_MAC_CONTROL_FILTERING_EN    1
 // <q> ETH_MAC_SetAddressFilter
 #define ETH_MAC_SET_ADDRESS_FILTER_EN   1
+// <q> ETH_MAC_VLAN_Filter
+#define ETH_MAC_VLAN_FILTER_EN          1
 // <q> ETH_MAC_SignalEvent
 #define ETH_MAC_SIGNAL_EVENT_EN         1
 // <q> ETH_MAC_PTP_ControlTimer

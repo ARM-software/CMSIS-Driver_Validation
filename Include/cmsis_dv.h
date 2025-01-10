@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -182,6 +182,7 @@ extern void ETH_MAC_Config_Mode (void);
 extern void ETH_MAC_Config_CommonParams (void);
 extern void ETH_MAC_Control_Filtering (void);
 extern void ETH_MAC_SetAddressFilter (void);
+extern void ETH_MAC_VLAN_Filter (void);
 extern void ETH_MAC_SignalEvent (void);
 extern void ETH_MAC_PTP_ControlTimer (void);
 extern void ETH_MAC_CheckInvalidInit (void);

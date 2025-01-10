@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -271,6 +271,9 @@ static TEST_CASE TC_List_ETH[] = {
   TCD ( ETH_MAC_Config_CommonParams,    ETH_MAC_CONFIG_COMMON_PARAMS_EN ),
   TCD ( ETH_MAC_Control_Filtering,      ETH_MAC_CONTROL_FILTERING_EN    ),
   TCD ( ETH_MAC_SetAddressFilter,       ETH_MAC_SET_ADDRESS_FILTER_EN   ),
+  #ifdef ETH_MAC_VLAN_FILTER_EN
+  TCD ( ETH_MAC_VLAN_Filter,            ETH_MAC_VLAN_FILTER_EN          ),
+  #endif
   TCD ( ETH_MAC_SignalEvent,            ETH_MAC_SIGNAL_EVENT_EN         ),
   TCD ( ETH_MAC_PTP_ControlTimer,       ETH_MAC_PTP_CONTROL_TIMER_EN    ),
   TCD ( ETH_MAC_CheckInvalidInit,       ETH_MAC_CHECK_INVALID_INIT_EN   ),

@@ -11,6 +11,7 @@ var group__eth__tests =
     [ "ETH_MAC_Config_CommonParams", "group__eth__tests.html#ga46ab478d3e074e1e2d23430e37583bbc", null ],
     [ "ETH_MAC_Control_Filtering", "group__eth__tests.html#ga2cd78c6396a692e262fec5aee5e3dd87", null ],
     [ "ETH_MAC_SetAddressFilter", "group__eth__tests.html#ga8097badf5b5a4bf477866955507b0d8c", null ],
+    [ "ETH_MAC_VLAN_Filter", "group__eth__tests.html#ga445d6c072fd7832564b10502b27373b7", null ],
     [ "ETH_MAC_SignalEvent", "group__eth__tests.html#ga7b66855efdc91dd963be8cf4e30549a6", null ],
     [ "ETH_PHY_GetVersion", "group__eth__tests.html#gaab75dd5f07d422b2f457f84faaafd94e", null ],
     [ "ETH_PHY_Initialization", "group__eth__tests.html#ga3ed7bdec67ded66d0a0e7d809ef40a32", null ],

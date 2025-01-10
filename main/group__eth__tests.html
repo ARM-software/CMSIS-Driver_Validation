@@ -145,6 +145,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8097badf5b5a4bf477866955507b0d8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga8097badf5b5a4bf477866955507b0d8c">ETH_MAC_SetAddressFilter</a> (void)</td></tr>
 <tr class="memdesc:ga8097badf5b5a4bf477866955507b0d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_SetAddressFilter.  <a href="group__eth__tests.html#ga8097badf5b5a4bf477866955507b0d8c">More...</a><br /></td></tr>
 <tr class="separator:ga8097badf5b5a4bf477866955507b0d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga445d6c072fd7832564b10502b27373b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga445d6c072fd7832564b10502b27373b7">ETH_MAC_VLAN_Filter</a> (void)</td></tr>
+<tr class="memdesc:ga445d6c072fd7832564b10502b27373b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_VLAN_Filter.  <a href="group__eth__tests.html#ga445d6c072fd7832564b10502b27373b7">More...</a><br /></td></tr>
+<tr class="separator:ga445d6c072fd7832564b10502b27373b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7b66855efdc91dd963be8cf4e30549a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__eth__tests.html#ga7b66855efdc91dd963be8cf4e30549a6">ETH_MAC_SignalEvent</a> (void)</td></tr>
 <tr class="memdesc:ga7b66855efdc91dd963be8cf4e30549a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function: ETH_MAC_SignalEvent.  <a href="group__eth__tests.html#ga7b66855efdc91dd963be8cf4e30549a6">More...</a><br /></td></tr>
 <tr class="separator:ga7b66855efdc91dd963be8cf4e30549a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -453,6 +456,34 @@ Functions</h2></td></tr>
 <li>Receive three multicast addresses</li>
 <li>Receive four multicast addresses</li>
 <li>Receive six multicast addresses</li>
+<li>Power off</li>
+<li>Uninitialize</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>The internal Ethernet MAC loopback is used for the test. </dd></dl>
+
+</div>
+</div>
+<a id="ga445d6c072fd7832564b10502b27373b7" name="ga445d6c072fd7832564b10502b27373b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga445d6c072fd7832564b10502b27373b7">&#9670;&nbsp;</a></span>ETH_MAC_VLAN_Filter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ETH_MAC_VLAN_Filter </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The function <b>ETH_MAC_VLAN_Filter</b> verifies the Ethernet MAC Virtual LAN filtering with the following sequence:</p><ul>
+<li>Buffer allocation</li>
+<li>Initialize</li>
+<li>Power on</li>
+<li>Transfer VLAN packets</li>
+<li>Receive VLAN packets</li>
 <li>Power off</li>
 <li>Uninitialize</li>
 </ul>

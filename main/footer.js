@@ -1,7 +1,7 @@
 function writeHeader() {
-    document.write('Version 3.0.1-dev24');
+    document.write('Version 3.0.1-dev25');
 };
 
 function writeFooter()  {
-    document.write('Generated on Fri Jul  5 2024 05:59:15 for CMSIS-Driver Validation 3.0.1-dev24+ga4e044d. Copyright &copy; 2022-2024 Arm Limited (or its affiliates). All rights reserved.');
+    document.write('Generated on Fri Jan 10 2025 07:05:37 for CMSIS-Driver Validation 3.0.1-dev25+g9fff162. Copyright &copy; 2022-2025 Arm Limited (or its affiliates). All rights reserved.');
 };

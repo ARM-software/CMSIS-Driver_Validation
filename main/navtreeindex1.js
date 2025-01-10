@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"group__wifi__sock__api.html#ga57a2dee261a673a4ee30180613869423":[7,10,4,2,14],
 "group__wifi__sock__api.html#ga5b92075e23383e2cdfc08ba17b7930a1":[7,10,4,2,9],
 "group__wifi__sock__api.html#ga67a1bb12d358a227080e43629ee911c3":[7,10,4,2,1],
 "group__wifi__sock__api.html#ga7c87e23d2ccc67b8b4b1bd030a045786":[7,10,4,2,8],

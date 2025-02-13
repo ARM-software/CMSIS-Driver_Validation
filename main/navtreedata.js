@@ -25,10 +25,7 @@
 var NAVTREE =
 [
   [ "CMSIS-Driver Validation", "index.html", [
-    [ "Overview", "index.html", [
-      [ "Document structure", "index.html#doc_structure", null ],
-      [ "License", "index.html#License", null ]
-    ] ],
+    [ "Overview", "index.html", "index" ],
     [ "Setup", "setup.html", [
       [ "Step 1: Create an MDK project for your target microcontroller device", "setup.html#step1", null ],
       [ "Step 2: Add the required software components", "setup.html#step2", null ],

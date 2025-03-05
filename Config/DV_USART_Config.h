@@ -235,7 +235,7 @@
 //         <q64> USART_GetRxCount
 //           <i> Enable / disable GetRxCount count changing during data exchange (Receive) test.
 //         <q65> USART_GetTxRxCount
-//           <> Enable / disable GetTxRxCount count changing during data exchange (Transfer) test (in Synchronous Master mode only).
+//           <i> Enable / disable GetTxRxCount count changing during data exchange (Transfer) test (in Synchronous Master mode only).
 //         <q66> USART_AbortSend
 //           <i> Enable / disable data exchange Abort Send test.
 //         <q67> USART_AbortReceive

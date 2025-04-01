@@ -51,7 +51,7 @@ This manual contains the following chapters:
   - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
   - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
   - \ref examples              - Contains information about several example projects including the required hardware setup.
-  - <a class="el" href="./modules.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
+  - <a class="el" href="./topics.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
 
 \section License License
 
@@ -106,7 +106,7 @@ Each interface has a related <b>DV_<i>interface</i>_Config.h</b> file, where <i>
 For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.
 
 For details on interface specific configuration and test selection please check the Configuration section in the
-<a class="el" href="./modules.html">Reference</a> of the related interface.
+<a class="el" href="./topics.html">Reference</a> of the related interface.
 
 
 \section step6 Step 6: Configure the Heap memory

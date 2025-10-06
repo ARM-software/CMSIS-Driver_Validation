@@ -33,6 +33,7 @@
 
 #include "Driver_ETH_MAC.h"
 #include "Driver_ETH_PHY.h"
+#include "cmsis_os2.h"
 
 #ifdef BUFFER_PATTERN
 #error Please update DV_ETH_Config.h
@@ -86,11 +87,11 @@ static int32_t ETH_RunTransfer (const uint8_t *out, uint8_t *in, uint32_t len, u
 
   Event &= ~ARM_ETH_MAC_EVENT_RX_FRAME;
   if (frag == 0U) {
-    // Send the entire frame at once
+    // Send one contiguous frame
     eth_mac->SendFrame(out, len, 0);
   }
   else {
-    // Split the frame into two fragments
+    // Send the frame in two fragments
     eth_mac->SendFrame(out, frag, ARM_ETH_MAC_TX_FRAME_FRAGMENT);
     eth_mac->SendFrame(out+frag, len-frag, 0);
   }
@@ -110,7 +111,7 @@ static int32_t ETH_RunTransfer (const uint8_t *out, uint8_t *in, uint32_t len, u
       }
     }
   }
-  while ((GET_SYSTICK() - tick) < SYSTICK_MICROSEC(ETH_TRANSFER_TIMEOUT*1000));
+  while ((GET_SYSTICK() - tick) < SYSTICK_MS(ETH_TRANSFER_TIMEOUT));
 
   return ARM_DRIVER_ERROR_TIMEOUT;
 }
@@ -551,36 +552,40 @@ void ETH_MAC_Control_Filtering (void) {
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M | ARM_ETH_PHY_DUPLEX_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
+  osDelay (20);
 
   /* Set Ethernet header */
   memcpy(&buffer_out[6], &mac_addr, 6);
-  buffer_out[12] = 0;
-  buffer_out[13] = 50;
+
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
 
   for (i = 14; i < 64; i++) {
     buffer_out[i] = i + 'A' - 14;
   }
 
   /* Broadcast receive */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK |
-    ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK | ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
   memcpy(&buffer_out[0], &mac_bcast, 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
     TEST_FAIL_MESSAGE("[FAILED] Receive broadcast");
   } else TEST_PASS();
 
   /* Receive with broadcast disabled */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-    TEST_MESSAGE("[WARNING] Broadcast receive not disabled");
+    TEST_MESSAGE("[WARNING] Received broadcast in BC disabled mode");
   }
 
   /* Multicast receive */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK |
-    ARM_ETH_MAC_ADDRESS_MULTICAST) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK | ARM_ETH_MAC_ADDRESS_MULTICAST) == ARM_DRIVER_OK);
   for (i = 0; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
@@ -590,22 +595,24 @@ void ETH_MAC_Control_Filtering (void) {
   }
 
   /* Receive with multicast disabled */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   memcpy(&buffer_out[0], &mac_mcast[0], 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-    TEST_MESSAGE("[WARNING] Multicast receive not disabled");
+    TEST_MESSAGE("[WARNING] Receive multicast in MC disabled mode");
   }
 
   /* Unicast receive */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
   memcpy(&buffer_out[0], &mac_addr, 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
     TEST_FAIL_MESSAGE("[FAILED] Receive unicast");
   } else TEST_PASS();
 
   /* Promiscuous mode receive */
-  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_LOOPBACK |
-    ARM_ETH_MAC_ADDRESS_ALL) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M |
+    ARM_ETH_MAC_DUPLEX_FULL | ARM_ETH_MAC_LOOPBACK | ARM_ETH_MAC_ADDRESS_ALL) == ARM_DRIVER_OK);
   /* Test broadcast receive */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
@@ -679,14 +686,17 @@ void ETH_MAC_SetAddressFilter (void) {
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M | ARM_ETH_PHY_DUPLEX_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
+  osDelay (20);
 
   /* Set Ethernet header */
   memcpy(&buffer_out[6], &mac_addr, 6);
-  buffer_out[12] = 0;
-  buffer_out[13] = 50;
+
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
 
   for (i = 14; i < 64; i++) {
     buffer_out[i] = i + 'A' - 14;
@@ -697,15 +707,15 @@ void ETH_MAC_SetAddressFilter (void) {
 
   memcpy(&buffer_out[0], &mac_mcast[0], 6);
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
-    /* Error, enabled multicast address not received */
+    /* Error, matching multicast address not received */
     TEST_FAIL_MESSAGE("[FAILED] Receive multicast 0 address");
   } else TEST_PASS();
 
   for (i = 1; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-      /* Warning, disabled multicast address received */
-      snprintf(str,sizeof(str),"[WARNING] Receive multicast %d address",i);
+      /* Warning, non-matching multicast address received */
+      snprintf(str,sizeof(str),"[WARNING] Received non-matching multicast %d address",i);
       TEST_MESSAGE(str);
     }
   }
@@ -716,7 +726,7 @@ void ETH_MAC_SetAddressFilter (void) {
   for (i = 0; i < 2; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
-      /* Error, enabled multicast address not received */
+      /* Error, matching multicast address not received */
       snprintf(str,sizeof(str),"[FAILED] Receive multicast %d address",i);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
@@ -725,8 +735,8 @@ void ETH_MAC_SetAddressFilter (void) {
   for (; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-      /* Warning, disabled multicast address received */
-      snprintf(str,sizeof(str),"[WARNING] Receive multicast %d address",i);
+      /* Warning, non-matching multicast address received */
+      snprintf(str,sizeof(str),"[WARNING] Received non-matching multicast %d address",i);
       TEST_MESSAGE(str);
     }
   }
@@ -737,7 +747,7 @@ void ETH_MAC_SetAddressFilter (void) {
   for (i = 0; i < 3; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
-      /* Error, enabled multicast address not received */
+      /* Error, matching multicast address not received */
       snprintf(str,sizeof(str),"[FAILED] Receive multicast %d address",i);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
@@ -746,8 +756,8 @@ void ETH_MAC_SetAddressFilter (void) {
   for (; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-      /* Warning, disabled multicast address received */
-      snprintf(str,sizeof(str),"[WARNING] Receive multicast %d address",i);
+      /* Warning, non-matching multicast address received */
+      snprintf(str,sizeof(str),"[WARNING] Received non-matching multicast %d address",i);
       TEST_MESSAGE(str);
     }
   }
@@ -758,7 +768,7 @@ void ETH_MAC_SetAddressFilter (void) {
   for (i = 0; i < 4; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
-      /* Error, enabled multicast address not received */
+      /* Error, matching multicast address not received */
       snprintf(str,sizeof(str),"[FAILED] Receive multicast %d address",i);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
@@ -767,8 +777,8 @@ void ETH_MAC_SetAddressFilter (void) {
   for (; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
-      /* Warning, disabled multicast address received */
-      snprintf(str,sizeof(str),"[WARNING] Receive multicast %d address",i);
+      /* Warning, non-matching multicast address received */
+      snprintf(str,sizeof(str),"[WARNING] Received non-matching multicast %d address",i);
       TEST_MESSAGE(str);
     }
   }
@@ -779,7 +789,7 @@ void ETH_MAC_SetAddressFilter (void) {
   for (i = 0; i < 6; i++) {
     memcpy(&buffer_out[0], &mac_mcast[i], 6);
     if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) != ARM_DRIVER_OK) {
-      /* Error, enabled multicast address not received */
+      /* Error, matching multicast address not received */
       snprintf(str,sizeof(str),"[FAILED] Receive multicast %d address",i);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
@@ -847,9 +857,10 @@ void ETH_MAC_VLAN_Filter (void) {
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M | ARM_ETH_PHY_DUPLEX_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
+  osDelay (20);
 
   /* Set Ethernet frame */
   memcpy (buffer_out, IP_frame, sizeof (IP_frame));
@@ -867,14 +878,36 @@ void ETH_MAC_VLAN_Filter (void) {
       buffer_out[14] = (test_id[j] >> 8) & 0xFF;
       buffer_out[15] =  test_id[j]       & 0xFF;
       retv = ETH_RunTransfer(buffer_out, buffer_in, 64, 0);
-      if (((test_id[j] == vlan_id[i]) && (retv != ARM_DRIVER_OK)) ||
-          ((test_id[j] != vlan_id[i]) && (retv == ARM_DRIVER_OK))) {
-        snprintf(str,sizeof(str),"[FAILED] VLAN tag %d",vlan_id[i]);
+      if ((test_id[j] == vlan_id[i]) && (retv != ARM_DRIVER_OK)) {
+        /* Error, matching VLAN ID tag not received */
+        snprintf(str,sizeof(str),"[FAILED] Receive VLAN tag %d",vlan_id[i]);
         TEST_FAIL_MESSAGE(str);
         break;
       }
-      else TEST_PASS();
+      if ((test_id[j] != vlan_id[i]) && (retv == ARM_DRIVER_OK)) {
+        /* Warning, non-matching VLAN tag received */
+        snprintf(str,sizeof(str),"[WARNING] Received non-matching VLAN tag %d",vlan_id[i]);
+        TEST_MESSAGE(str);
+        break;
+      }  
+      TEST_PASS();
     }
+  }
+
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
+
+  TEST_ASSERT(eth_mac->Control (ARM_ETH_MAC_VLAN_FILTER,
+      ARM_ETH_MAC_VLAN_FILTER_ID_ONLY | vlan_id[0]) == ARM_DRIVER_OK);
+
+  /* Test non-tagged frame */
+  buffer_out[14] = 0xFF;
+  buffer_out[15] = 0xFF;
+  if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
+    /* Warning, non VLAN-tagged frame received */
+    snprintf(str,sizeof(str),"[WARNING] Received non VLAN tagged frame");
+    TEST_MESSAGE(str);
   }
 
   /* Power off and uninitialize */
@@ -928,15 +961,18 @@ void ETH_MAC_SignalEvent (void) {
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M | ARM_ETH_PHY_DUPLEX_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
+  osDelay(20);
 
   /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
-  buffer_out[12] = 0;
-  buffer_out[13] = 50;
+
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
 
   for (i = 14; i < 64; i++) {
     buffer_out[i] = i + 'A' - 14;
@@ -952,7 +988,7 @@ void ETH_MAC_SignalEvent (void) {
       break;
     }
   }
-  while ((GET_SYSTICK() - tick) < SYSTICK_MICROSEC(ETH_TRANSFER_TIMEOUT*1000));
+  while ((GET_SYSTICK() - tick) < SYSTICK_MS(ETH_TRANSFER_TIMEOUT));
 
   if (!(Event & ARM_ETH_MAC_EVENT_RX_FRAME)) {
     TEST_FAIL_MESSAGE("[FAILED] Interrupt mode not working");
@@ -1183,72 +1219,56 @@ void ETH_Loopback_Transfer (void) {
   TEST_ASSERT(eth_phy->PowerControl(ARM_POWER_FULL) == ARM_DRIVER_OK);
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_AUTO_NEGOTIATE) == ARM_DRIVER_OK);
+  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M | ARM_ETH_PHY_DUPLEX_FULL) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
-
-  /* Set output buffer pattern */
-  for (i = 0; i < ETH_MTU; i+=2) {
-    buffer_out[14+i] = 0x55;
-    buffer_out[15+i] = 0xAA;
-  }
+  osDelay (20);
 
   /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
 
-  /* Transfer data chunks */
-  for (cnt = 0; cnt < test_num; cnt++) {
-    /* Clear input buffer */
-    memset(buffer_in, 0, test_len[cnt]);
-    /* Set Ethernet type/length */
-    buffer_out[12] = test_len[cnt] >> 8;
-    buffer_out[13] = test_len[cnt] & 0xFF;
-    if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
-      snprintf(str,sizeof(str),"[FAILED] Transfer block of %d bytes",test_len[cnt]);
-      TEST_FAIL_MESSAGE(str);
-    } else if (memcmp(buffer_in, buffer_out, 14+test_len[cnt]) != 0) {
-      snprintf(str,sizeof(str),"[FAILED] Verify block of %d bytes",test_len[cnt]);
-      TEST_FAIL_MESSAGE(str);
-    } else TEST_PASS();
-  }
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
 
-  /* Set output buffer with random data */
   srand(GET_SYSTICK());
-  for (i = 0; i < ETH_MTU; i++) {
-    buffer_out[14+cnt] = (uint8_t)rand();
-  }
+  memset(&buffer_out[14], 0, ETH_MTU);
 
-  /* Transfer data chunks */
+  /* Transfer contiguous blocks */
   for (cnt = 0; cnt < test_num; cnt++) {
-    /* Clear input buffer */
-    memset(buffer_in, 0, test_len[cnt]);
-    /* Set Ethernet type/length */
-    buffer_out[12] = test_len[cnt] >> 8;
-    buffer_out[13] = test_len[cnt] & 0xFF;
+    /* Initialize data buffers */
+    for (i = 0; i < test_len[cnt]; i++) {
+      buffer_out[14+i] = rand() & 0xFF;
+    }
+    memset(buffer_in, 0, 14+ETH_MTU);
     if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
-      snprintf(str,sizeof(str),"[FAILED] Transfer block of %d bytes",test_len[cnt]);
+      snprintf(str,sizeof(str),"[FAILED] Transfer contiguous block of %d bytes",test_len[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else if (memcmp(buffer_in, buffer_out, 14+test_len[cnt]) != 0) {
       snprintf(str,sizeof(str),"[FAILED] Verify block of %d bytes",test_len[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
+    osDelay(1);
   }
 
-  /* Block transfer in two fragments: header and data */
+  memset(&buffer_out[14], 0, ETH_MTU);
+
+  /* Transfer fragmented blocks */
   for (cnt = 0; cnt < test_num; cnt++) {
-    /* Clear input buffer */
-    memset(buffer_in, 0, test_len[cnt]);
-    /* Set Ethernet type/length */
-    buffer_out[12] = test_len[cnt] >> 8;
-    buffer_out[13] = test_len[cnt] & 0xFF;
-    if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 0) != ARM_DRIVER_OK) {
-      snprintf(str,sizeof(str),"[FAILED] Fragmented block transfer of %d bytes",test_len[cnt]);
+    /* Initialize data buffers */
+    for (i = 0; i < test_len[cnt]; i++) {
+      buffer_out[14+i] = rand() & 0xFF;
+    }
+    memset(buffer_in, 0, 14+ETH_MTU);
+    if (ETH_RunTransfer(buffer_out, buffer_in, 14+test_len[cnt], 14) != ARM_DRIVER_OK) {
+      snprintf(str,sizeof(str),"[FAILED] Transfer fragmented block of %d bytes",test_len[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else if (memcmp(buffer_in, buffer_out, 14+test_len[cnt]) != 0) {
-      snprintf(str,sizeof(str),"[FAILED] Fragmented block check of %d bytes",test_len[cnt]);
+      snprintf(str,sizeof(str),"[FAILED] Verify reassembled block of %d bytes",test_len[cnt]);
       TEST_FAIL_MESSAGE(str);
     } else TEST_PASS();
+    osDelay(1);
   }
 
   /* Power off and uninitialize */
@@ -1282,7 +1302,7 @@ An external loopback cable is required for this test.
 */
 void ETH_Loopback_External (void) {
   ARM_ETH_LINK_INFO info;
-  uint32_t i,cnt,tick;
+  uint32_t i,tick;
 
   /* Allocate buffers, add space for Ethernet header */
   buffer_out = (uint8_t *)malloc(14+ETH_MTU);
@@ -1303,27 +1323,23 @@ void ETH_Loopback_External (void) {
   osDelay (100);
   TEST_ASSERT(eth_phy->SetInterface(capab.media_interface) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M |
-   ARM_ETH_PHY_DUPLEX_FULL | ARM_ETH_PHY_LOOPBACK) == ARM_DRIVER_OK);
+    ARM_ETH_PHY_DUPLEX_FULL | ARM_ETH_PHY_LOOPBACK) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_RX, 1) == ARM_DRIVER_OK);
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONTROL_TX, 1) == ARM_DRIVER_OK);
-
-  /* Fill output buffer */
-  for (cnt = 0; cnt < ETH_MTU; cnt++) {
-    buffer_out[14+cnt] = (cnt ^ 0x20) & 0x7F;
-  }
-
+  osDelay (20);
+  
   /* Set Ethernet header */
   memcpy(&buffer_out[0], &mac_bcast, 6);
   memcpy(&buffer_out[6], &mac_addr,  6);
 
-  /* Set Ethernet type/length */
-  buffer_out[12] = (ETH_MTU >> 8) & 0xFF;
-  buffer_out[13] =  ETH_MTU       & 0xFF;
+  /* Set Ethernet type Loopback */
+  buffer_out[12] = 0xC0;
+  buffer_out[13] = 0x00;
 
-  /* Check PHY internal loopback */
-  TEST_ASSERT(eth_phy->SetMode(ARM_ETH_PHY_SPEED_100M |
-    ARM_ETH_PHY_DUPLEX_FULL | ARM_ETH_PHY_LOOPBACK) == ARM_DRIVER_OK);
-  osDelay(200);
+  /* Fill output buffer */
+  for (i = 0; i < ETH_MTU; i++) {
+    buffer_out[14+i] = (i ^ 0x20) & 0x7F;
+  }
 
   /* Clear input buffer*/
   memset(buffer_in, 0, 14+ETH_MTU);
@@ -1339,7 +1355,7 @@ void ETH_Loopback_External (void) {
   /* Check Ethernet link */
   tick = GET_SYSTICK();
   while (eth_phy->GetLinkState() != ARM_ETH_LINK_UP) {
-    if ((GET_SYSTICK() - tick) >= SYSTICK_MICROSEC(ETH_LINK_TIMEOUT*1000)) {
+    if ((GET_SYSTICK() - tick) >= SYSTICK_MS(ETH_LINK_TIMEOUT)) {
       TEST_FAIL_MESSAGE("[FAILED] Link down, connect Ethernet cable");
       goto exit;
     }
@@ -1591,7 +1607,7 @@ void ETH_Loopback_PTP (void) {
   TEST_ASSERT(eth_mac->SendFrame(PTP_frame, PTP_frame_len, ARM_ETH_MAC_TX_FRAME_TIMESTAMP) == ARM_DRIVER_OK);
   tick = GET_SYSTICK();
   while (eth_mac->GetRxFrameSize() == 0) {
-    if ((GET_SYSTICK() - tick) >= SYSTICK_MICROSEC(ETH_TRANSFER_TIMEOUT*1000)) {
+    if ((GET_SYSTICK() - tick) >= SYSTICK_MS(ETH_TRANSFER_TIMEOUT)) {
       TEST_FAIL_MESSAGE("[FAILED] Transfer timeout");
       break;
     }

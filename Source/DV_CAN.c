@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -128,7 +128,7 @@ int8_t CAN_RunTransfer (uint32_t tx_obj_idx, ARM_CAN_MSG_INFO *tx_msg_info, cons
       return 0;
     }
   }
-  while ((GET_SYSTICK() - tick) < SYSTICK_MICROSEC(CAN_TRANSFER_TIMEOUT));
+  while ((GET_SYSTICK() - tick) < SYSTICK_MS(CAN_TRANSFER_TIMEOUT));
   return -1;
 }
 
@@ -386,10 +386,10 @@ void CAN_Loopback_CheckBitrate (void) {
         tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(0x15555555U);
 
         /* Measure transfer time */
-        ticks_measured = GET_SYSTICK();
+        ticks_measured = GET_SYSTIMER();
         CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, CAN_MSG_SIZE);
-        ticks_measured = GET_SYSTICK() - ticks_measured;
-        ticks_expected = SYSTICK_MICROSEC((((CAN_MSG_SIZE * 8U) + CAN_EXT_FRAME_BITS) * 1000) / CAN_BR[bitrate]);
+        ticks_measured = GET_SYSTIMER() - ticks_measured;
+        ticks_expected = SYSTIMER_US((((CAN_MSG_SIZE * 8U) + CAN_EXT_FRAME_BITS) * 1000) / CAN_BR[bitrate]);
 
         rate = (double)ticks_measured/ticks_expected;
 
@@ -581,11 +581,11 @@ void CAN_Loopback_CheckBitrateFD (void) {
           tx_data_msg_info.id = ARM_CAN_EXTENDED_ID(0x15555555U);
 
           /* Measure transfer time */
-          ticks_measured = GET_SYSTICK();
+          ticks_measured = GET_SYSTIMER();
           CAN_RunTransfer (tx_obj_idx, &tx_data_msg_info, buffer_out, rx_obj_idx, &rx_data_msg_info, buffer_in, CAN_MSG_SIZE_FD);
-          ticks_measured = GET_SYSTICK() - ticks_measured;
-          ticks_expected = SYSTICK_MICROSEC((((((CAN_MSG_SIZE_FD * 8U) + CAN_EXT_FRAME_BITS_FD_DATA) * 1000) / (CAN_BR[bitrate] * CAN_DATA_ARB_RATIO)) +
-                                                     (((CAN_EXT_FRAME_BITS_NOMINAL)                         * 1000) /  CAN_BR[bitrate]                      ) ));
+          ticks_measured = GET_SYSTIMER() - ticks_measured;
+          ticks_expected = SYSTIMER_US((((((CAN_MSG_SIZE_FD * 8U) + CAN_EXT_FRAME_BITS_FD_DATA) * 1000) / (CAN_BR[bitrate] * CAN_DATA_ARB_RATIO)) +
+                                         (((CAN_EXT_FRAME_BITS_NOMINAL)                         * 1000) /  CAN_BR[bitrate]                      ) ));
 
           rate = (double)ticks_measured/ticks_expected;
 
@@ -667,7 +667,7 @@ void CAN_Loopback_Transfer (void) {
     }
 
     /* Set output buffer with random data */
-    srand(GET_SYSTICK());
+    srand(GET_SYSTIMER());
     for (cnt = 0; cnt<CAN_MSG_SIZE; cnt++) {
       buffer_out[cnt] = rand()%0x100U;
     }
@@ -865,7 +865,7 @@ void CAN_Loopback_TransferFD (void) {
       }
 
       /* Set output buffer with random data */
-      srand(GET_SYSTICK());
+      srand(GET_SYSTIMER());
       for (cnt = 0; cnt<CAN_MSG_SIZE_FD; cnt++) {
         buffer_out[cnt] = rand()%0x100;
       }

@@ -32,16 +32,14 @@
 #include "RTE_Components.h"             // Component selection
 #endif
 
-#if defined(RTE_CMSIS_RTOS)
-#include "cmsis_os.h"
-#define GET_SYSTICK() osKernelSysTick()
-#define SYSTICK_MICROSEC(microsec) (((uint64_t)microsec * (osKernelSysTickFrequency)) / 1000000)
-
-#elif defined(RTE_CMSIS_RTOS2)
 #include "cmsis_os2.h"
-#define GET_SYSTICK() osKernelGetSysTimerCount()
-#define SYSTICK_MICROSEC(microsec) (((uint64_t)microsec *  osKernelGetSysTimerFreq()) / 1000000)
-#endif
+
+#define GET_SYSTICK()   	osKernelGetTickCount()
+#define SYSTICK_MS(ms)  	(((uint32_t)ms * osKernelGetTickFreq()) / 1000U)
+
+#define GET_SYSTIMER()      osKernelGetSysTimerCount()
+#define SYSTIMER_US(us)     (((uint64_t)us *  osKernelGetSysTimerFreq()) / 1000000)
+
 #include "cmsis_compiler.h"
 
 /* Expansion macro used to create CMSIS Driver references */

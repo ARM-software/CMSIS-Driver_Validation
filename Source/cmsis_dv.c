@@ -421,10 +421,6 @@ static TEST_CASE TC_List_GPIO[] = {
 };
 #endif
 
-#if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdate-time"
-#endif
 /*-----------------------------------------------------------------------------
  *      Test suite description
  *----------------------------------------------------------------------------*/
@@ -543,6 +539,3 @@ TEST_GROUP ts[] = {
 /* Number of test groups in suite */
 uint32_t tg_cnt = sizeof(ts)/sizeof(ts[0]);
 
-#if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
-#pragma clang diagnostic pop
-#endif

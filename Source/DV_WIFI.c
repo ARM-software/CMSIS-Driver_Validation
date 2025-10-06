@@ -4243,7 +4243,7 @@ void WIFI_SocketAccept_nbio (void) {
     TH_ASSERT  (io.rc > 0);
 
     /* Accept connection, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       /* Accept connection with NULL parameters */
@@ -4255,7 +4255,7 @@ void WIFI_SocketAccept_nbio (void) {
     TH_ASSERT  ((io.rc != io.sock) && (io.rc >= 0));
 
     /* Receive SockServer id string, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       io.sock = io.rc;
@@ -4265,7 +4265,7 @@ void WIFI_SocketAccept_nbio (void) {
     TH_ASSERT (io.rc > 0);
 
     /* Close accepted socket, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4286,7 +4286,7 @@ void WIFI_SocketAccept_nbio (void) {
     memset (ip, 0, sizeof(ip));
 
     /* Accept again, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       /* Accept again, return ip address and port */
@@ -4302,7 +4302,7 @@ void WIFI_SocketAccept_nbio (void) {
     TH_ASSERT  (port != 0);
 
     /* Receive SockServer id string, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       io.sock = io.rc;
@@ -4321,7 +4321,7 @@ void WIFI_SocketAccept_nbio (void) {
     TH_ASSERT2 ((io.rc == ARM_SOCKET_ECONNRESET), ((io.rc == ARM_SOCKET_EAGAIN) || (io.rc == ARM_SOCKET_ERROR)), "receive on disconnected socket", io.rc, ARM_SOCKET_ECONNRESET);
 
     /* Close accepted socket, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4866,7 +4866,7 @@ void WIFI_SocketConnect_nbio (void) {
     TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
 
     /* Connect, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       ARG_CONNECT(sock, ip_socket_server, 4, DISCARD_PORT);
@@ -4891,7 +4891,7 @@ void WIFI_SocketConnect_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4927,7 +4927,7 @@ void WIFI_SocketConnect_nbio (void) {
     TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
 
     /* Connect, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       ARG_CONNECT(sock, ip_socket_server, 4, TCP_REJECTED_PORT);
@@ -4940,7 +4940,7 @@ void WIFI_SocketConnect_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -4969,7 +4969,7 @@ void WIFI_SocketConnect_nbio (void) {
     TH_ASSERT  (io.rc == ARM_SOCKET_EINPROGRESS);
 
     /* Connect, polling mode */
-    tout  = SYSTICK_MICROSEC((18000 + WIFI_SOCKET_TIMEOUT)*1000);
+    tout  = SYSTICK_MS(18000 + WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       ARG_CONNECT(sock, ip_socket_server, 4, TCP_TIMEOUT_PORT);
@@ -4982,7 +4982,7 @@ void WIFI_SocketConnect_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -5024,7 +5024,7 @@ void WIFI_SocketConnect_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -5311,7 +5311,7 @@ void WIFI_SocketRecv (void) {
     /* Should return EAGAIN (operation timed out) */
     TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
     /* Check receive timeout is in the range of 0.9 to 1.1 sec */
-    TH_ASSERT  (tout > SYSTICK_MICROSEC(900000) && tout < SYSTICK_MICROSEC(1100000));
+    TH_ASSERT  (tout > SYSTICK_MS(900) && tout < SYSTICK_MS(1100));
 
     /* Close socket */
     io.sock = sock;
@@ -5433,7 +5433,7 @@ void WIFI_SocketRecv_nbio (void) {
     TH_ASSERT  (io.rc == 0);
 
     /* Receive some data, polling mode */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       ARG_RECV   (sock, buffer, sizeof(buffer));
@@ -5444,7 +5444,7 @@ void WIFI_SocketRecv_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -5509,7 +5509,7 @@ void WIFI_SocketRecv_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -5541,7 +5541,7 @@ void WIFI_SocketRecv_nbio (void) {
 
     /* Receive for 1 sec, timeout no data */
     npoll = 0;
-    tout  = SYSTICK_MICROSEC(1000000);
+    tout  = SYSTICK_MS(1000);
     ticks = GET_SYSTICK();
     do {
       ARG_RECV   (sock, buffer, sizeof(buffer));
@@ -5556,7 +5556,7 @@ void WIFI_SocketRecv_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -5772,7 +5772,7 @@ void WIFI_SocketRecvFrom (void) {
     /* Should return EAGAIN (operation timed out) */
     TH_ASSERT  (io.rc == ARM_SOCKET_EAGAIN);
     /* Check receive timeout is in the range of 0.9 to 1.1 sec */
-    TH_ASSERT  (tout > SYSTICK_MICROSEC(900000) && tout < SYSTICK_MICROSEC(1100000));
+    TH_ASSERT  (tout > SYSTICK_MS(900) && tout < SYSTICK_MS(1100));
 
     /* Close socket */
     io.sock = sock;
@@ -5899,7 +5899,7 @@ void WIFI_SocketRecvFrom_nbio (void) {
     memset (ip, 0, sizeof(ip));
     
     /* Receive some data */
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT_LONG*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT_LONG);
     ticks = GET_SYSTICK();
     do {
       ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
@@ -5915,7 +5915,7 @@ void WIFI_SocketRecvFrom_nbio (void) {
 
      /* Receive for 1 sec, timeout no data */
     npoll = 0;
-    tout  = SYSTICK_MICROSEC(1000000);
+    tout  = SYSTICK_MS(1000);
     ticks = GET_SYSTICK();
     do {
       ARG_RECVFROM (sock, buffer, sizeof(buffer), ip, &ip_len, &port);
@@ -5930,7 +5930,7 @@ void WIFI_SocketRecvFrom_nbio (void) {
 
     /* Close socket, polling mode */
     io.sock = sock;
-    tout  = SYSTICK_MICROSEC(WIFI_SOCKET_TIMEOUT*1000);
+    tout  = SYSTICK_MS(WIFI_SOCKET_TIMEOUT);
     ticks = GET_SYSTICK();
     do {
       TH_EXECUTE (F_CLOSE, WIFI_SOCKET_TIMEOUT);
@@ -8822,7 +8822,7 @@ void WIFI_Test_Speed (void) {
     TH_ASSERT  (io.rc == 0);
 
     /* Transfer for 4 seconds */
-    tout  = SYSTICK_MICROSEC(4000000);
+    tout  = SYSTICK_MS(4000);
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
@@ -8859,7 +8859,7 @@ void WIFI_Test_Speed (void) {
     TH_ASSERT  (io.rc == 0);
 
     /* Transfer for 4 seconds */
-    tout  = SYSTICK_MICROSEC(4000000);
+    tout  = SYSTICK_MS(4000);
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
@@ -9000,7 +9000,7 @@ void WIFI_Concurrent_Socket (void) {
     TEST_ASSERT(spawn != NULL);
 
     /* Transfer for 4 seconds */
-    tout  = SYSTICK_MICROSEC(4000000);
+    tout  = SYSTICK_MS(4000);
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
@@ -9076,7 +9076,7 @@ void WIFI_Concurrent_Socket (void) {
     TEST_ASSERT(spawn != NULL);
 
     /* Transfer for 4 seconds */
-    tout  = SYSTICK_MICROSEC(4000000);
+    tout  = SYSTICK_MS(4000);
     ticks = GET_SYSTICK();
     n_bytes = 0;
     do {
@@ -9176,7 +9176,7 @@ __NO_RETURN static void Th_StreamRate (IO_STREAMRATE *io) {
       case F_UPLOAD:
         /* Upstream test, server is receiver */
         memset ((void *)buffer, 'a', TEST_BSIZE);
-        tout  = SYSTICK_MICROSEC(4000000);
+        tout  = SYSTICK_MS(4000);
         ticks = GET_SYSTICK();
         i = n = 0;
         do {

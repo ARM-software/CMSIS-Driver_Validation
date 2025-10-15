@@ -30,6 +30,7 @@
 #define DV_CAN_CONFIG_H_
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
+//------ With VS Code: Open Preview for Configuration Wizard -------------------
 
 // <h> CAN
 // <i> Controller Area Network (CAN) driver validation configuration

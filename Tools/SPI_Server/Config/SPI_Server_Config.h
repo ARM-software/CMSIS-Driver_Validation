@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -27,6 +27,7 @@
 #define  SPI_SERVER_CONFIG_H_
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
+//------ With VS Code: Open Preview for Configuration Wizard -------------------
 
 // <h> SPI Server
 //   <i> SPI Server configuration.

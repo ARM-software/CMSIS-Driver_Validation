@@ -29,6 +29,7 @@
 #define DV_ETH_CONFIG_H_
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
+//------ With VS Code: Open Preview for Configuration Wizard -------------------
 
 // <h> Ethernet
 // <i> Ethernet (ETH) driver validation configuration

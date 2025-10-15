@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2015-2025 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -29,6 +29,7 @@
 #define DV_CONFIG_H_
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
+//------ With VS Code: Open Preview for Configuration Wizard -------------------
 
 // <h> Driver Validation
 // <i> Driver Validation configuration

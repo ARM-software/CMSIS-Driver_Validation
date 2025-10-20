@@ -94,13 +94,7 @@ osThreadNew(cmsis_dv, NULL, NULL);
 to run all the tests that you have chosen in the next step.
 
 
-\section step4 Step 4: Configure the CMSIS-Driver Validation framework in DV_Config.h file
-
-Open <b>DV_Config.h</b> under the <b>CMSIS Driver Validation</b> group in the Project window.
-
-In the configuration file <b>DV_Config.h</b> select <b>Plain Text</b> as the <b>Report Format</b>.
-
-\section step5 Step 5: Configure the interface settings and tests in related DV_interface_Config.h files
+\section step4 Step 4: Configure the interface settings and tests in related DV_interface_Config.h files
 
 Each interface has a related <b>DV_<i>interface</i>_Config.h</b> file, where <i>interface</i> represents interface's acronym or abbreviation.<br>
 For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.
@@ -109,7 +103,7 @@ For details on interface specific configuration and test selection please check 
 <a class="el" href="./modules.html">Reference</a> of the related interface.
 
 
-\section step6 Step 6: Configure the Heap memory
+\section step5 Step 5: Configure the Heap memory
 
 Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these
 buffers to be allocated.<br>
@@ -120,7 +114,7 @@ Set the <b>heap size</b> to minimum of <b>16384</b> bytes.
 For details on heap requirements please refer to the \ref heap_req "Heap Memory requirements" documentation.
 
 
-\section step7 Step 7: Configure the CMSIS-RTOS2 (Keil RTX5)
+\section step6 Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)
 
 Open <b>RTX_Config.h</b> and set:
 - <b>System Configuration: Global Dynamic Memory size [bytes]</b> to \a 16384
@@ -128,7 +122,7 @@ Open <b>RTX_Config.h</b> and set:
 
 For details on CMSIS-RTOS2 requirements please refer to the \ref rtos2_req "CMSIS-RTOS2 requirements" documentation.
 
-\section step8 Step 8: Configure the Device
+\section step7 Step 7: Configure the Device
 
 Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device
 using the \c RTE_Device.h file from the \b Device group or with a vendor provided pin configuration tool.
@@ -142,7 +136,7 @@ For a robust test with good coverage, implement various targets with different s
   <b>Options for Target</b> dialog
 
 
-\section step9 Step 9: Setup the required hardware
+\section step8 Step 8: Setup the required hardware
 
 For the interfaces that support loopback testing: \ref dv_eth "Ethernet", \ref dv_usart "USART" and \ref dv_spi "SPI",
 connect the following pins on your target hardware together (refer to the hardware schematics):
@@ -158,7 +152,7 @@ connect the related hardware as required by the related server:
 - SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
 
 
-\section step10 Step 10: Download and Run the Project
+\section step9 Step 9: Download and Run the Project
 
 In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as standard output channel ensure that
 \b Trace and <b>ITM port 0</b> are enabled and that the correct <b>Core Clock</b> frequency is set:
@@ -242,37 +236,28 @@ Test Result: PASSED
 /**
 \page report Report
 
-The CMSIS-Driver Validation can output the test report in a <b>Plain Text</b> format or as an <b>XML</b> formatted file.<br>
-Selection of the output report type is done in the <b>DV_Config.h</b> configuration file.
+The CMSIS-Driver Validation outputs the test report in a <b>Plain Text</b> format.
 
-\image html dv_config_h.png "Configuration file DV_Config.h in Configuration Wizard view mode"
+This report can be viewed using the <b>Debug (printf) Viewer</b> window or any terminal application.
 
-The <b>Plain Text</b> selection instructs the CMSIS-Driver Validation framework to generate a plain text report
-which can be seen in the <b>Debug (printf) Viewer</b> window and is mostly used for driver debugging purposes
-but can also be used as a final report.
+An example of a report captured in a terminal application is shown below: 
+\verbatim
+CMSIS-Driver_Validation v3.1.0 CMSIS-Driver GPIO Test Report   Oct  9 2025   09:15:16 
 
-The <b>XML</b> selection instructs the CMSIS-Driver Validation framework to generate an XML formatted report
-which is meant to be used as a final report and can be viewed nicely in any Web browser.<br>
+TEST 01: GPIO_Setup                       PASSED
+TEST 02: GPIO_SetDirection                PASSED
+TEST 03: GPIO_SetOutputMode               PASSED
+TEST 04: GPIO_SetPullResistor             PASSED
+TEST 05: GPIO_SetEventTrigger             PASSED
+TEST 06: GPIO_SetOutput                   PASSED
+TEST 07: GPIO_GetInput                    PASSED
 
-The report file can be written into a <b>TestReport.xml</b> file directly by the uVision with an additional debugger script
-called <b>SaveXML.ini</b> which needs to be specified as <b>Initialization File:</b> for the <b>Debugger</b> in the
-<b>Options for target</b> dialog, or it can be copy-pasted manually from the <b>Debug (printf) Viewer</b> window to
-the TestReport.xml file.<br>
-The SaveXML.ini script can be found in <c>\<pack root directory\></c><b>\\Scripts</b> directory.
+Test Summary: 7 Tests, 7 Passed, 0 Failed.
+Test Result: PASSED
 
-To view <b>TestReport.xml</b> file in a Web browser an additional style sheet <b>TR_Style.xsl</b> file needs to be
-in the same directory as the TestReport.xml file.<br>
-The TR_Style.xsl file contains the description of formatting for the Web browser to display the TestReport.xml report and
-can be found in <c>\<pack root directory\></c><b>\\Scripts</b> directory.
+\endverbatim
 
-
-The XML file uses coloring to differentiate the results in the following way:
- - <span style="font-weight:bold; color:Green">Passed</span> status means that test function has passed successfully.
- - <span style="font-weight:bold; color:DarkOrange">Passed</span> status means that test function has passed but there were some warnings
-     (<c>More details</c> can be used to see the details about warnings).
- - <span style="font-weight:bold; color:Blue">Not executed</span> status means that test function did not check any assertions.
- - <span style="font-weight:bold; color:Red">Failed</span> status means that test function has failed
-     (<c>More details</c> can be used to see the details on reasons of failure).
+> **Note:** XML format was deprecated and removed, only <b>Plain Text</b> mode is available now.
 
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -365,10 +350,6 @@ of the 25 executed tests have passed.
 
 This report could be used as an insurance that the SPI Driver on this device is compliant to the CMSIS-Driver specification.
 
-The TestReport.xml report created instead of Plain Text opened in a Web browser looks similar to the the picture below:
-
-\image html xml_report.png "XML test report"
-
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -445,7 +426,6 @@ The following example projects are available:
 <b>Project Targets</b>
 
 The example projects may contain some of the following target configurations:
-- <b>Create Report</b>: test results and statistics are stored in the <b>TestReport\TestReport.xml</b> file, that can be viewed with a web browser.
 - \b Debug: test results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
 - \b Release: same as the Debug target but with higher level of code optimization selected.
 */

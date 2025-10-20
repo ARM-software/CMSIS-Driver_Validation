@@ -11,6 +11,7 @@
     <release version="3.1.0-dev">
       Active Development ...
       - Add GPIO Driver validation
+      - Remove XML report format
       - Improve Ethernet driver validation
       - Minor update to SPI driver validation
       - Minor update to USART driver validation
@@ -143,7 +144,6 @@
       <files>
         <file category="doc"     name="Documentation/html/index.html" />
         <file category="include" name="Include/"/>
-        <file category="header"  name="Config/DV_Config.h" attr="config" version = "2.0.0"/>
         <file category="source"  name="Source/cmsis_dv.c"/>
         <file category="source"  name="Source/DV_Framework.c"/>
         <file category="source"  name="Source/DV_Report.c"/>

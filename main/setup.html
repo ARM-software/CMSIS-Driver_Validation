@@ -131,37 +131,33 @@ Step 3: Add the application's main file (main.c)</h1>
 <div class="ttc" id="agroup__framework__funcs_html_ga6e9dc1a6a5392afdf07478bd6b159287"><div class="ttname"><a href="group__framework__funcs.html#ga6e9dc1a6a5392afdf07478bd6b159287">cmsis_dv</a></div><div class="ttdeci">void cmsis_dv(void *argument)</div><div class="ttdoc">This is the entry point of the test framework.</div><div class="ttdef"><b>Definition:</b> DV_Framework.c:77</div></div>
 </div><!-- fragment --><p> to run all the tests that you have chosen in the next step.</p>
 <h1><a class="anchor" id="step4"></a>
-Step 4: Configure the CMSIS-Driver Validation framework in DV_Config.h file</h1>
-<p>Open <b>DV_Config.h</b> under the <b>CMSIS Driver Validation</b> group in the Project window.</p>
-<p>In the configuration file <b>DV_Config.h</b> select <b>Plain Text</b> as the <b>Report Format</b>.</p>
-<h1><a class="anchor" id="step5"></a>
-Step 5: Configure the interface settings and tests in related DV_interface_Config.h files</h1>
+Step 4: Configure the interface settings and tests in related DV_interface_Config.h files</h1>
 <p>Each interface has a related <b>DV_<em>interface</em>_Config.h</b> file, where <em>interface</em> represents interface's acronym or abbreviation.<br  />
  For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.</p>
 <p>For details on interface specific configuration and test selection please check the Configuration section in the <a href="./modules.html" class="el">Reference</a> of the related interface.</p>
-<h1><a class="anchor" id="step6"></a>
-Step 6: Configure the Heap memory</h1>
+<h1><a class="anchor" id="step5"></a>
+Step 5: Configure the Heap memory</h1>
 <p>Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these buffers to be allocated.<br  />
  Depending on how heap is configured in your system, open your <b>startup_&lt;device&gt;.s</b> or <b>startup_&lt;device&gt;.c</b> file from the <b>Device</b> group in the <b>Project</b> window or use a <b>linker script</b> to adjust the heap size.<br  />
  Set the <b>heap size</b> to minimum of <b>16384</b> bytes.</p>
 <p>For details on heap requirements please refer to the <a class="el" href="resource_requirements.html#heap_req">Heap Memory requirements</a> documentation.</p>
-<h1><a class="anchor" id="step7"></a>
-Step 7: Configure the CMSIS-RTOS2 (Keil RTX5)</h1>
+<h1><a class="anchor" id="step6"></a>
+Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)</h1>
 <p>Open <b>RTX_Config.h</b> and set:</p><ul>
 <li><b>System Configuration: Global Dynamic Memory size [bytes]</b> to <em>16384</em> </li>
 <li><b>Thread configuration: Default Thread stack size [bytes]</b> to <em>3072</em> </li>
 </ul>
 <p>For details on CMSIS-RTOS2 requirements please refer to the <a class="el" href="resource_requirements.html#rtos2_req">CMSIS-RTOS2 requirements</a> documentation.</p>
-<h1><a class="anchor" id="step8"></a>
-Step 8: Configure the Device</h1>
+<h1><a class="anchor" id="step7"></a>
+Step 7: Configure the Device</h1>
 <p>Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device using the <code>RTE_Device.h</code> file from the <b>Device</b> group or with a vendor provided pin configuration tool. Enable all interfaces you wish to test and make all necessary pin-out changes required by your actual board layout (consult the board schematics).<br  />
  You can check the provided <a class="el" href="examples.html">examples</a> as a reference point.</p>
 <p>For a robust test with good coverage, implement various targets with different settings:</p><ul>
 <li>Use <b>non-DMA (IRQ)</b> and <b>DMA</b> configurations if they are available on the driver</li>
 <li>Use different compiler <b>optimization levels</b> in the <a href="http://www.keil.com/support/man/docs/uv4/uv4_dg_adscc.htm" target="_blank">C/C++ tab</a> of the <b>Options for Target</b> dialog</li>
 </ul>
-<h1><a class="anchor" id="step9"></a>
-Step 9: Setup the required hardware</h1>
+<h1><a class="anchor" id="step8"></a>
+Step 8: Setup the required hardware</h1>
 <p>For the interfaces that support loopback testing: <a class="el" href="group__dv__eth.html">Ethernet</a>, <a class="el" href="group__dv__usart.html">USART</a> and <a class="el" href="group__dv__spi.html">SPI</a>, connect the following pins on your target hardware together (refer to the hardware schematics):</p>
 <ul>
 <li>Ethernet: RX+ and TX+, RX- and TX-</li>
@@ -173,8 +169,8 @@ Step 9: Setup the required hardware</h1>
 <li>WiFi: WiFi module has to be in close proximity to the Access Point which is in the same network as the required <a class="el" href="group__wifi__sock__setup.html">SockServer</a></li>
 <li>SPI: MOSI, MISO, SCLK, SS, GND to the same lines on the <a class="el" href="group__spi__server.html">SPI Server</a></li>
 </ul>
-<h1><a class="anchor" id="step10"></a>
-Step 10: Download and Run the Project</h1>
+<h1><a class="anchor" id="step9"></a>
+Step 9: Download and Run the Project</h1>
 <p>In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as standard output channel ensure that <b>Trace</b> and <b>ITM port 0</b> are enabled and that the correct <b>Core Clock</b> frequency is set:</p>
 <div class="image">
 <img src="target_dialog.png" alt=""/>

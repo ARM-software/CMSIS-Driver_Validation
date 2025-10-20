@@ -111,25 +111,22 @@ $(document).ready(function(){initNavTree('report.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Report </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The CMSIS-Driver Validation can output the test report in a <b>Plain Text</b> format or as an <b>XML</b> formatted file.<br  />
- Selection of the output report type is done in the <b>DV_Config.h</b> configuration file.</p>
-<div class="image">
-<img src="dv_config_h.png" alt=""/>
-<div class="caption">
-Configuration file DV_Config.h in Configuration Wizard view mode</div></div>
-<p>The <b>Plain Text</b> selection instructs the CMSIS-Driver Validation framework to generate a plain text report which can be seen in the <b>Debug (printf) Viewer</b> window and is mostly used for driver debugging purposes but can also be used as a final report.</p>
-<p>The <b>XML</b> selection instructs the CMSIS-Driver Validation framework to generate an XML formatted report which is meant to be used as a final report and can be viewed nicely in any Web browser.<br  />
-</p>
-<p>The report file can be written into a <b>TestReport.xml</b> file directly by the uVision with an additional debugger script called <b>SaveXML.ini</b> which needs to be specified as <b>Initialization File:</b> for the <b>Debugger</b> in the <b>Options for target</b> dialog, or it can be copy-pasted manually from the <b>Debug (printf) Viewer</b> window to the TestReport.xml file.<br  />
- The SaveXML.ini script can be found in <code>&lt;pack root directory&gt;</code><b>\Scripts</b> directory.</p>
-<p>To view <b>TestReport.xml</b> file in a Web browser an additional style sheet <b>TR_Style.xsl</b> file needs to be in the same directory as the TestReport.xml file.<br  />
- The TR_Style.xsl file contains the description of formatting for the Web browser to display the TestReport.xml report and can be found in <code>&lt;pack root directory&gt;</code><b>\Scripts</b> directory.</p>
-<p>The XML file uses coloring to differentiate the results in the following way:</p><ul>
-<li><span style="font-weight:bold; color:Green">Passed</span> status means that test function has passed successfully.</li>
-<li><span style="font-weight:bold; color:DarkOrange">Passed</span> status means that test function has passed but there were some warnings (<code>More details</code> can be used to see the details about warnings).</li>
-<li><span style="font-weight:bold; color:Blue">Not executed</span> status means that test function did not check any assertions.</li>
-<li><span style="font-weight:bold; color:Red">Failed</span> status means that test function has failed (<code>More details</code> can be used to see the details on reasons of failure). </li>
-</ul>
+<div class="textblock"><p>The CMSIS-Driver Validation outputs the test report in a <b>Plain Text</b> format.</p>
+<p>This report can be viewed using the <b>Debug (printf) Viewer</b> window or any terminal application.</p>
+<p>An example of a report captured in a terminal application is shown below: </p><pre class="fragment">CMSIS-Driver_Validation v3.1.0 CMSIS-Driver GPIO Test Report   Oct  9 2025   09:15:16 
+
+TEST 01: GPIO_Setup                       PASSED
+TEST 02: GPIO_SetDirection                PASSED
+TEST 03: GPIO_SetOutputMode               PASSED
+TEST 04: GPIO_SetPullResistor             PASSED
+TEST 05: GPIO_SetEventTrigger             PASSED
+TEST 06: GPIO_SetOutput                   PASSED
+TEST 07: GPIO_GetInput                    PASSED
+
+Test Summary: 7 Tests, 7 Passed, 0 Failed.
+Test Result: PASSED</pre><blockquote class="doxtable">
+<p>&zwj;<b>Note:</b> XML format was deprecated and removed, only <b>Plain Text</b> mode is available now. </p>
+</blockquote>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

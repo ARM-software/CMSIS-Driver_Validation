@@ -56,10 +56,9 @@ var NAVTREEINDEX0 =
 "group__eth__tests.html#gae5f84ed13e947020911e651523fb23c1":[7,1,1,21],
 "group__eth__tests.html#gaf1c783ffbc081ced418f87e8e865cef0":[7,1,1,4],
 "group__eth__tests.html#gaf66e2e204207cd16da8d88b70a4e7dee":[7,1,1,7],
-"group__framework__config.html":[7,2,0],
-"group__framework__funcs.html":[7,2,1],
-"group__framework__funcs.html#ga6e9dc1a6a5392afdf07478bd6b159287":[7,2,1,1],
-"group__framework__funcs.html#gab619c5d0a237afcf7ec113ff7b8c5ced":[7,2,1,0],
+"group__framework__funcs.html":[7,2,0],
+"group__framework__funcs.html#ga6e9dc1a6a5392afdf07478bd6b159287":[7,2,0,1],
+"group__framework__funcs.html#gab619c5d0a237afcf7ec113ff7b8c5ced":[7,2,0,0],
 "group__gpio__config.html":[7,3,0],
 "group__gpio__tests.html":[7,3,1],
 "group__gpio__tests.html#ga12907577a039a3309019bb21a725de21":[7,3,1,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "group__wifi__sock__api.html":[7,10,4,2],
 "group__wifi__sock__api.html#ga265967d39cd19c584c2c88a593c19c86":[7,10,4,2,15],
 "group__wifi__sock__api.html#ga365ef23d0c1980535863639bec4be080":[7,10,4,2,17],
-"group__wifi__sock__api.html#ga49b46f7f6a66857c1dc15b12ed179264":[7,10,4,2,2]
+"group__wifi__sock__api.html#ga49b46f7f6a66857c1dc15b12ed179264":[7,10,4,2,2],
+"group__wifi__sock__api.html#ga57a2dee261a673a4ee30180613869423":[7,10,4,2,14]
 };

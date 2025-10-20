@@ -36,7 +36,6 @@ Basic tests:
 | [`Documentation`](./Documentation)    | Placeholder for the offline documentation in the pack     |
 | [`DoxyGen`](./Doxygen)          | Source of the documentation                               |
 | [`Include`](./Include)          | Header files for Driver Validation components             |
-| [`Scripts`](./Scripts)          | Script files for XML reports                              |
 | [`Source`](./Source)           | Source files for Driver Validation components             |
 | [`Tools`](./Tools)            | Various Server implementations for extensive testing      |
 | [`ARM.CMSIS-Driver_Validation.pdsc`](./ARM.CMSIS-Driver_Validation.pdsc) | Open-CMSIS-Pack description file           |

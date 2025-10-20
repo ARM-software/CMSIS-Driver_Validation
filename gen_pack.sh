@@ -24,7 +24,6 @@ PACK_DIRS="
   Config
   Documentation
   Include
-  Scripts
   Source
   Tools
 "

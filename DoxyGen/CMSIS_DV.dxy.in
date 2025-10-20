@@ -874,7 +874,6 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ./src/DriverValidation.txt \
-                         ./src/DV_Framework.txt     \
                          ./src/DV_CAN.txt           \
                          ./src/DV_ETH.txt           \
                          ./src/DV_GPIO.txt          \

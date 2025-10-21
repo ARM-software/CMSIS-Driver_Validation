@@ -24,7 +24,7 @@ The CMSIS-Driver Validation requires
 
 The diagram below shows an overview of the CMSIS-Driver Validation configuration.
 
-\image html cmsis_dv.png
+\image html cmsis_dv.png width=100%
 
 The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_can   "CAN"        - Controller Area Network (CAN) interface driver.

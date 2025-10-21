@@ -45,7 +45,7 @@ var NAVTREE =
       [ "CMSIS-RTOS2", "resource_requirements.html#rtos2_req", null ]
     ] ],
     [ "Examples", "examples.html", "examples" ],
-    [ "API Reference", "topics.html", "topics" ]
+    [ "Reference", "topics.html", "topics" ]
   ] ]
 ];
 

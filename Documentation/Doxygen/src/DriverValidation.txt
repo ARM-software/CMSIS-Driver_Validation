@@ -51,12 +51,19 @@ This manual contains the following chapters:
   - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
   - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
   - \ref examples              - Contains information about several example projects including the required hardware setup.
-  - <a class="el" href="./modules.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
+  - <a class="el" href="./topics.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
 
 \section License License
 
 The CMSIS Driver example implementations are provided free of charge under Apache 2.0 license.
-See the <a href="LICENSE.txt">Apache 2.0 License</a>.
+See the <a href="../../LICENSE.txt">Apache 2.0 License</a>.
+
+*/
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\page rev_hist Revision History
+
+The table below provides information about the changes delivered with specific versions of CMSIS-Driver Validation.
 
 */
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -100,7 +107,7 @@ Each interface has a related <b>DV_<i>interface</i>_Config.h</b> file, where <i>
 For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.
 
 For details on interface specific configuration and test selection please check the Configuration section in the
-<a class="el" href="./modules.html">Reference</a> of the related interface.
+<a class="el" href="./topics.html">Reference</a> of the related interface.
 
 
 \section step5 Step 5: Configure the Heap memory

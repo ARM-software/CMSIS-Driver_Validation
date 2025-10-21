@@ -1,0 +1,93 @@
+/**
+\page rev_hist Revision History
+<table class="cmtable" summary="Revision History">
+<tr>
+  <th>Version</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>v3.0.0</td>
+  <td>
+    - Rework USART driver validation (introduced USART_Server)
+    - Add USART_Server application for Keil MCBSTM32F400 evaluation board
+    - Add USART_Server application for STM32F429I-DISC1 board
+    - Update to SPI_Server application (improved robustness, use software controlled Slave Select in Master mode)
+    - Update to SPI driver validation (improved robustness, enable Data Bits tests in loopback mode, align data buffers to 32 bytes)
+    - Add SPI_Server application for STM32F429I-DISC1 board
+    - Add WiFi Driver tests (socket functions in non-blocking mode)
+    - Minor update to WiFi driver validation (less strict SocketAccept and SocketSend tests)
+    - Add SockServer application for IMXRT1050-EVKB
+    - Add pack version information in Test Report
+    - Add support for Arm Cortex-M85 processor based devices
+    - Add support for Arm China Star-MC1 processor based devices
+    - Update examples
+    - Update documentation
+  </td>
+</tr>
+<tr>
+  <td>v2.0.0</td>
+  <td>
+    - Remove bundle from components
+    - Change configuration from single file to a file per component
+    - Rework SPI Driver testing (introduced SPI_Server)
+    - Add SPI_Server application for Keil MCBSTM32F400 evaluation board
+    - Update WiFi Driver tests (support for WiFi Driver API V1.1.0)
+    - Update all examples
+    - Deprecate CMSIS-RTOS1
+  </td>
+</tr>
+<tr>
+  <td>v1.4.0</td>
+  <td>
+    - Updated conditions to support all Cortex-M devices
+    - Introduced test groups (each driver is organized in a group)
+    - Improved XSL for XML display
+    - Updated all examples
+    - Removed example for Atmel board
+    - WiFi Driver Testing:
+      - Added SockServer application for PC running Microsoft Windows
+      - Added upstream and downstream bandwidth testing
+    - Added examples for WiFi Driver testing:
+      - Inventek ISM43362 WiFi on STMicroelectronics B-L475E-IOT01A1 board
+      - Inventek ISM43362 WiFi using ISMART43362-E WiFi shield mounted on NXP LPCXpresso55S69 board
+      - Espressif ESP8266 with NXP MIMXRT1064-EVK board
+      - Espressif ESP32 with NXP MIMXRT1064-EVK board
+      - WIZnet WizFi360 with NXP MIMXRT1064-EVK board
+  </td>
+</tr>
+<tr>
+  <td>v1.3.0</td>
+  <td>
+    - Added WiFi test including a Socket Server readily targeted to MCB4300 and STM32F400
+    - Updated documentation
+  </td>
+</tr>
+<tr>
+  <td>v1.2.0</td>
+  <td>
+    Initial version releasing all sources publicly on github.
+    
+    Updates since version 1.1.0:
+    - Added CMSIS-RTOS2 and Arm Compiler 6 compatibility
+    - Updated CAN test (corrected test for SetBitrate function, added bitrate set for Loopback tests)
+    - Updated closeDebug function in DV_Framework.c, specified as noinline so higher optimization will keep it also
+    - Updated documentation
+  </td>
+</tr>
+<tr>
+  <td>v1.1.0</td>
+  <td>
+    - Added USB Host test cases
+    - Added CAN test cases
+    - Added Ethernet Precision Time Protocol test cases
+    - Updated configuration file DV_Config.h to support new features
+  </td>
+</tr>
+<tr>
+  <td>v1.0.0</td>
+  <td>
+    - Initial public release of the CMSIS-Driver Validation Suite
+  </td>
+</tr>
+</table>
+*/

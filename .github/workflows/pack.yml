@@ -1,0 +1,36 @@
+name: Build documentation and pack
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pack:
+    name: Generate pack
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        if: github.event_name == 'release'
+        run: |
+          git fetch --tags --force
+
+      - uses: Open-CMSIS-Pack/gen-pack-action@main
+        with:
+          doxygen-version: 1.13.2                                 # required version of DoxyGen
+          packchk-version: 1.4.4                                  # required version of PackChk
+          gen-doc-script: ./Documentation/Doxygen/gen_doc.sh      # path to documentation generator script
+          doc-path: ./Documentation/html                          # path to generated documentation
+          gen-pack-script: ./gen_pack.sh --no-preprocess          # path to pack generator script
+          gen-pack-output: ./output                               # path to folder with generated pack archive(s)
+          gh-pages-branch: gh-pages                               # branch name to deploy generated documentation to

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['tests_0',['Tests',['../group__can__tests.html',1,'(Global Namespace)'],['../group__eth__tests.html',1,'(Global Namespace)'],['../group__gpio__tests.html',1,'(Global Namespace)'],['../group__i2c__tests.html',1,'(Global Namespace)'],['../group__mci__tests.html',1,'(Global Namespace)'],['../group__spi__tests.html',1,'(Global Namespace)'],['../group__usart__tests.html',1,'(Global Namespace)'],['../group__usbd__tests.html',1,'(Global Namespace)'],['../group__usbh__tests.html',1,'(Global Namespace)'],['../group__wifi__tests.html',1,'(Global Namespace)']]]
+  ['management_0',['Management',['../group__spi__tests__drv__mgmt.html',1,'Driver Management'],['../group__usart__tests__drv__mgmt.html',1,'Driver Management'],['../group__wifi__mgmt.html',1,'Management']]],
+  ['mci_20validation_1',['MCI Validation',['../group__dv__mci.html',1,'']]],
+  ['modem_20lines_2',['Modem Lines',['../group__usart__tests__modem.html',1,'']]]
 ];

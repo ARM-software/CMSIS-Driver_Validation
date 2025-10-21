@@ -1,4 +1,4 @@
-var modules =
+var topics =
 [
     [ "CAN Validation", "group__dv__can.html", "group__dv__can" ],
     [ "Ethernet Validation", "group__dv__eth.html", "group__dv__eth" ],

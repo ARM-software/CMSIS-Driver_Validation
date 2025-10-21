@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['gpio_20validation_0',['GPIO Validation',['../group__dv__gpio.html',1,'']]]
+  ['framework_0',['Framework',['../group__dv__framework.html',1,'']]],
+  ['functions_1',['Functions',['../group__framework__funcs.html',1,'']]]
 ];

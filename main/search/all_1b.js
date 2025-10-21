@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['target_20microcontroller_20device_0',['Step 1: Create an MDK project for your target microcontroller device',['../setup.html#step1',1,'']]],
+  ['targets_1',['targets',['../group__wifi__sock__setup.html#sockserver_embedded_porting',1,'Porting SockServer to other targets'],['../group__spi__server.html#spi_server_porting',1,'Porting SPI Server to other targets'],['../group__usart__server.html#usart_server_porting',1,'Porting USART Server to other targets']]],
+  ['telnet_20service_2',['Using the Telnet service',['../group__wifi__sock__setup.html#sockserver_embedded_telnet',1,'']]],
+  ['test_20mode_20_3a_20b_20loopback_20b_3',['Test Mode : b Loopback b',['../group__dv__spi.html#autotoc_md16',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;'],['../group__dv__usart.html#autotoc_md18',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;']]],
+  ['test_20mode_20_3a_20b_20spi_20server_20b_4',['Test Mode : &lt;b&gt;SPI Server&lt;/b&gt;',['../group__dv__spi.html#autotoc_md17',1,'']]],
+  ['test_20mode_20_3a_20b_20usart_20server_20b_5',['Test Mode : &lt;b&gt;USART Server&lt;/b&gt;',['../group__dv__usart.html#autotoc_md19',1,'']]],
+  ['testing_6',['Socket testing',['../group__wifi__sock__testing.html',1,'']]],
+  ['tests_7',['Tests',['../group__can__tests.html',1,'Tests'],['../group__eth__tests.html',1,'Tests'],['../group__gpio__tests.html',1,'Tests'],['../group__i2c__tests.html',1,'Tests'],['../group__mci__tests.html',1,'Tests'],['../group__spi__tests.html',1,'Tests'],['../group__usart__tests.html',1,'Tests'],['../group__usbd__tests.html',1,'Tests'],['../group__usbh__tests.html',1,'Tests'],['../group__wifi__tests.html',1,'Tests'],['../group__usbd__comp__test.html',1,'USB Compliance Tests']]],
+  ['tests_20in_20related_20dv_5finterface_5fconfig_20h_20files_8',['Step 4: Configure the interface settings and tests in related DV_interface_Config.h files',['../setup.html#step4',1,'']]],
+  ['the_20application_20s_20main_20file_20main_20c_9',['Step 3: Add the application&apos;s main file (main.c)',['../setup.html#step3',1,'']]],
+  ['the_20bsd_20strict_20specification_10',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md14',1,'']]],
+  ['the_20cmsis_20rtos2_20keil_20rtx5_11',['Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)',['../setup.html#step6',1,'']]],
+  ['the_20device_12',['Step 7: Configure the Device',['../setup.html#step7',1,'']]],
+  ['the_20heap_20memory_13',['Step 5: Configure the Heap memory',['../setup.html#step5',1,'']]],
+  ['the_20interface_20settings_20and_20tests_20in_20related_20dv_5finterface_5fconfig_20h_20files_14',['Step 4: Configure the interface settings and tests in related DV_interface_Config.h files',['../setup.html#step4',1,'']]],
+  ['the_20keil_20mcbstm32f400_15',['USART Server on the Keil MCBSTM32F400',['../group__usart__server.html#usart_server_MCBSTM32F400',1,'']]],
+  ['the_20keil_20mcbstm32f400_20board_16',['SPI Server on the Keil MCBSTM32F400 board',['../group__spi__server.html#spi_server_MCBSTM32F400',1,'']]],
+  ['the_20project_17',['Step 9: Download and Run the Project',['../setup.html#step9',1,'']]],
+  ['the_20required_20hardware_18',['Step 8: Setup the required hardware',['../setup.html#step8',1,'']]],
+  ['the_20required_20software_20components_19',['Step 2: Add the required software components',['../setup.html#step2',1,'']]],
+  ['the_20stmicroelectronics_20stm32f429i_20disc1_2032f429idiscovery_20board_20',['the STMicroelectronics STM32F429I DISC1 32F429IDISCOVERY board',['../group__spi__server.html#spi_server_STM32F429I_DISC1',1,'SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board'],['../group__usart__server.html#usart_server_STM32F429I_DISC1',1,'USART Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board']]],
+  ['the_20telnet_20service_21',['Using the Telnet service',['../group__wifi__sock__setup.html#sockserver_embedded_telnet',1,'']]],
+  ['thing_20plus_20wifi_20shield_20with_20nxp_20mimxrt1064_20evk_22',['Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK',['../examples_esp32.html',1,'examples']]],
+  ['to_20other_20targets_23',['to other targets',['../group__wifi__sock__setup.html#sockserver_embedded_porting',1,'Porting SockServer to other targets'],['../group__spi__server.html#spi_server_porting',1,'Porting SPI Server to other targets'],['../group__usart__server.html#usart_server_porting',1,'Porting USART Server to other targets']]],
+  ['troubleshooting_24',['Troubleshooting',['../group__spi__server.html#spi_server_troubleshooting',1,'Troubleshooting'],['../group__usart__server.html#usart_server_troubleshooting',1,'Troubleshooting'],['../group__wifi__sock__setup.html#sockserver_pc_win_troubleshooting',1,'Troubleshooting'],['../group__wifi__sock__setup.html#sockserver_embedded_troubleshooting',1,'Troubleshooting']]]
+];

@@ -26,11 +26,12 @@ var NAVTREE =
 [
   [ "CMSIS-Driver Validation", "index.html", [
     [ "Overview", "index.html", "index" ],
+    [ "Revision History", "rev_hist.html", null ],
     [ "Setup", "setup.html", [
       [ "Step 1: Create an MDK project for your target microcontroller device", "setup.html#step1", null ],
       [ "Step 2: Add the required software components", "setup.html#step2", null ],
       [ "Step 3: Add the application's main file (main.c)", "setup.html#step3", null ],
-      [ "Step 4: Configure the interface settings and tests in related DV_interface_Config.h files", "setup.html#step4", null ],
+      [ "Step 4: Configure the interface settings and tests in related DV_interface_Config....", "setup.html#step4", null ],
       [ "Step 5: Configure the Heap memory", "setup.html#step5", null ],
       [ "Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)", "setup.html#step6", null ],
       [ "Step 7: Configure the Device", "setup.html#step7", null ],
@@ -44,8 +45,7 @@ var NAVTREE =
       [ "CMSIS-RTOS2", "resource_requirements.html#rtos2_req", null ]
     ] ],
     [ "Examples", "examples.html", "examples" ],
-    [ "Revision History", "rev_hist.html", null ],
-    [ "Reference", "modules.html", "modules" ]
+    [ "API Reference", "topics.html", "topics" ]
   ] ]
 ];
 
@@ -55,5 +55,5 @@ var NAVTREEINDEX =
 "group__wifi__sock__api.html#ga5b92075e23383e2cdfc08ba17b7930a1"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';

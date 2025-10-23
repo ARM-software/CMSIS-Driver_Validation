@@ -105,8 +105,8 @@ available in <b>.\\Tools\\SockServer\\PC\\Win</b>.
 \note
 - SockServer build process requires Minimalist GNU for Windows (MinGW).
 - To build the SockServer executable for Windows, follow these steps:
-  - Download and install MinGW from https://osdn.net/projects/mingw/releases/
-  - Set environment path in Microsoft Windows as explained under Environment Settings heading on http://www.mingw.org/wiki/Getting_Started
+  - Download and install MinGW from https://winlibs.com/
+  - Set environment path in Microsoft Windows as explained under Usage heading on https://winlibs.com/#usage
   - Run <b>Build.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win</b> which will result in an executable that is located in
     <b>.\\Tools\\SockServer\\PC\\Win</b>
 

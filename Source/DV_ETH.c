@@ -287,10 +287,10 @@ void ETH_MAC_GetCapabilities (void) {
 \brief Function: ETH_MAC_Initialization
 \details
 The function \b ETH_MAC_Initialization verifies the Ethernet MAC functions in the following order:
-  - \b Initialize without callback
-  - \b Uninitialize
-  - \b Initialize with callback if supported
-  - \b Uninitialize
+  - Initialize without callback
+  - Uninitialize
+  - Initialize with callback if supported
+  - Uninitialize
 */
 void ETH_MAC_Initialization (void) {
 
@@ -312,12 +312,12 @@ void ETH_MAC_Initialization (void) {
 \brief Function: ETH_MAC_CheckInvalidInit
 \details
 The function \b ETH_MAC_CheckInvalidInit verifies the driver behavior when receiving an invalid initialization sequence:
-  - \b Uninitialize
-  - \b PowerControl with Power off
-  - \b PowerControl with Power on
-  - \b Control
-  - \b PowerControl with Power off
-  - \b Uninitialize
+  - Uninitialize
+  - PowerControl with Power off
+  - PowerControl with Power on
+  - Control
+  - PowerControl with Power off
+  - Uninitialize
 */
 void ETH_MAC_CheckInvalidInit (void) {
 
@@ -814,8 +814,8 @@ The function \b ETH_MAC_VLAN_Filter verifies the Ethernet MAC Virtual LAN filter
   - Buffer allocation
   - Initialize
   - Power on
-  - Transfer VLAN packets
-  - Receive VLAN packets
+  - Transfer VLAN packets of varying lengths
+  - Transfer non-tagged packet
   - Power off
   - Uninitialize
 
@@ -869,6 +869,7 @@ void ETH_MAC_VLAN_Filter (void) {
   TEST_ASSERT(eth_mac->Control(ARM_ETH_MAC_CONFIGURE, ARM_ETH_MAC_SPEED_100M | ARM_ETH_MAC_DUPLEX_FULL |
     ARM_ETH_MAC_ADDRESS_MULTICAST | ARM_ETH_MAC_LOOPBACK) == ARM_DRIVER_OK);
 
+  /* Transfer tagged VLAN frame */
   for (i = 0; i < ARRAY_SIZE(vlan_id); i++) {
     TEST_ASSERT(eth_mac->Control (ARM_ETH_MAC_VLAN_FILTER,
       ARM_ETH_MAC_VLAN_FILTER_ID_ONLY | vlan_id[i]) == ARM_DRIVER_OK);
@@ -901,7 +902,7 @@ void ETH_MAC_VLAN_Filter (void) {
   TEST_ASSERT(eth_mac->Control (ARM_ETH_MAC_VLAN_FILTER,
       ARM_ETH_MAC_VLAN_FILTER_ID_ONLY | vlan_id[0]) == ARM_DRIVER_OK);
 
-  /* Test non-tagged frame */
+  /* Transfer non-tagged frame */
   buffer_out[14] = 0xFF;
   buffer_out[15] = 0xFF;
   if (ETH_RunTransfer(buffer_out, buffer_in, 64, 0) == ARM_DRIVER_OK) {
@@ -1047,13 +1048,13 @@ void ETH_PHY_Initialization (void) {
 \brief Function: ETH_PHY_CheckInvalidInit
 \details
 The function \b ETH_PHY_CheckInvalidInit verifies the driver behavior when receiving an invalid initialization sequence:
-  - \b Uninitialize
-  - \b PowerControl with Power off
-  - \b PowerControl with Power on
-  - \b SetInterface to configure the Ethernet PHY bus
-  - \b SetMode to configure the Ethernet PHY bus
-  - \b PowerControl with Power off
-  - \b Uninitialize
+  - Uninitialize
+  - PowerControl with Power off
+  - PowerControl with Power on
+  - SetInterface to configure the Ethernet PHY bus
+  - SetMode to configure the Ethernet PHY bus
+  - PowerControl with Power off
+  - Uninitialize
 */
 void ETH_PHY_CheckInvalidInit (void) {
 
@@ -1093,8 +1094,8 @@ The function \b ETH_PHY_PowerControl verifies the Ethernet PHY \b PowerControl f
   - Uninitialize
 
 \note
-When the Ethernet PHY is the 50 MHz clock source for the MAC in RMII mode, the MAC may lock up if the PHY power is off
-and therefore not generating a reference clock.
+When the Ethernet PHY provides the 50 MHz reference clock for the MAC in RMII mode, the MAC may lock up if the PHY
+is powered down and no clock is generated.
 */
 void ETH_PHY_PowerControl (void) {
   int32_t retv;
@@ -1180,11 +1181,8 @@ The function \b ETH_Loopback_Transfer verifies data transfer via Ethernet with t
   - Buffer allocation
   - Initialize
   - Power on
-  - Set output buffer pattern
-  - Transfer data chunks
-  - Set output buffer with random data
-  - Transfer data chunks
-  - Transfer data by sending in two fragments
+  - Transfer contiguous blocks of varying lengths
+  - Transfer fragmented blocks of varying lengths
   - Power off
   - Uninitialize
 
@@ -1291,9 +1289,9 @@ The function \b ETH_Loopback_External verifies data transfer via Ethernet with t
   - Initialize
   - Power on
   - Set output buffer pattern
-  - Transfer data on PHY internal loopback
-  - Ethernet connection
-  - Transfer data on external cable loopback
+  - Transfer using the PHY internal loopback
+  - Check external cable loopback
+  - Transfer using the external cable loopback
   - Power off
   - Uninitialize
 
@@ -1341,7 +1339,7 @@ void ETH_Loopback_External (void) {
     buffer_out[14+i] = (i ^ 0x20) & 0x7F;
   }
 
-  /* Clear input buffer*/
+  /* Transfer using the PHY internal loopback */
   memset(buffer_in, 0, 14+ETH_MTU);
   if (ETH_RunTransfer(buffer_out, buffer_in, 14+ETH_MTU, 0) != ARM_DRIVER_OK) {
     TEST_MESSAGE("[WARNING] PHY internal loopback is not active");
@@ -1367,7 +1365,7 @@ void ETH_Loopback_External (void) {
     (uint32_t)info.duplex << ARM_ETH_MAC_DUPLEX_Pos |
     ARM_ETH_MAC_ADDRESS_BROADCAST) == ARM_DRIVER_OK);
 
-  /* Clear input buffer */
+  /* Transfer using the external cable loopback */
   memset(buffer_in, 0, 14+ETH_MTU);
   if (ETH_RunTransfer(buffer_out, buffer_in, 14+ETH_MTU, 0) != ARM_DRIVER_OK) {
     TEST_FAIL_MESSAGE("[FAILED] Transfer external cable loopback");

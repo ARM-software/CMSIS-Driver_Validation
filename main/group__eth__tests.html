@@ -260,10 +260,10 @@ Functions</h2></td></tr>
 
 <p>Function: ETH_MAC_Initialization. </p>
 <p>The function <b>ETH_MAC_Initialization</b> verifies the Ethernet MAC functions in the following order:</p><ul>
-<li><b>Initialize</b> without callback</li>
-<li><b>Uninitialize</b> </li>
-<li><b>Initialize</b> with callback if supported</li>
-<li><b>Uninitialize</b> </li>
+<li>Initialize without callback</li>
+<li>Uninitialize</li>
+<li>Initialize with callback if supported</li>
+<li>Uninitialize </li>
 </ul>
 
 </div>
@@ -285,12 +285,12 @@ Functions</h2></td></tr>
 
 <p>Function: ETH_MAC_CheckInvalidInit. </p>
 <p>The function <b>ETH_MAC_CheckInvalidInit</b> verifies the driver behavior when receiving an invalid initialization sequence:</p><ul>
-<li><b>Uninitialize</b> </li>
-<li><b>PowerControl</b> with Power off</li>
-<li><b>PowerControl</b> with Power on</li>
-<li><b>Control</b> </li>
-<li><b>PowerControl</b> with Power off</li>
-<li><b>Uninitialize</b> </li>
+<li>Uninitialize</li>
+<li>PowerControl with Power off</li>
+<li>PowerControl with Power on</li>
+<li>Control</li>
+<li>PowerControl with Power off</li>
+<li>Uninitialize </li>
 </ul>
 
 </div>
@@ -516,8 +516,8 @@ Functions</h2></td></tr>
 <li>Buffer allocation</li>
 <li>Initialize</li>
 <li>Power on</li>
-<li>Transfer VLAN packets</li>
-<li>Receive VLAN packets</li>
+<li>Transfer VLAN packets of varying lengths</li>
+<li>Transfer non-tagged packet</li>
 <li>Power off</li>
 <li>Uninitialize</li>
 </ul>
@@ -614,13 +614,13 @@ Functions</h2></td></tr>
 
 <p>Function: ETH_PHY_CheckInvalidInit. </p>
 <p>The function <b>ETH_PHY_CheckInvalidInit</b> verifies the driver behavior when receiving an invalid initialization sequence:</p><ul>
-<li><b>Uninitialize</b> </li>
-<li><b>PowerControl</b> with Power off</li>
-<li><b>PowerControl</b> with Power on</li>
-<li><b>SetInterface</b> to configure the Ethernet PHY bus</li>
-<li><b>SetMode</b> to configure the Ethernet PHY bus</li>
-<li><b>PowerControl</b> with Power off</li>
-<li><b>Uninitialize</b> </li>
+<li>Uninitialize</li>
+<li>PowerControl with Power off</li>
+<li>PowerControl with Power on</li>
+<li>SetInterface to configure the Ethernet PHY bus</li>
+<li>SetMode to configure the Ethernet PHY bus</li>
+<li>PowerControl with Power off</li>
+<li>Uninitialize </li>
 </ul>
 
 </div>
@@ -649,7 +649,7 @@ Functions</h2></td></tr>
 <li>Check RMII lockup</li>
 <li>Uninitialize</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>When the Ethernet PHY is the 50 MHz clock source for the MAC in RMII mode, the MAC may lock up if the PHY power is off and therefore not generating a reference clock. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When the Ethernet PHY provides the 50 MHz reference clock for the MAC in RMII mode, the MAC may lock up if the PHY is powered down and no clock is generated. </dd></dl>
 
 </div>
 </div>
@@ -700,11 +700,8 @@ Functions</h2></td></tr>
 <li>Buffer allocation</li>
 <li>Initialize</li>
 <li>Power on</li>
-<li>Set output buffer pattern</li>
-<li>Transfer data chunks</li>
-<li>Set output buffer with random data</li>
-<li>Transfer data chunks</li>
-<li>Transfer data by sending in two fragments</li>
+<li>Transfer contiguous blocks of varying lengths</li>
+<li>Transfer fragmented blocks of varying lengths</li>
 <li>Power off</li>
 <li>Uninitialize</li>
 </ul>
@@ -733,9 +730,9 @@ Functions</h2></td></tr>
 <li>Initialize</li>
 <li>Power on</li>
 <li>Set output buffer pattern</li>
-<li>Transfer data on PHY internal loopback</li>
-<li>Ethernet connection</li>
-<li>Transfer data on external cable loopback</li>
+<li>Transfer using the PHY internal loopback</li>
+<li>Check external cable loopback</li>
+<li>Transfer using the external cable loopback</li>
 <li>Power off</li>
 <li>Uninitialize</li>
 </ul>

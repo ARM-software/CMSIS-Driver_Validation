@@ -68,6 +68,5 @@ var searchData=
   ['usbh_5fcheckinvalidinit_65',['USBH_CheckInvalidInit',['../group__usbh__tests.html#gad52fc4cd83e77f62070c5d8482f171fd',1,'DV_USBH.c']]],
   ['usbh_5fgetcapabilities_66',['USBH_GetCapabilities',['../group__usbh__tests.html#ga6c7b7f7cf41d007f03a0eb525ec9e6ba',1,'DV_USBH.c']]],
   ['usbh_5finitialization_67',['USBH_Initialization',['../group__usbh__tests.html#gac154bc8e85e588ca5f267918ac28d919',1,'DV_USBH.c']]],
-  ['usbh_5fpowercontrol_68',['USBH_PowerControl',['../group__usbh__tests.html#ga2411bb992c7c352a2556d2b1ee8db714',1,'DV_USBH.c']]],
-  ['using_20the_20telnet_20service_69',['Using the Telnet service',['../group__wifi__sock__setup.html#sockserver_embedded_telnet',1,'']]]
+  ['usbh_5fpowercontrol_68',['USBH_PowerControl',['../group__usbh__tests.html#ga2411bb992c7c352a2556d2b1ee8db714',1,'DV_USBH.c']]]
 ];

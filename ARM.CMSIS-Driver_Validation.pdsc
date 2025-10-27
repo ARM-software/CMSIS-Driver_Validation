@@ -10,6 +10,9 @@
   <releases>
     <release version="3.1.0-dev">
       Active Development ...
+      - Add SPI Server application template
+      - Update SPI Server application to CMSIS solution format
+      - Remove old SPI Server files
       - Add GPIO Driver validation
       - Remove XML report format
       - Improve Ethernet driver validation
@@ -272,6 +275,21 @@
   </components> <!-- end of components sections -->
 
   <examples>
+    <example name="SPI Server" doc="README.md" folder="Tools/SPI_Server/STM32F429I-DISC1">
+      <description>CMSIS-Driver Validation SPI Server application for STM32F429I-DISC1 board</description>
+      <board name="STM32F429I-DISC1" vendor="STMicroelectronics"/>
+      <project>
+        <environment name="csolution" load="SPI_Server.csolution.yml"/>
+      </project>
+    </example>
+
+    <example name="SPI Server" doc="README.md" folder="Tools/SPI_Server/Template">
+      <description>CMSIS-Driver Validation SPI Server application</description>
+      <project>
+        <environment name="csolution" load="SPI_Server.csolution.yml"/>
+      </project>
+    </example>
+
     <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Keil/MCBSTM32F400">
       <description>CMSIS-Driver Validation Example</description>
       <board name="MCBSTM32F400" vendor="Keil"/>

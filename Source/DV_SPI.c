@@ -1272,7 +1272,7 @@ Required pin connections for the <b>SPI Server</b> test mode:
 
 \image html spi_server_pin_connections.png
 
-\note Slave Select line has to be pulled to Vcc by an external pull-up (for example 10 kOhm).
+\note Slave Select line has to be pulled to Vcc (3.3V) by an external pull-up (for example 10 kOhm).
 \note To ensure proper signal quality:
        - keep the connecting wires as short as possible
        - if possible have SCK and GND wires as a twisted pair and MISO, MOSI and Slave Select 

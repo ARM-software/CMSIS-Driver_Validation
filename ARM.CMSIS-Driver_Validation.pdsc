@@ -16,6 +16,7 @@
       - Update USART Server application to CMSIS solution format
       - Add USART Server application template
       - Remove XML report format
+      - Remove obsolete SockServer embedded implementations
       - Improve Ethernet driver validation
       - Minor update to SPI driver validation
       - Minor update to USART driver validation

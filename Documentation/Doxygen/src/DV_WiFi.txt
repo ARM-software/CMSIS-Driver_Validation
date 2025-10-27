@@ -5,8 +5,7 @@
 
 The WiFi driver validation requires the following hardware:
 - WiFi Access Point connected to the local network
-- Hardware running SockServer (can be \ref sockserver_pc "PC running Microsoft Windows" or an 
-  \ref sockserver_embedded "embedded system")
+- \ref sockserver_pc "PC running Microsoft Windows"
 
 The WiFi driver validation requires the following software:
 - \ref wifi_sock_setup "SockServer" application running in the same network as WiFi Access Point used for testing
@@ -18,10 +17,10 @@ The WiFi driver validation requires the following software:
 \defgroup wifi_config Configuration
 \ingroup dv_wifi
 
-The WiFi driver validation settings are available in the <b>DV_WiFi_Config.h</b> configuration file.
+The WiFi driver validation settings are available in the **DV_WiFi_Config.h** configuration file.
 
 Some settings depend on the test environment and need to be changed for proper operation of the WiFi driver validation.<br>
-These settings can be found under <b>Configuration</b> settings in the <b>DV_WiFi_Config.h</b> configuration file and need to 
+These settings can be found under **Configuration** settings in the **DV_WiFi_Config.h** configuration file and need to 
 be set as follows:
 
 \image html dv_wifi_config_h.png "DV_WiFi_Config.h configuration file in Configuration Wizard view mode"
@@ -46,17 +45,17 @@ be set as follows:
 
 \note IP address is displayed by the SockServer application (on the embedded board's LCD when using embedded SockServer).
 
-Under <b>Tests</b> select testing functionality as required.
+Under **Tests** select testing functionality as required.
 For details on tests performed by each test function please refer to \ref wifi_tests "WiFi Tests".
 
-<b>Control</b>, <b>Management</b> and <b>Socket API (requires SockServer)</b> group of tests enable or disable 
+<b>Control</b>, **Management** and **Socket API (requires SockServer)** group of tests enable or disable 
 WiFi Driver API function tests respectively.
 
-<b>Management (requires user interaction)</b> and <b>Socket Operation (requires SockServer)</b> group of tests 
+<b>Management (requires user interaction)</b> and **Socket Operation (requires SockServer)** group of tests 
 are used for more complex operational test of the WiFi driver.<br>
 A brief description of each test functionality can be viewed by using 
 <a href="https://developer.arm.com/documentation/101407/0537/Utilities/Configuration-Wizard" target="_blank">Configuration Wizard</a>
-view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a mouse pointer over it.
+view of the **DV_WiFi_Config.h** file and clicking on the test or hovering a mouse pointer over it.
 
 */
 
@@ -67,15 +66,10 @@ view of the <b>DV_WiFi_Config.h</b> file and clicking on the test or hovering a 
 \ingroup dv_wifi
 
 The \b SockServer is an application providing a set of services used by the WiFi CMSIS-Driver Validation suite to test the
-Socket interface of the WiFi driver. It is located in the <b>.\\Tools\\SockServer</b> subdirectory of the pack root directory.
+Socket interface of the WiFi driver. It is located in the **`<pack installation root>/Tools/SockServer`** subdirectory of the pack root directory.
 The SockServer is available for different target systems. It runs several standard network services.
 
-The SockServer is available for following target systems:
- - <b>Personal Computer</b> running Microsoft Windows (executable located in <b>.\\Tools\\SockServer\\PC\\Win</b>)
- - <b>Keil MCB4300</b> evaluation board (µVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCB4300</b>)
- - <b>Keil MCBSTM32F400</b> evaluation board (µVision project located in <b>.\\Tools\\SockServer\\Embedded\\MDK\\Board\\MCBSTM32F400</b>)
-
-\note To run SockServer in an embedded system, you need a license for MDK-Professional (for the MDK-Middleware Network component).
+The **SockServer** is available for **Personal Computer** running Microsoft Windows (executable located in **`<pack installation root>/Tools/SockServer/PC/Win`**).
 
 The following services are available by SockServer:
 - \b Echo service on port \token{7}, TCP and UDP
@@ -89,26 +83,24 @@ The following services are available by SockServer:
 - \b Telnet service on port \token{23}
   \n (SockServer status monitoring service)
 
-\note SockServer provides the Telnet service only in embedded systems.
-
 \section sockserver_pc SockServer for PC running Microsoft Windows
 
 \b Requirements:
  - Personal Computer running Microsoft Windows
  - PC connection to local network
 
-SockServer is already built and can be executed by running the SockServer.exe file in <b>.\\Tools\\SockServer\\PC\\Win</b>
+SockServer is already built and can be executed by running the **SockServer.exe** file in **`<pack installation root>/Tools/SockServer/PC/Win`**.
 
 If you need to change the functionality of SockServer, source files and a batch script for building the executable are
-available in <b>.\\Tools\\SockServer\\PC\\Win</b>.
+available in **`<pack installation root>/Tools/SockServer/PC/Win`**.
 
 \note
 - SockServer build process requires Minimalist GNU for Windows (MinGW).
 - To build the SockServer executable for Windows, follow these steps:
   - Download and install MinGW from https://winlibs.com/
   - Set environment path in Microsoft Windows as explained under Usage heading on https://winlibs.com/#usage
-  - Run <b>Build.bat</b> located in <b>.\\Tools\\SockServer\\PC\\Win</b> which will result in an executable that is located in
-    <b>.\\Tools\\SockServer\\PC\\Win</b>
+  - Run **Build.bat** located in **`<pack installation root>/Tools/SockServer/PC/Win`** which will result in an executable that is located
+    in **`<pack installation root>/Tools/SockServer/PC/Win`**
 
 \subsection sockserver_pc_win_troubleshooting Troubleshooting
 
@@ -136,104 +128,6 @@ Problems and solutions:
       - Action:        Allow the connection
       - Profile:       Domain, Private (Public not advised)
       - Name:          Ping Echo  
-
-
-\section sockserver_embedded SockServer for embedded systems
-
-\b Requirements:
- - Keil MCB4300 or Keil MCBSTM32F400 evaluation board
- - Wired Ethernet connection to local network
-
-\subsection sockserver_embedded_telnet Using the Telnet service
-
-The Telnet service provides information about received and sent data. This can help to resolve driver problems when WiFi 
-socket sending and receiving does not work. For example, when the transfer test fails, either \b SocketSend or
-\b SocketRecv functions may have failed or both.
-
-For the Telnet connection from the PC, open a CMD window. At the prompt, type the following command or use another Telnet
-client application:
-\code
-c:\>telnet sockserver
-\endcode
-
-The initial page opens:
-  \image html SockServer.png "Initial telnet connection"
-
-You can view the remote IP address, port number, receiving and transmitting counters with the \b stat command:
-  \image html SockMonitor.png "Status monitoring"
-
-Status monitor constantly updates the SockServer status on the screen. To stop the screen update, press any
-telnet client key.
-
-\note You might need to enable the Telnet service in Windows 10 first. Here's a
-<a href="https://www.technipages.com/windows-10-enable-telnet" target="_blank">tutorial</a> on how to do this.
-
-\subsection sockserver_embedded_porting Porting SockServer to other targets
-
-Currently, the \b SockServer application is available for the \b MCB4300 and \b MCBSTM32F400 evaluation boards. 
-To create SockServer application for a different target device, follow the steps below:
--# Create new network project in µVision
--# Select and configure the following software components:
- - \b Network:Core and configure the host name and pool size in \b Net_Config.c
-\code
-#define NET_HOST_NAME               "SockServer"
-#define NET_MEM_POOL_SIZE           16384
-\endcode
- - \b Network:Interface:Ethernet and configure the MAC address in \b Net_Config_ETH0.h to avoid collisions
-\code
-#define ETH0_MAC_ADDR               "1E-30-6C-A2-45-5A"
-\endcode
- - \b Network:Socket:BSD and configure number of sockets in \b Net_Config_BSD.h
-\code
-#define BSD_NUM_SOCKS               8
-#define BSD_SERVER_SOCKS            4
-\endcode
- - \b Network:Socket:TCP and configure number of sockets in \b Net_Config_TCP.h
-\code
-#define TCP_NUM_SOCKS               9
-\endcode
- - \b Network:Socket:UDP and configure number of sockets in \b Net_Config_UDP.h
-\code
-#define UDP_NUM_SOCKS               10
-\endcode
- - \b Network:Service:Telnet server and disable authentication in \b Net_Config_Telnet_Server.h
-\code
-#define TELNET_SERVER_AUTH_ENABLE   0
-\endcode
- - \b CMSIS \b Driver:Ethernet/MAC/PHY(API) depending on your hardware
--# Configure device specific hardware:
- - Configure the CMSIS-Driver for Ethernet and other device specific components (clock system, I/O, ...)
-   as required. Please consult your device's/board's documentation for more information.
--# Copy and add \b SockServer.c and \b SockServer.h files to the project
--# Copy and add \b Telnet_Server_UIF.c to the project
--# Add the code to start the services in \b main.c
-\code
-// Application main thread
-static void app_main (void *argument) {
- 
-  netInitialize ();
-  osDelay (500);
- 
-  osThreadNew(DgramServer,   NULL, NULL);
-  osThreadNew(StreamServer,  NULL, NULL);
-  osThreadNew(TestAssistant, NULL, NULL);
-}
-\endcode
--# Increase the default RTX stack size to 400 bytes in <b>RTX_Config.h</b>
-\code
-#define OS_STACK_SIZE           400
-\endcode
--# Set the default global stack to 1024 bytes and heap to 6144 bytes in your device's \b startup \b file
-\code
-Stack_Size      EQU     0x00000400
-Heap_Size       EQU     0x00001800
-\endcode
-
-\subsection sockserver_embedded_troubleshooting Troubleshooting
-
-Problems and solutions:
- 1. SockServer on multiple embedded systems on the same local network
-    - Set unique ETH0_MAC_ADDR in Net_Config_ETH0.h for each embedded system in embedded system project
 
 */
 

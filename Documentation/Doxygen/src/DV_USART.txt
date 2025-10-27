@@ -1,246 +1,185 @@
-﻿/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/*====================================================================================================*/
 /**
 \defgroup usart_config Configuration
 \ingroup  dv_usart
 
-The USART driver validation settings are available in the <b>DV_USART_Config.h</b> configuration file.
+The USART driver validation settings are defined in the **DV_USART_Config.h** configuration file.
 
 \image html dv_usart_config_h.png "DV_USART_Config.h configuration file in Configuration Wizard view mode"
 
-Some settings depend on the test environment and need to be changed for proper operation of the USART driver validation.<br>
+Some settings depend on the test environment and may require adjustment to ensure proper operation of the USART
+Driver Validation suite.
 
 \section usart_config_detail Configuration settings
 
-<b>Driver_USART#</b> selects the driver instance that will be tested.<br>
-For example if we want to test <c>Driver_USART2</c> then this setting would be set to <c>2</c>.
+**Driver_USART#** selects the driver instance to be tested.  
+Example: to test `Driver_USART2`, set this value to `2`.
 
-<b>Configuration</b> section contains configuration of: Test Mode, USART Server and Tests settings:
-- <b>Test Mode</b> can be set to <b>Loopback</b> or <b>USART Server</b>.<br>
-  Loopback mode should be used for initial validation.<br>
-  Loopback mode requires that Tx and Rx pins are connected together thus driver validation can test basic 
-  functionality.<br>
-  <b>For full compliance of the USART driver with the CMSIS-Driver USART specification the USART Server Test Mode has to be used.</b>
-- <b>USART Server</b> settings are relevant if <b>Test Mode: USART Server</b> is selected.<br>
-  These settings specify communication settings at which Driver Validation communicates with the USART Server<br>
-  and <b>must be same as configured on the USART Server.</b>   
-  - Some settings are fixed and cannot be changed, these are the following ones:
-     - <b>Baudrate: 115200</b>
-     - <b>Data Bits: 8</b>
-     - <b>Parity: None</b>
-     - <b>Stop Bits: 1</b>
-     - <b>Flow Control: None</b>
-  - Only configurable setting for the USART Server is:
-    - <b>Mode</b> setting specifies the mode for communication with USART Server.<br>
-      Different modes require different physical connection and also USART Server must use same setting.<br>
-      For details on modes please check \ref usart_server_con "USART Server connection".
-- <b>Tests</b> settings specify tests configuration:
-  - <b>Default settings</b> specifies the default settings used in the data exchange tests.<br>
-    Usually, one feature is tested by executing the data exchange while all other parameters are used as default.<br>
-    For details on which parameters are used as default in each test function please refer to \ref usart_tests_data_xchg
-    functions documentation.
-  - <b>Baudrate</b> settings specifies minimum and maximum bus speeds at which data transfer will be executed.<br>
-    These settings are used by the \ref USART_Baudrate_Min and \ref USART_Baudrate_Max test functions.
-  - <b>Number of Items</b> settings specifies a few different number of items to be tested.<br>
-    These settings are used by the \ref USART_Number_Of_Items test function which tests that odd and unusual number of items 
-    are transferred correctly according to the CMSIS-Driver specification.
+**Configuration** contains settings for **Test Mode**, **USART Server**, and **Tests**:
 
-<b>Tests</b> section contains selection of tests to be executed:
-- <b>Driver Management</b> allows enabling or disabling of the whole driver management group of test functions.<br>
-  Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref usart_tests_drv_mgmt documentation.
-- <b>Data Exchange</b> allows enabling or disabling of the whole data exchange group of test functions.<br>
-  Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref usart_tests_data_xchg documentation.
-- <b>Modem</b> allows enabling or disabling of the whole modem lines group of test functions.<br>
-  Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref usart_tests_modem documentation.
-- <b>Event</b> allows enabling or disabling of the whole event group of test functions.<br>
-  Each test function in this group can be enabled or disabled individually, for details on tests performed 
-  by each test function please refer to \ref usart_tests_evt documentation.
+- **Test Mode**: **Loopback** or **USART Server**.  
+  - *Loopback* is recommended for initial validation. It requires Tx and Rx pins to be connected together so that
+    basic functionality can be verified.  
+  - For *full* compliance with the CMSIS-Driver USART specification, use **USART Server** mode.
+
+- **USART Server** (applies only when *Test Mode: USART Server* is selected):  
+  Communication parameters at which Driver Validation communicates with the USART Server. These **must match** the
+  settings on the USART Server.  
+  - Fixed (non-configurable) parameters:  
+    - **Baudrate:** 115200  
+    - **Data Bits:** 8  
+    - **Parity:** None  
+    - **Stop Bits:** 1  
+    - **Flow Control:** None
+  - Configurable parameter:  
+    - **Mode** — communication mode with the USART Server. Different modes require different physical connections and the
+      USART Server must be configured accordingly. For details, see \ref usart_server_con "USART Server connection".
+
+- **Tests**: configuration for test execution.  
+  - **Default settings** — default parameters for data exchange tests. Typically, a single feature is varied while all
+    other parameters use defaults. For defaults used by each function, see \ref usart_tests_data_xchg.  
+  - **Baudrate** — minimum and maximum bus speeds used by \ref USART_Baudrate_Min and \ref USART_Baudrate_Max.  
+  - **Number of Items** — a selection of item counts (including unusual/odd counts) used by \ref USART_Number_Of_Items
+    to verify transfers comply with the CMSIS-Driver specification.
+
+**Tests** section — enable/disable test groups (and individual tests):  
+- **Driver Management** — see \ref usart_tests_drv_mgmt.  
+- **Data Exchange** — see \ref usart_tests_data_xchg.  
+- **Modem** — see \ref usart_tests_modem.  
+- **Event** — see \ref usart_tests_evt.
+
 */
 
-
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/*====================================================================================================*/
 /**
 \defgroup usart_server USART Server
 \ingroup  dv_usart
 
-The <b>USART Server</b> is an application providing a set of features used by the CMSIS-Driver Validation suite to test the
-physical operation of the USART driver.<br>
-It is located in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server</b> directory.
+The **USART Server** is an application used by the CMSIS-Driver Validation suite to test the *physical* operation of
+the USART driver.
 
-The USART Server offers the following features:
-- read of the <b>version</b> information
-- read of the <b>capabilities</b> information
-- set and read of the <b>data buffers content</b>
-- read of the last <b>send/receive/transfer count</b>
-- <b>send</b> of data
-- <b>reception</b> of data
-- <b>transfer</b> in synchronous mode
-- generation of <b>break</b> signal
-- read of <b>break</b> signal status
-- control of <b>modem lines</b>
-- read of <b>modem lines</b> state
+It is available for the STMicroelectronics **STM32F429I-DISC1** board and as a template for **any board**
+with available **Board Layer** and configured **CMSIS compliant USART driver**.
+
+\note STM32F429I-DISC1 was selected because its USART driver is stable and supports all required features.
+\note For running on the STM32F429I-DISC1 board, see \ref usart_server_disc1.
+\note For running on other hardware, see \ref usart_server_template.
+
+\section usart_server_features Features
+- Read **version** information
+- Read **capabilities** information
+- Set and read **data buffer** contents
+- Read last **send/receive/transfer counts**
+- **Send**, **receive**, and **transfer** (synchronous mode) operations
+- Generate **break** signal and read **break status**
+- Control and read **modem lines**
 
 \section usart_server_oper Operation
-
-The USART Server is continuously waiting on a command from the USART Client (Driver Validation), 
-after the command is received it is executed, and the process repeats.<br>
-Most commands do not have any additional related data phase, but some do have additional input or output 
-data exchange phase following the command.
+The Server waits for a command from the USART Client (Driver Validation), executes it, and then waits for the next
+command. Some commands include additional input/output data phases.
 
 \section usart_server_config Configuration
-
-Communication interface settings used during command exchange are set in the <b>USART_Server_Config.h</b> configuration file. 
+Communication settings are defined in **USART_Server_Config.h** file.
 \image html usart_server_config_h.png "USART_Server_Config.h configuration file in Configuration Wizard view mode"
 
 \subsection usart_server_config_detail Configuration settings
 
-<b>Driver_USART#</b> selects the driver instance used by the USART Server.<br>
-<b>Communication settings</b> specify the communication parameters for command exchange with the USART Client:
-  - <b>Mode</b> setting specifies the mode used for command exchange.
-    Different modes require different physical connection and also USART Server must use same setting.<br>
-    For details on modes please check \ref usart_server_con "USART Server connection".
-
-Fixed communication settings used for command exchange with the USART Client are:
-  - <b>Baudrate: 115200</b>
-  - <b>Data Bits: 8</b>
-  - <b>Parity: None</b>
-  - <b>Stop Bits: 1</b>
-  - <b>Flow Control: None</b>
+- **Driver_USART#** — selects the USART driver instance used by the Server.
+- **Communication settings**:
+  - **Mode** — defines the mode used for command exchange (must match DUT setup).
+  - Fixed parameters used for command exchange:
+    - **Baudrate:** 115200
+    - **Data Bits:** 8
+    - **Parity:** None
+    - **Stop Bits:** 1
+    - **Flow Control:** None
 
 \section usart_server_commands Commands
+Commands are human-readable (ASCII) for easier analysis with a USART bus analyzer.
 
-Commands are encoded in human readable format (ASCII strings) so they can be viewed by the USART bus analyzer 
-and analyzed more easily.
+- **GET VER** — get Server version
+- **GET CAP** — get Server capabilities (auto-detected upon reception)
+- **SET BUF** — initialize Rx/Tx buffer content
+- **GET BUF** — retrieve Rx/Tx buffer content
+- **SET COM** — specify transfer configuration for the next **XFER**
+- **XFER** — trigger a transfer
+- **GET CNT** — retrieve number of items transferred in the last transfer
+- **SET BRK** — generate break signal
+- **GET BRK** — read break signal status
+- **SET MDM** — activate modem lines
+- **GET MDM** — read modem line status
 
-Supported commands:
- - <b>GET VER</b>: used to retrieve the version of the USART Server application
- - <b>GET CAP</b>: used to retrieve the capabilities of the USART Server 
-                   (the Server auto-detects capabilities upon reception of this command)
- - <b>SET BUF</b>: used for initialization of the content of receive or transmit buffer of the USART Server
- - <b>GET BUF</b>: used for retrieving the content of receive or transmit buffer of the USART Server
- - <b>SET COM</b>: used for specifying configuration of the send/receive/transfer activated by the XFER command 
- - <b>XFER</b>:    used to trigger a send/receive/transfer (parameters specified with the last SET COM command)
- - <b>GET CNT</b>: used to retrieve the number of sent/received/transferred items in previous send/receive/transfer
- - <b>SET BRK</b>: used to instruct USART Server to generate break signal
- - <b>GET BRK</b>: used to retrieve break signal status on the USART Server
- - <b>SET MDM</b>: used for activation of modem lines
- - <b>GET MDM</b>: used to retrieve modem lines status on the USART Server
+\note For detailed command descriptions, see **README.md** in project root.
 
-\note For details about commands please refer to <b>Abstract.txt</b> file in the 
-<c>\<pack root directory\></c>\\Tools\\USART_Server\\Board\\MCBSTM32F400 directory.
+Example capture: validating the **Send** function in **Asynchronous** mode:
+\image html usart_bus_async_send.png width=100%
 
-Picture below shows a capture of USART Driver Validation validating functionality of the Send function in the Asynchronous mode 
-\image html usart_bus_async_send.png
+\section usart_server_disc1 Running on STM32F429I-DISC1 board
 
-\section usart_server_porting Porting USART Server to other targets
+Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
+create a new solution from **example**:
 
-To create USART Server application for a different target device, follow the steps below:
--# Create a new project in µVision for your target device
--# In the RTE window enable and configure the following software components:
- - <b>CMSIS: CORE</b>
- - <b>CMSIS: RTOS2 (API): Keil RTX5</b> any variant
- - <b>CMSIS Driver: USART (API)</b>
- - <b>CMSIS Driver: VIO (API)</b> select <b>Virtual</b> implementation if implementation for your target system is not available
- - Generic device specific components (startup, clock system, I/O, ...) as required 
-   (please consult device's documentation for more information)
- - Resolve any unresolved dependencies between components
--# Copy the <b>USART_Server.c</b> file from the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Source</b> directory 
-   to the project root and add it to µVision project
--# Copy the <b>USART_Server.h</b> file from the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Include</b> 
-   directory to the project root
--# Copy the files specified below from the directory <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Config</b> to the project root:
- - <b>USART_Server_Config.h</b>: also adapt this file as required by your device
- - <b>USART_Server_HW.c</b>: add this file to the µVision project also adapt it for your device's specific handling of the GPIO lines for 
-   testing of the DCD and RI lines
--# Add root of the project to include path (<b>Options for Target</b> -> <b>C/C++</b> -> <b>Include Paths: .\\</b>)
--# Add the <b>main.c</b> file from a template 
-   (Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the
-   <b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>)
-   and update with code snippet below (replace <c>app_main</c> function):
-\code
-#include "USART_Server.h"
- 
-/*----------------------------------------------------------------------------
- * Application main thread
- *---------------------------------------------------------------------------*/
-__NO_RETURN static void app_main (void *argument) {
-  (void)argument;
-  USART_Server_Start();
-  for (;;) {}
-}
-\endcode
--# Build and download the ported USART Server application to the target device
+1. In the **CMSIS** extension, click **Create a New Solution**.
+   \image html server_new_sol_create.png
+2. Select an **STM32F429I-DISC1 board** as a **Target Board**.
+3. Under **Templates, Reference Applications, and Examples**,
+   select **USART Server (CMSIS-Driver Validation USART Server application for STM32F429I-DISC1 board)**.
+   \image html usart_server_new_sol_disc1_example.png
+4. Choose **Solution Base Folder** and click **Create**.
+   \image html usart_server_new_sol_disc1_create.png
+5. Build and run the **USART Server application** on the **STM32F429I-DISC1 board**.
+
+<b>USART1 pinout (STM32F429I-DISC1):</b>
+
+| USART function | Pin  |
+| :------------- | :--: |
+| Tx             | PA9  |
+| Rx             | PA10 |
+| CLK (sync)     | PA8  |
+| CTS            | PA11 |
+| RTS            | PA12 |
+| DCD test pin   | PA13 |
+| RI test pin    | PA14 |
+
+\note **IMPORTANT:** Connect **ground between** the **USART Server** and the **Device (Driver) Under Test** to ensure a common
+reference potential.
+\note For synchronous testing, this hardware supports only **synchronous Master** mode, therefore it can only be used to
+test **synchronous Slave** mode of the Driver Under Test.
+\note The STM32F429I-DISC1 USART Server for **build-type: Debug** displays command execution on an on-board LCD.
+
+\section usart_server_template Running on specific hardware
+Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
+create a new solution from **template**:
+
+1. In the **CMSIS** extension, click **Create a New Solution**.
+   \image html server_new_sol_create.png
+2. Select the **Target Board**.
+3. Under **Templates, Reference Applications, and Examples**,
+   select **USART Server (CMSIS-Driver Validation USART Server application)**.
+   \image html usart_server_new_sol_template.png
+4. Choose **Solution Base Folder**, click **Create**.
+   \image html usart_server_new_sol_create.png
+5. Select the board layer that provides an USART Driver.
+6. If the board’s USART is not routed to ARDUINO (or a different peripheral is required)
+   , open **USART_Server_Config.h**, **Open Preview** and edit **Driver_USART#** to 
+   the required instance.
+7. Build and run the **USART Server application** on your hardware.
+
+\note **IMPORTANT:** The target board’s USART CMSIS-Driver must be **fully CMSIS compliant**!
+\note The USART Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).
 
 \section usart_server_troubleshooting Troubleshooting
 
-Problems and solutions:
- 1. USART Server is not responding to commands
-    - reset the USART Server
-    - check that correct driver instance is selected in the USART_Server_Config.h file
-    - check that communication settings (mode) between USART Server and USART Driver Validation are the same,<br>
-      if they are not, correct them, rebuild the application and download to the hardware
- 2. USART Server is not responding to commands it reports "Server Start failed!" message 
-    if debug variant is used
-    - check heap settings
-      (it has to be larger than 2 * USART_SERVER_BUF_SIZE specified in the USART_Server_Config.h file)
-    - check that RTOS allows allocation of at least 512 bytes for the USART Server main thread
-      (Global Dynamic Memory size [bytes] setting in RTX_Config.h file if RTX5 is used)
-    - check that USART driver used for USART Server supports selected mode and all fixed settings:
-      - Baudrate: 115200
-      - Data Bits: 8
-      - Parity: None
-      - Stop Bits: 1
-      - Flow Control: None
+1. **Server not responding**
+   - Reset the Server.
+   - Verify the correct driver instance in `USART_Server_Config.h`.
+   - Ensure communication settings (mode) match between Server and Driver Validation; if changed, rebuild and reflash.
 
-\section usart_server_MCBSTM32F400 USART Server on the Keil MCBSTM32F400
-
-µVision project and source files for the MCBSTM32F400 board are available in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Board\\MCBSTM32F400</b> directory.
-
-On the Keil MCBSTM32F400 the <b>USART1</b> interface is used, with the following pinout:
-
-| USART function | Pin    |
-| :------------- | :----: |
-| Tx             | PB6    |
-| Rx             | PB7    |
-| CLK (synchro)  | PA8    |
-| CTS            | PA11   |
-| RTS            | PA12   |
-| DCD test pin   | PA9    |
-| RI test pin    | PA10   |
-
-\note IMPORTANT: Ground must be connected between USART Server and Device (Driver) Under Test 
-so that USART signals have same ground potential.
-
-For more information please consult <b>Abstract.txt</b> file in the project root.
-
-\note For synchronous mode testing this device's hardware supports only synchronous Master mode, 
-so it can only be used for testing synchronous Slave mode of the Driver Under Test.
-
-
-\section usart_server_STM32F429I_DISC1 USART Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board
-
-µVision project and source files for the STM32F429I-DISC1 board are available in the <c>\<pack root directory\></c><b>\\Tools\\USART_Server\\Board\\STM32F429I-DISC1</b> directory.
-
-On the STMicroelectronics STM32F429I-DISC1 board the <b>USART1</b> interface is used, with the following pinout:
-
-| USART function | Pin    |
-| :------------- | :----: |
-| Tx             | PA9    |
-| Rx             | PA10   |
-| CLK (synchro)  | PA8    |
-| CTS            | PA11   |
-| RTS            | PA12   |
-| DCD test pin   | PA13   |
-| RI test pin    | PA14   |
-
-\note IMPORTANT: Ground must be connected between USART Server and Device (Driver) Under Test 
-so that USART signals have same ground potential.
-
-For more information please consult <b>Abstract.txt</b> file in the project root.
-
-\note For synchronous mode testing this device's hardware supports only synchronous Master mode, 
-so it can only be used for testing synchronous Slave mode of the Driver Under Test.
+2. Debug message **“Server Start failed!”** (build-type: Debug)
+   - Check heap (must be > `2 * USART_SERVER_BUF_SIZE`).
+   - Verify RTOS allows ≥ **512 bytes** allocation for the Server main thread (e.g., *Global Dynamic Memory size* in `RTX_Config.h` if RTX5).
+   - Ensure the Server’s USART driver supports all fixed settings:
+     - Baudrate 115200, 8-N-1, Flow Control None.
 
 */
+/*====================================================================================================*/

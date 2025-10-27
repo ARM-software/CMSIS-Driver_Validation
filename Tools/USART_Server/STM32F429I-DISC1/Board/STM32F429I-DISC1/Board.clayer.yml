@@ -1,0 +1,72 @@
+layer:
+  type: Board
+  description: STM32F429I-DISC1 board setup
+  for-board: STMicroelectronics::STM32F429I-DISC1
+
+  connections:
+    - connect: STM32F429I-DISC1 Board
+      provides:
+        - CMSIS_SPI
+        - CMSIS_USART
+        - CMSIS_VIO
+        - STDIN
+        - STDOUT
+        - STDERR
+        - Heap: 16384
+
+  define:
+    - CMSIS_target_header: \"STM32F429I-DISC1.h\"
+
+  packs:
+    - pack: Keil::STM32F4xx_DFP@2.16.0
+    - pack: ARM::CMSIS@5.9.0
+    - pack: ARM::CMSIS-Compiler@^2.0.0
+    - pack: Keil::MDK-Middleware@7.13.0
+
+  components:
+    - component: Device:Startup
+
+    - component: Device:STM32Cube Framework:Classic
+    - component: Device:STM32Cube HAL:Common
+    - component: Device:STM32Cube HAL:Cortex
+    - component: Device:STM32Cube HAL:DMA2D
+    - component: Device:STM32Cube HAL:DMA
+    - component: Device:STM32Cube HAL:GPIO
+    - component: Device:STM32Cube HAL:I2C
+    - component: Device:STM32Cube HAL:LTDC
+    - component: Device:STM32Cube HAL:PWR
+    - component: Device:STM32Cube HAL:RCC
+    - component: Device:STM32Cube HAL:SDRAM
+    - component: Device:STM32Cube HAL:SPI
+    - component: Device:STM32Cube HAL:UART
+    - component: Device:STM32Cube HAL:USART
+
+    - component: Board Support&STM32F429I-Discovery:Components:ILI9341
+    - component: Board Support&STM32F429I-Discovery:Drivers:Basic I/O
+    - component: Board Support&STM32F429I-Discovery:Drivers:LCD
+    - component: Board Support&STM32F429I-Discovery:Drivers:SDRAM
+    - component: Board Support&STM32F429I-Discovery:LED
+
+    - component: CMSIS:CORE
+
+    - component: CMSIS Driver:SPI
+    - component: CMSIS Driver:USART
+    - component: CMSIS Driver:VIO:Custom
+
+    - component: CMSIS-Compiler:CORE
+    - component: CMSIS-Compiler:STDERR:Custom
+    - component: CMSIS-Compiler:STDOUT:Custom
+    - component: CMSIS-Compiler:STDIN:Custom
+
+  groups:
+    - group: Board
+      files:
+        - file: main.c
+        - file: STM32F429I-DISC1.h
+        - file: retarget_stdio.c
+        - file: vio_STM32F429I.c
+
+  linker:
+    - script:  ./RTE/Device/STM32F429ZITx/ac6_linker_script.sct.src
+      regions: ./RTE/Device/STM32F429ZITx/regions_STM32F429I-Discovery.h
+      for-compiler: AC6

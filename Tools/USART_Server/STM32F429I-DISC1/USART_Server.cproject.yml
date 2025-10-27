@@ -1,0 +1,51 @@
+project:
+  description: CMSIS Driver Validation USART Server for STM32F429I-DISC1 board
+
+  # List of packs used in the project.
+  packs:
+    - pack: ARM::CMSIS@5.9.0
+
+  # List of connections required or provided by the project.
+  connections:
+    - connect: USART Server
+      provides:
+        - CMSIS-RTOS2
+      consumes:
+        - CMSIS_VIO
+        - STDOUT
+
+  # List of include paths passed via the command line to the build tool
+  add-path:
+    - ./
+
+  # List of source groups and files.
+  groups:
+    - group: Documentation
+      files:
+        - file: README.md
+    - group: Source Files
+      files:
+        - file: app_main.c
+    - group: USART Server Files
+      files:
+        - file: Config/USART_Server_Config.h
+        - file: Config/USART_Server_HW.c
+        - file: Include/USART_Server.h
+        - file: Include/USART_Server_HW.h
+        - file: Source/USART_Server.c
+
+  # List of components used by the application.
+  components:
+    - component: CMSIS:RTOS2:Keil RTX5&Source
+
+  # List of layers used by the application.
+  layers:
+    - layer: $Board-Layer$
+      type:  Board
+
+  # List of executable file formats to be generated.
+  output:
+    type:
+      - elf
+      - hex
+      - map

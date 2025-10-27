@@ -10,10 +10,11 @@
   <releases>
     <release version="3.1.0-dev">
       Active Development ...
-      - Add SPI Server application template
-      - Update SPI Server application to CMSIS solution format
-      - Remove old SPI Server files
       - Add GPIO Driver validation
+      - Update SPI Server application to CMSIS solution format
+      - Add SPI Server application template
+      - Update USART Server application to CMSIS solution format
+      - Add USART Server application template
       - Remove XML report format
       - Improve Ethernet driver validation
       - Minor update to SPI driver validation
@@ -287,6 +288,21 @@
       <description>CMSIS-Driver Validation SPI Server application</description>
       <project>
         <environment name="csolution" load="SPI_Server.csolution.yml"/>
+      </project>
+    </example>
+
+    <example name="USART Server" doc="README.md" folder="Tools/USART_Server/STM32F429I-DISC1">
+      <description>CMSIS-Driver Validation USART Server application for STM32F429I-DISC1 board</description>
+      <board name="STM32F429I-DISC1" vendor="STMicroelectronics"/>
+      <project>
+        <environment name="csolution" load="USART_Server.csolution.yml"/>
+      </project>
+    </example>
+
+    <example name="USART Server" doc="README.md" folder="Tools/USART_Server/Template">
+      <description>CMSIS-Driver Validation USART Server application</description>
+      <project>
+        <environment name="csolution" load="USART_Server.csolution.yml"/>
       </project>
     </example>
 

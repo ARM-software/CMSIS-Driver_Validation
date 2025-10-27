@@ -12,5 +12,7 @@ var searchData=
   ['rtos2_20keil_20rtx5_9',['Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)',['../setup.html#step6',1,'']]],
   ['rtx5_10',['Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)',['../setup.html#step6',1,'']]],
   ['run_20the_20project_11',['Step 9: Download and Run the Project',['../setup.html#step9',1,'']]],
-  ['running_20microsoft_20windows_12',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]]
+  ['running_20microsoft_20windows_12',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
+  ['running_20on_20specific_20hardware_13',['Running on specific hardware',['../group__spi__server.html#spi_server_template',1,'Running on specific hardware'],['../group__usart__server.html#usart_server_template',1,'Running on specific hardware']]],
+  ['running_20on_20stm32f429i_20disc1_20board_14',['Running on STM32F429I DISC1 board',['../group__spi__server.html#spi_server_disc1',1,'Running on STM32F429I-DISC1 board'],['../group__usart__server.html#usart_server_disc1',1,'Running on STM32F429I-DISC1 board']]]
 ];

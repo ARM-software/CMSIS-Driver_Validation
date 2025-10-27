@@ -129,62 +129,66 @@ $(function(){initNavTree('group__usart__config.html',''); initResizable(true); }
   <div class="headertitle"><div class="title">Configuration<div class="ingroups"><a class="el" href="group__dv__usart.html">USART Validation</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p>The USART driver validation settings are available in the <b>DV_USART_Config.h</b> configuration file.</p>
+<p>The USART driver validation settings are defined in the <b>DV_USART_Config.h</b> configuration file.</p>
 <div class="image">
 <img src="dv_usart_config_h.png" alt=""/>
 <div class="caption">
 DV_USART_Config.h configuration file in Configuration Wizard view mode</div></div>
-<p>Some settings depend on the test environment and need to be changed for proper operation of the USART driver validation.<br  />
-</p>
+<p>Some settings depend on the test environment and may require adjustment to ensure proper operation of the USART Driver Validation suite.</p>
 <h1><a class="anchor" id="usart_config_detail"></a>
 Configuration settings</h1>
-<p><b>Driver_USART#</b> selects the driver instance that will be tested.<br  />
- For example if we want to test <code>Driver_USART2</code> then this setting would be set to <code>2</code>.</p>
-<p><b>Configuration</b> section contains configuration of: Test Mode, USART Server and Tests settings:</p><ul>
-<li><b>Test Mode</b> can be set to <b>Loopback</b> or <b>USART Server</b>.<br  />
- Loopback mode should be used for initial validation.<br  />
- Loopback mode requires that Tx and Rx pins are connected together thus driver validation can test basic functionality.<br  />
- <b>For full compliance of the USART driver with the CMSIS-Driver USART specification the USART Server Test Mode has to be used.</b></li>
-<li><b>USART Server</b> settings are relevant if <b>Test Mode: USART Server</b> is selected.<br  />
- These settings specify communication settings at which Driver Validation communicates with the USART Server<br  />
- and <b>must be same as configured on the USART Server.</b> <br  />
+<p>Driver_USART#** selects the driver instance to be tested. <br  />
+ Example: to test <code>Driver_USART2</code>, set this value to <code>2</code>.</p>
+<p>Configuration** contains settings for <b>Test Mode</b>, <b>USART Server</b>, and <b>Tests</b>:</p>
 <ul>
-<li>Some settings are fixed and cannot be changed, these are the following ones:<ul>
-<li><b>Baudrate: 115200</b></li>
-<li><b>Data Bits: 8</b></li>
-<li><b>Parity: None</b></li>
-<li><b>Stop Bits: 1</b></li>
-<li><b>Flow Control: None</b></li>
+<li><b>Test Mode</b>: <b>Loopback</b> or <b>USART Server</b>. <br  />
+<ul>
+<li><em>Loopback</em> is recommended for initial validation. It requires Tx and Rx pins to be connected together so that basic functionality can be verified. <br  />
+</li>
+<li>For <em>full</em> compliance with the CMSIS-Driver USART specification, use <b>USART Server</b> mode.</li>
 </ul>
 </li>
-<li>Only configurable setting for the USART Server is:<ul>
-<li><b>Mode</b> setting specifies the mode for communication with USART Server.<br  />
- Different modes require different physical connection and also USART Server must use same setting.<br  />
- For details on modes please check <a class="el" href="group__dv__usart.html#usart_server_con">USART Server connection</a>.</li>
+<li><b>USART Server</b> (applies only when <em>Test Mode: USART Server</em> is selected): <br  />
+ Communication parameters at which Driver Validation communicates with the USART Server. These <b>must match</b> the settings on the USART Server. <br  />
+<ul>
+<li>Fixed (non-configurable) parameters: <br  />
+<ul>
+<li><b>Baudrate:</b> 115200 <br  />
+</li>
+<li><b>Data Bits:</b> 8 <br  />
+</li>
+<li><b>Parity:</b> None <br  />
+</li>
+<li><b>Stop Bits:</b> 1 <br  />
+</li>
+<li><b>Flow Control:</b> None</li>
+</ul>
+</li>
+<li>Configurable parameter: <br  />
+<ul>
+<li><b>Mode</b> — communication mode with the USART Server. Different modes require different physical connections and the USART Server must be configured accordingly. For details, see <a class="el" href="group__dv__usart.html#usart_server_con">USART Server connection</a>.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><b>Tests</b> settings specify tests configuration:<ul>
-<li><b>Default settings</b> specifies the default settings used in the data exchange tests.<br  />
- Usually, one feature is tested by executing the data exchange while all other parameters are used as default.<br  />
- For details on which parameters are used as default in each test function please refer to <a class="el" href="group__usart__tests__data__xchg.html">Data Exchange</a> functions documentation.</li>
-<li><b>Baudrate</b> settings specifies minimum and maximum bus speeds at which data transfer will be executed.<br  />
- These settings are used by the <a class="el" href="group__usart__tests__data__xchg.html#gaccd6bc4a56a3ab6fbf9c6d6b530c7202">USART_Baudrate_Min</a> and <a class="el" href="group__usart__tests__data__xchg.html#ga2f49cdc91fc6531f35c2cde38a557a17">USART_Baudrate_Max</a> test functions.</li>
-<li><b>Number of Items</b> settings specifies a few different number of items to be tested.<br  />
- These settings are used by the <a class="el" href="group__usart__tests__data__xchg.html#ga89c83e2ced0a9e285c24f0bab4388f79">USART_Number_Of_Items</a> test function which tests that odd and unusual number of items are transferred correctly according to the CMSIS-Driver specification.</li>
-</ul>
+<li><p class="startli"><b>Tests</b>: configuration for test execution. <br  />
+</p><ul>
+<li><b>Default settings</b> — default parameters for data exchange tests. Typically, a single feature is varied while all other parameters use defaults. For defaults used by each function, see <a class="el" href="group__usart__tests__data__xchg.html">Data Exchange</a>. <br  />
 </li>
+<li><b>Baudrate</b> — minimum and maximum bus speeds used by <a class="el" href="group__usart__tests__data__xchg.html#gaccd6bc4a56a3ab6fbf9c6d6b530c7202">USART_Baudrate_Min</a> and <a class="el" href="group__usart__tests__data__xchg.html#ga2f49cdc91fc6531f35c2cde38a557a17">USART_Baudrate_Max</a>. <br  />
+</li>
+<li><b>Number of Items</b> — a selection of item counts (including unusual/odd counts) used by <a class="el" href="group__usart__tests__data__xchg.html#ga89c83e2ced0a9e285c24f0bab4388f79">USART_Number_Of_Items</a> to verify transfers comply with the CMSIS-Driver specification.</li>
 </ul>
-<p><b>Tests</b> section contains selection of tests to be executed:</p><ul>
-<li><b>Driver Management</b> allows enabling or disabling of the whole driver management group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__usart__tests__drv__mgmt.html">Driver Management</a> documentation.</li>
-<li><b>Data Exchange</b> allows enabling or disabling of the whole data exchange group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__usart__tests__data__xchg.html">Data Exchange</a> documentation.</li>
-<li><b>Modem</b> allows enabling or disabling of the whole modem lines group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__usart__tests__modem.html">Modem Lines</a> documentation.</li>
-<li><b>Event</b> allows enabling or disabling of the whole event group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__usart__tests__evt.html">Event</a> documentation. </li>
+<p class="startli">Tests** section — enable/disable test groups (and individual tests): <br  />
+</p>
+</li>
+<li><b>Driver Management</b> — see <a class="el" href="group__usart__tests__drv__mgmt.html">Driver Management</a>. <br  />
+</li>
+<li><b>Data Exchange</b> — see <a class="el" href="group__usart__tests__data__xchg.html">Data Exchange</a>. <br  />
+</li>
+<li><b>Modem</b> — see <a class="el" href="group__usart__tests__modem.html">Modem Lines</a>. <br  />
+</li>
+<li><b>Event</b> — see <a class="el" href="group__usart__tests__evt.html">Event</a>. </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

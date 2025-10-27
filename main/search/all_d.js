@@ -6,7 +6,7 @@ var searchData=
   ['device_3',['Step 7: Configure the Device',['../setup.html#step7',1,'']]],
   ['device_4',['Step 1: Create an MDK project for your target microcontroller device',['../setup.html#step1',1,'']]],
   ['device_20validation_5',['USB Device Validation',['../group__dv__usbd.html',1,'']]],
-  ['disc1_2032f429idiscovery_20board_6',['DISC1 32F429IDISCOVERY board',['../group__spi__server.html#spi_server_STM32F429I_DISC1',1,'SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board'],['../group__usart__server.html#usart_server_STM32F429I_DISC1',1,'USART Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board']]],
+  ['disc1_20board_6',['DISC1 board',['../group__spi__server.html#spi_server_disc1',1,'Running on STM32F429I-DISC1 board'],['../group__usart__server.html#usart_server_disc1',1,'Running on STM32F429I-DISC1 board']]],
   ['discovery_7',['STMicroelectronics STM32F746G-Discovery',['../examples_stm32f746g.html',1,'examples']]],
   ['document_20structure_8',['Document structure',['../index.html#doc_structure',1,'']]],
   ['download_20and_20run_20the_20project_9',['Step 9: Download and Run the Project',['../setup.html#step9',1,'']]],

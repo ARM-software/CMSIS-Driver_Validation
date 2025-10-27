@@ -129,132 +129,80 @@ $(function(){initNavTree('group__spi__server.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">SPI Server<div class="ingroups"><a class="el" href="group__dv__spi.html">SPI Validation</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p>The <b>SPI Server</b> is an application providing a set of features used by the CMSIS-Driver Validation suite to test the physical operation of the SPI driver.<br  />
- It is located in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server</b> directory.</p>
-<p>The SPI Server offers the following features:</p><ul>
-<li>read of the <b>version</b> information</li>
-<li>read of the <b>capabilities</b> information</li>
-<li>set and read of the <b>data buffers content</b></li>
-<li>read of the last <b>transfer count</b></li>
-<li><b>transfer</b> in Slave or Master mode</li>
+<p>The <b>SPI Server</b> application provides features used by the CMSIS-Driver Validation suite to test physical operation of the SPI driver.</p>
+<p>It is available for the STMicroelectronics <b>STM32F429I-DISC1</b> board and as a template for <b>any board</b> with available <b>Board Layer</b> and configured <b>CMSIS compliant SPI driver</b>.</p>
+<dl class="section note"><dt>Note</dt><dd>STM32F429I-DISC1 was selected because its SPI driver is stable and supports all required features. </dd>
+<dd>
+For running on STM32F429I-DISC1 board, see <a class="el" href="#spi_server_disc1">Running on STM32F429I-DISC1 board</a>. </dd>
+<dd>
+For running on other hardware, see <a class="el" href="#spi_server_template">Running on specific hardware</a>.</dd></dl>
+<h1><a class="anchor" id="spi_server_features"></a>
+Features</h1>
+<ul>
+<li>Read <b>version</b> information</li>
+<li>Read <b>capabilities</b> information (auto-detected)</li>
+<li>Set and read <b>buffer</b> contents</li>
+<li>Read last <b>transfer count</b></li>
+<li>Execute <b>transfer</b> in <b>Slave</b> or <b>Master</b> mode</li>
 </ul>
 <h1><a class="anchor" id="spi_server_oper"></a>
 Operation</h1>
-<p>The SPI Server is continuously waiting on a command from the SPI Client (Driver Validation), after the command is received it is executed, and the process repeats.<br  />
- Most commands do not have any additional related data phase, but some do have additional input or output data exchange phase following the command.</p>
-<p>The SPI Server behaves as an SPI Slave except when command for Master transfer was requested, in which case it executes the requested Master transfer and reverts to Slave mode.</p>
+<p>The Server waits for a command from the SPI Client (Driver Validation), executes it, and then waits for the next one. Most commands have no additional data phase, though some do. The Server operates as an SPI <b>Slave</b> except when a <b>Master</b> transfer is explicitly requested; after completing it, the Server returns to <b>Slave</b> mode.</p>
 <h1><a class="anchor" id="spi_server_config"></a>
 Configuration</h1>
-<p>Communication interface settings used during command exchange are set in the <b>SPI_Server_Config.h</b> configuration file. </p><div class="image">
+<p>Communication settings are defined in <b>SPI_Server_Config.h</b> file. </p><div class="image">
 <img src="spi_server_config_h.png" alt=""/>
 <div class="caption">
 SPI_Server_Config.h configuration file in Configuration Wizard view mode</div></div>
 <h2><a class="anchor" id="spi_server_config_detail"></a>
 Configuration settings</h2>
-<p><b>Driver_SPI#</b> selects the driver instance used by the SPI Server.<br  />
- Communication settings used for command exchange with the SPI Client are fixed to:</p><ul>
-<li><b>Mode: Slave with Slave Select Hardware monitored</b></li>
-<li><b>Clock / Frame Format: Clock Polarity 0/ Clock Phase 0</b></li>
-<li><b>Data Bits: 8</b></li>
-<li><b>Bit Order: MSB to LSB</b> <br  />
+<ul>
+<li><b>Driver_SPI#</b> — selects the driver instance used by the Server.</li>
+<li><b>Communication settings</b> (fixed for command exchange):<ul>
+<li><b>Mode:</b> Slave with <b>hardware-monitored Slave Select</b></li>
+<li><b>Clock/Frame:</b> Clock Polarity 0/ Clock Phase 0</li>
+<li><b>Data Bits:</b> 8</li>
+<li><b>Bit Order:</b> MSB to LSB</li>
+</ul>
 </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>The SPI Server is receiving commands operating in SPI Slave mode with usage of the Slave Select line </dd>
-<dd>
-The SPI driver used by the SPI Server must support Hardware monitored Slave Select functionality</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The SPI Server receives commands as an SPI <b>Slave</b> using the <b>Slave Select</b> line. The Server’s SPI driver <b>must support hardware-monitored Slave Select</b> functionality.</dd></dl>
 <h1><a class="anchor" id="spi_server_commands"></a>
 Commands</h1>
-<p>Commands are encoded in human readable format (ASCII strings) so they can be viewed by the SPI bus analyzer and analyzed more easily.</p>
-<p>Supported commands:</p><ul>
-<li><b>GET VER</b>: used to retrieve version of the SPI Server application</li>
-<li><b>GET CAP</b>: used to retrieve capabilities of the SPI Server (the Server auto-detects capabilities upon reception of this command)</li>
-<li><b>SET BUF</b>: used to initialize receive or transmit buffer content of the SPI Server</li>
-<li><b>GET BUF</b>: used to retrieve receive or transmit buffer content of the SPI Server</li>
-<li><b>SET COM</b>: used to specify transfer configuration for the next transfer</li>
-<li><b>XFER</b>: used to trigger a transfer</li>
-<li><b>GET CNT</b>: used to retrieve number of transferred items in the last transfer</li>
+<p>Commands are human-readable (ASCII) for simpler analysis with an SPI bus analyzer.</p>
+<ul>
+<li><b>GET VER</b> — get Server version</li>
+<li><b>GET CAP</b> — get capabilities (auto-detected)</li>
+<li><b>SET BUF</b> — initialize Rx/Tx buffer content</li>
+<li><b>GET BUF</b> — retrieve Rx/Tx buffer content</li>
+<li><b>SET COM</b> — specify transfer configuration for the next <b>XFER</b></li>
+<li><b>XFER</b> — trigger a transfer</li>
+<li><b>GET CNT</b> — retrieve number of transferred items in the last transfer</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>For details about commands please refer to <b>Abstract.txt</b> file in the <code>&lt;pack root directory&gt;</code>\Tools\SPI_Server\Board\MCBSTM32F400 directory.</dd></dl>
-<p>Picture below shows a capture of SPI Driver Validation validating functionality of the Master transfer with Slave Select line not used</p><div class="image">
-<img src="spi_bus_master_ss_hw_ctrl_out.png" alt=""/>
+<dl class="section note"><dt>Note</dt><dd>For detailed command descriptions, see <b>README.md</b> in project root.</dd></dl>
+<p>Example capture (Master transfer validation): </p><div class="image">
+<img src="spi_bus_master_ss_hw_ctrl_out.png" alt="" width="100%"/>
 </div>
-<h1><a class="anchor" id="spi_server_porting"></a>
-Porting SPI Server to other targets</h1>
-<p>To create SPI Server application for a different target device, follow the steps below:</p><ol type="1">
-<li>Create a new project in µVision for your target device</li>
-<li>In the RTE window enable and configure the following software components:<ul>
-<li><b>CMSIS: CORE</b></li>
-<li><b>CMSIS: RTOS2 (API): Keil RTX5</b> any variant</li>
-<li><b>CMSIS Driver: SPI (API)</b></li>
-<li><b>CMSIS Driver: VIO (API)</b> select <b>Virtual</b> implementation if implementation for your target system is not available</li>
-<li>Generic device specific components (startup, clock system, I/O, ...) as required (please consult device's documentation for more information)</li>
-<li>Resolve any unresolved dependencies between components</li>
-</ul>
+<h1><a class="anchor" id="spi_server_disc1"></a>
+Running on STM32F429I-DISC1 board</h1>
+<p>Using the <a href="https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution">Arm CMSIS Solution</a> VS Code extension, create a new solution from <b>example</b>:</p>
+<ol type="1">
+<li>In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>. <div class="image">
+<img src="server_new_sol_create.png" alt=""/>
+</div>
 </li>
-<li>Copy the <b>SPI_Server.c</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Source</b> directory to the project root and add it to µVision project</li>
-<li>Copy the <b>SPI_Server.h</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Include</b> directory to the project root</li>
-<li>Copy the <b>SPI_Server_Config.h</b> file from the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Config</b> directory to the project root and adapt this file as required by your device</li>
-<li>Add root of the project to include path (<b>Options for Target</b> -&gt; <b>C/C++</b> -&gt; <b>Include Paths: .\</b>)</li>
-<li>Add the <b>main.c</b> file from a template (Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the <b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>) and update with code snippet below (replace <code>app_main</code> function): <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;SPI_Server.h&quot;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="comment">/*----------------------------------------------------------------------------</span></div>
-<div class="line"><span class="comment"> * Application main thread</span></div>
-<div class="line"><span class="comment"> *---------------------------------------------------------------------------*/</span></div>
-<div class="line">__NO_RETURN <span class="keyword">static</span> <span class="keywordtype">void</span> app_main (<span class="keywordtype">void</span> *argument) {</div>
-<div class="line">  (void)argument;</div>
-<div class="line">  SPI_Server_Start();</div>
-<div class="line">  <span class="keywordflow">for</span> (;;) {}</div>
-<div class="line">}</div>
-</div><!-- fragment --></li>
-<li>Ensure that system has at least 10kB of heap available for the transfer buffers (this is usually set in the startup file of the device)</li>
-<li>Build and download the ported SPI Server application to the target device</li>
+<li>Select an <b>STM32F429I-DISC1 board</b> as a <b>Target Board</b>.</li>
+<li>Under <b>Templates, Reference Applications, and Examples</b>, select <b>SPI Server (CMSIS-Driver Validation SPI Server application for STM32F429I-DISC1 board)</b>. <div class="image">
+<img src="spi_server_new_sol_disc1_example.png" alt=""/>
+</div>
+</li>
+<li>Choose <b>Solution Base Folder</b> and click <b>Create</b>. <div class="image">
+<img src="spi_server_new_sol_disc1_create.png" alt=""/>
+</div>
+</li>
+<li>Build and run the <b>SPI Server application</b> on the <b>STM32F429I-DISC1 board</b>.</li>
 </ol>
-<h1><a class="anchor" id="spi_server_troubleshooting"></a>
-Troubleshooting</h1>
-<p>Problems and solutions:</p><ol type="1">
-<li>SPI Server is not responding to commands<ul>
-<li>reset the SPI Server</li>
-<li>check that correct driver instance is selected in the SPI_Server_Config.h file</li>
-<li>reduce bus speed used for communication with the SPI Server (in the DV_SPI_Config.h file)</li>
-</ul>
-</li>
-<li>SPI Server is not responding to commands it reports "Server Start failed!" message if debug variant is used<ul>
-<li>check heap settings (it has to be larger than 2 * SPI_SERVER_BUF_SIZE specified in the SPI_Server_Config.h file)</li>
-<li>check that RTOS allows allocation of at least 512 bytes for the SPI Server main thread (Global Dynamic Memory size [bytes] setting in RTX_Config.h file if RTX5 is used)</li>
-</ul>
-</li>
-<li>tests report data mismatch<ul>
-<li>check that Slave Select line has a pull-up to Vcc line</li>
-<li>check that wires are separate and short as possible</li>
-<li>insure if possible that SCK and GND wires are a twisted pair</li>
-<li>insure that SPI driver in inactive mode does not drive Slave Select line</li>
-</ul>
-</li>
-</ol>
-<h1><a class="anchor" id="spi_server_MCBSTM32F400"></a>
-SPI Server on the Keil MCBSTM32F400 board</h1>
-<p>µVision project and source files for the MCBSTM32F400 board are available in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Board\MCBSTM32F400</b> directory.</p>
-<p>On the Keil MCBSTM32F400 board the <b>SPI2</b> interface is used, with the following pinout:</p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadLeft">SPI function   </th><th class="markdownTableHeadCenter">Pin    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyLeft">SPI Clock   </td><td class="markdownTableBodyCenter">PB10    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft">Master Output Slave Input (MOSI)   </td><td class="markdownTableBodyCenter">PB15    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyLeft">Master Input Slave Output (MISO)   </td><td class="markdownTableBodyCenter">PB14    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft">Slave Select   </td><td class="markdownTableBodyCenter">PI0   </td></tr>
-</table>
-<dl class="section note"><dt>Note</dt><dd>IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test so that SPI signals have same ground potential.</dd></dl>
-<p>For more information please consult <b>Abstract.txt</b> file in the project root.</p>
-<dl class="section note"><dt>Note</dt><dd>SPI Server on the Keil MCBSTM32F400 does not support National Semiconductor Microwire Frame Format.</dd></dl>
-<h1><a class="anchor" id="spi_server_STM32F429I_DISC1"></a>
-SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board</h1>
-<p>µVision project and source files for the STM32F429I-DISC1 board are available in the <code>&lt;pack root directory&gt;</code><b>\Tools\SPI_Server\Board\STM32F429I-DISC1</b> directory.</p>
-<p>On the STMicroelectronics STM32F429I-DISC1 board the <b>SPI1</b> interface is used, with the following pinout:</p>
-<table class="markdownTable">
+<p><b>SPI1 pinout (STM32F429I-DISC1):</b> </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">SPI function   </th><th class="markdownTableHeadCenter">Pin    </th></tr>
 <tr class="markdownTableRowOdd">
@@ -266,9 +214,61 @@ SPI Server on the STMicroelectronics STM32F429I-DISC1 (32F429IDISCOVERY) board</
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyLeft">Slave Select   </td><td class="markdownTableBodyCenter">PA15   </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>IMPORTANT: Ground must be connected between SPI Server and Device (Driver) Under Test so that SPI signals have same ground potential.</dd></dl>
-<p>For more information please consult <b>Abstract.txt</b> file in the project root.</p>
-<dl class="section note"><dt>Note</dt><dd>SPI Server on the STMicroelectronics STM32F429I-DISC1 does not support National Semiconductor Microwire Frame Format. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> Connect <b>ground between</b> the <b>SPI Server</b> and the <b>Device (Driver) Under Test</b> to ensure a common reference potential. </dd>
+<dd>
+The STM32F429I-DISC1 SPI Server does <b>not</b> support National Semiconductor <b>Microwire</b> frame format. </dd>
+<dd>
+The STM32F429I-DISC1 SPI Server for <b>build-type: Debug</b> displays command execution on an on-board LCD.</dd></dl>
+<h1><a class="anchor" id="spi_server_template"></a>
+Running on specific hardware</h1>
+<p>Using the <a href="https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution">Arm CMSIS Solution</a> VS Code extension, create a new solution from <b>template</b>:</p>
+<ol type="1">
+<li>In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>. <div class="image">
+<img src="server_new_sol_create.png" alt=""/>
+</div>
+</li>
+<li>Select the <b>Target Board</b>. <br  />
+</li>
+<li>Under <b>Templates, Reference Applications, and Examples</b>, select <b>SPI Server (CMSIS-Driver Validation SPI Server application)</b>. <div class="image">
+<img src="spi_server_new_sol_template.png" alt=""/>
+</div>
+</li>
+<li>Choose <b>Solution Base Folder</b>, click <b>Create</b>. <div class="image">
+<img src="spi_server_new_sol_create.png" alt=""/>
+</div>
+</li>
+<li>Select the board layer that provides an SPI Driver. <div class="image">
+<img src="server_new_sol_layer.png" alt=""/>
+</div>
+</li>
+<li>If SPI is not routed to ARDUINO (or a different SPI peripheral is required), open <b>SPI_Server_Config.h</b>, <b>Open Preview</b> and edit <b>Driver_SPI#</b> to the required instance.</li>
+<li>Build and run the <b>SPI Server application</b> on your hardware.</li>
+</ol>
+<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> The target board’s SPI CMSIS-Driver must be <b>fully CMSIS compliant</b>! </dd>
+<dd>
+The SPI Server for <b>build-type: Debug</b> displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).</dd></dl>
+<h1><a class="anchor" id="spi_server_troubleshooting"></a>
+Troubleshooting</h1>
+<ol type="1">
+<li><b>Server not responding</b><ul>
+<li>Reset the Server.</li>
+<li>Verify the correct driver instance in <code>SPI_Server_Config.h</code>.</li>
+<li>Reduce bus speed used for communication with the Server (in <code>DV_SPI_Config.h</code>).</li>
+</ul>
+</li>
+<li>Debug message <b>“Server Start failed!”</b> (build-type: Debug)<ul>
+<li>Check heap (must be &gt; <code>2 * SPI_SERVER_BUF_SIZE</code>).</li>
+<li>Verify RTOS allows ≥ <b>512 bytes</b> allocation for the Server main thread (e.g., <em>Global Dynamic Memory size</em> in <code>RTX_Config.h</code> if RTX5).</li>
+<li>Ensure the Server’s SPI driver supports all fixed settings (Slave with hardware-monitored Slave Select, CPOL=0/CPHA=0, 8 bits, MSB to LSB).</li>
+</ul>
+</li>
+<li><b>Tests report data mismatch</b><ul>
+<li>Ensure Slave Select line has a pull-up to Vcc (3.3 V).</li>
+<li>Keep <b>wires short and separate</b>; pair SCK and GND if possible.</li>
+<li>Ensure the SPI driver does not drive Slave Select line while inactive. </li>
+</ul>
+</li>
+</ol>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

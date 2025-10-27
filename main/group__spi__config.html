@@ -129,62 +129,62 @@ $(function(){initNavTree('group__spi__config.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Configuration<div class="ingroups"><a class="el" href="group__dv__spi.html">SPI Validation</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p>The SPI driver validation settings are available in the <b>DV_SPI_Config.h</b> configuration file.</p>
+<p>The SPI driver validation settings are defined in the <b>DV_SPI_Config.h</b> configuration file.</p>
 <div class="image">
 <img src="dv_spi_config_h.png" alt=""/>
 <div class="caption">
 DV_SPI_Config.h configuration file in Configuration Wizard view mode</div></div>
-<p>Some settings depend on the test environment and need to be changed for proper operation of the SPI driver validation.<br  />
-</p>
+<p>Some settings depend on the test environment and may require adjustment to ensure proper operation of the SPI Driver Validation suite.</p>
 <h1><a class="anchor" id="spi_config_detail"></a>
 Configuration settings</h1>
-<p><b>Driver_SPI#</b> selects the driver instance that will be tested.<br  />
- For example if we want to test <code>Driver_SPI2</code> then this setting would be set to <code>2</code>.</p>
-<p><b>Configuration</b> section contains configuration of: Test Mode, SPI Server and Tests settings:</p><ul>
-<li><b>Test Mode</b> can be set to <b>Loopback</b> or <b>SPI Server</b>.<br  />
- Loopback mode should be used for initial validation.<br  />
- Loopback mode requires that MOSI and MISO pins are connected together thus driver validation can test basic functionality in the Master mode.<br  />
- <b>For full compliance of the SPI driver with the CMSIS-Driver SPI specification the SPI Server Test Mode has to be used.</b></li>
-<li><b>SPI Server</b> settings are relevant if <b>Test Mode: SPI Server</b> is selected.<br  />
- These settings specify communication settings at which Driver Validation communicates with the SPI Server<br  />
- and <b>must be same as configured on the SPI Server.</b> <br  />
+<p>Driver_SPI#** selects the driver instance to be tested. <br  />
+ Example: to test <code>Driver_SPI2</code>, set this value to <code>2</code>.</p>
+<p>Configuration** contains settings for <b>Test Mode</b>, <b>SPI Server</b>, and <b>Tests</b>:</p>
 <ul>
-<li>Some settings are fixed and cannot be changed, these are the following ones:<ul>
-<li><b>Clock / Frame Format: Clock Polarity 0/ Clock Phase 0</b></li>
-<li><b>Data Bits: 8</b></li>
-<li><b>Bit Order: MSB to LSB</b> <br  />
+<li><b>Test Mode</b>: <b>Loopback</b> or <b>SPI Server</b>. <br  />
+<ul>
+<li><em>Loopback</em> is recommended for initial validation of <b>Master</b> functionality. It requires MOSI and MISO to be connected together to verify basic operation. <br  />
+</li>
+<li>For <em>full</em> CMSIS-Driver SPI compliance, use <b>SPI Server</b> mode.</li>
+</ul>
+</li>
+<li><b>SPI Server</b> (applies only when <em>Test Mode: SPI Server</em> is selected): <br  />
+ Defines communication settings between Driver Validation and the SPI Server and <b>must match</b> the Server. <br  />
+<ul>
+<li>Fixed parameters: <br  />
+<ul>
+<li><b>Clock/Frame:</b> CPOL=0, CPHA=0 <br  />
+</li>
+<li><b>Data Bits:</b> 8 <br  />
+</li>
+<li><b>Bit Order:</b> MSB → LSB</li>
+</ul>
+</li>
+<li>Configurable parameters: <br  />
+<ul>
+<li><b>Slave Select</b> — <b>Software Controlled</b> (driver toggles SS using <code>ARM_SPI_CONTROL_SS</code>) or <b>Hardware Controlled</b>. <br  />
+</li>
+<li><b>Bus Speed</b> — nominal bus speed for reliable command exchange with the Server.</li>
+</ul>
 </li>
 </ul>
 </li>
-<li>Settings configurable for the SPI Server are:<ul>
-<li><b>Slave Select</b> setting specifies the way that Slave Select line will be handled by the driver under test.<br  />
- SPI Server requires that commands are exchanged with Slave Select line used, so driver being tested must support Slave Select line handling.<br  />
- <b>Software Controlled</b> selection means that driver will use software controlled driving of the Slave Select line by calling driver <code>Control</code> function with <code>ARM_SPI_CONTROL_SS</code> control code to activate Slave Select Line before the transfer and deactivate it after the transfer.<br  />
- <b>Hardware Controlled</b> selection means that driver will use hardware controlled driving of the Slave Select line.</li>
-<li><b>Bus Speed</b> setting specifies the nominal bus speed used to exchange commands with the SPI Server.<br  />
- This setting should be set to a speed guaranteeing reliable command exchange with the SPI Server.</li>
-</ul>
+<li><p class="startli"><b>Tests</b>: configuration for test execution. <br  />
+</p><ul>
+<li><b>Default settings</b> — defaults for data exchange tests (see <a class="el" href="group__spi__tests__data__xchg.html">Data Exchange</a>). <br  />
 </li>
-</ul>
+<li><b>Bus Speed</b> — minimum/maximum speeds used by <a class="el" href="group__spi__tests__data__xchg.html#ga3d68e121dd548586e9dfb745d4f66edc">SPI_Bus_Speed_Min</a> and <a class="el" href="group__spi__tests__data__xchg.html#ga949c26229d70ecd51c7e94d0db794ff2">SPI_Bus_Speed_Max</a>. <br  />
 </li>
-<li><b>Tests</b> settings specify tests configuration:<ul>
-<li><b>Default settings</b> specifies the default settings used in the data exchange tests.<br  />
- Usually, one feature is tested by executing the data exchange while all other parameters are used as default.<br  />
- For details on which parameters are used as default in each test function please refer to <a class="el" href="group__spi__tests__data__xchg.html">Data Exchange</a> functions documentation.</li>
-<li><b>Bus Speed</b> settings specifies minimum and maximum bus speeds at which data transfer will be executed.<br  />
- These settings are used by the <a class="el" href="group__spi__tests__data__xchg.html#ga3d68e121dd548586e9dfb745d4f66edc">SPI_Bus_Speed_Min</a> and <a class="el" href="group__spi__tests__data__xchg.html#ga949c26229d70ecd51c7e94d0db794ff2">SPI_Bus_Speed_Max</a> test functions.</li>
-<li><b>Number of Items</b> settings specifies a few different number of items to be tested.<br  />
- These settings are used by the <a class="el" href="group__spi__tests__data__xchg.html#ga60177cabd2ede8ad3ab7ce591cfa567d">SPI_Number_Of_Items</a> test function which tests that odd and unusual number of items are transferred correctly according to the CMSIS-Driver specification.</li>
+<li><b>Number of Items</b> — item counts (including odd/unusual) used by <a class="el" href="group__spi__tests__data__xchg.html#ga60177cabd2ede8ad3ab7ce591cfa567d">SPI_Number_Of_Items</a> to verify conformance.</li>
 </ul>
+<p class="startli">Tests** section — enable/disable test groups (and individual tests): <br  />
+</p>
 </li>
-</ul>
-<p><b>Tests</b> section contains selection of tests to be executed:</p><ul>
-<li><b>Driver Management</b> allows enabling or disabling of the whole driver management group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__spi__tests__drv__mgmt.html">Driver Management</a> documentation.</li>
-<li><b>Data Exchange</b> allows enabling or disabling of the whole data exchange group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__spi__tests__data__xchg.html">Data Exchange</a> documentation.</li>
-<li><b>Event</b> allows enabling or disabling of the whole event group of test functions.<br  />
- Each test function in this group can be enabled or disabled individually, for details on tests performed by each test function please refer to <a class="el" href="group__spi__tests__evt.html">Event</a> documentation. </li>
+<li><b>Driver Management</b> — see <a class="el" href="group__spi__tests__drv__mgmt.html">Driver Management</a>. <br  />
+</li>
+<li><b>Data Exchange</b> — see <a class="el" href="group__spi__tests__data__xchg.html">Data Exchange</a>. <br  />
+</li>
+<li><b>Event</b> — see <a class="el" href="group__spi__tests__evt.html">Event</a>. </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

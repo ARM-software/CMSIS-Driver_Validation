@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<package schemaVersion="1.7.31" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.31/schema/PACK.xsd">
+<package schemaVersion="1.7.52" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.52/schema/PACK.xsd">
   <name>CMSIS-Driver_Validation</name>
   <description>CMSIS-Driver Validation</description>
   <vendor>ARM</vendor>

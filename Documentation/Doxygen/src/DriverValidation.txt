@@ -73,24 +73,24 @@ The table below provides information about the changes delivered with specific v
 Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
 create a new solution from **template**:
 
-\section step1 Step 1: In the **CMSIS** extension, click **Create a New Solution**.
+\subsection step1 Step 1: In the **CMSIS** extension, click **Create a New Solution**.
 \image html server_new_sol_create.png
 
-\section step2 Step 2: Select the **Target Board**.
+\subsection step2 Step 2: Select the **Target Board**.
 
-\section step3 Step 3: Under **Templates, Reference Applications, and Examples**, select **Driver Validation (CMSIS-Driver Validation application)**.
+\subsection step3 Step 3: Under **Templates, Reference Applications, and Examples**, select **Driver Validation (CMSIS-Driver Validation application)**.
 \image html driver_validation_new_sol_template.png
 
-\section step4 Step 4: Choose **Solution Base Folder**, click **Create**.
+\subsection step4 Step 4: Choose **Solution Base Folder**, click **Create**.
 \image html driver_validation_new_sol_create.png
 
-\section step5 Step 5: Select the **Board Layer** that provides **required CMSIS Driver**, click **OK**.
+\subsection step5 Step 5: Select the **Board Layer** that provides **required CMSIS Driver**, click **OK**.
 \image html driver_validation_new_sol_layer.png
 
-\section step6 Step 6: In the **Manage Solution**, under **Build Type** select desired Driver for validation, click **Save**.
+\subsection step6 Step 6: In the **Manage Solution**, under **Build Type** select desired Driver for validation, click **Save**.
 \image html driver_validation_build_type.png
 
-\section step7 Step 7: Configure the Driver Tests in appropriate **DV_..._Config.h** file.
+\subsection step7 Step 7: Configure the Driver Tests in appropriate **DV_..._Config.h** file.
 
 > **Note:** `...` in **DV_`...`_Config.h** file depends on the driver being validated; for example, for Ethernet, the file would be **DV_ETH_Config.h** file.
 
@@ -106,7 +106,7 @@ For validation configuration of specific driver check respective driver document
 - [USB Host](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usbh__config.html)
 - [WiFi](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__wifi__config.html)
 
-\section step8 Step 8: Setup the required hardware
+\subsection step8 Step 8: Setup the required hardware
 
 For the interfaces that support loopback testing: \ref dv_eth "Ethernet", \ref dv_usart "USART" and \ref dv_spi "SPI",
 connect the following pins on your target hardware together (refer to the hardware schematics):
@@ -122,7 +122,7 @@ connect the related hardware as required by the related server:
 - SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
 - USART:  Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in \ref usart_server
 
-\section step9 Step 9: Build and Run the application
+\subsection step9 Step 9: Build and Run the application
 
 Example below shows output results (in STDOUT channel) of an Ethernet driver testing:
 \verbatim
@@ -349,274 +349,29 @@ under the \b CMSIS component class:
 
 The CMSIS-Driver Validation Software Pack contains a set of examples that show how to use the CMSIS-Driver Validation on
 a real hardware.<br>
-Use <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine.
 
-The following example projects are available:
-
-- \subpage examples_xmc4500_relax
-- \subpage examples_mcbstm32f200
-- \subpage examples_mcbstm32f400
-- \subpage examples_b_l475e_iot01a
-- \subpage examples_stm32f746g
-- \subpage examples_ismart43362_e
-- \subpage examples_esp8266
-- \subpage examples_esp32
-- \subpage examples_wizfi360
-
-\anchor example_targets
-<b>Project Targets</b>
-
-The example projects may contain some of the following target configurations:
-- \b Debug: test results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.
-- \b Release: same as the Debug target but with higher level of code optimization selected.
-*/
-
-
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_xmc4500_relax Infineon XMC4500 Relax Kit
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>Infineon::XMC4000_DFP</b> pack and copy the example project
-<b>CMSIS-Driver Validation (XMC4500 Relax Lite Kit)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
--# Run the validation on the target hardware using the on-board JLink-Lite debugger.
-
-
-Hardware Setup
---------------
-
-The following picture shows the necessary external loopback connections for the Infineon XMC4500 Relax Kit evaluation board:
- - <b>UART2</b>: \b P0.4 (UART2_RX)  and \b P0.5 (UART2_TX)  (Header X2)
- - <b>SPI0</b>:  \b P5.0 (SPI0_MOSI) and \b P5.1 (SPI0_MISO) (Header X2)
- - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup".
-
-\image html xmc4500.png  "Connections for Loopback Communication Tests on the Infineon XMC4500 Relax Kit"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_mcbstm32f200 Keil MCBSTM32F200
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>Keil::STM32F2xx_DFP</b> pack and copy the example project
-<b>CMSIS-Driver Validation (MCBSTM32F200)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
--# Run the validation on the target hardware.
-
-\note The example is preconfigured to use an
-<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
-
-
-Hardware Setup
---------------
-
-The following picture shows the necessary external loopback connections for the Keil MCBSTM32F200 evaluation board:
- - <b>SPI2</b>: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI) (for Loopback Test Mode)
- - <b>USART1</b>: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
- - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup".
-
-\image html mcbstm32f400.png  "Connections for Loopback Communication Tests on the Keil MCBSTM32F200"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_mcbstm32f400 Keil MCBSTM32F400
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>Keil::STM32F4xx_DFP</b> pack and copy the example project
-<b>CMSIS-Driver Validation (MCBSTM32F400)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
--# Run the validation on the target hardware.
-
-\note The example is preconfigured to use an
-<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
-
-
-Hardware Setup
---------------
-
-The following picture shows the necessary external loopback connections for the Keil MCBSTM32F400 evaluation board:
- - <b>SPI2</b>: \b PB14 (SPI2_MISO) and \b PB15 (SPI2_MOSI) (for Loopback Test Mode)
- - <b>USART1</b>: \b PB6 (USART1_TX) and \b PB7 (USART1_RX)
- - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup".
-
-\image html mcbstm32f400.png  "Connections for Loopback Communication Tests on the Keil MCBSTM32F400"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_b_l475e_iot01a STMicroelectronics B-L475E-IOT01A
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>Keil::STM32L4xx_DFP</b> pack and copy the example project
-<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (B-L475E-IOT01A)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
-
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
-as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
-
-For details on WiFi driver validation please refer to \ref dv_wifi.
-
-\image html b-l475e-iot01a.png  "STMicroelectronics B-L475E-IOT01A board"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_ismart43362_e Inventek ISMART43362-E WiFi Shield with NXP LPCXpresso55S69
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>NXP::LPC55S69_DFP</b> and <b>NXP::LPCXpresso55S69_EVK</b> packs and copy the example project
-<b>CMSIS-Driver WiFi Inventek ISM43362 Validation (LPCXpresso55S69)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# Run the validation on the target hardware.
-
-\note The example is preconfigured to use an
-<a href="http://www2.keil.com/mdk5/ulink/ulinkplus/" target="_blank">ULINKplus</a> debug adapter.
-
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
-as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
-
-For details on WiFi driver tests please refer to \ref dv_wifi.
-
-Hardware Setup
---------------
-
-This example uses the ISMART module with SPI communication.<br>
-By default, the shield is loaded with a UART firmware.<br>
-Instructions on how to flash the SPI firmware can be found in the
-[CMSIS-Driver documentation](https://arm-software.github.io/CMSIS-Driver/latest/driver_WiFi.html#driver_ISM43362).
-
-For proper operation of the Inventek ISMART43362-E WiFi Shield please connect the jumper between 5V_BOARD and 5V_MOD pins
-on the WiFi Shield.
-
-\note Before running the validation on this hardware the WiFi Shield has to be reset by pressing SW2 push-button
-on the WiFi Shield and the debug session has to be started in less than 5 seconds after the reset push-button was released.
-
-\image html lpcxpresso55s69.png  "NXP LPCXpresso55S69 with Inventek ISMART43362-E WiFi Shield attached"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_esp8266 Espressif ESP8266 SparkFun WiFi Shield with NXP MIMXRT1064-EVK
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
-<b>CMSIS-Driver WiFi Espressif ESP8266 Validation (EVK-MIMXRT1064)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
-
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
-as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
-
-For details on WiFi driver tests please refer to \ref dv_wifi.
-
-\image html mimxrt1064evk.png    "NXP MIMXRT1064-EVK with"
-\image html esp8266_sparkfun.png "Espressif ESP8266 SparkFun WiFi Shield"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_esp32 Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
-<b>CMSIS-Driver WiFi Espressif ESP32 Validation (EVK-MIMXRT1064)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
-
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
-as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
-
-For details on WiFi driver tests please refer to \ref dv_wifi.
-
-\image html mimxrt1064evk.png        "NXP MIMXRT1064-EVK with"
-\image html esp32_wroom_sparkfun.png "Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_wizfi360 WIZnet WizFi360-EVB WiFi Shield with NXP MIMXRT1064-EVK
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>NXP::MIMXRT1064_DFP</b> and <b>NXP::EVK-MIMXRT1064_BSP</b> packs and copy the example project
-<b>CMSIS-Driver WiFi WIZnet WizFi360 Validation (EVK-MIMXRT1064)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# Run the validation on the target hardware using the on-board CMSIS-DAP Debugger.
-
-This example is prepared for verification of the WiFi driver and it requires \ref wifi_requirements "WiFi requirements",
-as well as, proper configuration described in \ref wifi_config "WiFi Configuration".
-
-For details on WiFi driver tests please refer to \ref dv_wifi.
-
-\image html mimxrt1064evk.png "NXP MIMXRT1064-EVK with"
-\image html wizfi360-evb.png  "WIZnet WizFi360-EVB WiFi Shield"
-
-*/
-/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
-/**
-\page examples_stm32f746g STMicroelectronics STM32F746G-Discovery
-
-Software Setup
---------------
-
-Using the <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> install the latest
-<b>Keil::STM32F7xx_DFP</b> pack and copy the example project
-<b>CMSIS-Driver Validation (STM32F746G-Discovery)</b> to your machine.
-
--# Choose one of the available \ref example_targets "Project Targets" and build the project.
--# If you wish to test the loopback mode for some of the interfaces, refer to the next section for proper board
-   configuration.
--# Run the validation on the target hardware using the on-board ST-Link/V2 debugger.
-
-
-Hardware Setup
---------------
-
-The following picture shows the necessary external loopback connections for the STMicroelectronics STM32F746G-Discovery evaluation board:
- - <b>SPI2</b>: \b D12 (SPI2_MISO - PB14) and \b D11 (SPI2_MOSI - PB15)
- - <b>USART6</b>: \b D1 (USART6_TX - PC6) and \b D0 (USART6_RX - PC7)
- - For <b>Ethernet</b> use a loopback plug as described in \ref eth_loopback "Loopback Communication Setup".
-
-\image html stm32f746g-disco.png  "Connections for Loopback Communication Tests on STM32F746G-Discovery"
+Follow these steps to use the validation examples:
+
+1. In the **CMSIS** extension, click **Create a New Solution**.
+2. Select the **Target Board** (**NUCLEO-H563ZI** for **Ethernet** example, **B-U585I-IOT02A** for **all other examples**).
+3. Under **Templates, Reference Applications, and Examples**, select **Driver Validation**.
+4. Choose **Solution Base Folder**, click **Create**.
+5. Setup the required hardware as described in the example's **README.md** file
+6. Build and Run the application
+
+For details about specific examples check **README.md** of desired example in the example's root folder.
+
+Available examples:
+
+| Validation for Driver  | Board             | Additional required hardware                      |
+|------------------------|-------------------|---------------------------------------------------|
+| Ethernet               | ST NUCLEO-H563ZI  | Ethernet loopback plug                            |
+| GPIO                   | ST B-U585I-IOT02A | ST STM32F429I-DISC1, 1kOhm resistor               |
+| SPI                    | ST B-U585I-IOT02A | ST STM32F429I-DISC1, 10kOhm resistor, some wires  |
+| USART                  | ST B-U585I-IOT02A | ST STM32F429I-DISC1, some wires                   |
+| WiFi on-board EMW3080  | ST B-U585I-IOT02A | ST B-U585I-IOT02A, PC with MS Windows             |
+| WiFi ESP8266           | ST B-U585I-IOT02A | SparkFun ESP8266 Shield, PC with MS Windows       |
+| WiFi ISM43662          | ST B-U585I-IOT02A | Inventek ISMART43362-E Shield, PC with MS Windows |
+| WiFi WizFi360          | ST B-U585I-IOT02A | WIZnet WizFi360-EVB Shield, PC with MS Windows    |
 
 */

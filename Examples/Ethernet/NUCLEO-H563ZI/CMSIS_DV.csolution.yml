@@ -1,0 +1,38 @@
+solution:
+  description: CMSIS Driver Validation application
+  created-for: CMSIS-Toolbox@2.11.0
+  cdefault:
+
+  # List of tested compilers that can be selected
+  select-compiler:
+    - compiler: AC6
+
+  # Selected compiler
+  compiler: AC6
+
+  # List of miscellaneous tool-specific controls
+  misc:
+    - for-compiler: AC6 # GDB requires DWARF 5, remove when using uVision Debugger
+      C-CPP:
+        - -gdwarf-5
+      ASM:
+        - -gdwarf-5
+
+  # List different hardware targets that are used to deploy the solution.
+  target-types:
+    - type: STM32H563ZITx
+      device: STM32H563ZITx
+      board: NUCLEO-H563ZI:Rev.C
+      variables:
+        - Board-Layer: $SolutionDir()$/Board/NUCLEO-H563ZI/Board.clayer.yml
+          copied-from: ${CMSIS_PACK_ROOT}/Keil/NUCLEO-H563ZI_BSP/1.1.0/Layers/Default/Board.clayer.yml
+
+  # List of different build configurations.
+  build-types:
+    - type: Ethernet
+      debug: on
+      optimize: balanced
+
+  # List related projects.
+  projects:
+    - project: CMSIS_DV.cproject.yml

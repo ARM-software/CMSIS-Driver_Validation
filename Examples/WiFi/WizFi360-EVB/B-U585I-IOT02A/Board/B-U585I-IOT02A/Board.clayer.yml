@@ -1,0 +1,80 @@
+layer:
+  type: Board
+  description: Default B-U585I-IOT02A board setup supporting USB Device
+  for-board: STMicroelectronics::B-U585I-IOT02A
+  processor:
+    trustzone: off
+
+  generators:
+    options:
+      - generator: CubeMX
+        path: ./CubeMX
+        name: Board
+
+  connections:
+    - connect: B-U585I-IOT02A Board
+      provides:
+        - CMSIS_USART
+        - CMSIS_USB_Device
+        - CMSIS_VIO
+        - ARDUINO_UNO_I2C
+        - ARDUINO_UNO_SPI
+        - ARDUINO_UNO_UART
+        - ARDUINO_UNO_D2
+        - ARDUINO_UNO_D3
+        - ARDUINO_UNO_D4
+        - ARDUINO_UNO_D5
+        - ARDUINO_UNO_D6
+        - ARDUINO_UNO_D7
+        - ARDUINO_UNO_D8
+        - ARDUINO_UNO_D9
+        - ARDUINO_UNO_D10
+        - ARDUINO_UNO_D14
+        - ARDUINO_UNO_D15
+        - ARDUINO_UNO_D16
+        - ARDUINO_UNO_D17
+        - ARDUINO_UNO_D18
+        - ARDUINO_UNO_D19
+        - STDIN
+        - STDOUT
+        - STDERR
+        - Heap: 65536
+
+  define:
+    - CMSIS_target_header: \"B-U585I-IOT02A.h\"
+
+  packs:
+    - pack: Keil::STM32U5xx_DFP@^3.0.0-0
+    - pack: Keil::B-U585I-IOT02A_BSP@^3.0.0-0
+    - pack: ARM::CMSIS-Driver_STM32@^1.0.0-0
+    - pack: ARM::CMSIS@^6.0.0
+    - pack: ARM::CMSIS-Compiler@^2.0.0
+
+  components:
+    - component: Device:CubeMX
+
+    - component: CMSIS:CORE
+
+    - component: CMSIS Driver:GPIO
+    - component: CMSIS Driver:I2C
+    - component: CMSIS Driver:SPI
+    - component: CMSIS Driver:USART
+    - component: CMSIS Driver:USB Device
+    - component: CMSIS Driver:VIO:Board
+
+    - component: CMSIS-Compiler:CORE
+    - component: CMSIS-Compiler:STDERR:Custom
+    - component: CMSIS-Compiler:STDOUT:Custom
+    - component: CMSIS-Compiler:STDIN:Custom
+
+  groups:
+    - group: Board
+      files:
+        - file: ./README.md
+        - file: ./B-U585I-IOT02A.h
+        - file: ./retarget_stdio.c
+
+  linker:
+    - script:  ./RTE/Device/STM32U585AIIx/ac6_linker_script.sct.src
+      regions: ./RTE/Device/STM32U585AIIx/regions_B-U585I-IOT02A.h
+      for-compiler: AC6

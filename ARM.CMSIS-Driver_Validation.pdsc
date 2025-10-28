@@ -10,18 +10,18 @@
   <releases>
     <release version="3.1.0-dev">
       Active Development ...
-      - Add Driver Validation application template
-      - Add GPIO Driver validation
+      - Add driver validation application template
+      - Add GPIO driver validation
       - Update SPI Server application to CMSIS solution format
       - Add SPI Server application template
       - Update USART Server application to CMSIS solution format
       - Add USART Server application template
+      - Add new and remove old driver validation examples
       - Remove XML report format
       - Remove obsolete SockServer embedded implementations
       - Improve Ethernet driver validation
       - Minor update to SPI driver validation
       - Minor update to USART driver validation
-      - Update examples
       - Update documentation
     </release>
   </releases>
@@ -278,14 +278,14 @@
   </components> <!-- end of components sections -->
 
   <examples>
-    <example name="Driver Validation" doc="README.md" folder="Template">
+    <example name="Driver Validation" folder="Template" doc="README.md">
       <description>CMSIS-Driver Validation application</description>
       <project>
         <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
     </example>
 
-    <example name="SPI Server" doc="README.md" folder="Tools/SPI_Server/STM32F429I-DISC1">
+    <example name="SPI Server" folder="Tools/SPI_Server/STM32F429I-DISC1" doc="README.md">
       <description>CMSIS-Driver Validation SPI Server application for STM32F429I-DISC1 board</description>
       <board name="STM32F429I-DISC1" vendor="STMicroelectronics"/>
       <project>
@@ -293,14 +293,14 @@
       </project>
     </example>
 
-    <example name="SPI Server" doc="README.md" folder="Tools/SPI_Server/Template">
+    <example name="SPI Server" folder="Tools/SPI_Server/Template" doc="README.md">
       <description>CMSIS-Driver Validation SPI Server application</description>
       <project>
         <environment name="csolution" load="SPI_Server.csolution.yml"/>
       </project>
     </example>
 
-    <example name="USART Server" doc="README.md" folder="Tools/USART_Server/STM32F429I-DISC1">
+    <example name="USART Server" folder="Tools/USART_Server/STM32F429I-DISC1" doc="README.md">
       <description>CMSIS-Driver Validation USART Server application for STM32F429I-DISC1 board</description>
       <board name="STM32F429I-DISC1" vendor="STMicroelectronics"/>
       <project>
@@ -308,142 +308,75 @@
       </project>
     </example>
 
-    <example name="USART Server" doc="README.md" folder="Tools/USART_Server/Template">
+    <example name="USART Server" folder="Tools/USART_Server/Template" doc="README.md">
       <description>CMSIS-Driver Validation USART Server application</description>
       <project>
         <environment name="csolution" load="USART_Server.csolution.yml"/>
       </project>
     </example>
 
-    <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Keil/MCBSTM32F400">
-      <description>CMSIS-Driver Validation Example</description>
-      <board name="MCBSTM32F400" vendor="Keil"/>
+    <example name="Driver Validation" folder="Examples/Ethernet/NUCLEO-H563ZI" doc="README.md">
+      <description>Ethernet CMSIS-Driver Validation Example for NUCLEO-H563ZI board</description>
+      <board name="NUCLEO-H563ZI" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Keil/MCBSTM32F200">
-      <description>CMSIS-Driver Validation Example</description>
-      <board name="MCBSTM32F200" vendor="Keil"/>
+    <example name="Driver Validation" folder="Examples/GPIO/B-U585I-IOT02A" doc="README.md">
+      <description>GPIO CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/ST/B-L475E-IOT01A">
-      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362 driver</description>
-      <board name="B-L475E-IOT01A" vendor="STMicroelectronics"/>
+    <example name="Driver Validation" folder="Examples/SPI/B-U585I-IOT02A" doc="README.md">
+      <description>SPI CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-        <component Cclass="CMSIS Driver"            Cgroup="WiFi" Csub="ISM43362"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/ST/STM32F746G-Discovery">
-      <description>CMSIS-Driver Validation Example</description>
-      <board name="STM32F746G-Discovery" vendor="STMicroelectronics"/>
+    <example name="Driver Validation" folder="Examples/USART/B-U585I-IOT02A" doc="README.md">
+      <description>USART CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver Validation" doc="Abstract.txt" folder="Boards/Infineon/XMC4500 Relax Lite Kit">
-      <description>CMSIS-Driver Validation Example</description>
-      <board name="XMC4500 Relax Lite Kit" vendor="Infineon"/>
+    <example name="Driver Validation" folder="Examples/WiFi/EMW3080/B-U585I-IOT02A" doc="README.md">
+      <description>On-board MXCHIP EMW3080 WiFi CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver WiFi Inventek ISM43362 Validation" doc="Abstract.txt" folder="Boards/Inventek/ISMART43362-E">
-      <description>CMSIS-Driver Validation of WiFi Inventek ISM43362 driver on ISMART43362-E WiFi shield</description>
-      <board name="LPCXpresso55S69" vendor="NXP"/>
+    <example name="Driver Validation" folder="Examples/WiFi/ESP8266/B-U585I-IOT02A" doc="README.md">
+      <description>Espressif ESP8266 WiFi CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-        <component Cclass="CMSIS Driver"            Cgroup="WiFi" Csub="ISM43362"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver WiFi Espressif ESP8266 Validation" doc="Abstract.txt" folder="Boards/Espressif/ESP8266EX_Arduino">
-      <description>CMSIS-Driver Validation of WiFi Espressif ESP8266 driver on Arduino compatible shield</description>
-      <board name="EVK-MIMXRT1064" vendor="NXP"/>
+    <example name="Driver Validation" folder="Examples/WiFi/ISMART43362-E/B-U585I-IOT02A" doc="README.md">
+      <description>Inventek ISM43362 WiFi CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-        <component Cclass="CMSIS Driver"            Cgroup="WiFi" Csub="ESP8266"/>
-      </attributes>
     </example>
 
-    <example name="CMSIS-Driver WiFi Espressif ESP32 Validation" doc="Abstract.txt" folder="Boards/Espressif/ESP32_Arduino">
-      <description>CMSIS-Driver Validation of WiFi Espressif ESP32 driver on Arduino compatible shield</description>
-      <board name="EVK-MIMXRT1064" vendor="NXP"/>
+    <example name="Driver Validation" folder="Examples/WiFi/WizFi360-EVB/B-U585I-IOT02A" doc="README.md">
+      <description>WIZnet WizFi360 WiFi CMSIS-Driver Validation Example for B-U585I-IOT02A board</description>
+      <board name="B-U585I-IOT02A" vendor="STMicroelectronics"/>
       <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
       </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-        <component Cclass="CMSIS Driver"            Cgroup="WiFi" Csub="ESP32"/>
-      </attributes>
-    </example>
-
-    <example name="CMSIS-Driver WiFi WIZnet WizFi360 Validation" doc="Abstract.txt" folder="Boards/WIZnet/WizFi360-EVB">
-      <description>CMSIS-Driver Validation of WiFi WIZnet WizFi360 driver on Arduino compatible shield</description>
-      <board name="EVK-MIMXRT1064" vendor="NXP"/>
-      <project>
-        <environment name="uv" load="CMSIS_DV.uvprojx"/>
-      </project>
-      <attributes>
-        <component Cclass="CMSIS"                   Cgroup="CORE"/>
-        <component Cclass="Device"                  Cgroup="Startup"/>
-        <component Cclass="CMSIS"                   Cgroup="RTOS2"/>
-        <component Cclass="CMSIS Driver Validation" Cgroup="Framework"/>
-        <component Cclass="CMSIS Driver"            Cgroup="WiFi" Csub="WizFi360"/>
-      </attributes>
     </example>
   </examples>
 </package>

@@ -166,7 +166,7 @@ create a new solution from **template**:
 7. Build and run the **USART Server application** on your hardware.
 
 \note **IMPORTANT:** The target board's USART CMSIS-Driver must be **fully CMSIS compliant**!
-\note The USART Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).
+\note The USART Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM Port via Debug adapter).
 
 \section usart_server_troubleshooting Troubleshooting
 

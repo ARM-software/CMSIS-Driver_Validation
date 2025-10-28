@@ -27,20 +27,20 @@ Example: to test `Driver_SPI2`, set this value to `2`.
   - Fixed parameters:  
     - **Clock/Frame:** CPOL=0, CPHA=0  
     - **Data Bits:** 8  
-    - **Bit Order:** MSB → LSB
+    - **Bit Order:** MSB to LSB
   - Configurable parameters:  
-    - **Slave Select** — **Software Controlled** (driver toggles SS using `ARM_SPI_CONTROL_SS`) or **Hardware Controlled**.  
-    - **Bus Speed** — nominal bus speed for reliable command exchange with the Server.
+    - **Slave Select** - **Software Controlled** (driver toggles SS using `ARM_SPI_CONTROL_SS`) or **Hardware Controlled**.  
+    - **Bus Speed** - nominal bus speed for reliable command exchange with the Server.
 
 - **Tests**: configuration for test execution.  
-  - **Default settings** — defaults for data exchange tests (see \ref spi_tests_data_xchg).  
-  - **Bus Speed** — minimum/maximum speeds used by \ref SPI_Bus_Speed_Min and \ref SPI_Bus_Speed_Max.  
-  - **Number of Items** — item counts (including odd/unusual) used by \ref SPI_Number_Of_Items to verify conformance.
+  - **Default settings** - defaults for data exchange tests (see \ref spi_tests_data_xchg).  
+  - **Bus Speed** - minimum/maximum speeds used by \ref SPI_Bus_Speed_Min and \ref SPI_Bus_Speed_Max.  
+  - **Number of Items** - item counts (including odd/unusual) used by \ref SPI_Number_Of_Items to verify conformance.
 
-**Tests** section — enable/disable test groups (and individual tests):  
-- **Driver Management** — see \ref spi_tests_drv_mgmt.  
-- **Data Exchange** — see \ref spi_tests_data_xchg.  
-- **Event** — see \ref spi_tests_evt.
+**Tests** section - enable/disable test groups (and individual tests):  
+- **Driver Management** - see \ref spi_tests_drv_mgmt.  
+- **Data Exchange** - see \ref spi_tests_data_xchg.  
+- **Event** - see \ref spi_tests_evt.
 
 */
 
@@ -77,26 +77,26 @@ Communication settings are defined in **SPI_Server_Config.h** file.
 
 \subsection spi_server_config_detail Configuration settings
 
-- **Driver_SPI#** — selects the driver instance used by the Server.
+- **Driver_SPI#** - selects the driver instance used by the Server.
 - **Communication settings** (fixed for command exchange):
   - **Mode:** Slave with **hardware-monitored Slave Select**
   - **Clock/Frame:** Clock Polarity 0/ Clock Phase 0
   - **Data Bits:** 8
   - **Bit Order:** MSB to LSB
 
-\note The SPI Server receives commands as an SPI **Slave** using the **Slave Select** line. The Server’s SPI driver **must
+\note The SPI Server receives commands as an SPI **Slave** using the **Slave Select** line. The Server's SPI driver **must
 support hardware-monitored Slave Select** functionality.
 
 \section spi_server_commands Commands
 Commands are human-readable (ASCII) for simpler analysis with an SPI bus analyzer.
 
-- **GET VER** — get Server version
-- **GET CAP** — get capabilities (auto-detected)
-- **SET BUF** — initialize Rx/Tx buffer content
-- **GET BUF** — retrieve Rx/Tx buffer content
-- **SET COM** — specify transfer configuration for the next **XFER**
-- **XFER** — trigger a transfer
-- **GET CNT** — retrieve number of transferred items in the last transfer
+- **GET VER** - get Server version
+- **GET CAP** - get capabilities (auto-detected)
+- **SET BUF** - initialize Rx/Tx buffer content
+- **GET BUF** - retrieve Rx/Tx buffer content
+- **SET COM** - specify transfer configuration for the next **XFER**
+- **XFER** - trigger a transfer
+- **GET CNT** - retrieve number of transferred items in the last transfer
 
 \note For detailed command descriptions, see **README.md** in project root.
 
@@ -143,14 +143,14 @@ create a new solution from **template**:
    \image html spi_server_new_sol_template.png
 4. Choose **Solution Base Folder**, click **Create**.
    \image html spi_server_new_sol_create.png
-5. Select the board layer that provides an SPI Driver.
+5. Select the board layer that provides an SPI Driver, click **OK**.
    \image html server_new_sol_layer.png
 6. If SPI is not routed to ARDUINO (or a different SPI peripheral is required),
    open **SPI_Server_Config.h**, **Open Preview** and edit **Driver_SPI#** to 
    the required instance.
 7. Build and run the **SPI Server application** on your hardware.
 
-\note **IMPORTANT:** The target board’s SPI CMSIS-Driver must be **fully CMSIS compliant**!
+\note **IMPORTANT:** The target board's SPI CMSIS-Driver must be **fully CMSIS compliant**!
 \note The SPI Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).
 
 \section spi_server_troubleshooting Troubleshooting
@@ -160,10 +160,10 @@ create a new solution from **template**:
    - Verify the correct driver instance in `SPI_Server_Config.h`.
    - Reduce bus speed used for communication with the Server (in `DV_SPI_Config.h`).
 
-2. Debug message **“Server Start failed!”** (build-type: Debug)
+2. Debug message **"Server Start failed!"** (build-type: Debug)
    - Check heap (must be > `2 * SPI_SERVER_BUF_SIZE`).
-   - Verify RTOS allows ≥ **512 bytes** allocation for the Server main thread (e.g., *Global Dynamic Memory size* in `RTX_Config.h` if RTX5).
-   - Ensure the Server’s SPI driver supports all fixed settings (Slave with hardware-monitored Slave Select, CPOL=0/CPHA=0, 8 bits, MSB to LSB).
+   - Verify RTOS allows >= **512 bytes** allocation for the Server main thread (e.g., *Global Dynamic Memory size* in `RTX_Config.h` if RTX5).
+   - Ensure the Server's SPI driver supports all fixed settings (Slave with hardware-monitored Slave Select, CPOL=0/CPHA=0, 8 bits, MSB to LSB).
 
 3. **Tests report data mismatch**
    - Ensure Slave Select line has a pull-up to Vcc (3.3 V).

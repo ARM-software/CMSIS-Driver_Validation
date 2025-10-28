@@ -129,7 +129,7 @@ $(function(){initNavTree('setup.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Setup</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Using the <a href="https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution">Arm CMSIS Solution</a> VS Code extension, create a new solution from <b>template</b>:</p>
+<div class="textblock"><p>Using the <a href="https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution"><b>Arm CMSIS Solution</b></a> VS Code extension, create a new solution from <b>template</b>:</p>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Step 1: In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>.</h2>
 <div class="image">
@@ -178,19 +178,19 @@ Step 7: Configure the Driver Tests in appropriate <b>DV_..._Config.h</b> file.</
 Step 8: Setup the required hardware</h2>
 <p>For the interfaces that support loopback testing: <a class="el" href="group__dv__eth.html">Ethernet</a>, <a class="el" href="group__dv__usart.html">USART</a> and <a class="el" href="group__dv__spi.html">SPI</a>, connect the following pins on your target hardware together (refer to the hardware schematics):</p>
 <ul>
-<li>Ethernet: RX+ and TX+, RX- and TX-</li>
-<li>USART: RX and TX</li>
-<li>SPI: MOSI and MISO</li>
+<li><b>Ethernet</b>: <b>RX+</b> and <b>TX+</b>, <b>RX-</b> and <b>TX-</b></li>
+<li><b>USART</b>: <b>RX</b> and <b>TX</b></li>
+<li><b>SPI</b>: <b>MOSI</b> and <b>MISO</b></li>
 </ul>
 <p>For the interfaces that support testing with dedicated server: <a class="el" href="group__dv__wifi.html">WiFi</a>, <a class="el" href="group__dv__spi.html">SPI</a> and <a class="el" href="group__dv__usart.html">USART</a> connect the related hardware as required by the related server:</p>
 <ul>
-<li>WiFi: WiFi module has to be in close proximity to the Access Point which is in the same network as the required <a class="el" href="group__wifi__sock__setup.html">SockServer</a></li>
-<li>SPI: MOSI, MISO, SCLK, SS, GND to the same lines on the <a class="el" href="group__spi__server.html">SPI Server</a></li>
-<li>USART: Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in <a class="el" href="group__usart__server.html">USART Server</a></li>
+<li><b>USART</b>: <b>Tx</b>, <b>Rx</b>, <b>GND</b> and optionally CLK, CTS, RTS, DCD and RI lines as described in <a class="el" href="group__usart__server.html">USART Server</a></li>
+<li><b>SPI</b>: <b>MOSI</b>, <b>MISO</b>, <b>SCLK</b>, <b>SS</b>, <b>GND</b> to the same lines on the <a class="el" href="group__spi__server.html">SPI Server</a></li>
+<li><b>WiFi</b>: WiFi module has to be in close proximity to the Access Point which is in the same network as the required <a class="el" href="group__wifi__sock__setup.html">SockServer</a></li>
 </ul>
 <h2><a class="anchor" id="autotoc_md8"></a>
 Step 9: Build and Run the application</h2>
-<p>Example below shows output results (in STDOUT channel) of an Ethernet driver testing: </p><pre class="fragment">CMSIS-Driver_Validation v3.1.0 CMSIS-Driver ETH Test Report   Oct  9 2025   07:30:34 
+<p>Example below shows output results (in STDOUT channel) of an <b>Ethernet driver testing</b> : </p><pre class="fragment">CMSIS-Driver_Validation v3.1.0 CMSIS-Driver ETH Test Report   Oct  9 2025   07:30:34 
 
 TEST 01: ETH_MAC_GetVersion               
   DV_ETH.c (267): [INFO] API version 2.2, Driver version 3.1

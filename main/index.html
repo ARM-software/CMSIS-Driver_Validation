@@ -129,8 +129,8 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Overview </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the corresponding <b><a href="https://arm-software.github.io/CMSIS_5/Driver/html/index.html">CMSIS-Driver Specification</a></b>. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.</p>
-<p>The CMSIS-Driver Validation is maintained in a public <b><a href="https://github.com/ARM-software/CMSIS-Driver_Validation">GitHub repository</a></b>. Its releases in <b><a href="https://www.open-cmsis-pack.org/">CMSIS Pack format</a></b> are also available on <b><a href="https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs">CMSIS Packs page</a></b> under <em>Arm</em> - <em>CMSIS Driver Validation</em> category and can be used in environments supporting the CMSIS-Pack concept.</p>
+<div class="textblock"><p>This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the corresponding <a href="https://arm-software.github.io/CMSIS_6/latest/Driver/index.html"><b>CMSIS-Driver Specification</b></a>. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.</p>
+<p>The CMSIS-Driver Validation is maintained in a public <a href="https://github.com/ARM-software/CMSIS-Driver_Validation"><b>GitHub repository</b></a>. Its releases in <a href="https://www.open-cmsis-pack.org/"><b>CMSIS Pack format</b></a> are also available on <a href="https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs"><b>CMSIS Packs page</b></a> under <em>Arm</em> - <em>CMSIS Driver Validation</em> category and can be used in environments supporting the CMSIS-Pack concept.</p>
 <p>The CMSIS-Driver Validation framework provides:</p><ul>
 <li>Configurable validation tests for various CMSIS-Driver interfaces</li>
 <li>Example projects that show the usage of the CMSIS-Driver Validation</li>
@@ -146,7 +146,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <li><b>Transfer speed</b> of the data communication with time measurement of data transfer duration</li>
 <li><b>Event</b> signaling</li>
 </ul>
-<p>The CMSIS-Driver Validation requires <a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.</p>
+<p>The CMSIS-Driver Validation requires <a href="https://arm-software.github.io/CMSIS_6/latest/RTOS2/index.html"><b>CMSIS-RTOS2</b></a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.</p>
 <p>The diagram below shows an overview of the CMSIS-Driver Validation configuration.</p>
 <div class="image">
 <img src="cmsis_dv.png" alt="" width="100%"/>
@@ -163,16 +163,17 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <li><a class="el" href="group__dv__usbh.html">USB Host</a> - Universal Serial Bus (USB) Host interface driver.</li>
 <li><a class="el" href="group__dv__wifi.html">WiFi</a> - WiFi (Wireless Fidelity Interface) module/shield driver.</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>Extensive testing using dedicated Server is available for SPI and USART drivers.</dd></dl>
-<p>This manual assumes that you are familiar with MDK. Refer to <a href="https://developer.arm.com/documentation/KGS1" target="_blank">MDK Version 5 - Getting Started</a> for additional information.</p>
+<dl class="section note"><dt>Note</dt><dd>Extensive testing using dedicated Server is available for <b>SPI</b>, <b>USART</b> and <b>WiFi</b> drivers.</dd></dl>
+<p>This manual assumes that you are familiar with MDK. Refer to <a href="https://developer.arm.com/documentation/KGS1"><b>MDK Version 5 - Getting Started</b></a> for additional information.</p>
 <h1><a class="anchor" id="doc_structure"></a>
 Document structure</h1>
 <p>This manual contains the following chapters:</p><ul>
+<li><a class="el" href="rev_hist.html">Revision History</a> - Contains revision history information.</li>
 <li><a class="el" href="setup.html">Setup</a> - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.</li>
 <li><a class="el" href="report.html">Report</a> - Describes the reports produced by the CMSIS-Driver Validation.</li>
 <li><a class="el" href="debugging.html">Debugging</a> - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.</li>
 <li><a class="el" href="resource_requirements.html">Resource Requirements</a> - Lists memory and CMSIS-RTOS2 requirements.</li>
-<li><a class="el" href="examples.html">Examples</a> - Contains information about several example projects including the required hardware setup.</li>
+<li><a class="el" href="examples.html">Examples</a> - Contains information about several example projects.</li>
 <li><a href="./topics.html" class="el">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.</li>
 </ul>
 <h1><a class="anchor" id="License"></a>

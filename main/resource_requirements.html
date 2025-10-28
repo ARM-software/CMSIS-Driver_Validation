@@ -151,13 +151,13 @@ Heap Memory</h1>
 <p>Interface test modules that are not listed in the previous table do not use heap memory.</p>
 <p>The system heap memory size must support the largest heap requirement of any used interface test module.<br  />
  For example, if SPI driver testing is selected heap memory size should be set to at least 12 kB.</p>
-<p>Suggested value for heap memory size is <b>16384</b> bytes.</p>
+<p>Suggested value for heap memory size is <b>16 kB</b>.</p>
 <dl class="section note"><dt>Note</dt><dd>Each module contains additional settings in related configuration file which are not exposed through Configuration Wizard and impact the heap memory requirement.<br  />
  If these values are changed please adjust heap memory size accordingly.</dd></dl>
 <h1><a class="anchor" id="rtos2_req"></a>
 CMSIS-RTOS2</h1>
-<p>The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the <a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" class="el" target="_blank">CMSIS-RTOS2 Reference</a> for further details.</p>
-<p>For <a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/rtx5_impl.html" class="el" target="_blank">CMSIS-RTOS2 RTX5</a>, thread requirements are configured in the <a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/config_rtx5.html" class="el" target="_blank">RTX_Config.h</a> file located under the <b>CMSIS</b> component class:</p>
+<p>The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the <a href="https://arm-software.github.io/CMSIS-RTX/latest/index.html"><b>CMSIS-RTOS2 documentation</b></a> for further details.</p>
+<p>For <b>CMSIS-RTOS2 RTX5</b>, thread requirements are configured in the <a href="https://arm-software.github.io/CMSIS-RTX/latest/config_rtx5.html"><b>RTX_Config.h</b></a> file :</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">Option   </th><th class="markdownTableHeadCenter">Value    </th></tr>

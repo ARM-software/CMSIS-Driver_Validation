@@ -73,24 +73,24 @@ The table below provides information about the changes delivered with specific v
 Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
 create a new solution from **template**:
 
-\subsection step1 Step 1: In the **CMSIS** extension, click **Create a New Solution**.
+## Step 1: In the **CMSIS** extension, click **Create a New Solution**.
 \image html server_new_sol_create.png
 
-\subsection step2 Step 2: Select the **Target Board**.
+## Step 2: Select the **Target Board**.
 
-\subsection step3 Step 3: Under **Templates, Reference Applications, and Examples**, select **Driver Validation (CMSIS-Driver Validation application)**.
+## Step 3: Under **Templates, Reference Applications, and Examples**, select **Driver Validation (CMSIS-Driver Validation application)**.
 \image html driver_validation_new_sol_template.png
 
-\subsection step4 Step 4: Choose **Solution Base Folder**, click **Create**.
+## Step 4: Choose **Solution Base Folder**, click **Create**.
 \image html driver_validation_new_sol_create.png
 
-\subsection step5 Step 5: Select the **Board Layer** that provides **required CMSIS Driver**, click **OK**.
+## Step 5: Select the **Board Layer** that provides **required CMSIS Driver**, click **OK**.
 \image html driver_validation_new_sol_layer.png
 
-\subsection step6 Step 6: In the **Manage Solution**, under **Build Type** select desired Driver for validation, click **Save**.
+## Step 6: In the **Manage Solution**, under **Build Type** select desired Driver for validation, click **Save**.
 \image html driver_validation_build_type.png
 
-\subsection step7 Step 7: Configure the Driver Tests in appropriate **DV_..._Config.h** file.
+## Step 7: Configure the Driver Tests in appropriate **DV_..._Config.h** file.
 
 > **Note:** `...` in **DV_`...`_Config.h** file depends on the driver being validated; for example, for Ethernet, the file would be **DV_ETH_Config.h** file.
 
@@ -106,7 +106,7 @@ For validation configuration of specific driver check respective driver document
 - [USB Host](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usbh__config.html)
 - [WiFi](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__wifi__config.html)
 
-\subsection step8 Step 8: Setup the required hardware
+## Step 8: Setup the required hardware
 
 For the interfaces that support loopback testing: \ref dv_eth "Ethernet", \ref dv_usart "USART" and \ref dv_spi "SPI",
 connect the following pins on your target hardware together (refer to the hardware schematics):
@@ -122,7 +122,7 @@ connect the related hardware as required by the related server:
 - SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
 - USART:  Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in \ref usart_server
 
-\subsection step9 Step 9: Build and Run the application
+## Step 9: Build and Run the application
 
 Example below shows output results (in STDOUT channel) of an Ethernet driver testing:
 \verbatim

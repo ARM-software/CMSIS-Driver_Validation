@@ -2,9 +2,9 @@
 /**
 \mainpage Overview
 
-This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the corresponding **[CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html)**. Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.
+This manual explains the scope and the usage of the <b>CMSIS-Driver Validation</b> framework. This is a test suite that helps developers to verify that an implementation of a peripheral driver is compliant with the corresponding [**CMSIS-Driver Specification**](https://arm-software.github.io/CMSIS_6/latest/Driver/index.html). Verified drivers can then be reliably used with middleware components and user applications that rely on CMSIS-Driver APIs.
 
-The CMSIS-Driver Validation is maintained in a public **[GitHub repository](https://github.com/ARM-software/CMSIS-Driver_Validation)**. Its releases in **[CMSIS Pack format](https://www.open-cmsis-pack.org/)** are also available on **[CMSIS Packs page](https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs)** under *Arm* - *CMSIS Driver Validation* category and can be used in environments supporting the CMSIS-Pack concept.
+The CMSIS-Driver Validation is maintained in a public [**GitHub repository**](https://github.com/ARM-software/CMSIS-Driver_Validation). Its releases in [**CMSIS Pack format**](https://www.open-cmsis-pack.org/) are also available on [**CMSIS Packs page**](https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs) under *Arm* - *CMSIS Driver Validation* category and can be used in environments supporting the CMSIS-Pack concept.
 
 The CMSIS-Driver Validation framework provides:
   - Configurable validation tests for various CMSIS-Driver interfaces
@@ -19,8 +19,8 @@ The CMSIS-Driver Validation tests and verifies:
   - <b>Transfer speed</b> of the data communication with time measurement of data transfer duration
   - <b>Event</b> signaling
 
-The CMSIS-Driver Validation requires
-<a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2</a> functionality and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.
+The CMSIS-Driver Validation requires [**CMSIS-RTOS2**](https://arm-software.github.io/CMSIS_6/latest/RTOS2/index.html) functionality
+and can be used to verify the setup and configuration of the CMSIS-Driver interfaces in a user system.
 
 The diagram below shows an overview of the CMSIS-Driver Validation configuration.
 
@@ -38,19 +38,20 @@ The CMSIS-Driver Validation provides validation for the following interfaces:
   - \ref dv_usbh  "USB Host"   - Universal Serial Bus (USB) Host interface driver.
   - \ref dv_wifi  "WiFi"       - WiFi (Wireless Fidelity Interface) module/shield driver.
 
-\note Extensive testing using dedicated Server is available for SPI and USART drivers.
+\note Extensive testing using dedicated Server is available for **SPI**, **USART** and **WiFi** drivers.
 
-This manual assumes that you are familiar with MDK. Refer to
-<a href="https://developer.arm.com/documentation/KGS1" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
+This manual assumes that you are familiar with MDK.
+Refer to [**MDK Version 5 - Getting Started**](https://developer.arm.com/documentation/KGS1) for additional information.
 
 \section doc_structure Document structure
 
 This manual contains the following chapters:
+  - \ref rev_hist              - Contains revision history information.
   - \ref setup                 - Describes the general setup of the CMSIS-Driver Validation test and how to generate test report.
   - \ref report                - Describes the reports produced by the CMSIS-Driver Validation.
   - \ref debugging             - Describes procedure for debugging of the interface drivers using the CMSIS-Driver Validation.
   - \ref resource_requirements - Lists memory and CMSIS-RTOS2 requirements.
-  - \ref examples              - Contains information about several example projects including the required hardware setup.
+  - \ref examples              - Contains information about several example projects.
   - <a class="el" href="./topics.html">Reference</a> - Explains the configuration and tests for the various CMSIS-Driver interfaces.
 
 \section License License
@@ -70,7 +71,7 @@ The table below provides information about the changes delivered with specific v
 /**
 \page setup Setup
 
-Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
+Using the [**Arm CMSIS Solution**](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
 create a new solution from **template**:
 
 ## Step 1: In the **CMSIS** extension, click **Create a New Solution**.
@@ -111,20 +112,20 @@ For validation configuration of specific driver check respective driver document
 For the interfaces that support loopback testing: \ref dv_eth "Ethernet", \ref dv_usart "USART" and \ref dv_spi "SPI",
 connect the following pins on your target hardware together (refer to the hardware schematics):
 
-- Ethernet: RX+ and TX+, RX- and TX-
-- USART:    RX and TX
-- SPI:      MOSI and MISO
+- **Ethernet**: **RX+** and **TX+**, **RX-** and **TX-**
+- **USART**:    **RX** and **TX**
+- **SPI**:      **MOSI** and **MISO**
 
 For the interfaces that support testing with dedicated server: \ref dv_wifi "WiFi", \ref dv_spi "SPI" and \ref dv_usart "USART"
 connect the related hardware as required by the related server:
 
-- WiFi: WiFi module has to be in close proximity to the Access Point which is in the same network as the required \ref wifi_sock_setup
-- SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
-- USART:  Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in \ref usart_server
+- **USART**: **Tx**, **Rx**, **GND** and optionally CLK, CTS, RTS, DCD and RI lines as described in \ref usart_server
+- **SPI**:   **MOSI**, **MISO**, **SCLK**, **SS**, **GND** to the same lines on the \ref spi_server
+- **WiFi**:  WiFi module has to be in close proximity to the Access Point which is in the same network as the required \ref wifi_sock_setup
 
 ## Step 9: Build and Run the application
 
-Example below shows output results (in STDOUT channel) of an Ethernet driver testing:
+Example below shows output results (in STDOUT channel) of an **Ethernet driver testing** :
 \verbatim
 CMSIS-Driver_Validation v3.1.0 CMSIS-Driver ETH Test Report   Oct  9 2025   07:30:34 
 
@@ -179,9 +180,9 @@ Test Result: PASSED
 
 The CMSIS-Driver Validation outputs the test report in a <b>Plain Text</b> format.
 
-This report can be viewed using the <b>Debug (printf) Viewer</b> window or any terminal application.
+This report can be viewed on <b>STDOUT channel</b> (usually Virtual COM Port via Debug adapter).
 
-An example of a report captured in a terminal application is shown below: 
+A GPIO driver validation example report captured in a terminal application is shown below: 
 \verbatim
 CMSIS-Driver_Validation v3.1.0 CMSIS-Driver GPIO Test Report   Oct  9 2025   09:15:16 
 
@@ -319,7 +320,7 @@ Interface test modules that are not listed in the previous table do not use heap
 The system heap memory size must support the largest heap requirement of any used interface test module.<br>
 For example, if SPI driver testing is selected heap memory size should be set to at least 12 kB.
 
-Suggested value for heap memory size is <b>16384</b> bytes.
+Suggested value for heap memory size is **16 kB**.
 
 \note Each module contains additional settings in related configuration file which are not exposed through
       Configuration Wizard and impact the heap memory requirement.<br>
@@ -327,13 +328,11 @@ Suggested value for heap memory size is <b>16384</b> bytes.
 
 \section rtos2_req CMSIS-RTOS2
 
-The thread requirements need to be reflected in the CMSIS-RTOS2 configuration. Refer to the
-<a class="el" href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 Reference</a> for further details.
+The thread requirements need to be reflected in the CMSIS-RTOS2 configuration.
+Refer to the [**CMSIS-RTOS2 documentation**](https://arm-software.github.io/CMSIS-RTX/latest/index.html) for further details.
 
-For <a class="el" href="https://arm-software.github.io/CMSIS_5/RTOS2/html/rtx5_impl.html" target="_blank">CMSIS-RTOS2 RTX5</a>, thread
-requirements are configured in the
-<a class=el href="https://arm-software.github.io/CMSIS_5/RTOS2/html/config_rtx5.html" target="_blank">RTX_Config.h</a> file located
-under the \b CMSIS component class:
+For **CMSIS-RTOS2 RTX5**, thread requirements are configured in the
+[**RTX_Config.h**](https://arm-software.github.io/CMSIS-RTX/latest/config_rtx5.html) file :
 
 | Option                                                            | Value                              |
 | :---------------------------------------------------------------- | :--------------------------------: |
@@ -347,14 +346,14 @@ under the \b CMSIS component class:
 /**
 \page examples Examples
 
-The CMSIS-Driver Validation Software Pack contains a set of examples that show how to use the CMSIS-Driver Validation on
-a real hardware.<br>
+The CMSIS-Driver Validation Software Pack includes example projects that demonstrate how to use the CMSIS-Driver Validation on real hardware,
+providing a reference and comparison point for user validation projects.
 
 Follow these steps to use the validation examples:
 
 1. In the **CMSIS** extension, click **Create a New Solution**.
 2. Select the **Target Board** (**NUCLEO-H563ZI** for **Ethernet** example, **B-U585I-IOT02A** for **all other examples**).
-3. Under **Templates, Reference Applications, and Examples**, select **Driver Validation**.
+3. Under **Templates, Reference Applications, and Examples**, select desired **Driver Validation Example**.
 4. Choose **Solution Base Folder**, click **Create**.
 5. Setup the required hardware as described in the example's **README.md** file
 6. Build and Run the application

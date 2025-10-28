@@ -151,7 +151,7 @@ create a new solution from **template**:
 7. Build and run the **SPI Server application** on your hardware.
 
 \note **IMPORTANT:** The target board's SPI CMSIS-Driver must be **fully CMSIS compliant**!
-\note The SPI Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).
+\note The SPI Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM Port via Debug adapter).
 
 \section spi_server_troubleshooting Troubleshooting
 

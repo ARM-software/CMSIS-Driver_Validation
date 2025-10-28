@@ -157,7 +157,7 @@ SPI_Server_Config.h configuration file in Configuration Wizard view mode</div></
 <h2><a class="anchor" id="spi_server_config_detail"></a>
 Configuration settings</h2>
 <ul>
-<li><b>Driver_SPI#</b> — selects the driver instance used by the Server.</li>
+<li><b>Driver_SPI#</b> - selects the driver instance used by the Server.</li>
 <li><b>Communication settings</b> (fixed for command exchange):<ul>
 <li><b>Mode:</b> Slave with <b>hardware-monitored Slave Select</b></li>
 <li><b>Clock/Frame:</b> Clock Polarity 0/ Clock Phase 0</li>
@@ -166,18 +166,18 @@ Configuration settings</h2>
 </ul>
 </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>The SPI Server receives commands as an SPI <b>Slave</b> using the <b>Slave Select</b> line. The Server’s SPI driver <b>must support hardware-monitored Slave Select</b> functionality.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The SPI Server receives commands as an SPI <b>Slave</b> using the <b>Slave Select</b> line. The Server's SPI driver <b>must support hardware-monitored Slave Select</b> functionality.</dd></dl>
 <h1><a class="anchor" id="spi_server_commands"></a>
 Commands</h1>
 <p>Commands are human-readable (ASCII) for simpler analysis with an SPI bus analyzer.</p>
 <ul>
-<li><b>GET VER</b> — get Server version</li>
-<li><b>GET CAP</b> — get capabilities (auto-detected)</li>
-<li><b>SET BUF</b> — initialize Rx/Tx buffer content</li>
-<li><b>GET BUF</b> — retrieve Rx/Tx buffer content</li>
-<li><b>SET COM</b> — specify transfer configuration for the next <b>XFER</b></li>
-<li><b>XFER</b> — trigger a transfer</li>
-<li><b>GET CNT</b> — retrieve number of transferred items in the last transfer</li>
+<li><b>GET VER</b> - get Server version</li>
+<li><b>GET CAP</b> - get capabilities (auto-detected)</li>
+<li><b>SET BUF</b> - initialize Rx/Tx buffer content</li>
+<li><b>GET BUF</b> - retrieve Rx/Tx buffer content</li>
+<li><b>SET COM</b> - specify transfer configuration for the next <b>XFER</b></li>
+<li><b>XFER</b> - trigger a transfer</li>
+<li><b>GET CNT</b> - retrieve number of transferred items in the last transfer</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>For detailed command descriptions, see <b>README.md</b> in project root.</dd></dl>
 <p>Example capture (Master transfer validation): </p><div class="image">
@@ -237,14 +237,14 @@ Running on specific hardware</h1>
 <img src="spi_server_new_sol_create.png" alt=""/>
 </div>
 </li>
-<li>Select the board layer that provides an SPI Driver. <div class="image">
+<li>Select the board layer that provides an SPI Driver, click <b>OK</b>. <div class="image">
 <img src="server_new_sol_layer.png" alt=""/>
 </div>
 </li>
 <li>If SPI is not routed to ARDUINO (or a different SPI peripheral is required), open <b>SPI_Server_Config.h</b>, <b>Open Preview</b> and edit <b>Driver_SPI#</b> to the required instance.</li>
 <li>Build and run the <b>SPI Server application</b> on your hardware.</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> The target board’s SPI CMSIS-Driver must be <b>fully CMSIS compliant</b>! </dd>
+<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> The target board's SPI CMSIS-Driver must be <b>fully CMSIS compliant</b>! </dd>
 <dd>
 The SPI Server for <b>build-type: Debug</b> displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).</dd></dl>
 <h1><a class="anchor" id="spi_server_troubleshooting"></a>
@@ -256,10 +256,10 @@ Troubleshooting</h1>
 <li>Reduce bus speed used for communication with the Server (in <code>DV_SPI_Config.h</code>).</li>
 </ul>
 </li>
-<li>Debug message <b>“Server Start failed!”</b> (build-type: Debug)<ul>
+<li>Debug message <b>"Server Start failed!"</b> (build-type: Debug)<ul>
 <li>Check heap (must be &gt; <code>2 * SPI_SERVER_BUF_SIZE</code>).</li>
-<li>Verify RTOS allows ≥ <b>512 bytes</b> allocation for the Server main thread (e.g., <em>Global Dynamic Memory size</em> in <code>RTX_Config.h</code> if RTX5).</li>
-<li>Ensure the Server’s SPI driver supports all fixed settings (Slave with hardware-monitored Slave Select, CPOL=0/CPHA=0, 8 bits, MSB to LSB).</li>
+<li>Verify RTOS allows &gt;= <b>512 bytes</b> allocation for the Server main thread (e.g., <em>Global Dynamic Memory size</em> in <code>RTX_Config.h</code> if RTX5).</li>
+<li>Ensure the Server's SPI driver supports all fixed settings (Slave with hardware-monitored Slave Select, CPOL=0/CPHA=0, 8 bits, MSB to LSB).</li>
 </ul>
 </li>
 <li><b>Tests report data mismatch</b><ul>

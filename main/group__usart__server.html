@@ -159,9 +159,9 @@ USART_Server_Config.h configuration file in Configuration Wizard view mode</div>
 <h2><a class="anchor" id="usart_server_config_detail"></a>
 Configuration settings</h2>
 <ul>
-<li><b>Driver_USART#</b> — selects the USART driver instance used by the Server.</li>
+<li><b>Driver_USART#</b> - selects the USART driver instance used by the Server.</li>
 <li><b>Communication settings</b>:<ul>
-<li><b>Mode</b> — defines the mode used for command exchange (must match DUT setup).</li>
+<li><b>Mode</b> - defines the mode used for command exchange (must match DUT setup).</li>
 <li>Fixed parameters used for command exchange:<ul>
 <li><b>Baudrate:</b> 115200</li>
 <li><b>Data Bits:</b> 8</li>
@@ -177,17 +177,17 @@ Configuration settings</h2>
 Commands</h1>
 <p>Commands are human-readable (ASCII) for easier analysis with a USART bus analyzer.</p>
 <ul>
-<li><b>GET VER</b> — get Server version</li>
-<li><b>GET CAP</b> — get Server capabilities (auto-detected upon reception)</li>
-<li><b>SET BUF</b> — initialize Rx/Tx buffer content</li>
-<li><b>GET BUF</b> — retrieve Rx/Tx buffer content</li>
-<li><b>SET COM</b> — specify transfer configuration for the next <b>XFER</b></li>
-<li><b>XFER</b> — trigger a transfer</li>
-<li><b>GET CNT</b> — retrieve number of items transferred in the last transfer</li>
-<li><b>SET BRK</b> — generate break signal</li>
-<li><b>GET BRK</b> — read break signal status</li>
-<li><b>SET MDM</b> — activate modem lines</li>
-<li><b>GET MDM</b> — read modem line status</li>
+<li><b>GET VER</b> - get Server version</li>
+<li><b>GET CAP</b> - get Server capabilities (auto-detected upon reception)</li>
+<li><b>SET BUF</b> - initialize Rx/Tx buffer content</li>
+<li><b>GET BUF</b> - retrieve Rx/Tx buffer content</li>
+<li><b>SET COM</b> - specify transfer configuration for the next <b>XFER</b></li>
+<li><b>XFER</b> - trigger a transfer</li>
+<li><b>GET CNT</b> - retrieve number of items transferred in the last transfer</li>
+<li><b>SET BRK</b> - generate break signal</li>
+<li><b>GET BRK</b> - read break signal status</li>
+<li><b>SET MDM</b> - activate modem lines</li>
+<li><b>GET MDM</b> - read modem line status</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>For detailed command descriptions, see <b>README.md</b> in project root.</dd></dl>
 <p>Example capture: validating the <b>Send</b> function in <b>Asynchronous</b> mode: </p><div class="image">
@@ -253,11 +253,11 @@ Running on specific hardware</h1>
 <img src="usart_server_new_sol_create.png" alt=""/>
 </div>
 </li>
-<li>Select the board layer that provides an USART Driver.</li>
-<li>If the board’s USART is not routed to ARDUINO (or a different peripheral is required) , open <b>USART_Server_Config.h</b>, <b>Open Preview</b> and edit <b>Driver_USART#</b> to the required instance.</li>
+<li>Select the board layer that provides an USART Driver, click <b>OK</b>.</li>
+<li>If the board's USART is not routed to ARDUINO (or a different peripheral is required) , open <b>USART_Server_Config.h</b>, <b>Open Preview</b> and edit <b>Driver_USART#</b> to the required instance.</li>
 <li>Build and run the <b>USART Server application</b> on your hardware.</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> The target board’s USART CMSIS-Driver must be <b>fully CMSIS compliant</b>! </dd>
+<dl class="section note"><dt>Note</dt><dd><b>IMPORTANT:</b> The target board's USART CMSIS-Driver must be <b>fully CMSIS compliant</b>! </dd>
 <dd>
 The USART Server for <b>build-type: Debug</b> displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).</dd></dl>
 <h1><a class="anchor" id="usart_server_troubleshooting"></a>
@@ -269,10 +269,10 @@ Troubleshooting</h1>
 <li>Ensure communication settings (mode) match between Server and Driver Validation; if changed, rebuild and reflash.</li>
 </ul>
 </li>
-<li>Debug message <b>“Server Start failed!”</b> (build-type: Debug)<ul>
+<li>Debug message <b>"Server Start failed!"</b> (build-type: Debug)<ul>
 <li>Check heap (must be &gt; <code>2 * USART_SERVER_BUF_SIZE</code>).</li>
-<li>Verify RTOS allows ≥ <b>512 bytes</b> allocation for the Server main thread (e.g., <em>Global Dynamic Memory size</em> in <code>RTX_Config.h</code> if RTX5).</li>
-<li>Ensure the Server’s USART driver supports all fixed settings:<ul>
+<li>Verify RTOS allows &gt;= <b>512 bytes</b> allocation for the Server main thread (e.g., <em>Global Dynamic Memory size</em> in <code>RTX_Config.h</code> if RTX5).</li>
+<li>Ensure the Server's USART driver supports all fixed settings:<ul>
 <li>Baudrate 115200, 8-N-1, Flow Control None. </li>
 </ul>
 </li>

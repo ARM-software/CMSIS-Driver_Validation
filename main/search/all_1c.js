@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['under_20strong_20build_20type_20strong_20select_20desired_20driver_20for_20validation_20click_20strong_20save_20strong_0',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#step6',1,'']]],
-  ['under_20strong_20templates_20reference_20applications_20and_20examples_20strong_20select_20strong_20driver_20validation_20cmsis_20driver_20validation_20application_20strong_1',['Step 3: Under &lt;strong&gt;Templates, Reference Applications, and Examples&lt;/strong&gt;, select &lt;strong&gt;Driver Validation (CMSIS-Driver Validation application)&lt;/strong&gt;.',['../setup.html#step3',1,'']]],
+  ['under_20strong_20build_20type_20strong_20select_20desired_20driver_20for_20validation_20click_20strong_20save_20strong_0',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#autotoc_md5',1,'']]],
+  ['under_20strong_20templates_20reference_20applications_20and_20examples_20strong_20select_20strong_20driver_20validation_20cmsis_20driver_20validation_20application_20strong_1',['Step 3: Under &lt;strong&gt;Templates, Reference Applications, and Examples&lt;/strong&gt;, select &lt;strong&gt;Driver Validation (CMSIS-Driver Validation application)&lt;/strong&gt;.',['../setup.html#autotoc_md2',1,'']]],
   ['usart_20server_2',['USART Server',['../group__usart__server.html',1,'']]],
-  ['usart_20server_20b_3',['Test Mode : &lt;b&gt;USART Server&lt;/b&gt;',['../group__dv__usart.html#autotoc_md5',1,'']]],
+  ['usart_20server_20b_3',['Test Mode : &lt;b&gt;USART Server&lt;/b&gt;',['../group__dv__usart.html#autotoc_md14',1,'']]],
   ['usart_20validation_4',['USART Validation',['../group__dv__usart.html',1,'']]],
   ['usart_5fabortreceive_5',['USART_AbortReceive',['../group__usart__tests__data__xchg.html#gabe19044aa011dbed4c6cbd9ec231d19d',1,'DV_USART.c']]],
   ['usart_5fabortsend_6',['USART_AbortSend',['../group__usart__tests__data__xchg.html#ga1da0965cefb89ef5dc8d8808956f5b1b',1,'DV_USART.c']]],

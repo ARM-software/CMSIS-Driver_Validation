@@ -25,7 +25,7 @@ var searchData=
   ['ethernet_20validation_22',['Ethernet Validation',['../group__dv__eth.html',1,'']]],
   ['event_23',['Event',['../group__spi__tests__evt.html',1,'Event'],['../group__usart__tests__evt.html',1,'Event']]],
   ['examples_24',['Examples',['../examples.html',1,'']]],
-  ['examples_20strong_20select_20strong_20driver_20validation_20cmsis_20driver_20validation_20application_20strong_25',['Step 3: Under &lt;strong&gt;Templates, Reference Applications, and Examples&lt;/strong&gt;, select &lt;strong&gt;Driver Validation (CMSIS-Driver Validation application)&lt;/strong&gt;.',['../setup.html#step3',1,'']]],
+  ['examples_20strong_20select_20strong_20driver_20validation_20cmsis_20driver_20validation_20application_20strong_25',['Step 3: Under &lt;strong&gt;Templates, Reference Applications, and Examples&lt;/strong&gt;, select &lt;strong&gt;Driver Validation (CMSIS-Driver Validation application)&lt;/strong&gt;.',['../setup.html#autotoc_md2',1,'']]],
   ['exchange_26',['Exchange',['../group__spi__tests__data__xchg.html',1,'Data Exchange'],['../group__usart__tests__data__xchg.html',1,'Data Exchange']]],
-  ['extension_20click_20strong_20create_20a_20new_20solution_20strong_27',['Step 1: In the &lt;strong&gt;CMSIS&lt;/strong&gt; extension, click &lt;strong&gt;Create a New Solution&lt;/strong&gt;.',['../setup.html#step1',1,'']]]
+  ['extension_20click_20strong_20create_20a_20new_20solution_20strong_27',['Step 1: In the &lt;strong&gt;CMSIS&lt;/strong&gt; extension, click &lt;strong&gt;Create a New Solution&lt;/strong&gt;.',['../setup.html#autotoc_md0',1,'']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['wifi_20socket_20deviations_20from_20the_20bsd_20strict_20specification_0',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md0',1,'']]],
+  ['wifi_20socket_20deviations_20from_20the_20bsd_20strict_20specification_0',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md9',1,'']]],
   ['wifi_20validation_1',['WiFi Validation',['../group__dv__wifi.html',1,'']]],
   ['wifi_5factivate_5fap_2',['WIFI_Activate_AP',['../group__wifi__mgmt.html#ga5598b2b107b947e1d3060c48323c7f06',1,'DV_WIFI.c']]],
   ['wifi_5factivate_5fap_5fwps_5fpbc_3',['WIFI_Activate_AP_WPS_PBC',['../group__wifi__mgmt.html#ga282423f64284804a460395bcbf33e98b',1,'DV_WIFI.c']]],

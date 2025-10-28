@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['manage_20solution_20strong_20under_20strong_20build_20type_20strong_20select_20desired_20driver_20for_20validation_20click_20strong_20save_20strong_0',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#step6',1,'']]],
+  ['manage_20solution_20strong_20under_20strong_20build_20type_20strong_20select_20desired_20driver_20for_20validation_20click_20strong_20save_20strong_0',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#autotoc_md5',1,'']]],
   ['management_1',['Management',['../group__spi__tests__drv__mgmt.html',1,'Driver Management'],['../group__usart__tests__drv__mgmt.html',1,'Driver Management'],['../group__wifi__mgmt.html',1,'Management']]],
   ['mci_20validation_2',['MCI Validation',['../group__dv__mci.html',1,'']]],
   ['mci_5fcheckinvalidinit_3',['MCI_CheckInvalidInit',['../group__mci__tests.html#ga6a8da0da1e1948d041df83dadcf040fa',1,'DV_MCI.c']]],
@@ -13,8 +13,8 @@ var searchData=
   ['mci_5fsetbusspeedmode_10',['MCI_SetBusSpeedMode',['../group__mci__tests.html#ga9ba9cbcc5c0f22f8ad1089453e0794d4',1,'DV_MCI.c']]],
   ['memory_11',['Heap Memory',['../resource_requirements.html#heap_req',1,'']]],
   ['microsoft_20windows_12',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
-  ['mode_20_3a_20b_20loopback_20b_13',['Mode : b Loopback b',['../group__dv__spi.html#autotoc_md2',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;'],['../group__dv__usart.html#autotoc_md4',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;']]],
-  ['mode_20_3a_20b_20spi_20server_20b_14',['Test Mode : &lt;b&gt;SPI Server&lt;/b&gt;',['../group__dv__spi.html#autotoc_md3',1,'']]],
-  ['mode_20_3a_20b_20usart_20server_20b_15',['Test Mode : &lt;b&gt;USART Server&lt;/b&gt;',['../group__dv__usart.html#autotoc_md5',1,'']]],
+  ['mode_20_3a_20b_20loopback_20b_13',['Mode : b Loopback b',['../group__dv__spi.html#autotoc_md11',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;'],['../group__dv__usart.html#autotoc_md13',1,'Test Mode : &lt;b&gt;Loopback&lt;/b&gt;']]],
+  ['mode_20_3a_20b_20spi_20server_20b_14',['Test Mode : &lt;b&gt;SPI Server&lt;/b&gt;',['../group__dv__spi.html#autotoc_md12',1,'']]],
+  ['mode_20_3a_20b_20usart_20server_20b_15',['Test Mode : &lt;b&gt;USART Server&lt;/b&gt;',['../group__dv__usart.html#autotoc_md14',1,'']]],
   ['modem_20lines_16',['Modem Lines',['../group__usart__tests__modem.html',1,'']]]
 ];

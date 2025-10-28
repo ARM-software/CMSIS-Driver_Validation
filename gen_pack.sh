@@ -34,6 +34,7 @@ PACK_DIRS="
   Documentation
   Include
   Source
+  Template
   Tools
 "
 

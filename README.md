@@ -33,10 +33,10 @@ Basic tests:
 | --------------------- | --------------------------------------------------------- |
 | [`Boards`](./Boards/) | Driver Validation examples for various boards             |
 | [`Config`](./Config/) | Configuration files for the Driver Validation framework   |
-| [`Documentation`](./Documentation)    | Placeholder for the offline documentation in the pack     |
-| [`DoxyGen`](./Doxygen)          | Source of the documentation                               |
+| [`Documentation`](./Documentation)    | Placeholder and source for the offline documentation in the pack     |
 | [`Include`](./Include)          | Header files for Driver Validation components             |
 | [`Source`](./Source)           | Source files for Driver Validation components             |
+| [`Template`](./Template)             | Driver Validation application template                    |
 | [`Tools`](./Tools)            | Various Server implementations for extensive testing      |
 | [`ARM.CMSIS-Driver_Validation.pdsc`](./ARM.CMSIS-Driver_Validation.pdsc) | Open-CMSIS-Pack description file           |
 | [`gen_pack.sh`](./gen_pack.sh)       | Open-CMSIS-Pack generation script                         |
@@ -55,7 +55,7 @@ Folder [`Boards`](./Boards/) contains example projects that show how to use the 
  - Verify that following tools are installed on the PC:
    - git bash (e.g. for Windows: https://gitforwindows.org/)
    - ZIP archive creation utility (e.g. [7-Zip](http://www.7-zip.org/download.html))
-   - Doxygen version 1.9.2 (https://sourceforge.net/projects/doxygen/files/rel-1.9.2/)
+   - Doxygen version 1.13.2 (https://sourceforge.net/projects/doxygen/files/rel-1.13.2/)
  - Checkout this repository. For example in git bash with:
     ```git clone https://github.com/ARM-Software/CMSIS-Driver_Validation```
  - In the local repository folder execute `./gen_pack.sh` in the bash shell.

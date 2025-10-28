@@ -10,6 +10,7 @@
   <releases>
     <release version="3.1.0-dev">
       Active Development ...
+      - Add Driver Validation application template
       - Add GPIO Driver validation
       - Update SPI Server application to CMSIS solution format
       - Add SPI Server application template
@@ -277,6 +278,13 @@
   </components> <!-- end of components sections -->
 
   <examples>
+    <example name="Driver Validation" doc="README.md" folder="Template">
+      <description>CMSIS-Driver Validation application</description>
+      <project>
+        <environment name="csolution" load="CMSIS_DV.csolution.yml"/>
+      </project>
+    </example>
+
     <example name="SPI Server" doc="README.md" folder="Tools/SPI_Server/STM32F429I-DISC1">
       <description>CMSIS-Driver Validation SPI Server application for STM32F429I-DISC1 board</description>
       <board name="STM32F429I-DISC1" vendor="STMicroelectronics"/>

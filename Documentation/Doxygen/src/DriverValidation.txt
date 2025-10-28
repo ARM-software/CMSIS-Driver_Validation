@@ -1,4 +1,4 @@
-﻿/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
 \mainpage Overview
 
@@ -70,78 +70,41 @@ The table below provides information about the changes delivered with specific v
 /**
 \page setup Setup
 
-\section step1 Step 1: Create an MDK project for your target microcontroller device
+Using the [Arm CMSIS Solution](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution) VS Code extension,
+create a new solution from **template**:
 
+\section step1 Step 1: In the **CMSIS** extension, click **Create a New Solution**.
+\image html server_new_sol_create.png
 
-\section step2 Step 2: Add the required software components
+\section step2 Step 2: Select the **Target Board**.
 
-For proper operation, add the following software components in the <b>Manage Run-Time Environment</b> window:
-- <b>CMSIS Driver Validation: Framework</b>
-- <b>CMSIS Driver Validation: driver</b>, driver interfaces to be tested
-- <b>CMSIS Driver: driver</b>, driver implementations to be tested
-- <b>CMSIS: RTOS2 (API): Keil RTX5</b>
-- <b>Compiler: I/O: STDOUT</b>, variant \b ITM (if your hardware does not support ITM select \b EVR to use Event Recorder instead of ITM)
-- Resolve any unresolved component dependencies
+\section step3 Step 3: Under **Templates, Reference Applications, and Examples**, select **Driver Validation (CMSIS-Driver Validation application)**.
+\image html driver_validation_new_sol_template.png
 
+\section step4 Step 4: Choose **Solution Base Folder**, click **Create**.
+\image html driver_validation_new_sol_create.png
 
-\section step3 Step 3: Add the application's main file (main.c)
+\section step5 Step 5: Select the **Board Layer** that provides **required CMSIS Driver**, click **OK**.
+\image html driver_validation_new_sol_layer.png
 
-Right-click <b>Source Group 1...</b> and select <b>Add New Item to Group</b>, select <b>User Code Template</b> and choose the
-<b>CMSIS-RTOS2 'main' function</b> file from <b>CMSIS: RTOS2:Keil RTX5</b>.
+\section step6 Step 6: In the **Manage Solution**, under **Build Type** select desired Driver for validation, click **Save**.
+\image html driver_validation_build_type.png
 
-Add this include:
-\code
-#include "cmsis_dv.h"
-\endcode
+\section step7 Step 7: Configure the Driver Tests in appropriate **DV_..._Config.h** file.
 
-In the <c>app_main</c> function, create the \c cmsis_dv thread, before endless <c>for</c> loop:
-\code
-osThreadNew(cmsis_dv, NULL, NULL);
-\endcode
-to run all the tests that you have chosen in the next step.
+> **Note:** `...` in **DV_`...`_Config.h** file depends on the driver being validated; for example, for Ethernet, the file would be **DV_ETH_Config.h** file.
 
-
-\section step4 Step 4: Configure the interface settings and tests in related DV_interface_Config.h files
-
-Each interface has a related <b>DV_<i>interface</i>_Config.h</b> file, where <i>interface</i> represents interface's acronym or abbreviation.<br>
-For example for Serial Peripheral Interface (SPI) related config file name is DV_SPI_Config.h.
-
-For details on interface specific configuration and test selection please check the Configuration section in the
-<a class="el" href="./topics.html">Reference</a> of the related interface.
-
-
-\section step5 Step 5: Configure the Heap memory
-
-Depending on the buffer sizes used for data transfer tests the heap size has to be adjusted to provide enough memory for these
-buffers to be allocated.<br>
-Depending on how heap is configured in your system, open your <b>startup_\<device\>.s</b> or <b>startup_\<device\>.c</b> file from the \b Device group in the \b Project window
-or use a <b>linker script</b> to adjust the heap size.<br>
-Set the <b>heap size</b> to minimum of <b>16384</b> bytes.
-
-For details on heap requirements please refer to the \ref heap_req "Heap Memory requirements" documentation.
-
-
-\section step6 Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)
-
-Open <b>RTX_Config.h</b> and set:
-- <b>System Configuration: Global Dynamic Memory size [bytes]</b> to \a 16384
-- <b>Thread configuration: Default Thread stack size [bytes]</b> to \a 3072
-
-For details on CMSIS-RTOS2 requirements please refer to the \ref rtos2_req "CMSIS-RTOS2 requirements" documentation.
-
-\section step7 Step 7: Configure the Device
-
-Depending on your device, you might have different pin/hardware configuration options. Usually, you can configure the device
-using the \c RTE_Device.h file from the \b Device group or with a vendor provided pin configuration tool.
-Enable all interfaces you wish to test and make all necessary pin-out changes required by your actual board layout (consult the board schematics).<br>
-You can check the provided \ref examples "examples" as a reference point.
-
-For a robust test with good coverage, implement various targets with different settings:
-- Use <b>non-DMA (IRQ)</b> and <b>DMA</b> configurations if they are available on the driver
-- Use different compiler <b>optimization levels</b> in the
-  <a href="http://www.keil.com/support/man/docs/uv4/uv4_dg_adscc.htm" target="_blank">C/C++ tab</a> of the
-  <b>Options for Target</b> dialog
-
+For validation configuration of specific driver check respective driver documentation:
+- [CAN](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__can__config.html)
+- [Ethernet](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__eth__config.html)
+- [GPIO](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__gpio__config.html)
+- [I2C](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__i2c__config.html)
+- [MCI](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__mci__config.html)
+- [SPI](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__spi__config.html)
+- [USART](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usart__config.html)
+- [USB Device](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usbd__config.html)
+- [USB Host](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usbh__config.html)
+- [WiFi](https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__wifi__config.html)
 
 \section step8 Step 8: Setup the required hardware
 
@@ -152,89 +115,60 @@ connect the following pins on your target hardware together (refer to the hardwa
 - USART:    RX and TX
 - SPI:      MOSI and MISO
 
-For the interfaces that support testing with dedicated server: \ref dv_wifi "WiFi" and \ref dv_spi "SPI",
+For the interfaces that support testing with dedicated server: \ref dv_wifi "WiFi", \ref dv_spi "SPI" and \ref dv_usart "USART"
 connect the related hardware as required by the related server:
 
 - WiFi: WiFi module has to be in close proximity to the Access Point which is in the same network as the required \ref wifi_sock_setup
 - SPI:  MOSI, MISO, SCLK, SS, GND to the same lines on the \ref spi_server
+- USART:  Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in \ref usart_server
 
+\section step9 Step 9: Build and Run the application
 
-\section step9 Step 9: Download and Run the Project
-
-In the <b>Options for Target</b> dialog, under debug settings, if you use ITM as standard output channel ensure that
-\b Trace and <b>ITM port 0</b> are enabled and that the correct <b>Core Clock</b> frequency is set:
-
-\image html target_dialog.png "ITM Channel setting"
-
-Build, load and run the project. The output is displayed in the <b>Debug (printf) Viewer</b> window.<br>
-Example below shows output result of an SPI driver testing:
+Example below shows output results (in STDOUT channel) of an Ethernet driver testing:
 \verbatim
-CMSIS-Driver_Validation v3.0.0 CMSIS-Driver SPI Test Report   March  30 2022   13:44:11
+CMSIS-Driver_Validation v3.1.0 CMSIS-Driver ETH Test Report   Oct  9 2025   07:30:34 
 
-TEST 01: SPI_GetVersion
-  DV_SPI.c (1023): [INFO] Driver API version 2.3, Driver version 2.15
+TEST 01: ETH_MAC_GetVersion               
+  DV_ETH.c (267): [INFO] API version 2.2, Driver version 3.1
                                           PASSED
-TEST 02: SPI_GetCapabilities              PASSED
-TEST 03: SPI_Initialize_Uninitialize      PASSED
-TEST 04: SPI_PowerControl
-  DV_SPI.c (1314): [WARNING] PowerControl (ARM_POWER_LOW) is not supported
+TEST 02: ETH_MAC_GetCapabilities          PASSED
+TEST 03: ETH_MAC_Initialization           PASSED
+TEST 04: ETH_MAC_PowerControl             
+  DV_ETH.c (366): [WARNING] Low power is not supported
                                           PASSED
-TEST 05: SPI_Mode_Master_SS_Unused        PASSED
-TEST 06: SPI_Mode_Master_SS_Sw_Ctrl       PASSED
-TEST 07: SPI_Mode_Master_SS_Hw_Ctrl_Out   PASSED
-TEST 08: SPI_Mode_Master_SS_Hw_Mon_In     PASSED
-TEST 09: SPI_Mode_Slave_SS_Hw_Mon         PASSED
-TEST 10: SPI_Mode_Slave_SS_Sw_Ctrl        PASSED
-TEST 11: SPI_Format_Clock_Pol0_Pha0       PASSED
-TEST 12: SPI_Format_Clock_Pol0_Pha1       PASSED
-TEST 13: SPI_Format_Clock_Pol1_Pha0       PASSED
-TEST 14: SPI_Format_Clock_Pol1_Pha1       PASSED
-TEST 15: SPI_Format_Frame_TI              PASSED
-TEST 16: SPI_Format_Clock_Microwire       NOT EXECUTED
-TEST 17: SPI_Data_Bits_1                  NOT EXECUTED
-TEST 18: SPI_Data_Bits_2                  NOT EXECUTED
-TEST 19: SPI_Data_Bits_3                  NOT EXECUTED
-TEST 20: SPI_Data_Bits_4                  NOT EXECUTED
-TEST 21: SPI_Data_Bits_5                  NOT EXECUTED
-TEST 22: SPI_Data_Bits_6                  NOT EXECUTED
-TEST 23: SPI_Data_Bits_7                  NOT EXECUTED
-TEST 24: SPI_Data_Bits_8                  PASSED
-TEST 25: SPI_Data_Bits_9                  NOT EXECUTED
-TEST 26: SPI_Data_Bits_10                 NOT EXECUTED
-TEST 27: SPI_Data_Bits_11                 NOT EXECUTED
-TEST 28: SPI_Data_Bits_12                 NOT EXECUTED
-TEST 29: SPI_Data_Bits_13                 NOT EXECUTED
-TEST 30: SPI_Data_Bits_14                 NOT EXECUTED
-TEST 31: SPI_Data_Bits_15                 NOT EXECUTED
-TEST 32: SPI_Data_Bits_16                 PASSED
-TEST 33: SPI_Data_Bits_17                 NOT EXECUTED
-TEST 34: SPI_Data_Bits_18                 NOT EXECUTED
-TEST 35: SPI_Data_Bits_19                 NOT EXECUTED
-TEST 36: SPI_Data_Bits_20                 NOT EXECUTED
-TEST 37: SPI_Data_Bits_21                 NOT EXECUTED
-TEST 38: SPI_Data_Bits_22                 NOT EXECUTED
-TEST 39: SPI_Data_Bits_23                 NOT EXECUTED
-TEST 40: SPI_Data_Bits_24                 NOT EXECUTED
-TEST 41: SPI_Data_Bits_25                 NOT EXECUTED
-TEST 42: SPI_Data_Bits_26                 NOT EXECUTED
-TEST 43: SPI_Data_Bits_27                 NOT EXECUTED
-TEST 44: SPI_Data_Bits_28                 NOT EXECUTED
-TEST 45: SPI_Data_Bits_29                 NOT EXECUTED
-TEST 46: SPI_Data_Bits_30                 NOT EXECUTED
-TEST 47: SPI_Data_Bits_31                 NOT EXECUTED
-TEST 48: SPI_Data_Bits_32                 NOT EXECUTED
-TEST 49: SPI_Bit_Order_MSB_LSB            PASSED
-TEST 50: SPI_Bit_Order_LSB_MSB            PASSED
-TEST 51: SPI_Bus_Speed_Min                PASSED
-TEST 52: SPI_Bus_Speed_Max
-  DV_SPI.c (3524): [WARNING] At requested bus speed of 10000000 bps, effective bus speed is 6477809 bps
+TEST 05: ETH_MAC_MacAddress               PASSED
+TEST 06: ETH_MAC_SetBusSpeed              
+  DV_ETH.c (445): [WARNING] Link speed 1G is not supported
                                           PASSED
-TEST 53: SPI_Number_Of_Items              PASSED
-TEST 54: SPI_Abort                        PASSED
-TEST 55: SPI_DataLost                     PASSED
-TEST 56: SPI_ModeFault                    PASSED
+TEST 07: ETH_MAC_Config_Mode              PASSED
+TEST 08: ETH_MAC_Config_CommonParams      PASSED
+TEST 09: ETH_MAC_Control_Filtering        PASSED
+TEST 10: ETH_MAC_SetAddressFilter         PASSED
+TEST 11: ETH_MAC_VLAN_Filter              
+  DV_ETH.c (910): [WARNING] Received non VLAN tagged frame
+                                          PASSED
+TEST 12: ETH_MAC_SignalEvent              PASSED
+TEST 13: ETH_MAC_PTP_ControlTimer         
+  DV_ETH.c (1412): [WARNING] Precision Time Protocol is not supported
+                                          NOT EXECUTED
+TEST 14: ETH_MAC_CheckInvalidInit         PASSED
+TEST 15: ETH_PHY_GetVersion               
+  DV_ETH.c (1018): [INFO] API version 2.2, Driver version 1.3
+                                          PASSED
+TEST 16: ETH_PHY_Initialization           PASSED
+TEST 17: ETH_PHY_PowerControl             
+  DV_ETH.c (1114): [WARNING] Low power is not supported
+  DV_ETH.c (1131): [WARNING] MAC is locked when PHY power is off
+                                          PASSED
+TEST 18: ETH_PHY_Config                   PASSED
+TEST 19: ETH_PHY_CheckInvalidInit         PASSED
+TEST 20: ETH_Loopback_Transfer            PASSED
+TEST 21: ETH_Loopback_PTP                 
+  DV_ETH.c (1574): [WARNING] Precision Time Protocol is not supported
+                                          NOT EXECUTED
+TEST 22: ETH_Loopback_External            PASSED
 
-Test Summary: 56 Tests, 25 Passed, 0 Failed.
+Test Summary: 22 Tests, 20 Passed, 0 Failed.
 Test Result: PASSED
 \endverbatim
 

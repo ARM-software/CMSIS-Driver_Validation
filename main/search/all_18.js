@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['pc_20running_20microsoft_20windows_0',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
-  ['plus_20wifi_20shield_20with_20nxp_20mimxrt1064_20evk_1',['Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK',['../examples_esp32.html',1,'examples']]],
-  ['project_2',['Step 9: Download and Run the Project',['../setup.html#step9',1,'']]],
-  ['project_20for_20your_20target_20microcontroller_20device_3',['Step 1: Create an MDK project for your target microcontroller device',['../setup.html#step1',1,'']]]
+  ['ok_20strong_0',['Step 5: Select the &lt;strong&gt;Board Layer&lt;/strong&gt; that provides &lt;strong&gt;required CMSIS Driver&lt;/strong&gt;, click &lt;strong&gt;OK&lt;/strong&gt;.',['../setup.html#step5',1,'']]],
+  ['on_20specific_20hardware_1',['on specific hardware',['../group__spi__server.html#spi_server_template',1,'Running on specific hardware'],['../group__usart__server.html#usart_server_template',1,'Running on specific hardware']]],
+  ['on_20stm32f429i_20disc1_20board_2',['on STM32F429I DISC1 board',['../group__spi__server.html#spi_server_disc1',1,'Running on STM32F429I-DISC1 board'],['../group__usart__server.html#usart_server_disc1',1,'Running on STM32F429I-DISC1 board']]],
+  ['operation_3',['Operation',['../group__spi__server.html#spi_server_oper',1,'Operation'],['../group__usart__server.html#usart_server_oper',1,'Operation'],['../group__wifi__sock__op.html',1,'Socket Operation']]],
+  ['overview_4',['Overview',['../index.html',1,'']]]
 ];

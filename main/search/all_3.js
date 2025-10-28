@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['4_3a_20configure_20the_20interface_20settings_20and_20tests_20in_20related_20dv_5finterface_5fconfig_20h_20files_0',['Step 4: Configure the interface settings and tests in related DV_interface_Config.h files',['../setup.html#step4',1,'']]]
+  ['4_3a_20choose_20strong_20solution_20base_20folder_20strong_20click_20strong_20create_20strong_0',['Step 4: Choose &lt;strong&gt;Solution Base Folder&lt;/strong&gt;, click &lt;strong&gt;Create&lt;/strong&gt;.',['../setup.html#step4',1,'']]]
 ];

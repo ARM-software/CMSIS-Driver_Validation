@@ -28,15 +28,15 @@ var NAVTREE =
     [ "Overview", "index.html", "index" ],
     [ "Revision History", "rev_hist.html", null ],
     [ "Setup", "setup.html", [
-      [ "Step 1: Create an MDK project for your target microcontroller device", "setup.html#step1", null ],
-      [ "Step 2: Add the required software components", "setup.html#step2", null ],
-      [ "Step 3: Add the application's main file (main.c)", "setup.html#step3", null ],
-      [ "Step 4: Configure the interface settings and tests in related DV_interface_Config....", "setup.html#step4", null ],
-      [ "Step 5: Configure the Heap memory", "setup.html#step5", null ],
-      [ "Step 6: Configure the CMSIS-RTOS2 (Keil RTX5)", "setup.html#step6", null ],
-      [ "Step 7: Configure the Device", "setup.html#step7", null ],
+      [ "Step 1: In the CMSIS extension, click Create a New Solution.", "setup.html#step1", null ],
+      [ "Step 2: Select the Target Board.", "setup.html#step2", null ],
+      [ "Step 3: Under Templates, Reference Applications, and Examples, select Driver Validation (CMSIS-Driver...", "setup.html#step3", null ],
+      [ "Step 4: Choose Solution Base Folder, click Create.", "setup.html#step4", null ],
+      [ "Step 5: Select the Board Layer that provides required CMSIS Driver, click OK.", "setup.html#step5", null ],
+      [ "Step 6: In the Manage Solution, under Build Type select desired Driver for validation,...", "setup.html#step6", null ],
+      [ "Step 7: Configure the Driver Tests in appropriate DV_..._Config.h file.", "setup.html#step7", null ],
       [ "Step 8: Setup the required hardware", "setup.html#step8", null ],
-      [ "Step 9: Download and Run the Project", "setup.html#step9", null ]
+      [ "Step 9: Build and Run the application", "setup.html#step9", null ]
     ] ],
     [ "Report", "report.html", null ],
     [ "Debugging", "debugging.html", null ],

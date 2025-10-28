@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['gpio_20validation_0',['GPIO Validation',['../group__dv__gpio.html',1,'']]],
-  ['gpio_5fgetinput_1',['GPIO_GetInput',['../group__gpio__tests.html#gae42e57f52895baa5ac0b50e909e769a6',1,'DV_GPIO.c']]],
-  ['gpio_5fsetdirection_2',['GPIO_SetDirection',['../group__gpio__tests.html#ga12907577a039a3309019bb21a725de21',1,'DV_GPIO.c']]],
-  ['gpio_5fseteventtrigger_3',['GPIO_SetEventTrigger',['../group__gpio__tests.html#ga56bf291d05a7e9227f8195b63696820e',1,'DV_GPIO.c']]],
-  ['gpio_5fsetoutput_4',['GPIO_SetOutput',['../group__gpio__tests.html#gacee7a74aabbf3573167fe18aaf2b97d4',1,'DV_GPIO.c']]],
-  ['gpio_5fsetoutputmode_5',['GPIO_SetOutputMode',['../group__gpio__tests.html#ga389dd96d6643a2e03cbc3f2e0cd6e663',1,'DV_GPIO.c']]],
-  ['gpio_5fsetpullresistor_6',['GPIO_SetPullResistor',['../group__gpio__tests.html#gaaeb8f217fdf7d9b816b2bc55b9362976',1,'DV_GPIO.c']]],
-  ['gpio_5fsetup_7',['GPIO_Setup',['../group__gpio__tests.html#gae5c129e9da1dca9e9de3d965797155d3',1,'DV_GPIO.c']]]
+  ['features_0',['Features',['../group__spi__server.html#spi_server_features',1,'Features'],['../group__usart__server.html#usart_server_features',1,'Features']]],
+  ['file_1',['Step 7: Configure the Driver Tests in appropriate &lt;strong&gt;DV_..._Config.h&lt;/strong&gt; file.',['../setup.html#step7',1,'']]],
+  ['folder_20strong_20click_20strong_20create_20strong_2',['Step 4: Choose &lt;strong&gt;Solution Base Folder&lt;/strong&gt;, click &lt;strong&gt;Create&lt;/strong&gt;.',['../setup.html#step4',1,'']]],
+  ['for_20pc_20running_20microsoft_20windows_3',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
+  ['for_20validation_20click_20strong_20save_20strong_4',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#step6',1,'']]],
+  ['framework_5',['Framework',['../group__dv__framework.html',1,'']]],
+  ['from_20the_20bsd_20strict_20specification_6',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md14',1,'']]],
+  ['functions_7',['Functions',['../group__framework__funcs.html',1,'']]]
 ];

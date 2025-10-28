@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['h_20files_0',['Step 4: Configure the interface settings and tests in related DV_interface_Config.h files',['../setup.html#step4',1,'']]],
-  ['hardware_1',['hardware',['../group__spi__server.html#spi_server_template',1,'Running on specific hardware'],['../group__usart__server.html#usart_server_template',1,'Running on specific hardware'],['../setup.html#step8',1,'Step 8: Setup the required hardware']]],
-  ['hardware_20setup_2',['Hardware Setup',['../examples_xmc4500_relax.html#autotoc_md1',1,'Hardware Setup'],['../examples_mcbstm32f200.html#autotoc_md3',1,'Hardware Setup'],['../examples_mcbstm32f400.html#autotoc_md5',1,'Hardware Setup'],['../examples_ismart43362_e.html#autotoc_md8',1,'Hardware Setup'],['../examples_stm32f746g.html#autotoc_md13',1,'Hardware Setup']]],
-  ['heap_20memory_3',['Heap Memory',['../resource_requirements.html#heap_req',1,'']]],
-  ['heap_20memory_4',['Step 5: Configure the Heap memory',['../setup.html#step5',1,'']]],
-  ['history_5',['Revision History',['../rev_hist.html',1,'']]],
-  ['host_20validation_6',['USB Host Validation',['../group__dv__usbh.html',1,'']]]
+  ['gpio_20validation_0',['GPIO Validation',['../group__dv__gpio.html',1,'']]],
+  ['gpio_5fgetinput_1',['GPIO_GetInput',['../group__gpio__tests.html#gae42e57f52895baa5ac0b50e909e769a6',1,'DV_GPIO.c']]],
+  ['gpio_5fsetdirection_2',['GPIO_SetDirection',['../group__gpio__tests.html#ga12907577a039a3309019bb21a725de21',1,'DV_GPIO.c']]],
+  ['gpio_5fseteventtrigger_3',['GPIO_SetEventTrigger',['../group__gpio__tests.html#ga56bf291d05a7e9227f8195b63696820e',1,'DV_GPIO.c']]],
+  ['gpio_5fsetoutput_4',['GPIO_SetOutput',['../group__gpio__tests.html#gacee7a74aabbf3573167fe18aaf2b97d4',1,'DV_GPIO.c']]],
+  ['gpio_5fsetoutputmode_5',['GPIO_SetOutputMode',['../group__gpio__tests.html#ga389dd96d6643a2e03cbc3f2e0cd6e663',1,'DV_GPIO.c']]],
+  ['gpio_5fsetpullresistor_6',['GPIO_SetPullResistor',['../group__gpio__tests.html#gaaeb8f217fdf7d9b816b2bc55b9362976',1,'DV_GPIO.c']]],
+  ['gpio_5fsetup_7',['GPIO_Setup',['../group__gpio__tests.html#gae5c129e9da1dca9e9de3d965797155d3',1,'DV_GPIO.c']]]
 ];

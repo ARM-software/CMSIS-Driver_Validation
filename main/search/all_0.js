@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['1_3a_20create_20an_20mdk_20project_20for_20your_20target_20microcontroller_20device_0',['Step 1: Create an MDK project for your target microcontroller device',['../setup.html#step1',1,'']]]
+  ['1_3a_20in_20the_20strong_20cmsis_20strong_20extension_20click_20strong_20create_20a_20new_20solution_20strong_0',['Step 1: In the &lt;strong&gt;CMSIS&lt;/strong&gt; extension, click &lt;strong&gt;Create a New Solution&lt;/strong&gt;.',['../setup.html#step1',1,'']]]
 ];

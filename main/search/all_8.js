@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['9_3a_20download_20and_20run_20the_20project_0',['Step 9: Download and Run the Project',['../setup.html#step9',1,'']]]
+  ['9_3a_20build_20and_20run_20the_20application_0',['Step 9: Build and Run the application',['../setup.html#step9',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['your_20target_20microcontroller_20device_0',['Step 1: Create an MDK project for your target microcontroller device',['../setup.html#step1',1,'']]]
+  ['xmc4500_20relax_20kit_0',['Infineon XMC4500 Relax Kit',['../examples_xmc4500_relax.html',1,'examples']]]
 ];

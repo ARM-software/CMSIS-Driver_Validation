@@ -130,35 +130,35 @@ $(function(){initNavTree('setup.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Using the <a href="https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-csolution">Arm CMSIS Solution</a> VS Code extension, create a new solution from <b>template</b>:</p>
-<h1><a class="anchor" id="step1"></a>
-Step 1: In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>.</h1>
+<h2><a class="anchor" id="step1"></a>
+Step 1: In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>.</h2>
 <div class="image">
 <img src="server_new_sol_create.png" alt=""/>
 </div>
-<h1><a class="anchor" id="step2"></a>
-Step 2: Select the <b>Target Board</b>.</h1>
-<h1><a class="anchor" id="step3"></a>
-Step 3: Under <b>Templates, Reference Applications, and Examples</b>, select <b>Driver Validation (CMSIS-Driver Validation application)</b>.</h1>
+<h2><a class="anchor" id="step2"></a>
+Step 2: Select the <b>Target Board</b>.</h2>
+<h2><a class="anchor" id="step3"></a>
+Step 3: Under <b>Templates, Reference Applications, and Examples</b>, select <b>Driver Validation (CMSIS-Driver Validation application)</b>.</h2>
 <div class="image">
 <img src="driver_validation_new_sol_template.png" alt=""/>
 </div>
-<h1><a class="anchor" id="step4"></a>
-Step 4: Choose <b>Solution Base Folder</b>, click <b>Create</b>.</h1>
+<h2><a class="anchor" id="step4"></a>
+Step 4: Choose <b>Solution Base Folder</b>, click <b>Create</b>.</h2>
 <div class="image">
 <img src="driver_validation_new_sol_create.png" alt=""/>
 </div>
-<h1><a class="anchor" id="step5"></a>
-Step 5: Select the <b>Board Layer</b> that provides <b>required CMSIS Driver</b>, click <b>OK</b>.</h1>
+<h2><a class="anchor" id="step5"></a>
+Step 5: Select the <b>Board Layer</b> that provides <b>required CMSIS Driver</b>, click <b>OK</b>.</h2>
 <div class="image">
 <img src="driver_validation_new_sol_layer.png" alt=""/>
 </div>
-<h1><a class="anchor" id="step6"></a>
-Step 6: In the <b>Manage Solution</b>, under <b>Build Type</b> select desired Driver for validation, click <b>Save</b>.</h1>
+<h2><a class="anchor" id="step6"></a>
+Step 6: In the <b>Manage Solution</b>, under <b>Build Type</b> select desired Driver for validation, click <b>Save</b>.</h2>
 <div class="image">
 <img src="driver_validation_build_type.png" alt=""/>
 </div>
-<h1><a class="anchor" id="step7"></a>
-Step 7: Configure the Driver Tests in appropriate <b>DV_..._Config.h</b> file.</h1>
+<h2><a class="anchor" id="step7"></a>
+Step 7: Configure the Driver Tests in appropriate <b>DV_..._Config.h</b> file.</h2>
 <blockquote class="doxtable">
 <p><b>Note:</b> <code>...</code> in <b>DV_<code>...</code>_Config.h</b> file depends on the driver being validated; for example, for Ethernet, the file would be <b>DV_ETH_Config.h</b> file. </p>
 </blockquote>
@@ -174,8 +174,8 @@ Step 7: Configure the Driver Tests in appropriate <b>DV_..._Config.h</b> file.</
 <li><a href="https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__usbh__config.html">USB Host</a></li>
 <li><a href="https://arm-software.github.io/CMSIS-Driver_Validation/latest/group__wifi__config.html">WiFi</a></li>
 </ul>
-<h1><a class="anchor" id="step8"></a>
-Step 8: Setup the required hardware</h1>
+<h2><a class="anchor" id="step8"></a>
+Step 8: Setup the required hardware</h2>
 <p>For the interfaces that support loopback testing: <a class="el" href="group__dv__eth.html">Ethernet</a>, <a class="el" href="group__dv__usart.html">USART</a> and <a class="el" href="group__dv__spi.html">SPI</a>, connect the following pins on your target hardware together (refer to the hardware schematics):</p>
 <ul>
 <li>Ethernet: RX+ and TX+, RX- and TX-</li>
@@ -188,8 +188,8 @@ Step 8: Setup the required hardware</h1>
 <li>SPI: MOSI, MISO, SCLK, SS, GND to the same lines on the <a class="el" href="group__spi__server.html">SPI Server</a></li>
 <li>USART: Tx, Rx, GND and optionally CLK, CTS, RTS, DCD and RI lines as described in <a class="el" href="group__usart__server.html">USART Server</a></li>
 </ul>
-<h1><a class="anchor" id="step9"></a>
-Step 9: Build and Run the application</h1>
+<h2><a class="anchor" id="step9"></a>
+Step 9: Build and Run the application</h2>
 <p>Example below shows output results (in STDOUT channel) of an Ethernet driver testing: </p><pre class="fragment">CMSIS-Driver_Validation v3.1.0 CMSIS-Driver ETH Test Report   Oct  9 2025   07:30:34 
 
 TEST 01: ETH_MAC_GetVersion               

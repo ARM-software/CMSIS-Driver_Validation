@@ -1,14 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"group__wifi__sock__api.html#ga5b92075e23383e2cdfc08ba17b7930a1":[7,10,4,2,9],
-"group__wifi__sock__api.html#ga67a1bb12d358a227080e43629ee911c3":[7,10,4,2,1],
-"group__wifi__sock__api.html#ga7c87e23d2ccc67b8b4b1bd030a045786":[7,10,4,2,8],
-"group__wifi__sock__api.html#ga834712f8877f775e1f0f6e50960d72d9":[7,10,4,2,0],
-"group__wifi__sock__api.html#ga8f424c25922c68811f81b90d5b670af5":[7,10,4,2,10],
-"group__wifi__sock__api.html#ga91f955fe6e534aad596eb900cd2c57d7":[7,10,4,2,4],
-"group__wifi__sock__api.html#ga92055f19013c830b2b793c601226d1ea":[7,10,4,2,16],
-"group__wifi__sock__api.html#ga94647417555c347e127d5dd35a3b00c9":[7,10,4,2,13],
-"group__wifi__sock__api.html#ga9e97e01035766895d1c8328f0b3919da":[7,10,4,2,5],
 "group__wifi__sock__api.html#gaa29a391c5c63e0d9be6dfc250f29a610":[7,10,4,2,3],
 "group__wifi__sock__api.html#gaa80eb04e62ae8883e9feace380ef85b2":[7,10,4,2,7],
 "group__wifi__sock__api.html#gab3a6004025b524ac7564276397bf5d5e":[7,10,4,2,11],
@@ -39,14 +30,5 @@ var NAVTREEINDEX1 =
 "resource_requirements.html#rtos2_req":[5,1],
 "rev_hist.html":[1],
 "setup.html":[2],
-"setup.html#step1":[2,0],
-"setup.html#step2":[2,1],
-"setup.html#step3":[2,2],
-"setup.html#step4":[2,3],
-"setup.html#step5":[2,4],
-"setup.html#step6":[2,5],
-"setup.html#step7":[2,6],
-"setup.html#step8":[2,7],
-"setup.html#step9":[2,8],
 "topics.html":[7]
 };

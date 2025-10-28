@@ -27,24 +27,14 @@ var NAVTREE =
   [ "CMSIS-Driver Validation", "index.html", [
     [ "Overview", "index.html", "index" ],
     [ "Revision History", "rev_hist.html", null ],
-    [ "Setup", "setup.html", [
-      [ "Step 1: In the CMSIS extension, click Create a New Solution.", "setup.html#step1", null ],
-      [ "Step 2: Select the Target Board.", "setup.html#step2", null ],
-      [ "Step 3: Under Templates, Reference Applications, and Examples, select Driver Validation (CMSIS-Driver...", "setup.html#step3", null ],
-      [ "Step 4: Choose Solution Base Folder, click Create.", "setup.html#step4", null ],
-      [ "Step 5: Select the Board Layer that provides required CMSIS Driver, click OK.", "setup.html#step5", null ],
-      [ "Step 6: In the Manage Solution, under Build Type select desired Driver for validation,...", "setup.html#step6", null ],
-      [ "Step 7: Configure the Driver Tests in appropriate DV_..._Config.h file.", "setup.html#step7", null ],
-      [ "Step 8: Setup the required hardware", "setup.html#step8", null ],
-      [ "Step 9: Build and Run the application", "setup.html#step9", null ]
-    ] ],
+    [ "Setup", "setup.html", null ],
     [ "Report", "report.html", null ],
     [ "Debugging", "debugging.html", null ],
     [ "Resource Requirements", "resource_requirements.html", [
       [ "Heap Memory", "resource_requirements.html#heap_req", null ],
       [ "CMSIS-RTOS2", "resource_requirements.html#rtos2_req", null ]
     ] ],
-    [ "Examples", "examples.html", "examples" ],
+    [ "Examples", "examples.html", null ],
     [ "Reference", "topics.html", "topics" ]
   ] ]
 ];
@@ -52,7 +42,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "debugging.html",
-"group__wifi__sock__api.html#ga5b92075e23383e2cdfc08ba17b7930a1"
+"group__wifi__sock__api.html#gaa29a391c5c63e0d9be6dfc250f29a610"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

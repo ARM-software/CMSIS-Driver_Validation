@@ -130,24 +130,38 @@ $(function(){initNavTree('examples.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The CMSIS-Driver Validation Software Pack contains a set of examples that show how to use the CMSIS-Driver Validation on a real hardware.<br  />
- Use <a href="http://www2.keil.com/mdk5/packinstaller" target="_blank">Pack Installer</a> to copy them to your machine.</p>
-<p>The following example projects are available:</p>
-<ul>
-<li><a class="el" href="examples_xmc4500_relax.html">Infineon XMC4500 Relax Kit</a></li>
-<li><a class="el" href="examples_mcbstm32f200.html">Keil MCBSTM32F200</a></li>
-<li><a class="el" href="examples_mcbstm32f400.html">Keil MCBSTM32F400</a></li>
-<li><a class="el" href="examples_b_l475e_iot01a.html">STMicroelectronics B-L475E-IOT01A</a></li>
-<li><a class="el" href="examples_stm32f746g.html">STMicroelectronics STM32F746G-Discovery</a></li>
-<li><a class="el" href="examples_ismart43362_e.html">Inventek ISMART43362-E WiFi Shield with NXP LPCXpresso55S69</a></li>
-<li><a class="el" href="examples_esp8266.html">Espressif ESP8266 SparkFun WiFi Shield with NXP MIMXRT1064-EVK</a></li>
-<li><a class="el" href="examples_esp32.html">Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK</a></li>
-<li><a class="el" href="examples_wizfi360.html">WIZnet WizFi360-EVB WiFi Shield with NXP MIMXRT1064-EVK</a></li>
-</ul>
-<p><a class="anchor" id="example_targets"></a><b>Project Targets</b></p>
-<p>The example projects may contain some of the following target configurations:</p><ul>
-<li><b>Debug:</b> test results and statistics are printed to the <b>Debug (printf) Viewer</b> window or to the <b>Virtual COM Port</b> through the on-board debugger.</li>
-<li><b>Release:</b> same as the Debug target but with higher level of code optimization selected. </li>
-</ul>
+</p>
+<p>Follow these steps to use the validation examples:</p>
+<ol type="1">
+<li>In the <b>CMSIS</b> extension, click <b>Create a New Solution</b>.</li>
+<li>Select the <b>Target Board</b> (<b>NUCLEO-H563ZI</b> for <b>Ethernet</b> example, <b>B-U585I-IOT02A</b> for <b>all other examples</b>).</li>
+<li>Under <b>Templates, Reference Applications, and Examples</b>, select <b>Driver Validation</b>.</li>
+<li>Choose <b>Solution Base Folder</b>, click <b>Create</b>.</li>
+<li>Setup the required hardware as described in the example's <b>README.md</b> file</li>
+<li>Build and Run the application</li>
+</ol>
+<p>For details about specific examples check <b>README.md</b> of desired example in the example's root folder.</p>
+<p>Available examples:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Validation for Driver   </th><th class="markdownTableHeadNone">Board   </th><th class="markdownTableHeadNone">Additional required hardware    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Ethernet   </td><td class="markdownTableBodyNone">ST NUCLEO-H563ZI   </td><td class="markdownTableBodyNone">Ethernet loopback plug    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">GPIO   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">ST STM32F429I-DISC1, 1kOhm resistor    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">SPI   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">ST STM32F429I-DISC1, 10kOhm resistor, some wires    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">USART   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">ST STM32F429I-DISC1, some wires    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">WiFi on-board EMW3080   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A, PC with MS Windows    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">WiFi ESP8266   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">SparkFun ESP8266 Shield, PC with MS Windows    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">WiFi ISM43662   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">Inventek ISMART43362-E Shield, PC with MS Windows    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">WiFi WizFi360   </td><td class="markdownTableBodyNone">ST B-U585I-IOT02A   </td><td class="markdownTableBodyNone">WIZnet WizFi360-EVB Shield, PC with MS Windows   </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

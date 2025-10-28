@@ -1,6 +1,15 @@
 var searchData=
 [
-  ['pc_20running_20microsoft_20windows_0',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
-  ['plus_20wifi_20shield_20with_20nxp_20mimxrt1064_20evk_1',['Espressif ESP32 WROOM SparkFun Thing Plus WiFi Shield with NXP MIMXRT1064-EVK',['../examples_esp32.html',1,'examples']]],
-  ['provides_20strong_20required_20cmsis_20driver_20strong_20click_20strong_20ok_20strong_2',['Step 5: Select the &lt;strong&gt;Board Layer&lt;/strong&gt; that provides &lt;strong&gt;required CMSIS Driver&lt;/strong&gt;, click &lt;strong&gt;OK&lt;/strong&gt;.',['../setup.html#step5',1,'']]]
+  ['reference_20applications_20and_20examples_20strong_20select_20strong_20driver_20validation_20cmsis_20driver_20validation_20application_20strong_0',['Step 3: Under &lt;strong&gt;Templates, Reference Applications, and Examples&lt;/strong&gt;, select &lt;strong&gt;Driver Validation (CMSIS-Driver Validation application)&lt;/strong&gt;.',['../setup.html#step3',1,'']]],
+  ['report_1',['Report',['../report.html',1,'']]],
+  ['required_20cmsis_20driver_20strong_20click_20strong_20ok_20strong_2',['Step 5: Select the &lt;strong&gt;Board Layer&lt;/strong&gt; that provides &lt;strong&gt;required CMSIS Driver&lt;/strong&gt;, click &lt;strong&gt;OK&lt;/strong&gt;.',['../setup.html#step5',1,'']]],
+  ['required_20hardware_3',['Step 8: Setup the required hardware',['../setup.html#step8',1,'']]],
+  ['requirements_4',['Requirements',['../group__wifi__requirements.html',1,'Requirements'],['../resource_requirements.html',1,'Resource Requirements']]],
+  ['resource_20requirements_5',['Resource Requirements',['../resource_requirements.html',1,'']]],
+  ['revision_20history_6',['Revision History',['../rev_hist.html',1,'']]],
+  ['rtos2_7',['CMSIS-RTOS2',['../resource_requirements.html#rtos2_req',1,'']]],
+  ['run_20the_20application_8',['Step 9: Build and Run the application',['../setup.html#step9',1,'']]],
+  ['running_20microsoft_20windows_9',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
+  ['running_20on_20specific_20hardware_10',['Running on specific hardware',['../group__spi__server.html#spi_server_template',1,'Running on specific hardware'],['../group__usart__server.html#usart_server_template',1,'Running on specific hardware']]],
+  ['running_20on_20stm32f429i_20disc1_20board_11',['Running on STM32F429I DISC1 board',['../group__spi__server.html#spi_server_disc1',1,'Running on STM32F429I-DISC1 board'],['../group__usart__server.html#usart_server_disc1',1,'Running on STM32F429I-DISC1 board']]]
 ];

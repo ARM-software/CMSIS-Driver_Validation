@@ -6,6 +6,6 @@ var searchData=
   ['for_20pc_20running_20microsoft_20windows_3',['SockServer for PC running Microsoft Windows',['../group__wifi__sock__setup.html#sockserver_pc',1,'']]],
   ['for_20validation_20click_20strong_20save_20strong_4',['Step 6: In the &lt;strong&gt;Manage Solution&lt;/strong&gt;, under &lt;strong&gt;Build Type&lt;/strong&gt; select desired Driver for validation, click &lt;strong&gt;Save&lt;/strong&gt;.',['../setup.html#step6',1,'']]],
   ['framework_5',['Framework',['../group__dv__framework.html',1,'']]],
-  ['from_20the_20bsd_20strict_20specification_6',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md14',1,'']]],
+  ['from_20the_20bsd_20strict_20specification_6',['WiFi socket deviations from the BSD-strict specification',['../group__wifi__sock__testing.html#autotoc_md0',1,'']]],
   ['functions_7',['Functions',['../group__framework__funcs.html',1,'']]]
 ];

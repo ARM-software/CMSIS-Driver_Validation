@@ -29,9 +29,9 @@ DEFAULT_ARGS=(-c "")
 # Default: empty (all folders)
 #
 PACK_DIRS="
-  Boards
   Config
   Documentation
+  Examples
   Include
   Source
   Template
@@ -70,14 +70,15 @@ PACK_DELETE_FILES="
 #
 PACKCHK_DEPS="
   ARM.CMSIS.pdsc
+  ARM.CMSIS-Compiler.pdsc
+  ARM.CMSIS-Driver_STM32.pdsc
   ARM.CMSIS-RTX.pdsc
-  Keil.STM32F2xx_DFP.pdsc
+  Keil.STM32H5xx_DFP.pdsc
   Keil.STM32F4xx_DFP.pdsc
-  Keil.STM32F7xx_DFP.pdsc
-  Keil.B-L475E-IOT01A_BSP.pdsc
-  Infineon.XMC4000_DFP.pdsc
-  NXP.LPCXpresso55S69_BSP.pdsc
-  NXP.EVK-MIMXRT1064_BSP.pdsc
+  Keil.STM32U5xx_DFP.pdsc
+  Keil.NUCLEO-H563ZI_BSP.pdsc
+  Keil.STM32F429I-DISC1_BSP.pdsc
+  Keil.B-U585I-IOT02A_BSP.pdsc
 "
 
 # Optional: restrict fallback modes for changelog generation

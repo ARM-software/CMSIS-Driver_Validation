@@ -1,0 +1,38 @@
+solution:
+  description: CMSIS Driver Validation application
+  created-for: CMSIS-Toolbox@2.11.0
+  cdefault:
+
+  # List of tested compilers that can be selected
+  select-compiler:
+    - compiler: AC6
+
+  # Selected compiler
+  compiler: AC6
+
+  # List of miscellaneous tool-specific controls
+  misc:
+    - for-compiler: AC6 # GDB requires DWARF 5, remove when using uVision Debugger
+      C-CPP:
+        - -gdwarf-5
+      ASM:
+        - -gdwarf-5
+
+  # List different hardware targets that are used to deploy the solution.
+  target-types:
+    - type: STM32U585AIIx
+      device: STM32U585AIIx
+      board: B-U585I-IOT02A:Rev.C
+      variables:
+        - Board-Layer: $SolutionDir()$/Board/B-U585I-IOT02A/Board.clayer.yml
+          copied-from: ${CMSIS_PACK_ROOT}/Keil/B-U585I-IOT02A_BSP/3.0.0/Layers/Default/Board.clayer.yml
+
+  # List of different build configurations.
+  build-types:
+    - type: GPIO
+      debug: on
+      optimize: balanced
+
+  # List related projects.
+  projects:
+    - project: CMSIS_DV.cproject.yml

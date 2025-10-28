@@ -32,21 +32,21 @@ Example: to test `Driver_USART2`, set this value to `2`.
     - **Stop Bits:** 1  
     - **Flow Control:** None
   - Configurable parameter:  
-    - **Mode** — communication mode with the USART Server. Different modes require different physical connections and the
+    - **Mode** - communication mode with the USART Server. Different modes require different physical connections and the
       USART Server must be configured accordingly. For details, see \ref usart_server_con "USART Server connection".
 
 - **Tests**: configuration for test execution.  
-  - **Default settings** — default parameters for data exchange tests. Typically, a single feature is varied while all
+  - **Default settings** - default parameters for data exchange tests. Typically, a single feature is varied while all
     other parameters use defaults. For defaults used by each function, see \ref usart_tests_data_xchg.  
-  - **Baudrate** — minimum and maximum bus speeds used by \ref USART_Baudrate_Min and \ref USART_Baudrate_Max.  
-  - **Number of Items** — a selection of item counts (including unusual/odd counts) used by \ref USART_Number_Of_Items
+  - **Baudrate** - minimum and maximum bus speeds used by \ref USART_Baudrate_Min and \ref USART_Baudrate_Max.  
+  - **Number of Items** - a selection of item counts (including unusual/odd counts) used by \ref USART_Number_Of_Items
     to verify transfers comply with the CMSIS-Driver specification.
 
-**Tests** section — enable/disable test groups (and individual tests):  
-- **Driver Management** — see \ref usart_tests_drv_mgmt.  
-- **Data Exchange** — see \ref usart_tests_data_xchg.  
-- **Modem** — see \ref usart_tests_modem.  
-- **Event** — see \ref usart_tests_evt.
+**Tests** section - enable/disable test groups (and individual tests):  
+- **Driver Management** - see \ref usart_tests_drv_mgmt.  
+- **Data Exchange** - see \ref usart_tests_data_xchg.  
+- **Modem** - see \ref usart_tests_modem.  
+- **Event** - see \ref usart_tests_evt.
 
 */
 
@@ -84,9 +84,9 @@ Communication settings are defined in **USART_Server_Config.h** file.
 
 \subsection usart_server_config_detail Configuration settings
 
-- **Driver_USART#** — selects the USART driver instance used by the Server.
+- **Driver_USART#** - selects the USART driver instance used by the Server.
 - **Communication settings**:
-  - **Mode** — defines the mode used for command exchange (must match DUT setup).
+  - **Mode** - defines the mode used for command exchange (must match DUT setup).
   - Fixed parameters used for command exchange:
     - **Baudrate:** 115200
     - **Data Bits:** 8
@@ -97,17 +97,17 @@ Communication settings are defined in **USART_Server_Config.h** file.
 \section usart_server_commands Commands
 Commands are human-readable (ASCII) for easier analysis with a USART bus analyzer.
 
-- **GET VER** — get Server version
-- **GET CAP** — get Server capabilities (auto-detected upon reception)
-- **SET BUF** — initialize Rx/Tx buffer content
-- **GET BUF** — retrieve Rx/Tx buffer content
-- **SET COM** — specify transfer configuration for the next **XFER**
-- **XFER** — trigger a transfer
-- **GET CNT** — retrieve number of items transferred in the last transfer
-- **SET BRK** — generate break signal
-- **GET BRK** — read break signal status
-- **SET MDM** — activate modem lines
-- **GET MDM** — read modem line status
+- **GET VER** - get Server version
+- **GET CAP** - get Server capabilities (auto-detected upon reception)
+- **SET BUF** - initialize Rx/Tx buffer content
+- **GET BUF** - retrieve Rx/Tx buffer content
+- **SET COM** - specify transfer configuration for the next **XFER**
+- **XFER** - trigger a transfer
+- **GET CNT** - retrieve number of items transferred in the last transfer
+- **SET BRK** - generate break signal
+- **GET BRK** - read break signal status
+- **SET MDM** - activate modem lines
+- **GET MDM** - read modem line status
 
 \note For detailed command descriptions, see **README.md** in project root.
 
@@ -159,13 +159,13 @@ create a new solution from **template**:
    \image html usart_server_new_sol_template.png
 4. Choose **Solution Base Folder**, click **Create**.
    \image html usart_server_new_sol_create.png
-5. Select the board layer that provides an USART Driver.
-6. If the board’s USART is not routed to ARDUINO (or a different peripheral is required)
+5. Select the board layer that provides an USART Driver, click **OK**.
+6. If the board's USART is not routed to ARDUINO (or a different peripheral is required)
    , open **USART_Server_Config.h**, **Open Preview** and edit **Driver_USART#** to 
    the required instance.
 7. Build and run the **USART Server application** on your hardware.
 
-\note **IMPORTANT:** The target board’s USART CMSIS-Driver must be **fully CMSIS compliant**!
+\note **IMPORTANT:** The target board's USART CMSIS-Driver must be **fully CMSIS compliant**!
 \note The USART Server for **build-type: Debug** displays command execution on an STDOUT channel (typically Virtual COM port via Debug adapter).
 
 \section usart_server_troubleshooting Troubleshooting
@@ -175,10 +175,10 @@ create a new solution from **template**:
    - Verify the correct driver instance in `USART_Server_Config.h`.
    - Ensure communication settings (mode) match between Server and Driver Validation; if changed, rebuild and reflash.
 
-2. Debug message **“Server Start failed!”** (build-type: Debug)
+2. Debug message **"Server Start failed!"** (build-type: Debug)
    - Check heap (must be > `2 * USART_SERVER_BUF_SIZE`).
-   - Verify RTOS allows ≥ **512 bytes** allocation for the Server main thread (e.g., *Global Dynamic Memory size* in `RTX_Config.h` if RTX5).
-   - Ensure the Server’s USART driver supports all fixed settings:
+   - Verify RTOS allows >= **512 bytes** allocation for the Server main thread (e.g., *Global Dynamic Memory size* in `RTX_Config.h` if RTX5).
+   - Ensure the Server's USART driver supports all fixed settings:
      - Baudrate 115200, 8-N-1, Flow Control None.
 
 */

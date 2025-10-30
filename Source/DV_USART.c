@@ -1873,7 +1873,7 @@ Required pin connections for the <b>USART Server</b> test mode with <b>USART Ser
 These tests verify API and operation of the USART driver management functions.
 
 The driver management tests verify the following driver functions
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
  - \b GetVersion
 \code
   ARM_DRIVER_VERSION     GetVersion      (void);
@@ -2277,7 +2277,7 @@ void USART_PowerControl (void) {
 These tests verify API and operation of the USART data exchange functions.
 
 The data exchange tests verify the following driver functions
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
  - \b Send
 \code
   int32_t          Send         (const void *data,                    uint32_t num);
@@ -4499,7 +4499,7 @@ void USART_TxBreak (void) {
 These tests verify API and operation of the USART modem lines handling functions.
 
 The data exchange tests verify the following driver functions
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
  - \b SetModemControl
 \code
   int32_t                SetModemControl (ARM_USART_MODEM_CONTROL control);
@@ -4828,7 +4828,7 @@ ARM_USART_EVENT_RECEIVE_COMPLETE, ARM_USART_EVENT_TRANSFER_COMPLETE and ARM_USAR
 which is tested in the Data Exchange tests.
 
 The event tests verify the following driver function
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__usart__interface__gr.html" target="_blank">USART Driver function documentation</a>):
  - \b SignalEvent
 \code
   void (*ARM_USART_SignalEvent_t) (uint32_t event);

@@ -31,9 +31,9 @@ Basic tests:
 
 | Directory/File        | Content                                                   |
 | --------------------- | --------------------------------------------------------- |
-| [`Boards`](./Boards/) | Driver Validation examples for various boards             |
 | [`Config`](./Config/) | Configuration files for the Driver Validation framework   |
 | [`Documentation`](./Documentation)    | Placeholder and source for the offline documentation in the pack     |
+| [`Examples`](./Examples/) | Driver Validation examples for various drivers            |
 | [`Include`](./Include)          | Header files for Driver Validation components             |
 | [`Source`](./Source)           | Source files for Driver Validation components             |
 | [`Template`](./Template)             | Driver Validation application template                    |
@@ -46,7 +46,7 @@ Basic tests:
 
 ## Examples
 
-Folder [`Boards`](./Boards/) contains example projects that show how to use the CMSIS-Driver Validation on a real hardware with available CMSIS-Driver implementations.The examples are also included in CMSIS-Driver Validation Software Pack. Details are explained in [Examples documentation](https://arm-software.github.io/CMSIS-Driver_Validation/main/examples.html).
+Folder [`Examples`](./Examples/) contains example projects that show how to use the CMSIS-Driver Validation on a real hardware with available CMSIS-Driver implementations. The examples are also included in CMSIS-Driver Validation Software Pack. Details are explained in [Examples documentation](https://arm-software.github.io/CMSIS-Driver_Validation/main/examples.html).
 
 ## Build CMSIS-Driver Validation as Open-CMSIS-Pack
 

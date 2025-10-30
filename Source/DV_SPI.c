@@ -1295,7 +1295,7 @@ Required pin connections for the <b>SPI Server</b> test mode:
 These tests verify API and operation of the SPI driver management functions.
 
 The driver management tests verify the following driver functions
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
  - \b GetVersion
 \code
   ARM_DRIVER_VERSION   GetVersion      (void);
@@ -1691,7 +1691,7 @@ void SPI_PowerControl (void) {
 These tests verify API and operation of the SPI data exchange functions.
 
 The data exchange tests verify the following driver functions
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
  - \b Send
 \code
   int32_t        Send         (const void *data,                    uint32_t num);
@@ -3872,7 +3872,7 @@ These tests verify API and operation of the SPI event signaling, except ARM_SPI_
 signal which is tested in the Data Exchange tests.
 
 The event tests verify the following driver function
-(<a href="http://www.keil.com/pack/doc/CMSIS/Driver/html/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
+(<a href="https://arm-software.github.io/CMSIS_6/latest/Driver/group__spi__interface__gr.html" target="_blank">SPI Driver function documentation</a>):
  - \b SignalEvent
 \code
   void (*ARM_SPI_SignalEvent_t) (uint32_t event);

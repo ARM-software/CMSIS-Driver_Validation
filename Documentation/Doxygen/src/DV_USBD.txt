@@ -32,7 +32,7 @@ USB drivers need to be tested against the requirements of the USB standard. The 
 Before using the command verifier tools, make sure that you have an application running with the USB device class that you
 are going to test. For example, if you want to test the behavior of the USB MSC device class, create a µVision project
 containing this class. For more information, refer to the
-<a href="http://www.keil.com/pack/doc/mw/USB/html/_u_s_b__device.html#Creation_Steps" target="_blank">MDK Middleware</a>
+<a href="https://arm-software.github.io/MDK-Middleware/latest/USB/usbd_create_app.html" target="_blank">MDK Middleware</a>
 documentation.
 
 Then, follow these steps to run the verification tools on a Windows PC:

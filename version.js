@@ -1,8 +1,9 @@
 //--- list of versions ---
 const versions = {
     "main": "3.1.0",
-    "latest": "3.1.0-rc0",
+    "latest": "3.1.0",
     "doc_upd": "3.1.0-rc15",
+    "3.1.0": "3.1.0",
     "3.1.0-rc": "3.1.0-rc0",
     "3.0.0": "3.0.0"
 }

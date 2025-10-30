@@ -8,21 +8,8 @@
   <url>https://www.keil.com/pack/</url>
 
   <releases>
-    <release version="3.1.0-dev">
+    <release version="3.1.1-dev">
       Active Development ...
-      - Add driver validation application template
-      - Add GPIO driver validation
-      - Update SPI Server application to CMSIS solution format
-      - Add SPI Server application template
-      - Update USART Server application to CMSIS solution format
-      - Add USART Server application template
-      - Add new and remove old driver validation examples
-      - Remove XML report format
-      - Remove obsolete SockServer embedded implementations
-      - Improve Ethernet driver validation
-      - Minor update to SPI driver validation
-      - Minor update to USART driver validation
-      - Update documentation
     </release>
   </releases>
 

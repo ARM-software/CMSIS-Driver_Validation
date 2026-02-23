@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache--2.0-green?label=License)](https://github.com/Arm-Software/CMSIS-Driver_Validation/blob/main/LICENSE.txt)
-[![Build pack](https://img.shields.io/github/actions/workflow/status/Arm-Software/CMSIS-Driver_Validation/pack.yml?logo=arm&logoColor=0091bd&label=Build%20pack)](./.github/workflows/pack.yml)
+[![Build pack](https://img.shields.io/github/actions/workflow/status/ARM-software/CMSIS-Driver_Validation/pack.yml?logo=arm&logoColor=0091bd&label=Build%20pack)](https://github.com/ARM-software/CMSIS-Driver_Validation/actions/workflows/pack.yml)
 
 # CMSIS-Driver Validation
 

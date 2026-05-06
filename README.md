@@ -1,3 +1,6 @@
+[![License](https://img.shields.io/badge/License-Apache--2.0-green?label=License)](https://github.com/Arm-Software/CMSIS-Driver_Validation/blob/main/LICENSE.txt)
+[![Build pack](https://img.shields.io/github/actions/workflow/status/ARM-software/CMSIS-Driver_Validation/pack.yml?logo=arm&logoColor=0091bd&label=Build%20pack)](https://github.com/ARM-software/CMSIS-Driver_Validation/actions/workflows/pack.yml)
+
 # CMSIS-Driver Validation
 
 Test suite for verifying that a peripheral driver implementation is compliant with the corresponding [CMSIS-Driver Specification](https://arm-software.github.io/CMSIS_5/Driver/html/index.html).

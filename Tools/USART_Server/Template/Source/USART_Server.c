@@ -262,9 +262,9 @@ int32_t USART_Server_Start (void) {
     ptr_usart_xfer_buf_tx = (uint8_t *)ptr_usart_xfer_buf_tx_alloc;
   }
 
-  if ((ptr_usart_xfer_buf_rx != NULL) || (ptr_usart_xfer_buf_tx != NULL)) {
+  if ((ptr_usart_xfer_buf_rx != NULL) && (ptr_usart_xfer_buf_tx != NULL)) {
     memset(ptr_usart_xfer_buf_rx, 0, USART_SERVER_BUF_SIZE);
-    memset(ptr_usart_xfer_buf_rx, 0, USART_SERVER_BUF_SIZE);
+    memset(ptr_usart_xfer_buf_tx, 0, USART_SERVER_BUF_SIZE);
     ret = EXIT_SUCCESS;
   } else {
     ret = EXIT_FAILURE;

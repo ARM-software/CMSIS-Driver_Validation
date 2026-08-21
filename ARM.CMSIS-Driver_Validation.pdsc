@@ -10,6 +10,7 @@
   <releases>
     <release version="3.1.1-dev">
       Active Development ...
+      - Fix USART Server application buffer initialization
     </release>
   </releases>
 
